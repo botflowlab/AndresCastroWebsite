@@ -19,7 +19,7 @@ function Footer() {
             <a href="/about" className="block hover:text-gray-300">{t('footer.about')}</a>
             <a href="/projects" className="block hover:text-gray-300">{t('footer.featuredProjects')}</a>
             <a href="/process" className="block hover:text-gray-300">{t('footer.process')}</a>
-            <a href="/services" className="block hover:text-gray-300">{t('footer.services')}</a>
+            <a href="/architect" className="block hover:text-gray-300">{t('footer.architect')}</a>
           </nav>
         </div>
 
