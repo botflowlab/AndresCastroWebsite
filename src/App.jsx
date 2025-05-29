@@ -15,7 +15,7 @@ function App() {
         <div className="aspect-video w-full rounded-lg overflow-hidden shadow-2xl">
           {/* Replace the url with your Vimeo video link */}
           <ReactPlayer
-            url="https://vimeo.com/your-video-id"
+            url="https://vimeo.com/1088748083"
             width="100%"
             height="100%"
             controls={true}
