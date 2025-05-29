@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -12,6 +14,11 @@ function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'es' : 'en';
+    i18n.changeLanguage(newLang);
+  };
 
   return (
     <>
@@ -28,24 +35,40 @@ function Navbar() {
             {/* Navigation Links */}
             <div className="hidden md:flex items-center space-x-8">
               <a href="/" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
-                Inicio
+                {t('nav.home')}
               </a>
               <a href="/arquitecto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
-                El Arquitecto
+                {t('nav.architect')}
               </a>
               <a href="/proyectos" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
-                Proyectos
+                {t('nav.projects')}
               </a>
               <a href="/publicaciones" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
-                Publicaciones
+                {t('nav.publications')}
               </a>
               <a href="/contacto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
-                Contacto
+                {t('nav.contact')}
               </a>
+              
+              {/* Language Switcher */}
+              <button
+                onClick={toggleLanguage}
+                className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium flex items-center"
+              >
+                {i18n.language === 'en' ? 'ES' : 'EN'}
+              </button>
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center space-x-4">
+              {/* Language Switcher for Mobile */}
+              <button
+                onClick={toggleLanguage}
+                className="text-black-900 hover:text-gray-600 px-2 py-1 text-sm font-medium"
+              >
+                {i18n.language === 'en' ? 'ES' : 'EN'}
+              </button>
+
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-900 hover:text-gray-600"
@@ -74,35 +97,35 @@ function Navbar() {
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Inicio
+              {t('nav.home')}
             </a>
             <a 
               href="/arquitecto" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              El Arquitecto
+              {t('nav.architect')}
             </a>
             <a 
               href="/proyectos" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Proyectos
+              {t('nav.projects')}
             </a>
             <a 
               href="/publicaciones" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Publicaciones
+              {t('nav.publications')}
             </a>
             <a 
               href="/contacto" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Contacto
+              {t('nav.contact')}
             </a>
           </div>
         </div>
