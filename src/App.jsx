@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4 font-neutra">
       <div className="max-w-4xl w-full text-center space-y-8">
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
           EN CONSTRUCCIÓN
