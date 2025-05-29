@@ -27,7 +27,7 @@ function Footer() {
               arquiteccr@gmail.com
             </a>
             <a href="tel:+64272799306" className="block hover:text-gray-300">
-              +64 27 279 9306
+              +506 123123
             </a>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="block hover:text-gray-300">
               INSTAGRAM
