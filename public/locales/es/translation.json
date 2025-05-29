@@ -11,8 +11,8 @@
     "help": "¿CÓMO PODEMOS AYUDAR?",
     "about": "Acerca de",
     "featuredProjects": "Proyectos Destacados",
-    "process": "Nuestro Proceso",
-    "services": "Qué hacemos",
+    "architect": "El Arquitecto",
+    "publications": "Publicaciones",
     "contact": "CONTACTO",
     "rights": "© 2025 Andres Castro Architecture Ltd.",
     "privacy": "Política de Privacidad",
@@ -20,6 +20,6 @@
   },
   "construction": {
     "title": "EN CONSTRUCCIÓN",
-    "message": "Gracias por visitarnos! Estamos trabajando en el sitio"
+    "message": "¡Gracias por visitarnos! Estamos trabajando en el sitio"
   }
 }
