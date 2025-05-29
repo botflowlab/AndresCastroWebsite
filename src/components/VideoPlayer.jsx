@@ -7,7 +7,7 @@ function VideoPlayer() {
   return (
     <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden bg-white mb-8">
       <div 
-        className={`absolute inset-0 bg-white transition-opacity duration-500 ${isLoading ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute inset-0 bg-white ${isLoading ? 'opacity-100' : 'opacity-0'}`}
       />
       <ReactPlayer
         url="https://vimeo.com/video/1088748083"
