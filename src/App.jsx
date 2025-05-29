@@ -12,17 +12,16 @@ function App() {
           Gracias por visitarnos! Estamos trabajando en el sitio
         </h2>
         
-        <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+        <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden shadow-2xl bg-white">
           <ReactPlayer
-            url="https://player.vimeo.com/video/1088748083"
+            url="https://vimeo.com/1088748083/9ce0ec39a7?ts=0&share=copy"
             width="100%"
             height="100%"
             controls={false}
             playing={true}
             loop={true}
             muted={true}
-            className="absolute top-0 left-0"
-            style={{ pointerEvents: 'none' }}
+            style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}
           />
         </div>
       </div>
