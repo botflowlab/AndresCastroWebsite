@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4 font-neutra">
       <div className="max-w-4xl w-full text-center space-y-8">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+        <h1 className="text-4xl md:text-6xl font-bold text-[#0c0c0c] mb-4">
           EN CONSTRUCCIÓN
         </h1>
         <h2 className="text-xl md:text-2xl text-gray-300 mb-8">
