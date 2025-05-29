@@ -12,6 +12,9 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+const [isOpen, setIsOpen] = useState(false);
+
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
@@ -20,7 +23,7 @@ function Navbar() {
         <div className="flex justify-between items-center h-20">
           {/* Logo placeholder */}
           <div className="flex-shrink-0">
-            <div className="h-16 w-32 bg-transparent">
+            <div className="h-12 w-32 bg-transparent">
               <img src="/images/andrescastrologohor.png" alt="Logo" className="h-full object-contain" />
             </div>
           </div>
