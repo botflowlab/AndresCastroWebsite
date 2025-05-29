@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "home": "Home",
+    "architect": "The Architect",
+    "projects": "Projects",
+    "publications": "Publications",
+    "contact": "Contact"
+  },
+  "footer": {
+    "tagline": "Design and Consulting in Sustainable Bioclimatic Architecture",
+    "help": "HOW CAN WE HELP?",
+    "about": "About",
+    "featuredProjects": "Featured Projects",
+    "architect": "The Architect",
+    "publications": "Publications",
+    "contact": "CONTACT",
+    "rights": "© 2025 Andres Castro Arquitectura.",
+    "privacy": "Privacy Policy",
+    "terms": "T & C's"
+  },
+  "construction": {
+    "title": "UNDER CONSTRUCTION",
+    "message": "Thank you for visiting! We are working on the site"
+  }
+}

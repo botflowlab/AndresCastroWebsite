@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "architect": "El Arquitecto",
+    "projects": "Proyectos",
+    "publications": "Publicaciones",
+    "contact": "Contacto"
+  },
+  "footer": {
+    "tagline": "Diseño y Consultoría en Arquitectura Bioclimatica Sostenible.",
+    "help": "¿CÓMO PODEMOS AYUDAR?",
+    "about": "Acerca de",
+    "featuredProjects": "Proyectos Destacados",
+    "architect": "El Arquitecto",
+    "publications": "Publicaciones",
+    "contact": "CONTACTO",
+    "rights": "© 2025 Andres Castro Arquitectura.",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos y Condiciones"
+  },
+  "construction": {
+    "title": "EN CONSTRUCCIÓN",
+    "message": "¡Gracias por visitarnos! Estamos trabajando en el sitio"
+  }
+}
