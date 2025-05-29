@@ -25,12 +25,6 @@ function App() {
             className="react-player"
           />
         </div>
-        
-        <div className="mt-8">
-          <p className="text-gray-400 text-lg">
-            Our website is under construction. We'll be here soon with our new awesome site.
-          </p>
-        </div>
       </div>
     </div>
   )
