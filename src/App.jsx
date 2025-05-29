@@ -13,7 +13,7 @@ function App() {
           <div className="max-w-4xl w-full text-center space-y-8">
             <div className="opacity-0 animate-[fadeIn_1s_ease-in_forwards]">
               <Suspense fallback={
-                <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden bg-[#0c0c0c] mb-8" />
+                <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden bg-white mb-8" />
               }>
                 <VideoPlayer />
               </Suspense>
