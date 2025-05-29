@@ -29,8 +29,8 @@ function Footer() {
             <a href="tel:+64272799306" className="block hover:text-gray-300">
               +506 123123
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="block hover:text-gray-300">
-              INSTAGRAM
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="block hover:text-gray-300">
+              LINKEDIN
             </a>
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="block hover:text-gray-300">
               FACEBOOK
