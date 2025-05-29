@@ -24,7 +24,7 @@ function Footer() {
           <h3 className="text-xl mb-6">CONTACT</h3>
           <div className="space-y-4">
             <a href="mailto:andres@andrescastroarq.co.nz" className="block hover:text-gray-300">
-              andres@andrescastroarq.co.nz
+              arquiteccr@gmail.com
             </a>
             <a href="tel:+64272799306" className="block hover:text-gray-300">
               +64 27 279 9306
