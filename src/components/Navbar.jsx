@@ -46,7 +46,7 @@ function Navbar() {
               <a href="/publicaciones" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
                 {t('nav.publications')}
               </a>
-              <a href="/contacto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+              <a href="mailto:arquiteccr@gmail.com" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
                 {t('nav.contact')}
               </a>
               
@@ -121,7 +121,7 @@ function Navbar() {
               {t('nav.publications')}
             </a>
             <a 
-              href="/contacto" 
+              href="mailto:arquiteccr@gmail.com" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
