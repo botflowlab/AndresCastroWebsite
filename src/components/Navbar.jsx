@@ -21,7 +21,7 @@ function Navbar() {
           {/* Logo placeholder */}
           <div className="flex-shrink-0">
             <div className="h-12 w-32 bg-transparent">
-              {/* Logo will go here */}
+              <img src="/ruta/a/tu/logo.png" alt="Logo" className="h-full object-contain" />
             </div>
           </div>
 
