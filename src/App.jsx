@@ -14,7 +14,7 @@ function App() {
         
         <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden shadow-2xl bg-white">
           <ReactPlayer
-            url="https://vimeo.com/1088748083"
+            url="https://player.vimeo.com/video/1088748083"
             width="100%"
             height="100%"
             controls={false}
