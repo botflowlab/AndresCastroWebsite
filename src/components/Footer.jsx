@@ -1,5 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { MdEmail, MdPhone } from 'react-icons/md';
+import { FaLinkedin, FaFacebook } from 'react-icons/fa';
 
 function Footer() {
   const { t } = useTranslation();
@@ -25,16 +27,26 @@ function Footer() {
         <div>
           <h3 className="text-xl mb-6">{t('footer.contact')}</h3>
           <div className="space-y-4">
-            <a href="mailto:andres@andrescastroarq.co.nz" className="block hover:text-gray-300">
+            <a href="mailto:arquiteccr@gmail.com" className="flex items-center gap-2 hover:text-gray-300">
+              <MdEmail className="text-xl" />
               arquiteccr@gmail.com
             </a>
-            <a href="tel:+64272799306" className="block hover:text-gray-300">
+            <a href="tel:+50622538380" className="flex items-center gap-2 hover:text-gray-300">
+              <MdPhone className="text-xl" />
               +506 22538380
             </a>
-            <a href="https://www.linkedin.com/in/arquitecto-andr%C3%A9s-castro-ruiz-238858339/" target="_blank" rel="noopener noreferrer" className="block hover:text-gray-300">
+            <a href="https://www.linkedin.com/in/arquitecto-andr%C3%A9s-castro-ruiz-238858339/" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               className="flex items-center gap-2 hover:text-gray-300">
+              <FaLinkedin className="text-xl" />
               LINKEDIN
             </a>
-            <a href="https://www.facebook.com/profile.php?id=100063929412411" target="_blank" rel="noopener noreferrer" className="block hover:text-gray-300">
+            <a href="https://www.facebook.com/profile.php?id=100063929412411" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               className="flex items-center gap-2 hover:text-gray-300">
+              <FaFacebook className="text-xl" />
               FACEBOOK
             </a>
           </div>
