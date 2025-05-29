@@ -34,26 +34,26 @@ function Navbar() {
 
             {/* Navigation Links */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="/" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+              <a href="/" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
                 {t('nav.home')}
               </a>
-              <a href="/arquitecto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+              <a href="/arquitecto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
                 {t('nav.architect')}
               </a>
-              <a href="/proyectos" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+              <a href="/proyectos" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
                 {t('nav.projects')}
               </a>
-              <a href="/publicaciones" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+              <a href="/publicaciones" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
                 {t('nav.publications')}
               </a>
-              <a href="/contacto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+              <a href="/contacto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
                 {t('nav.contact')}
               </a>
               
               {/* Language Switcher */}
               <button
                 onClick={toggleLanguage}
-                className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium flex items-center"
+                className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium flex items-center"
               >
                 {i18n.language === 'en' ? 'ES' : 'EN'}
               </button>
@@ -64,7 +64,7 @@ function Navbar() {
               {/* Language Switcher for Mobile */}
               <button
                 onClick={toggleLanguage}
-                className="text-black-900 hover:text-gray-600 px-2 py-1 text-sm font-medium"
+                className="text-black-900 hover:text-gray-600 px-2 py-1 text-lg font-medium"
               >
                 {i18n.language === 'en' ? 'ES' : 'EN'}
               </button>
