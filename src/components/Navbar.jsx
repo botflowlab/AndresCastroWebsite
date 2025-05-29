@@ -20,7 +20,7 @@ function Navbar() {
         <div className="flex justify-between items-center h-20">
           {/* Logo placeholder */}
           <div className="flex-shrink-0 flex items-center">
-            <img src="/images/andrescastrologohor.png" alt="Logo" className="h-16 md:h-20 object-contain" />
+            <img src="/images/andrescastrologohor.png" alt="Logo" className="h-12 md:h-20 object-contain" />
           </div>
 
           {/* Navigation Links */}
