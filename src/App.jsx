@@ -12,17 +12,16 @@ function App() {
           Gracias por visitarnos! Estamos trabajando en el sitio
         </h2>
         
-        <div className="aspect-video w-full rounded-lg overflow-hidden shadow-2xl">
-          {/* Replace the url with your Vimeo video link */}
+        <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden shadow-2xl bg-white">
           <ReactPlayer
             url="https://vimeo.com/1088748083/9ce0ec39a7?ts=0&share=copy"
             width="100%"
             height="100%"
-            controls={true}
+            controls={false}
             playing={true}
             loop={true}
             muted={true}
-            className="react-player"
+            style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}
           />
         </div>
       </div>
