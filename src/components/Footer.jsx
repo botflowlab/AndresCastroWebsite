@@ -34,7 +34,7 @@ function Footer() {
             <a href="https://www.linkedin.com/in/arquitecto-andr%C3%A9s-castro-ruiz-238858339/" target="_blank" rel="noopener noreferrer" className="block hover:text-gray-300">
               LINKEDIN
             </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="block hover:text-gray-300">
+            <a href="https://www.facebook.com/profile.php?id=100063929412411" target="_blank" rel="noopener noreferrer" className="block hover:text-gray-300">
               FACEBOOK
             </a>
           </div>
