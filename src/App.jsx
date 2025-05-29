@@ -9,7 +9,7 @@ function App() {
           EN CONSTRUCCIÓN
         </h1>
         <h2 className="text-xl md:text-2xl text-[#0c0c0c] mb-8">
-          We're working on something amazing
+          Gracias por visitarnos! Estamos trabajando en el sitio
         </h2>
         
         <div className="aspect-video w-full rounded-lg overflow-hidden shadow-2xl">
