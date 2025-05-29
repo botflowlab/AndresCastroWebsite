@@ -1,10 +1,13 @@
 import React, { Suspense, lazy } from 'react';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import { useTranslation } from 'react-i18next';
 
 const VideoPlayer = lazy(() => import('./components/VideoPlayer'));
 
 function App() {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col min-h-screen font-neutra">
       <Navbar />
@@ -21,10 +24,10 @@ function App() {
             
             <div className="opacity-0 animate-[fadeIn_1s_ease-in_0.5s_forwards]">
               <h1 className="text-4xl md:text-6xl font-bold text-[#0c0c0c] mb-4">
-                EN CONSTRUCCIÓN
+                {t('construction.title')}
               </h1>
               <h2 className="text-xl md:text-2xl text-[#0c0c0c]">
-                Gracias por visitarnos! Estamos trabajando en el sitio
+                {t('construction.message')}
               </h2>
             </div>
           </div>

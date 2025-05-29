@@ -1,27 +1,30 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-[#0c0c0c] text-white py-16 px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
         <div>
           <p className="text-2xl font-light leading-relaxed">
-            Designing architecture to enrich people's lives, in context with the natural and built environment.
+            {t('footer.tagline')}
           </p>
         </div>
 
         <div>
-          <h3 className="text-xl mb-6">HOW CAN WE HELP?</h3>
+          <h3 className="text-xl mb-6">{t('footer.help')}</h3>
           <nav className="space-y-4">
-            <a href="/about" className="block hover:text-gray-300">About</a>
-            <a href="/projects" className="block hover:text-gray-300">Featured Projects</a>
-            <a href="/process" className="block hover:text-gray-300">Our Process</a>
-            <a href="/services" className="block hover:text-gray-300">What we do</a>
+            <a href="/about" className="block hover:text-gray-300">{t('footer.about')}</a>
+            <a href="/projects" className="block hover:text-gray-300">{t('footer.featuredProjects')}</a>
+            <a href="/process" className="block hover:text-gray-300">{t('footer.process')}</a>
+            <a href="/services" className="block hover:text-gray-300">{t('footer.services')}</a>
           </nav>
         </div>
 
         <div>
-          <h3 className="text-xl mb-6">CONTACTO</h3>
+          <h3 className="text-xl mb-6">{t('footer.contact')}</h3>
           <div className="space-y-4">
             <a href="mailto:andres@andrescastroarq.co.nz" className="block hover:text-gray-300">
               arquiteccr@gmail.com
@@ -40,10 +43,10 @@ function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto mt-16 flex flex-col md:flex-row justify-between items-center">
-        <p>© 2025 Andres Castro Architecture Ltd.</p>
+        <p>{t('footer.rights')}</p>
         <div className="flex gap-8 mt-4 md:mt-0">
-          <a href="/privacy" className="hover:text-gray-300">Privacy Policy</a>
-          <a href="/terms" className="hover:text-gray-300">T & C's</a>
+          <a href="/privacy" className="hover:text-gray-300">{t('footer.privacy')}</a>
+          <a href="/terms" className="hover:text-gray-300">{t('footer.terms')}</a>
         </div>
       </div>
     </footer>
