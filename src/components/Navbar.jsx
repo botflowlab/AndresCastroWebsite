@@ -25,19 +25,19 @@ function Navbar() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/" className="text-black-900 hover:text-gray-600 px-4 py-3 text-sm font-bold">
+            <a href="/" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
               Inicio
             </a>
-            <a href="/arquitecto" className="text-gray-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+            <a href="/arquitecto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
               El Arquitecto
             </a>
-            <a href="/proyectos" className="text-gray-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+            <a href="/proyectos" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
               Proyectos
             </a>
-            <a href="/publicaciones" className="text-gray-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+            <a href="/publicaciones" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
               Publicaciones
             </a>
-            <a href="/contacto" className="text-gray-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+            <a href="/contacto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
               Contacto
             </a>
           </div>
