@@ -10,14 +10,16 @@ function App() {
       <Navbar />
       <div className="flex-grow flex items-center justify-center bg-white">
         <div className="w-full h-screen flex flex-col items-center justify-center p-4">
-          <div className="max-w-4xl w-full text-center space-y-8 backdrop-blur-md bg-white/80 p-8 rounded-lg">
-            <Suspense fallback={
-              <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden bg-[#0c0c0c] mb-8" />
-            }>
-              <VideoPlayer />
-            </Suspense>
+          <div className="max-w-4xl w-full text-center space-y-8">
+            <div className="opacity-0 animate-[fadeIn_1s_ease-in_forwards]">
+              <Suspense fallback={
+                <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden bg-[#0c0c0c] mb-8" />
+              }>
+                <VideoPlayer />
+              </Suspense>
+            </div>
             
-            <div className="backdrop-blur-md bg-white/80 p-8 rounded-lg">
+            <div className="opacity-0 animate-[fadeIn_1s_ease-in_0.5s_forwards]">
               <h1 className="text-4xl md:text-6xl font-bold text-[#0c0c0c] mb-4">
                 EN CONSTRUCCIÓN
               </h1>
