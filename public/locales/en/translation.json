@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "home": "Home",
+    "architect": "The Architect",
+    "projects": "Projects",
+    "publications": "Publications",
+    "contact": "Contact"
+  },
+  "footer": {
+    "tagline": "Designing architecture to enrich people's lives, in context with the natural and built environment.",
+    "help": "HOW CAN WE HELP?",
+    "about": "About",
+    "featuredProjects": "Featured Projects",
+    "process": "Our Process",
+    "services": "What we do",
+    "contact": "CONTACT",
+    "rights": "© 2025 Andres Castro Architecture Ltd.",
+    "privacy": "Privacy Policy",
+    "terms": "T & C's"
+  },
+  "construction": {
+    "title": "UNDER CONSTRUCTION",
+    "message": "Thank you for visiting! We are working on the site"
+  }
+}
