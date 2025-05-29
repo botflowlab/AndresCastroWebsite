@@ -21,7 +21,7 @@ function Navbar() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <img src="/logo.png" alt="Logo" className="h-12 object-contain" />
+            <img src="/images/andrescastrologohor.png" alt="Logo" className="h-full object-contain" />
           </div>
 
           {/* Desktop navigation */}
