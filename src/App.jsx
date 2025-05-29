@@ -10,19 +10,21 @@ function App() {
       <Navbar />
       <div className="flex-grow flex items-center justify-center bg-white">
         <div className="w-full h-screen flex flex-col items-center justify-center p-4">
-          <div className="max-w-4xl w-full text-center space-y-8">
+          <div className="max-w-4xl w-full text-center space-y-8 backdrop-blur-md bg-white/80 p-8 rounded-lg">
             <Suspense fallback={
               <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden bg-[#0c0c0c] mb-8" />
             }>
               <VideoPlayer />
             </Suspense>
             
-            <h1 className="text-4xl md:text-6xl font-bold text-[#0c0c0c] mb-4">
-              EN CONSTRUCCIÓN
-            </h1>
-            <h2 className="text-xl md:text-2xl text-[#0c0c0c]">
-              Gracias por visitarnos! Estamos trabajando en el sitio
-            </h2>
+            <div className="backdrop-blur-md bg-white/80 p-8 rounded-lg">
+              <h1 className="text-4xl md:text-6xl font-bold text-[#0c0c0c] mb-4">
+                EN CONSTRUCCIÓN
+              </h1>
+              <h2 className="text-xl md:text-2xl text-[#0c0c0c]">
+                Gracias por visitarnos! Estamos trabajando en el sitio
+              </h2>
+            </div>
           </div>
         </div>
       </div>
