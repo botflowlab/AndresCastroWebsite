@@ -21,7 +21,7 @@ function Footer() {
         </div>
 
         <div>
-          <h3 className="text-xl mb-6">CONTACT</h3>
+          <h3 className="text-xl mb-6">CONTACTO</h3>
           <div className="space-y-4">
             <a href="mailto:andres@andrescastroarq.co.nz" className="block hover:text-gray-300">
               arquiteccr@gmail.com
