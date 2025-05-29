@@ -25,7 +25,7 @@ function Navbar() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/" className="text-gray-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+            <a href="/" className="text-black-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
               Inicio
             </a>
             <a href="/arquitecto" className="text-gray-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
