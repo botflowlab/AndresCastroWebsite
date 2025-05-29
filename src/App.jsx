@@ -8,7 +8,7 @@ function App() {
         <h1 className="text-4xl md:text-6xl font-bold text-[#0c0c0c] mb-4">
           EN CONSTRUCCIÓN
         </h1>
-        <h2 className="text-xl md:text-2xl text-gray-300 mb-8">
+        <h2 className="text-xl md:text-2xl text-[#0c0c0c] mb-8">
           We're working on something amazing
         </h2>
         
