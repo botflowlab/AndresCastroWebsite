@@ -1,10 +1,12 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
 import Footer from './components/Footer'
+import Navbar from './components/Navbar'
 
 function App() {
   return (
     <div className="flex flex-col min-h-screen font-neutra">
+      <Navbar />
       <div className="flex-grow flex items-center justify-center bg-white">
         <div className="w-full h-screen flex flex-col items-center justify-center p-4">
           <div className="max-w-4xl w-full text-center space-y-8">
