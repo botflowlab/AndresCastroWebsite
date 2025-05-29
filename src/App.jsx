@@ -6,7 +6,7 @@ function App() {
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4">
       <div className="max-w-4xl w-full text-center space-y-8">
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-          Coming Soon
+          EN CONSTRUCCIÓN
         </h1>
         <h2 className="text-xl md:text-2xl text-gray-300 mb-8">
           We're working on something amazing
