@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4 font-neutra">
       <div className="max-w-4xl w-full text-center space-y-8">
-        <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden shadow-2xl bg-white mb-8">
+        <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden bg-white mb-8">
           <ReactPlayer
             url="https://vimeo.com/video/1088748083"
             width="100%"
