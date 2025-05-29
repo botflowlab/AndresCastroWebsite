@@ -29,7 +29,7 @@ function Footer() {
               arquiteccr@gmail.com
             </a>
             <a href="tel:+64272799306" className="block hover:text-gray-300">
-              +506 123123
+              +506 22538380
             </a>
             <a href="https://www.linkedin.com/in/arquitecto-andr%C3%A9s-castro-ruiz-238858339/" target="_blank" rel="noopener noreferrer" className="block hover:text-gray-300">
               LINKEDIN
