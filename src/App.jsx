@@ -7,7 +7,7 @@ function App() {
       <div className="max-w-4xl w-full text-center space-y-8">
         <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden shadow-2xl bg-white mb-8">
           <ReactPlayer
-            url="https://player.vimeo.com/video/1088748083"
+            url="https://vimeo.com/video/1088748083"
             width="100%"
             height="100%"
             controls={false}
