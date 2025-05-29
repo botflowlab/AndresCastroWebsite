@@ -11,9 +11,9 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen font-neutra">
       <Navbar />
-      <div className="flex-grow flex items-center justify-center bg-white">
-        <div className="w-full h-screen flex flex-col items-center justify-center p-4">
-          <div className="max-w-4xl w-full text-center space-y-8">
+      <main className="flex-grow flex items-center justify-center bg-white py-20">
+        <div className="w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center p-4">
+          <div className="max-w-4xl w-full text-center space-y-8 mb-8">
             <div className="opacity-0 animate-[fadeIn_1s_ease-in_forwards]">
               <Suspense fallback={
                 <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden bg-white mb-8" />
@@ -32,7 +32,7 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
       <Footer />
     </div>
   );
