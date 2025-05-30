@@ -1,17 +1,16 @@
 import React from 'react';
-import Footer from './components/layout/Footer';
-import Navbar from './components/layout/Navbar';
-import Hero from './components/sections/Hero';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Projects from './pages/Projects';
 
 function App() {
   return (
-    <div className="font-neutra min-w-[1024px]">
-      <Navbar />
-      <main>
-        <Hero />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/proyectos" element={<Projects />} />
+      </Routes>
+    </Router>
   );
 }
 

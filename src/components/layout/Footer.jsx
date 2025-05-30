@@ -18,7 +18,7 @@ function Footer() {
         <div>
           <h3 className="text-xl mb-6">{t('footer.help')}</h3>
           <nav className="space-y-4">
-            <a href="/projects" className="block hover:text-gray-300">{t('footer.featuredProjects')}</a>
+            <a href="/proyectos" className="block hover:text-gray-300">{t('footer.featuredProjects')}</a>
             <a href="/architect" className="block hover:text-gray-300">{t('footer.architect')}</a>
             <a href="/publications" className="block hover:text-gray-300">{t('footer.publications')}</a>
           </nav>
