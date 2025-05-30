@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
-import Sidebar from '../../components/sections/Sidebar';
-import ProjectGrid from '../components/sections/ProjectGrid';
+import Sidebar from './ProjectSidebar';
+import ProjectGrid from './ProjectGrid';
 
 export default function Projects() {
   const [menuOpen, setMenuOpen] = useState(false);
