@@ -14,7 +14,7 @@ function Architect() {
 
       {/* Two Column Layout */}
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-stretch gap-0 md:gap-16">
+        <div className="flex flex-col md:flex-row items-stretch gap-0 md:gap-0">
           {/* Left Column - Image */}
           <div className="w-full md:w-[60%]">
             <div className="h-full">
