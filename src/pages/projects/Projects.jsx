@@ -16,7 +16,7 @@ export default function Projects() {
         <div className="-rotate-90 text-[170px] opacity-30 text-left font-bold whitespace-nowrap text-transparent" style={{ WebkitTextStroke: '1px black'}}>PROJECTS</div>
       </div>
 
-      <div className="relative pt-24 z-10 mt-16 mb-32">
+      <div className="relative pt-24 z-10 mt-16 ml-4 md:ml-16 mb-32">
         {/* Mobile Menu Button */}
         <button 
           onClick={() => setMenuOpen(true)}
@@ -29,12 +29,12 @@ export default function Projects() {
         </button>
 
         {/* Sidebar */}
-        <div className="hidden md:block fixed left-0 top-24 w-64 h-full z-20 px-6 pt-6 bg-white/80 backdrop-blur-sm">
+        <div className="hidden md:block absolute left-0 top-24 w-64 h-full z-20 px-6 pt-6">
           <Sidebar />
         </div>
       
         {/* Main Content */}
-        <div className="md:ml-80">
+        <div className="md:ml-24">
           <div className="max-w-5xl mx-auto px-6 mt-12">
             <main>
               <ProjectGrid />
