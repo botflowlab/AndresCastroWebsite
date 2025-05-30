@@ -18,14 +18,14 @@ export default function Projects() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 md:px-12 relative z-10">
+        <div className="flex-1 px-4 md:px-8 relative z-10">
           <ProjectGrid />
         </div>
 
         {/* Right-side Vertical Text */}
-        <div className="fixed right-0 top-0 h-full flex items-center justify-center pointer-events-none z-0">
+        <div className="fixed right-8 top-1/2 -translate-y-1/2 pointer-events-none z-0">
           <div
-            className="-rotate-90 origin-center text-[160px] font-bold whitespace-nowrap text-transparent"
+            className="-rotate-90 text-[160px] font-bold whitespace-nowrap text-transparent"
             style={{ WebkitTextStroke: '1px black' }}
           >
             PROJECTS
