@@ -22,9 +22,15 @@ export default function Projects() {
           <ProjectGrid />
         </div>
 
-         {/* Right-side Vertical Text */}
-      <div className="hidden md:flex fixed right-0 top-0 h-screen w-1/6 items-center justify-center text-align-right z-0 pointer-events-none">
-        <div className="-rotate-90 text-[160px] text-left font-bold whitespace-nowrap text-transparent" style={{ WebkitTextStroke: '1px black' }}>PROJECTS</div>
+        {/* Right-side Vertical Text */}
+        <div className="hidden md:flex fixed right-0 top-0 h-screen w-[16%] items-start justify-center pointer-events-none z-0">
+          <div
+            className="-rotate-90 origin-top-right text-[160px] font-bold whitespace-nowrap text-transparent mt-24"
+            style={{ WebkitTextStroke: '1px black' }}
+          >
+            PROJECTS
+          </div>
+        </div>
       </div>
 
       {/* Mobile Sidebar */}
