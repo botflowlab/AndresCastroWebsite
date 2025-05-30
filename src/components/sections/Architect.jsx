@@ -27,8 +27,8 @@ function Architect() {
           </div>
 
           {/* Right Column - Content */}
-          <div className="w-full md:w-[40%] bg-[#f5f5f0] p-6 md:p-8 lg:p-12 flex flex-col justify-top">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6">ANDRÉS CASTRO</h2>
+          <div className="w-full md:w-[40%] bg-[#f5f5f0] p-6 md:p-8 lg:p-12 flex flex-col">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6  justify-top">ANDRÉS CASTRO</h2>
             <p className="text-base md:text-lg leading-relaxed mb-6 text-gray-600 font-light">
               As a pioneer in sustainable architecture, Andrés has led numerous groundbreaking projects that seamlessly blend environmental consciousness with stunning design. His work has earned international recognition and has set new standards for sustainable architecture in Central America.
             </p>
