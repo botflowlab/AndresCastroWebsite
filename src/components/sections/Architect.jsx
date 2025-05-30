@@ -34,7 +34,7 @@ function Architect() {
             </p>
             <a
               href="/arquitecto"
-              className="inline-block border-2 border-black px-6 py-2 text-lg font-medium hover:bg-black hover:text-white transition-all duration-300"
+              className="inline-block border-2 border-black px-3 py-2 text-lg font-medium hover:bg-black hover:text-white transition-all duration-300"
             >
               LEARN MORE
             </a>
