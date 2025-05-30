@@ -34,12 +34,15 @@ function Architect() {
                 As a pioneer in sustainable architecture, Andrés has led numerous groundbreaking projects that seamlessly blend environmental consciousness with stunning design. His work has earned international recognition and has set new standards for sustainable architecture in Central America.
               </p>
             </div>
-            <a
-              href="/arquitecto"
-              className="inline-block border-2 border-black px-2 py-1 text-base sm:text-lg font-medium hover:bg-black hover:text-white transition-all duration-300 text-center"
-            >
-              LEARN MORE
-            </a>
+            <div>
+              <hr className="border-t border-gray-300 mb-6" />
+              <a
+                href="/arquitecto"
+                className="inline-block border-2 border-black px-2 py-1 text-base sm:text-lg font-medium hover:bg-black hover:text-white transition-all duration-300 text-center w-full"
+              >
+                LEARN MORE
+              </a>
+            </div>
           </div>
         </div>
       </div>
