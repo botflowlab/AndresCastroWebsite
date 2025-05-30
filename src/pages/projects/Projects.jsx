@@ -13,15 +13,13 @@ export default function Projects() {
 
       <div className="flex pt-24 relative">
         {/* Left-side Sidebar (static) */}
-        <div className="hidden md:block w-1/4 pt-4 px-4 bg-white">
+        <div className="hidden md:block md:w-[16%] pt-4 px-4 bg-white">
           <Sidebar />
         </div>
 
         {/* Main Content */}
         <div className="flex-1 px-4 md:px-8 relative z-10">
-          <div className="max-w-5xl mx-auto">
-            <ProjectGrid />
-          </div>
+          <ProjectGrid />
         </div>
 
         {/* Right-side Vertical Text */}

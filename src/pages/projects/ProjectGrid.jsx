@@ -12,7 +12,7 @@ const projects = [
 
 export default function ProjectGrid() {
   return (
-    <div className="grid grid-cols-2 gap-12">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
       {projects.map((p, i) => (
         <ProjectCard key={i} title={p.title} image={p.image} />
       ))}
