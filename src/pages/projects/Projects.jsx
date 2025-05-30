@@ -12,8 +12,8 @@ export default function Projects() {
       <Navbar />
 
       {/* Right-side Vertical Text */}
-      <div className="hidden md:flex fixed right-0 top-0 h-screen w-1/6 items-center justify-center z-0 pointer-events-none">
-        <div className="-rotate-90 text-[160px] text-black-200 font-bold whitespace-nowrap">WORK</div>
+      <div className="hidden md:flex absolute right-0 top-0 h-full w-1/6 items-center justify-center z-0 pointer-events-none">
+        <div className="-rotate-90 text-[160px] text-black/20 font-bold whitespace-nowrap">WORK</div>
       </div>
 
       {/* Layout */}
