@@ -12,10 +12,20 @@ function ProjectGrid() {
       title: 'KANSAS CITY MUSEUM',
       image: 'https://images.pexels.com/photos/461902/pexels-photo-461902.jpeg',
     },
+    {
+      id: 3,
+      title: 'PROJECT THREE',
+      image: 'https://images.pexels.com/photos/323705/pexels-photo-323705.jpeg',
+    },
+    {
+      id: 4,
+      title: 'PROJECT FOUR',
+      image: 'https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg',
+    }
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {projects.map((project) => (
         <div key={project.id} className="relative group">
           <div className="aspect-w-3 aspect-h-4 overflow-hidden">

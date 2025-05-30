@@ -5,7 +5,7 @@ import Hero from '../components/sections/Hero';
 
 function Home() {
   return (
-    <div className="font-neutra min-w-[1024px]">
+    <div className="font-neutra">
       <Navbar />
       <main>
         <Hero />

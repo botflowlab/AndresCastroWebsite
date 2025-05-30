@@ -15,7 +15,12 @@ export default {
           '100%': { opacity: '1' },
         }
       },
+      aspectRatio: {
+        '3/4': '3 / 4',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }
