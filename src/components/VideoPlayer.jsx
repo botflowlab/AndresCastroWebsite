@@ -5,10 +5,8 @@ function VideoPlayer() {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <div style={{ position: 'relative', paddingTop: '56.25%' }} className="rounded-lg overflow-hidden bg-white mb-8">
-      <div 
-        className={`absolute inset-0 bg-white ${isLoading ? 'opacity-100' : 'opacity-0'}`}
-      />
+    <div className="w-full h-full">
+      <div className={`absolute inset-0 bg-black ${isLoading ? 'opacity-100' : 'opacity-60'}`} />
       <ReactPlayer
         url="https://vimeo.com/video/1088748083"
         width="100%"
