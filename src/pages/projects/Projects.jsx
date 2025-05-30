@@ -16,7 +16,7 @@ export default function Projects() {
         <div className="-rotate-90 text-[160px] text-left font-bold whitespace-nowrap text-transparent" style={{ WebkitTextStroke: '1px black' }}>PROJECTS</div>
       </div>
 
-     <div className="relative pt-24 z-10 mt-16">
+     <div className="relative pt-24 z-10 mt-16 mr-32">
         {/* Sidebar */}
         <div className="hidden md:block absolute left-0 top-24 w-64 h-full z-20 px-6 pt-6">
           <Sidebar />
