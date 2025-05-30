@@ -24,7 +24,7 @@ export default function Projects() {
       
         {/* Main Content */}
         <div className="md:ml-32">
-          <div className="max-w-4xl mx-auto px-6 mt-12"> {/* <-- just this */}
+          <div className="max-w-5xl mx-auto px-6 mt-12"> {/* <-- just this */}
             <main>
               <ProjectGrid />
             </main>
