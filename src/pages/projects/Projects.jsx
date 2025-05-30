@@ -28,20 +28,20 @@ export default function Projects() {
           </svg>
         </button>
 
-        <div className="relative pt-24 z-10 mt-16 ml-4 md:ml-16 mb-32">
-          {/* Sidebar */}
-          <div className="hidden md:block absolute left-0 top-24 w-64 h-full z-20 px-6 pt-6">
-            <Sidebar />
-          </div>
-        
-          {/* Main Content */}
-          <div className="md:ml-24">
-            <div className="max-w-4xl mx-auto px-6 mt-12">
-              <main>
-                <ProjectGrid />
-              </main>
-            </div>
+        {/* Sidebar */}
+        <div className="hidden md:block absolute left-0 top-24 w-64 h-full z-20 px-6 pt-6">
+          <Sidebar />
         </div>
+      
+        {/* Main Content */}
+        <div className="md:ml-24">
+          <div className="max-w-4xl mx-auto px-6 mt-12">
+            <main>
+              <ProjectGrid />
+            </main>
+          </div>
+        </div>
+      </div>
 
       {/* Mobile Sidebar Overlay */}
       {menuOpen && (
