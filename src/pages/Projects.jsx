@@ -10,12 +10,12 @@ function Projects() {
   const { t, i18n } = useTranslation();
 
   return (
-    <div className="font-neutra">
+    <div className="font-neutra overflow-x-hidden">
       <Navbar />
       <div className="flex min-h-screen pt-20">
         {/* Left section - Sidebar (hidden on mobile) */}
-        <div className="hidden md:block w-96">
-          <div className="w-96 h-screen overflow-y-auto pt-20">
+        <div className="hidden md:block w-80 flex-shrink-0">
+          <div className="w-80 h-screen overflow-y-auto pt-20">
             <ProjectSidebar />
           </div>
         </div>
@@ -26,9 +26,10 @@ function Projects() {
         </div>
 
         {/* Right section - Vertical text (hidden on mobile) */}
-        <div className="hidden md:block w-48">
-          <div className="w-48 h-screen flex items-center justify-center">
-            <div className="-rotate-90 text-[180px] font-light text-transparent" style={{ WebkitTextStroke: '1px black' }}>
+        <div className="hidden md:flex w-40 flex-shrink-0 items-center justify-center">
+          <div className="relative">
+            <div className="absolute -rotate-90 whitespace-nowrap text-[120px] font-light text-transparent origin-center" 
+                 style={{ WebkitTextStroke: '1px black' }}>
               {i18n.language === 'en' ? 'PROJECTS' : 'PROYECTOS'}
             </div>
           </div>
