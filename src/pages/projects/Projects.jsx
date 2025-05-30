@@ -17,13 +17,13 @@ export default function Projects() {
       </div>
 
      <div className="relative pt-24 z-10">
-      {/* Sidebar (absolute outside container) */}
-      <div className="absolute left-0 top-24 w-64 h-full z-20">
+      {/* Sidebar: hidden on small screens */}
+      <div className="hidden md:block absolute left-0 top-24 w-64 h-full z-20">
         <Sidebar />
       </div>
     
       {/* Main Container */}
-      <div className="max-w-screen-xl mx-auto px-4 md:px-12 ml-64"> {/* ml-64 offsets sidebar width */}
+      <div className="max-w-screen-xl mx-auto px-4 md:px-12 md:ml-64">
         <main>
           <ProjectGrid />
         </main>
