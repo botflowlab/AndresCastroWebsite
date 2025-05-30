@@ -16,18 +16,19 @@ export default function Projects() {
         <div className="-rotate-90 text-[160px] text-left font-bold whitespace-nowrap text-transparent" style={{ WebkitTextStroke: '1px black' }}>PROJECTS</div>
       </div>
 
-      {/* Layout */}
-      <div className="pt-24 relative z-10 max-w-screen-xl mx-auto px-4 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-8">
-        {/* Sidebar */}
-        <div className="md:col-span-3">
-          <Sidebar />
-        </div>
-
-        {/* Grid */}
-        <main className="md:col-span-9">
+     <div className="relative pt-24 z-10">
+      {/* Sidebar (absolute outside container) */}
+      <div className="absolute left-0 top-24 w-64 h-full z-20">
+        <Sidebar />
+      </div>
+    
+      {/* Main Container */}
+      <div className="max-w-screen-xl mx-auto px-4 md:px-12 ml-64"> {/* ml-64 offsets sidebar width */}
+        <main>
           <ProjectGrid />
         </main>
       </div>
+    </div>
 
       {/* Mobile Sidebar */}
       {menuOpen && (
