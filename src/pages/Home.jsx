@@ -1,12 +1,12 @@
 import React from 'react';
 import Footer from '../components/layout/Footer';
-import Navbar from '../components/layout/Navbar';
+import Header from '../components/layout/Header';
 import Hero from '../components/sections/Hero';
 
 function Home() {
   return (
     <div className="font-neutra">
-      <Navbar />
+      <Header />
       <main>
         <Hero />
       </main>
