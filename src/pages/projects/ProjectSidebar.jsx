@@ -1,7 +1,7 @@
 export default function Sidebar({ onItemClick }) {
   const categories = [
-    'Academic', 'Cultural', 'Government', 'Health', 'Historic Preservation',
-    'Infrastructure / Industrial', 'Office', 'Outdoor', 'Recreational',
+    'Cultural', 'Government', 'Health', 'Historic Preservation',
+    'Office', 'Outdoor', 'Recreational',
     'Retail', 'Student Housing', 'Sustainable / LEED', 'Client Directory',
   ];
 
