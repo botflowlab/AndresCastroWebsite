@@ -9,7 +9,7 @@ export default function ProjectGrid() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {projects.map((p, i) => (
-        <ProjectCard key={i} title={p.tittle} image={p.image} />
+        <ProjectCard key={i} title={p.title} image={p.image} />
       ))}
     </div>
   );
