@@ -4,8 +4,6 @@ export default function Sidebar({ onItemClick }) {
   const { t } = useTranslation();
   const categories = [
     'sustainable',
-    'government',
-    'health',
     'office',
     'outdoor',
     'academic',
