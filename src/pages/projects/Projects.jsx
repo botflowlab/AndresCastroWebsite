@@ -41,7 +41,6 @@ export default function Projects() {
                 <ProjectGrid />
               </main>
             </div>
-          </div>
         </div>
 
       {/* Mobile Sidebar Overlay */}
