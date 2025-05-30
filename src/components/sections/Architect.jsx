@@ -5,7 +5,7 @@ function Architect() {
     <section className="min-h-screen flex flex-col justify-center">
       {/* Top Section with Centered Content */}
       <div className="text-center max-w-4xl mx-auto px-4 mb-16">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">ANDRÉS CASTRO - EL ARQUITECTO</h1>
+        <h1 className="text-3xl md:text-6xl font-bold mb-4">ANDRÉS CASTRO - EL ARQUITECTO</h1>
         <h2 className="text-2xl md:text-3xl mb-6 font-light">#1 in sustainable architecture in Costa Rica</h2>
         <p className="text-lg md:text-xl text-gray-600 font-light">
           With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.
