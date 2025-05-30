@@ -9,7 +9,7 @@ export default function Projects() {
 
   return (
     <div className="font-sans relative">
-      <Navbar />
+
 
       {/* Right-side Vertical Text */}
       <div className="hidden md:flex fixed right-0 top-12 h-screen w-1/6 items-center justify-center text-align-right z-0 pointer-events-none">
