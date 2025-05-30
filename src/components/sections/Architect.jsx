@@ -2,9 +2,9 @@ import React from 'react';
 
 function Architect() {
   return (
-    <section className="py-20">
+    <section className="min-h-screen flex flex-col justify-center">
       {/* Top Section with Centered Content */}
-      <div className="text-center max-w-4xl mx-auto px-4 mb-32">
+      <div className="text-center max-w-4xl mx-auto px-4 mb-16">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">ANDRÉS CASTRO - EL ARQUITECTO</h1>
         <h2 className="text-2xl md:text-3xl mb-6 font-light">#1 in sustainable architecture in Costa Rica</h2>
         <p className="text-lg md:text-xl text-gray-600 font-light">
@@ -14,10 +14,10 @@ function Architect() {
 
       {/* Two Column Layout */}
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+        <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-16">
           {/* Left Column - Image */}
           <div className="w-full md:w-[60%]">
-            <div className="aspect-[3/4] w-full">
+            <div className="h-full">
               <img
                 src="https://images.pexels.com/photos/3760529/pexels-photo-3760529.jpeg"
                 alt="Professional architect"
@@ -27,7 +27,7 @@ function Architect() {
           </div>
 
           {/* Right Column - Content */}
-          <div className="w-full md:w-[40%] bg-[#f5f5f0] p-8 md:p-12">
+          <div className="w-full md:w-[40%] bg-[#f5f5f0] p-8 md:p-12 flex flex-col justify-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-8">ANDRÉS CASTRO</h2>
             <p className="text-lg leading-relaxed mb-8 text-gray-600 font-light">
               As a pioneer in sustainable architecture, Andrés has led numerous groundbreaking projects that seamlessly blend environmental consciousness with stunning design. His work has earned international recognition and has set new standards for sustainable architecture in Central America.
