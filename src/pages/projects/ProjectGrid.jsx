@@ -2,6 +2,10 @@ import ProjectCard from './ProjectCard';
 
 const projects = [
   { title: 'MCI Parking Structure', image: '/images/placeholder.jpg' },
+  { title: 'MCI Parking Structure', image: '/images/placeholder.jpg' },
+  { title: 'MCI Parking Structure', image: '/images/placeholder.jpg' },
+  { title: 'MCI Parking Structure', image: '/images/placeholder.jpg' },
+  { title: 'MCI Parking Structure', image: '/images/placeholder.jpg' },
   // Add more as needed
 ];
 
