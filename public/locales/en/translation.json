@@ -24,17 +24,9 @@
   },
   "projects": {
     "categories": {
-      "academic": "ACADEMIC",
-      "cultural": "CULTURAL",
-      "government": "GOVERNMENT",
-      "health": "HEALTH",
-      "historic": "HISTORIC PRESERVATION",
-      "infrastructure": "INFRASTRUCTURE / INDUSTRIAL",
-      "office": "OFFICE",
+      "infrastructure": "INFRASTRUCTURE",
       "outdoor": "OUTDOOR",
       "recreational": "RECREATIONAL",
-      "retail": "RETAIL",
-      "student": "STUDENT HOUSING",
       "sustainable": "SUSTAINABLE / LEED"
     }
   }
