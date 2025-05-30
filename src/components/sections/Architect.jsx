@@ -2,21 +2,21 @@ import React from 'react';
 
 function Architect() {
   return (
-    <section className="min-h-screen flex flex-col justify-center">
+    <section className="h-screen flex flex-col justify-center overflow-hidden">
       {/* Top Section with Centered Content */}
-      <div className="text-center max-w-4xl mx-auto px-4 mb-16">
-        <h1 className="text-3xl md:text-6xl font-bold mb-4">ANDRÉS CASTRO - EL ARQUITECTO</h1>
-        <h2 className="text-2xl md:text-3xl mb-6 font-light">#1 in sustainable architecture in Costa Rica</h2>
-        <p className="text-lg md:text-xl text-gray-600 font-light">
+      <div className="text-center max-w-4xl mx-auto px-4 mb-8">
+        <h1 className="text-3xl md:text-5xl font-bold mb-4">ANDRÉS CASTRO - EL ARQUITECTO</h1>
+        <h2 className="text-xl md:text-2xl mb-4 font-light">#1 in sustainable architecture in Costa Rica</h2>
+        <p className="text-base md:text-lg text-gray-600 font-light max-w-2xl mx-auto">
           With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.
         </p>
       </div>
 
       {/* Two Column Layout */}
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-stretch gap-0 md:gap-0">
+      <div className="flex-1 flex items-center px-4">
+        <div className="container mx-auto flex flex-col md:flex-row h-full max-h-[600px]">
           {/* Left Column - Image */}
-          <div className="w-full md:w-[60%]">
+          <div className="w-full md:w-[60%] h-full">
             <div className="h-full">
               <img
                 src="https://images.pexels.com/photos/3760529/pexels-photo-3760529.jpeg"
@@ -27,14 +27,14 @@ function Architect() {
           </div>
 
           {/* Right Column - Content */}
-          <div className="w-full md:w-[40%] bg-[#f5f5f0] p-8 md:p-12 flex flex-col justify-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">ANDRÉS CASTRO</h2>
-            <p className="text-lg leading-relaxed mb-8 text-gray-600 font-light">
+          <div className="w-full md:w-[40%] bg-[#f5f5f0] p-6 md:p-8 lg:p-12 flex flex-col justify-center">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">ANDRÉS CASTRO</h2>
+            <p className="text-base md:text-lg leading-relaxed mb-6 text-gray-600 font-light">
               As a pioneer in sustainable architecture, Andrés has led numerous groundbreaking projects that seamlessly blend environmental consciousness with stunning design. His work has earned international recognition and has set new standards for sustainable architecture in Central America.
             </p>
             <a
               href="/arquitecto"
-              className="inline-block border-2 border-black px-8 py-3 text-lg font-medium hover:bg-black hover:text-white transition-all duration-300"
+              className="inline-block border-2 border-black px-6 py-2 text-lg font-medium hover:bg-black hover:text-white transition-all duration-300"
             >
               LEARN MORE
             </a>
