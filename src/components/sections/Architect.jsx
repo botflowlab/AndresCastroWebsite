@@ -10,7 +10,7 @@ function Architect() {
       <div className="text-center max-w-4xl mx-auto px-4">
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">{t('architect.title')}</h1>
         <h2 className="text-lg sm:text-xl md:text-2xl mb-4 font-light">{t('architect.subtitle')}</h2>
-        <p className="text-sm sm:text-base md:text-lg text-gray-600 font-light max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base md:text-lg text-gray-600 font-light max-w-2xl mx-auto pt-20">
           {t('architect.intro')}
         </p>
       </div>
