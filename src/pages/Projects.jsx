@@ -13,10 +13,10 @@ function Projects() {
     <div className="font-neutra">
       <Navbar />
       <div className="flex min-h-screen pt-20">
-        {/* Left section - Vertical text */}
-        <div className="w-48 relative">
-          <div className="fixed top-1/2 -translate-y-1/2 -rotate-90 text-[180px] font-light text-transparent" style={{ WebkitTextStroke: '1px black' }}>
-            {i18n.language === 'en' ? 'PROJECTS' : 'PROYECTOS'}
+        {/* Left section - Sidebar */}
+        <div className="w-96 border-r">
+          <div className="fixed top-0 w-96 h-screen overflow-y-auto pt-20">
+            <ProjectSidebar />
           </div>
         </div>
 
@@ -25,10 +25,10 @@ function Projects() {
           <ProjectGrid />
         </div>
 
-        {/* Right section - Sidebar */}
-        <div className="w-96 border-l">
-          <div className="fixed top-0 w-96 h-screen overflow-y-auto pt-20">
-            <ProjectSidebar />
+        {/* Right section - Vertical text */}
+        <div className="w-48 relative">
+          <div className="fixed top-1/2 -translate-y-1/2 -rotate-90 text-[180px] font-light text-transparent" style={{ WebkitTextStroke: '1px black', right: '3rem' }}>
+            {i18n.language === 'en' ? 'PROJECTS' : 'PROYECTOS'}
           </div>
         </div>
 
