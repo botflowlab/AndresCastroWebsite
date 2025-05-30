@@ -20,7 +20,7 @@ function ProjectSidebar({ onCategoryClick }) {
   ];
 
   return (
-    <div className="pt-32">
+    <div className="p-16">
       <h2 className="text-5xl font-bold mb-12">WORK</h2>
       <ul className="space-y-6">
         {categories.map((category) => (

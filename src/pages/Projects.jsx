@@ -7,15 +7,29 @@ import ProjectGrid from '../components/sections/ProjectGrid.jsx';
 
 function Projects() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="font-neutra">
       <Navbar />
-      <div className="flex min-h-screen">
-        {/* Sidebar for desktop */}
-        <div className="hidden md:block w-96 p-16 border-r">
-          <ProjectSidebar />
+      <div className="flex min-h-screen pt-20">
+        {/* Left section - Vertical text */}
+        <div className="w-48 relative">
+          <div className="fixed top-1/2 -translate-y-1/2 -rotate-90 text-[180px] font-light text-transparent" style={{ WebkitTextStroke: '1px black' }}>
+            {i18n.language === 'en' ? 'PROJECTS' : 'PROYECTOS'}
+          </div>
+        </div>
+
+        {/* Center section - Project Grid */}
+        <div className="flex-1 p-16">
+          <ProjectGrid />
+        </div>
+
+        {/* Right section - Sidebar */}
+        <div className="w-96 border-l">
+          <div className="fixed top-0 w-96 h-screen overflow-y-auto pt-20">
+            <ProjectSidebar />
+          </div>
         </div>
 
         {/* Mobile sidebar toggle button */}
@@ -44,11 +58,6 @@ function Projects() {
             </div>
           </div>
         )}
-
-        {/* Main content */}
-        <div className="flex-1 p-16 pt-48">
-          <ProjectGrid />
-        </div>
       </div>
       <Footer />
     </div>
