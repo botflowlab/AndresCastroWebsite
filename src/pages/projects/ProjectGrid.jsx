@@ -1,7 +1,7 @@
 import ProjectCard from './ProjectCard';
 
 const projects = [
-  { <img src="/placeholder.jpg" alt="placeholder" />,
+  { title: 'MCI Parking Structure', image: '/placeholder.jpg' },
   // Add more as needed
 ];
 
