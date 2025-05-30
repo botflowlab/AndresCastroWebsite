@@ -26,7 +26,6 @@ function Navbar() {
         isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
       }`}>
         <div className="px-6 sm:px-8 lg:px-10 flex justify-between items-center h-20">
-          <div className="flex justify-between items-center h-20">
             {/* Logo placeholder */}
             <div className="flex-shrink-0 flex items-center">
               <img src="/images/andrescastrologohor.png" alt="Logo" className="h-12 md:h-16 object-contain" />
