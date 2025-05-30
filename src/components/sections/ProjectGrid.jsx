@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function ProjectGrid() {
   const projects = [
@@ -6,18 +7,20 @@ function ProjectGrid() {
       id: 1,
       title: 'MCI PARKING STRUCTURE',
       image: 'https://images.pexels.com/photos/127028/pexels-photo-127028.jpeg',
+      path: '/proyectos/mci-parking'
     },
     {
       id: 2,
       title: 'KANSAS CITY MUSEUM',
       image: 'https://images.pexels.com/photos/461902/pexels-photo-461902.jpeg',
+      path: '/proyectos/kansas-museum'
     },
   ];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       {projects.map((project) => (
-        <div key={project.id} className="relative group">
+        <Link to={project.path} key={project.id} className="relative group">
           <div className="aspect-w-3 aspect-h-4 overflow-hidden">
             <img
               src={project.image}
@@ -30,7 +33,7 @@ function ProjectGrid() {
               {project.title}
             </h3>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
