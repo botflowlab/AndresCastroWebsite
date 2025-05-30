@@ -19,7 +19,7 @@ function Architect() {
           <div className="w-full md:w-[60%] h-full">
             <div className="h-full">
               <img
-                src="https://images.pexels.com/photos/3760529/pexels-photo-3760529.jpeg"
+                src="/images/home/ac1.jpg"
                 alt="Professional architect"
                 className="w-full h-full object-cover"
               />
