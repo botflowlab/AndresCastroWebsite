@@ -21,5 +21,21 @@
   "construction": {
     "title": "UNDER CONSTRUCTION",
     "message": "Thank you for visiting! We are working on the site"
+  },
+  "projects": {
+    "categories": {
+      "academic": "ACADEMIC",
+      "cultural": "CULTURAL",
+      "government": "GOVERNMENT",
+      "health": "HEALTH",
+      "historic": "HISTORIC PRESERVATION",
+      "infrastructure": "INFRASTRUCTURE / INDUSTRIAL",
+      "office": "OFFICE",
+      "outdoor": "OUTDOOR",
+      "recreational": "RECREATIONAL",
+      "retail": "RETAIL",
+      "student": "STUDENT HOUSING",
+      "sustainable": "SUSTAINABLE / LEED"
+    }
   }
 }

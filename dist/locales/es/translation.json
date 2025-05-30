@@ -21,5 +21,21 @@
   "construction": {
     "title": "EN CONSTRUCCIÓN",
     "message": "¡Gracias por visitarnos! Estamos trabajando en el sitio"
+  },
+  "projects": {
+    "categories": {
+      "academic": "ACADÉMICO",
+      "cultural": "CULTURAL",
+      "government": "GOBIERNO",
+      "health": "SALUD",
+      "historic": "PRESERVACIÓN HISTÓRICA",
+      "infrastructure": "INFRAESTRUCTURA / INDUSTRIAL",
+      "office": "OFICINA",
+      "outdoor": "EXTERIOR",
+      "recreational": "RECREATIVO",
+      "retail": "COMERCIAL",
+      "student": "VIVIENDA ESTUDIANTIL",
+      "sustainable": "SOSTENIBLE / LEED"
+    }
   }
 }
