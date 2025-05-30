@@ -5,36 +5,41 @@ import Footer from '../components/layout/Footer.jsx';
 import ProjectSidebar from '../components/sections/ProjectSidebar.jsx';
 import ProjectGrid from '../components/sections/ProjectGrid.jsx';
 
+function VerticalText() {
+  const { i18n } = useTranslation();
+  return (
+    <div className="hidden md:flex items-center justify-center px-4">
+      <div className="-rotate-90 text-[180px] font-light text-transparent" style={{ WebkitTextStroke: '1px black' }}>
+        {i18n.language === 'en' ? 'PROJECTS' : 'PROYECTOS'}
+      </div>
+    </div>
+  );
+}
+
 function Projects() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { t, i18n } = useTranslation();
 
   return (
-    <div className="font-neutra">
+    <div className="font-neutra overflow-x-hidden">
       <Navbar />
-      <div className="flex min-h-screen pt-20">
-        {/* Left section - Sidebar (hidden on mobile) */}
-        <div className="hidden md:block w-96">
-          <div className="w-96 h-screen overflow-y-auto pt-20">
-            <ProjectSidebar />
-          </div>
-        </div>
+      <div className="flex flex-col md:flex-row min-h-screen pt-20 relative">
+        
+        {/* Sidebar (Desktop) */}
+        <aside className="hidden md:block md:w-1/4 max-w-xs flex-shrink-0 overflow-y-auto pt-4">
+          <ProjectSidebar />
+        </aside>
 
-        {/* Center section - Project Grid */}
-        <div className="flex-1 p-4 md:p-16">
+        {/* Main Content */}
+        <main className="flex-1 px-4 md:px-16 py-8">
           <ProjectGrid />
-        </div>
+        </main>
 
-        {/* Right section - Vertical text (hidden on mobile) */}
-        <div className="hidden md:block w-48">
-          <div className="w-48 h-screen flex items-center justify-center">
-            <div className="-rotate-90 text-[180px] font-light text-transparent" style={{ WebkitTextStroke: '1px black' }}>
-              {i18n.language === 'en' ? 'PROJECTS' : 'PROYECTOS'}
-            </div>
-          </div>
-        </div>
+        {/* Vertical Text (Desktop) */}
+        <aside className="hidden md:block md:w-1/5 max-w-sm flex-shrink-0">
+          <VerticalText />
+        </aside>
 
-        {/* Mobile sidebar toggle button */}
+        {/* Sidebar Toggle Button (Mobile) */}
         <button
           className="md:hidden fixed bottom-4 right-4 z-50 bg-black text-white p-4 rounded-full shadow-lg"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -44,14 +49,11 @@ function Projects() {
           </svg>
         </button>
 
-        {/* Mobile sidebar overlay */}
+        {/* Mobile Sidebar */}
         {isSidebarOpen && (
-          <div className="md:hidden fixed inset-0 z-40 bg-white">
-            <div className="p-4 h-full overflow-y-auto">
-              <button
-                className="absolute top-4 right-4"
-                onClick={() => setIsSidebarOpen(false)}
-              >
+          <div className="md:hidden fixed inset-0 z-40 bg-white overflow-y-auto">
+            <div className="p-4 h-full">
+              <button className="absolute top-4 right-4" onClick={() => setIsSidebarOpen(false)}>
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
