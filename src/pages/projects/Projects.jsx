@@ -18,7 +18,7 @@ export default function Projects() {
 
      <div className="relative pt-24 z-10">
       {/* Sidebar: hidden on small screens */}
-      <div className="hidden md:block absolute left-0 top-24 w-64 h-full z-20 px-6 pt-6">
+      <div className="hidden md:block absolute left-0 top-24 w-64 h-full z-20 px-12 pt-12">
         <Sidebar />
       </div>
     
