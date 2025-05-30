@@ -32,8 +32,8 @@ function Architect() {
           {/* Right Column - Content */}
           <div className="w-full md:w-2/5 bg-[#f5f5f0] p-8 md:p-16 flex flex-col justify-between">
             <div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium mb-6 md:mb-8">{t('architect.name')}</h2>
-              <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-6 md:mb-8 text-gray-600 font-light">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-6 md:mb-8">{t('architect.name')}</h2>
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-6 md:mb-8 text-gray-600 font-medium">
                 {t('architect.description')}
               </p>
             </div>
