@@ -11,6 +11,11 @@ export default function Projects() {
     <div className="font-sans relative">
       <Navbar />
 
+      {/* Right-side Vertical Text */}
+      <div className="hidden md:flex fixed right-0 top-0 h-screen w-1/6 items-center justify-center text-align-right z-0 pointer-events-none">
+        <div className="-rotate-90 text-[160px] text-left font-bold whitespace-nowrap translate-y-[50%] text-transparent" style={{ WebkitTextStroke: '1px black' }}>PROJECTS</div>
+      </div>
+
       {/* Layout */}
       <div className="pt-24 relative z-10 max-w-screen-xl mx-auto px-4 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* Sidebar */}
@@ -22,11 +27,6 @@ export default function Projects() {
         <main className="md:col-span-9">
           <ProjectGrid />
         </main>
-
-        {/* Right-side Vertical Text */}
-        <div className="hidden md:block absolute right-0 top-0 w-1/6 pointer-events-none">
-          <div className="-rotate-90 text-[160px] font-bold whitespace-nowrap translate-y-[50%] text-transparent origin-top-right" style={{ WebkitTextStroke: '1px black' }}>PROJECTS</div>
-        </div>
       </div>
 
       {/* Mobile Sidebar */}
