@@ -16,7 +16,7 @@ export default function Projects() {
         <div className="-rotate-90 text-[170px] opacity-30 text-left font-bold whitespace-nowrap text-transparent" style={{ WebkitTextStroke: '1px black'}}>PROJECTS</div>
       </div>
 
-      <div className="relative pt-24 z-10 mt-16 ml-4 md:ml-16">
+      <div className="relative pt-24 z-10 mt-16 ml-4 md:ml-16 mb-32">
         {/* Mobile Menu Button */}
         <button 
           onClick={() => setMenuOpen(true)}
