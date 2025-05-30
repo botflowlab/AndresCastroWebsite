@@ -18,14 +18,14 @@ export default function Projects() {
 
      <div className="relative pt-24 z-10">
         {/* Sidebar */}
-        <div className="hidden md:block absolute left-0 top-24 w-64 h-full z-20 px-16 pt-16">
+        <div className="hidden md:block absolute left-0 top-24 w-64 h-full z-20 px-6 pt-6">
           <Sidebar />
         </div>
       
         {/* Main Content */}
         <div className="md:ml-64">
-          <div className="max-w-4xl mx-auto px-16 pt-16">
-            <main>
+          <div className="max-w-4xl mx-auto px-6 pt-6">
+            <main className="mt-12">
               <ProjectGrid />
             </main>
           </div>
