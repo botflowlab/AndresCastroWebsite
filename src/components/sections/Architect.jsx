@@ -16,10 +16,10 @@ function Architect() {
       </div>
 
       {/* Two Column Layout */}
-      <div className="flex-1 flex items-center px-4 mt-5">
-        <div className="container mx-auto flex flex-col md:flex-row h-full">
+      <div className="flex-1 flex items-center mt-5">
+        <div className="w-full flex flex-col md:flex-row">
           {/* Left Column - Image */}
-          <div className="w-full md:w-[85%] relative">
+          <div className="w-full md:w-3/5 relative px-8 md:px-16">
             <div className="aspect-[16/9] md:aspect-[4/3]">
               <img
                 src="/images/home/ac1.jpg"
@@ -30,7 +30,7 @@ function Architect() {
           </div>
 
           {/* Right Column - Content */}
-          <div className="w-full md:w-[45%] bg-[#f5f5f0] p-4 sm:p-6 md:p-12 lg:p-16 flex flex-col justify-between">
+          <div className="w-full md:w-2/5 bg-[#f5f5f0] p-8 md:p-16 flex flex-col justify-between">
             <div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-6 md:mb-8">{t('architect.name')}</h2>
               <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-6 md:mb-8 text-gray-600 font-light">
