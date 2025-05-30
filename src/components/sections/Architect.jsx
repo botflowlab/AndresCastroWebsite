@@ -19,7 +19,7 @@ function Architect() {
       <div className="flex-1 flex items-center mt-5">
         <div className="w-full flex flex-col md:flex-row h-[60vh]">
           {/* Left Column - Image */}
-          <div className="w-full md:w-3/5 relative px-8 md:px-16 h-full">
+          <div className="w-full md:w-3/5 relative h-full">
             <div className="h-full">
               <img
                 src="/images/home/ac1.jpg"
