@@ -23,9 +23,9 @@ export default function Projects() {
         </div>
 
         {/* Right-side Vertical Text */}
-        <div className="hidden md:flex md:w-[16%] items-start justify-center pt-24 pointer-events-none z-0">
+        <div className="fixed right-0 top-0 h-full flex items-center justify-center pointer-events-none z-0">
           <div
-            className="-rotate-90 origin-top-right text-[160px] font-bold whitespace-nowrap text-transparent"
+            className="-rotate-90 origin-center text-[160px] font-bold whitespace-nowrap text-transparent"
             style={{ WebkitTextStroke: '1px black' }}
           >
             PROJECTS
