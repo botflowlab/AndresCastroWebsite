@@ -24,7 +24,7 @@ function Architect() {
               <img
                 src="/images/home/ac1.jpg"
                 alt="Professional architect"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
