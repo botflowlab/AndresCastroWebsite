@@ -6,7 +6,7 @@ export default function Sidebar({ onItemClick }) {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col gap-4 text-lg text-gray-600 w-full pl-4 pr-8">
+    <aside className="hidden md:flex flex-col gap-4 text-lg text-gray-600 w-full pl-4 pr-8 pt-16">
       <h2 className="font-bold text-5xl text-black mb-8">WORK</h2>
       {categories.map((cat) => (
         <button 
