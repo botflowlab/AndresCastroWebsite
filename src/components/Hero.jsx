@@ -7,7 +7,6 @@ function Hero() {
   return (
     <section className="relative w-full h-screen">
       <div className="absolute inset-0">
-      <div className="relative z-10 h-full flex items-center justify-center">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 opacity-0 animate-[fadeIn_1s_ease-in_forwards]">
