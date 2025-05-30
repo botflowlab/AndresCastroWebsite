@@ -1,11 +1,24 @@
+import { useTranslation } from 'react-i18next';
+
 export default function Sidebar({ onItemClick }) {
+  const { t } = useTranslation();
   const categories = [
-    'Sustainable', 'Government', 'Health',
-    'Office', 'Outdoor',
+    'sustainable',
+    'government',
+    'health',
+    'office',
+    'outdoor',
+    'academic',
+    'cultural',
+    'historic',
+    'infrastructure',
+    'recreational',
+    'retail',
+    'student'
   ];
 
   return (
-    <aside className="hidden md:flex flex-col gap-4 text-lg text-gray-600 w-full pl-4 pr-24 pt-8">
+    <aside className="flex flex-col gap-4 text-lg text-gray-600 w-full">
       <h2 className="font-bold text-5xl text-black mb-8">WORK</h2>
       {categories.map((cat) => (
         <button 
@@ -13,7 +26,7 @@ export default function Sidebar({ onItemClick }) {
           onClick={() => onItemClick?.(cat)} 
           className="text-left hover:text-black transition-all text-xl font-light tracking-wide"
         >
-          {cat}
+          {t(`projects.categories.${cat}`)}
         </button>
       ))}
     </aside>
