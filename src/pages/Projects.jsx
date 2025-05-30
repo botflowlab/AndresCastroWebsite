@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
-import ProjectSidebar from '../components/sections/ProjectSidebar';
-import ProjectGrid from '../components/sections/ProjectGrid';
+import Navbar from '../components/layout/Navbar.jsx';
+import Footer from '../components/layout/Footer.jsx';
+import ProjectSidebar from '../components/sections/ProjectSidebar.jsx';
+import ProjectGrid from '../components/sections/ProjectGrid.jsx';
 
 function Projects() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
