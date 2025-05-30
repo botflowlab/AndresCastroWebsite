@@ -2,11 +2,6 @@ import ProjectCard from './ProjectCard';
 
 const projects = [
   { title: 'MCI Parking Structure', image: 'https://via.placeholder.com/600x400' },
-  { title: 'Kansas City Museum', image: '../placeholder.jpg' },
-  { title: 'Kansas City Museum', image: 'https://via.placeholder.com/600x400' },
-  { title: 'Kansas City Museum', image: 'https://via.placeholder.com/600x400' },
-  { title: 'Kansas City Museum', image: 'https://via.placeholder.com/600x400' },
-  { title: 'Kansas City Museum', image: 'https://via.placeholder.com/600x400' },
   // Add more as needed
 ];
 
