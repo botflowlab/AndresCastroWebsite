@@ -1,19 +1,19 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Projects from './pages/projects/Projects';
-import Layout from '/src/components/Layout';
+import Navbar from './components/layout/Navbar';
 
 function App() {
   return (
     <Router>
-      <Layout>
+      <div className="font-cormorant">
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/proyectos" element={<Projects />} />
         </Routes>
-      </Layout>
+      </div>
     </Router>
   );
 }
