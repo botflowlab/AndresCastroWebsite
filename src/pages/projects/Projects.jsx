@@ -38,7 +38,7 @@ export default function Projects() {
         {/* Desktop Layout */}
         <div className="hidden md:flex">
           {/* Sidebar */}
-          <div className="w-64 px-6 pt-6 shrink-0">
+          <div className="w-64 pl-10 pt-6 shrink-0">
             <Sidebar />
           </div>
 
