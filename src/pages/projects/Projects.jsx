@@ -1,3 +1,9 @@
+import React, { useState } from 'react';
+import Navbar from '../../components/layout/Navbar';
+import Sidebar from './ProjectSidebar';
+import ProjectGrid from './ProjectGrid';
+import Footer from '../../components/layout/Footer';
+
 export default function Projects() {
   const [menuOpen, setMenuOpen] = useState(false);
 
