@@ -22,7 +22,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      <nav className={`fixed top-4 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
       }`}>
         <div className="px-6 sm:px-8 lg:px-10 flex justify-between items-center h-20">
