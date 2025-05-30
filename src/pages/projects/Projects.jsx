@@ -25,7 +25,7 @@ export default function Projects() {
         {/* Right-side Vertical Text */}
         <div className="hidden md:flex md:w-[16%] items-start justify-center pt-24 pointer-events-none z-0">
           <div
-            className="-rotate-90 text-[160px] font-bold whitespace-nowrap text-transparent"
+            className="-rotate-90 origin-top-right text-[160px] font-bold whitespace-nowrap text-transparent"
             style={{ WebkitTextStroke: '1px black' }}
           >
             PROJECTS
