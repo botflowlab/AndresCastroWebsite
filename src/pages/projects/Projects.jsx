@@ -44,7 +44,7 @@ export default function Projects() {
 
           {/* Main Grid Content */}
           <div className="flex-1">
-            <div className="max-w-6xl mx-auto px-6 mt-12">
+            <div className="max-w-5xl mx-auto px-6 mt-12">
               <main>
                 <ProjectGrid />
               </main>
