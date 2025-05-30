@@ -15,19 +15,22 @@ function Architect() {
         </p>
       </div>
 
-      <div className="flex-1 flex items-center px-4">
-        <div className="container mx-auto flex flex-col md:flex-row items-stretch h-full max-h-[600px]">
+      {/* Two Column Layout */}
+      <div className="flex-1 flex items-center px-4"></div>
+        <div className="container mx-auto flex flex-col md:flex-row h-full max-h-[600px]">
           {/* Left Column - Image */}
           <div className="w-full md:w-[60%] h-full">
-            <img
-              src="/images/home/ac1.jpg"
-              alt="Professional architect"
-              className="w-full h-full object-cover"
-            />
+            <div className="h-full">
+              <img
+                src="/images/home/ac1.jpg"
+                alt="Professional architect"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
-      
+
           {/* Right Column - Content */}
-          <div className="w-full md:w-[40%] bg-[#f5f5f0] p-4 sm:p-6 md:p-8 lg:p-12 flex flex-col justify-between h-full">
+          <div className="w-full md:w-[40%] bg-[#f5f5f0] p-4 sm:p-6 md:p-8 lg:p-12 flex flex-col justify-between">
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6">{t('architect.name')}</h2>
               <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-4 md:mb-6 text-gray-600 font-light">
