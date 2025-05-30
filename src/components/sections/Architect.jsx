@@ -16,7 +16,7 @@ function Architect() {
       <div className="flex-1 flex items-center px-4">
         <div className="container mx-auto flex flex-col md:flex-row h-full max-h-[700px]">
           {/* Left Column - Image */}
-          <div className="w-full md:w-[60%] h-full">
+          <div className="w-full md:w-[50%] h-full">
             <div className="h-full">
               <img
                 src="https://images.pexels.com/photos/3760529/pexels-photo-3760529.jpeg"
