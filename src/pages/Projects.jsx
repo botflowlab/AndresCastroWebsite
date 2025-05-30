@@ -12,9 +12,9 @@ function Projects() {
   return (
     <div className="font-neutra">
       <Navbar />
-      <div className="flex min-h-screen pt-20">
+      <div className="flex min-h-screen">
         {/* Sidebar for desktop */}
-        <div className="hidden md:block w-64 p-8 border-r">
+        <div className="hidden md:block w-96 p-16 border-r">
           <ProjectSidebar />
         </div>
 
@@ -46,7 +46,7 @@ function Projects() {
         )}
 
         {/* Main content */}
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-16 pt-48">
           <ProjectGrid />
         </div>
       </div>

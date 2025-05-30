@@ -5,31 +5,31 @@ function ProjectSidebar({ onCategoryClick }) {
   const { t } = useTranslation();
   
   const categories = [
-    'ACADEMIC',
-    'CULTURAL',
-    'GOVERNMENT',
-    'HEALTH',
-    'HISTORIC PRESERVATION',
-    'INFRASTRUCTURE / INDUSTRIAL',
-    'OFFICE',
-    'OUTDOOR',
-    'RECREATIONAL',
-    'RETAIL',
-    'STUDENT HOUSING',
-    'SUSTAINABLE / LEED',
+    'academic',
+    'cultural',
+    'government',
+    'health',
+    'historic',
+    'infrastructure',
+    'office',
+    'outdoor',
+    'recreational',
+    'retail',
+    'student',
+    'sustainable',
   ];
 
   return (
-    <div>
-      <h2 className="text-4xl font-bold mb-8">WORK</h2>
-      <ul className="space-y-4">
+    <div className="pt-32">
+      <h2 className="text-5xl font-bold mb-12">WORK</h2>
+      <ul className="space-y-6">
         {categories.map((category) => (
           <li key={category}>
             <button
               onClick={() => onCategoryClick?.()}
-              className="text-gray-600 hover:text-black transition-colors"
+              className="text-gray-600 hover:text-black transition-colors text-lg"
             >
-              {category}
+              {t(`projects.categories.${category}`)}
             </button>
           </li>
         ))}
