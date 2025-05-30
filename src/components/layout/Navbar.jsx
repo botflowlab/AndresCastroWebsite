@@ -83,7 +83,6 @@ function Navbar() {
                 </svg>
               </button>
             </div>
-          </div>
         </div>
       </nav>
 
