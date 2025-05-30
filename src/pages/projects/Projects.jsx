@@ -13,12 +13,19 @@ export default function Projects() {
 
       {/* Right-side Vertical Text */}
       <div className="hidden md:flex fixed right-0 top-12 h-screen w-1/6 items-center justify-center text-align-right z-0 pointer-events-none">
-        <div className="-rotate-90 text-[170px] opacity-30 text-left font-bold whitespace-nowrap text-transparent" style={{ WebkitTextStroke: '1px black'}}>PROJECTS</div>
+        <div
+          className="-rotate-90 text-[170px] opacity-30 text-left font-bold whitespace-nowrap text-transparent"
+          style={{ WebkitTextStroke: '1px black' }}
+        >
+          PROJECTS
+        </div>
       </div>
 
-      <div className="relative pt-24 z-10 mt-16 ml-4 md:ml-16 mb-32">
+      {/* Main Content Container */}
+      <div className="relative pt-24 z-10 mt-16 mb-32">
+
         {/* Mobile Menu Button */}
-        <button 
+        <button
           onClick={() => setMenuOpen(true)}
           className="md:hidden fixed top-24 left-4 z-30 bg-white p-2 rounded-md shadow-sm"
         >
@@ -28,18 +35,26 @@ export default function Projects() {
           </svg>
         </button>
 
-        {/* Sidebar */}
-        <div className="hidden md:block absolute left-0 top-24 w-64 h-full z-20 px-6 pt-6">
-          <Sidebar />
-        </div>
-      
-        {/* Main Content */}
-        <div className="md:ml-24">
-          <div className="max-w-4xl mx-auto px-6 mt-12">
-            <main>
-              <ProjectGrid />
-            </main>
+        {/* Desktop Layout */}
+        <div className="hidden md:flex">
+          {/* Sidebar */}
+          <div className="w-64 px-6 pt-6 shrink-0">
+            <Sidebar />
           </div>
+
+          {/* Main Grid Content */}
+          <div className="flex-1">
+            <div className="max-w-6xl mx-auto px-6 mt-12">
+              <main>
+                <ProjectGrid />
+              </main>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Layout */}
+        <div className="md:hidden px-4 mt-12">
+          <ProjectGrid />
         </div>
       </div>
 
