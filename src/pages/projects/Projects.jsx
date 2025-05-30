@@ -13,11 +13,7 @@ export default function Projects() {
 
       {/* Right-side Vertical Text */}
       <div className="hidden md:flex absolute right-0 top-0 h-full w-1/6 items-center justify-center z-0 pointer-events-none">
-        <div
-    className="-rotate-90 origin-top-right absolute right-0 top-0 translate-y-[-100%] text-[120px] text-black/10 font-bold whitespace-nowrap leading-none"
-  >
-    WORK
-  </div>
+        <div className="-rotate-90 text-[160px] text-black/20 font-bold whitespace-nowrap">WORK</div>
       </div>
 
       {/* Layout */}
