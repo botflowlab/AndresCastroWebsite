@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
-import Sidebar from '../components/sections/Sidebar';
+import Navbar from '../../components/layout/Navbar';
+import Footer from '../../components/layout/Footer';
+import Sidebar from '../../components/sections/Sidebar';
 import ProjectGrid from '../components/sections/ProjectGrid';
 
 export default function Projects() {
