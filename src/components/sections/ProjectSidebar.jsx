@@ -1,41 +1,18 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-
-function ProjectSidebar({ onCategoryClick }) {
-  const { t } = useTranslation();
-  
+export default function Sidebar({ onItemClick }) {
   const categories = [
-    'academic',
-    'cultural',
-    'government',
-    'health',
-    'historic',
-    'infrastructure',
-    'office',
-    'outdoor',
-    'recreational',
-    'retail',
-    'student',
-    'sustainable',
+    'Academic', 'Cultural', 'Government', 'Health', 'Historic Preservation',
+    'Infrastructure / Industrial', 'Office', 'Outdoor', 'Recreational',
+    'Retail', 'Student Housing', 'Sustainable / LEED', 'Client Directory',
   ];
 
   return (
-    <div className="p-16">
-      <h2 className="text-5xl font-bold mb-12">WORK</h2>
-      <ul className="space-y-6">
-        {categories.map((category) => (
-          <li key={category}>
-            <button
-              onClick={() => onCategoryClick?.()}
-              className="text-gray-600 hover:text-black transition-colors text-lg"
-            >
-              {t(`projects.categories.${category}`)}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <aside className="hidden md:flex flex-col gap-2 text-sm text-gray-600 w-full pr-4">
+      <h2 className="font-bold text-lg text-black mb-4">WORK</h2>
+      {categories.map((cat) => (
+        <button key={cat} onClick={() => onItemClick?.(cat)} className="text-left hover:text-black transition-all">
+          {cat}
+        </button>
+      ))}
+    </aside>
   );
 }
-
-export default ProjectSidebar;
