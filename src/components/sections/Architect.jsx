@@ -16,10 +16,10 @@ function Architect() {
       </div>
 
       {/* Two Column Layout */}
-      <div className="flex-1 flex items-center px-4 mt-0 ">
+      <div className="flex-1 flex items-center px-4 mt-0">
         <div className="container mx-auto flex flex-col md:flex-row h-full">
           {/* Left Column - Image */}
-          <div className="w-full md:w-[80%] h-[500px] md:h-[600px]">
+          <div className="w-full md:w-[85%] h-[600px] md:h-[800px]">
             <img
               src="/images/home/ac1.jpg"
               alt="Professional architect"
@@ -28,18 +28,18 @@ function Architect() {
           </div>
 
           {/* Right Column - Content */}
-          <div className="w-full md:w-[40%] bg-[#f5f5f0] p-4 sm:p-6 md:p-8 lg:p-12 flex flex-col justify-between h-[500px] md:h-[600px]">
+          <div className="w-full md:w-[45%] bg-[#f5f5f0] p-4 sm:p-6 md:p-12 lg:p-16 flex flex-col justify-between h-[600px] md:h-[800px]">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6">{t('architect.name')}</h2>
-              <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-4 md:mb-6 text-gray-600 font-light">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-6 md:mb-8">{t('architect.name')}</h2>
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-6 md:mb-8 text-gray-600 font-light">
                 {t('architect.description')}
               </p>
             </div>
             <div>
-              <hr className="border-t border-gray-300 mb-6" />
+              <hr className="border-t border-gray-300 mb-8" />
               <a
                 href="/arquitecto"
-                className="inline-block border-2 border-black px-2 py-1 text-base sm:text-lg font-medium hover:bg-black hover:text-white transition-all duration-300 text-center w-full"
+                className="inline-block border-2 border-black px-4 py-2 text-lg sm:text-xl font-medium hover:bg-black hover:text-white transition-all duration-300 text-center w-full"
               >
                 {t('architect.learnMore')}
               </a>
