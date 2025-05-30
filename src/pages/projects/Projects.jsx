@@ -1,36 +1,32 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
+import Footer from '../../components/layout/Footer';
 import Sidebar from './ProjectSidebar';
 import ProjectGrid from './ProjectGrid';
-import Footer from '../../components/layout/Footer';
 
 export default function Projects() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="font-sans">
+    <div className="font-sans relative">
       <Navbar />
 
-      <div className="flex pt-24 relative">
-        {/* Left-side Sidebar (static) */}
-        <div className="hidden md:block md:w-[16%] pt-4 px-4 bg-white">
+      {/* Right-side Vertical Text */}
+      <div className="hidden md:flex fixed right-0 top-0 h-screen w-1/6 items-center justify-center text-align-right z-0 pointer-events-none">
+        <div className="-rotate-90 text-[160px] text-left font-bold whitespace-nowrap text-transparent" style={{ WebkitTextStroke: '1px black' }}>PROJECTS</div>
+      </div>
+
+      {/* Layout */}
+      <div className="pt-24 relative z-10 max-w-screen-xl mx-auto px-4 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-8">
+        {/* Sidebar */}
+        <div className="md:col-span-3">
           <Sidebar />
         </div>
 
-        {/* Main Content */}
-        <div className="flex-1 px-4 md:px-8 relative z-10">
+        {/* Grid */}
+        <main className="md:col-span-9">
           <ProjectGrid />
-        </div>
-
-        {/* Right-side Vertical Text */}
-        <div className="hidden md:flex fixed right-0 top-0 h-screen w-[16%] items-start justify-center z-0 pointer-events-none pt-24">
-          <div
-            className="-rotate-90 text-[160px] font-bold whitespace-nowrap text-transparent"
-            style={{ WebkitTextStroke: '1px black' }}
-          >
-            PROJECTS
-          </div>
-        </div>
+        </main>
       </div>
 
       {/* Mobile Sidebar */}
