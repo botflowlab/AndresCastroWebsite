@@ -13,7 +13,7 @@ export default function Projects() {
 
       {/* Right-side Vertical Text */}
       <div className="hidden md:flex fixed right-0 top-12 h-screen w-1/6 items-center justify-center text-align-right z-0 pointer-events-none">
-        <div className="-rotate-90 text-[200px] opacity-30 text-left font-bold whitespace-nowrap text-transparent" style={{ WebkitTextStroke: '1px black'}}>PROJECTS</div>
+        <div className="-rotate-90 text-[200px] opacity-30 text-left font-bold whitespace-nowrap text-transparent" style={{ WebkitTextStroke: '1px black'}}>WORK</div>
       </div>
 
      <div className="relative pt-24 z-10 mt-16 ml-16">
