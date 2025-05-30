@@ -4,7 +4,7 @@ function Hero() {
   return (
     <section className="relative w-full h-screen flex items-center justify-center">
       <div className="container mx-auto px-4">
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-bold text-[#0c0c0c] mb-6 opacity-100">
             ANDRÉS CASTRO ARCHITECTURE
           </h1>
