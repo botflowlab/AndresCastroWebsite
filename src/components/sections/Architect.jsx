@@ -6,8 +6,8 @@ function Architect() {
       {/* Top Section with Centered Content */}
       <div className="text-center max-w-4xl mx-auto px-4 mb-32">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">ANDRÉS CASTRO - EL ARQUITECTO</h1>
-        <h2 className="text-2xl md:text-3xl mb-6">#1 in sustainable architecture in Costa Rica</h2>
-        <p className="text-lg md:text-xl text-gray-600">
+        <h2 className="text-2xl md:text-3xl mb-6 font-light">#1 in sustainable architecture in Costa Rica</h2>
+        <p className="text-lg md:text-xl text-gray-600 font-light">
           With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.
         </p>
       </div>
@@ -29,7 +29,7 @@ function Architect() {
           {/* Right Column - Content */}
           <div className="w-full md:w-[40%] bg-[#f5f5f0] p-8 md:p-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-8">ANDRÉS CASTRO</h2>
-            <p className="text-lg leading-relaxed mb-8 text-gray-600">
+            <p className="text-lg leading-relaxed mb-8 text-gray-600 font-light">
               As a pioneer in sustainable architecture, Andrés has led numerous groundbreaking projects that seamlessly blend environmental consciousness with stunning design. His work has earned international recognition and has set new standards for sustainable architecture in Central America.
             </p>
             <a
