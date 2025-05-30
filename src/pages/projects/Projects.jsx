@@ -25,7 +25,7 @@ export default function Projects() {
         {/* Main Content */}
         <div className="md:ml-64">
           <div className="max-w-4xl mx-auto px-6 pt-6">
-            <main className="mt-12">
+            <main>
               <ProjectGrid />
             </main>
           </div>
