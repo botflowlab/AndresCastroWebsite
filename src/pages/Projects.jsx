@@ -8,14 +8,9 @@ import ProjectGrid from '../components/sections/ProjectGrid.jsx';
 function VerticalText() {
   const { i18n } = useTranslation();
   return (
-    <div className="hidden md:block absolute top-0 right-0 h-full w-1/5 z-0 pointer-events-none">
-      <div className="w-full h-full flex items-center justify-center">
-        <div
-          className="-rotate-90 text-[160px] font-light text-transparent"
-          style={{ WebkitTextStroke: '1px black', whiteSpace: 'nowrap' }}
-        >
-          {i18n.language === 'en' ? 'PROJECTS' : 'PROYECTOS'}
-        </div>
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="-rotate-90 text-[180px] font-light text-transparent" style={{ WebkitTextStroke: '1px black' }}>
+        {i18n.language === 'en' ? 'PROJECTS' : 'PROYECTOS'}
       </div>
     </div>
   );
@@ -25,24 +20,23 @@ function Projects() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="font-neutra overflow-x-hidden relative">
+    <div className="font-neutra">
       <Navbar />
-      <div className="relative min-h-screen pt-32">
-        {/* Vertical Text in Background */}
-        <VerticalText />
+      <div className="grid grid-cols-1 md:grid-cols-12 min-h-screen pt-32">
+        {/* Sidebar */}
+        <aside className="hidden md:block md:col-span-3">
+          <ProjectSidebar />
+        </aside>
 
-        {/* Foreground Content */}
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-12">
-          {/* Sidebar */}
-          <aside className="hidden md:block md:col-span-3">
-            <ProjectSidebar />
-          </aside>
+        {/* Main Content */}
+        <main className="md:col-span-6 px-4 md:px-8 py-8">
+          <ProjectGrid />
+        </main>
 
-          {/* Main Content */}
-          <main className="md:col-span-9 px-4 md:px-8 py-8">
-            <ProjectGrid />
-          </main>
-        </div>
+        {/* Vertical Text */}
+        <aside className="hidden md:block md:col-span-3">
+          <VerticalText />
+        </aside>
 
         {/* Mobile Sidebar Toggle */}
         <button
@@ -58,7 +52,7 @@ function Projects() {
         {isSidebarOpen && (
           <div className="md:hidden fixed inset-0 z-40 bg-white">
             <div className="p-4">
-              <button
+              <button 
                 className="absolute top-4 right-4"
                 onClick={() => setIsSidebarOpen(false)}
               >
