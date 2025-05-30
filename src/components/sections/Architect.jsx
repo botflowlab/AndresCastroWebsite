@@ -1,14 +1,17 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 function Architect() {
+  const { t } = useTranslation();
+
   return (
     <section className="min-h-screen flex flex-col justify-center overflow-hidden py-8 md:py-0">
       {/* Top Section with Centered Content */}
       <div className="text-center max-w-4xl mx-auto px-4 mb-4 md:mb-8">
-        <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">ANDRÉS CASTRO - EL ARQUITECTO</h1>
-        <h2 className="text-lg sm:text-xl md:text-2xl mb-4 font-light">#1 in sustainable architecture in Costa Rica</h2>
+        <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">{t('architect.title')}</h1>
+        <h2 className="text-lg sm:text-xl md:text-2xl mb-4 font-light">{t('architect.subtitle')}</h2>
         <p className="text-sm sm:text-base md:text-lg text-gray-600 font-light max-w-2xl mx-auto">
-          With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.
+          {t('architect.intro')}
         </p>
       </div>
 
@@ -29,9 +32,9 @@ function Architect() {
           {/* Right Column - Content */}
           <div className="w-full md:w-[40%] bg-[#f5f5f0] p-4 sm:p-6 md:p-8 lg:p-12 flex flex-col justify-between">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6">ANDRÉS CASTRO</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6">{t('architect.name')}</h2>
               <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-4 md:mb-6 text-gray-600 font-light">
-                As a pioneer in sustainable architecture, Andrés has led numerous groundbreaking projects that seamlessly blend environmental consciousness with stunning design. His work has earned international recognition and has set new standards for sustainable architecture in Central America.
+                {t('architect.description')}
               </p>
             </div>
             <div>
@@ -40,7 +43,7 @@ function Architect() {
                 href="/arquitecto"
                 className="inline-block border-2 border-black px-2 py-1 text-base sm:text-lg font-medium hover:bg-black hover:text-white transition-all duration-300 text-center w-full"
               >
-                LEARN MORE
+                {t('architect.learnMore')}
               </a>
             </div>
           </div>

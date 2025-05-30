@@ -24,11 +24,18 @@
   },
   "projects": {
     "categories": {
-
       "infrastructure": "INFRAESTRUCTURA",
       "outdoor": "EXTERIOR",
       "recreational": "RENDERS",
       "sustainable": "SOSTENIBLE"
     }
+  },
+  "architect": {
+    "title": "ANDRÉS CASTRO - EL ARQUITECTO",
+    "subtitle": "#1 en arquitectura sostenible en Costa Rica",
+    "intro": "Con más de dos décadas de experiencia en arquitectura sostenible, Andrés Castro se ha establecido como una figura líder en diseño ecológico y bioclimático en toda Costa Rica.",
+    "name": "ANDRÉS CASTRO",
+    "description": "Como pionero en arquitectura sostenible, Andrés ha liderado numerosos proyectos innovadores que combinan perfectamente la conciencia ambiental con un diseño impresionante. Su trabajo ha ganado reconocimiento internacional y ha establecido nuevos estándares para la arquitectura sostenible en Centroamérica.",
+    "learnMore": "SABER MÁS"
   }
 }
