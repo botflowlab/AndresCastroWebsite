@@ -14,8 +14,8 @@ function Projects() {
       <Navbar />
       <div className="flex min-h-screen pt-20">
         {/* Left section - Sidebar */}
-        <div className="w-96 border-r">
-          <div className="fixed top-0 w-96 h-screen overflow-y-auto pt-20">
+        <div className="w-96">
+          <div className="w-96 h-screen overflow-y-auto pt-20">
             <ProjectSidebar />
           </div>
         </div>
@@ -26,9 +26,11 @@ function Projects() {
         </div>
 
         {/* Right section - Vertical text */}
-        <div className="w-48 relative">
-          <div className="fixed top-1/2 -translate-y-1/2 -rotate-90 text-[180px] font-light text-transparent" style={{ WebkitTextStroke: '1px black', right: '3rem' }}>
-            {i18n.language === 'en' ? 'PROJECTS' : 'PROYECTOS'}
+        <div className="w-48">
+          <div className="w-48 h-screen flex items-center justify-center">
+            <div className="-rotate-90 text-[180px] font-light text-transparent" style={{ WebkitTextStroke: '1px black' }}>
+              {i18n.language === 'en' ? 'PROJECTS' : 'PROYECTOS'}
+            </div>
           </div>
         </div>
 
