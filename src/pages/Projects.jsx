@@ -1,37 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import ProjectSidebar from '../components/sections/ProjectSidebar';
+import ProjectGrid from '../components/sections/ProjectGrid';
 
 function Projects() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { t } = useTranslation();
 
   return (
-    <div className="font-neutra min-w-[1024px]">
+    <div className="font-neutra">
       <Navbar />
-      <main className="pt-20">
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-6xl font-bold text-[#0c0c0c] mb-8 text-center">
-              {t('nav.projects')}
-            </h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Example Project Card */}
-              <div className="bg-white rounded-lg overflow-hidden shadow-md">
-                <img 
-                  src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg" 
-                  alt="Modern House"
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">Modern Residence</h3>
-                  <p className="text-gray-600">Sustainable modern home with bioclimatic design principles.</p>
-                </div>
-              </div>
+      <div className="flex min-h-screen pt-20">
+        {/* Sidebar for desktop */}
+        <div className="hidden md:block w-64 p-8 border-r">
+          <ProjectSidebar />
+        </div>
+
+        {/* Mobile sidebar toggle button */}
+        <button
+          className="md:hidden fixed bottom-4 right-4 z-50 bg-black text-white p-4 rounded-full shadow-lg"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        {/* Mobile sidebar */}
+        {isSidebarOpen && (
+          <div className="md:hidden fixed inset-0 z-40 bg-white">
+            <div className="p-4">
+              <button
+                className="absolute top-4 right-4"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <ProjectSidebar onCategoryClick={() => setIsSidebarOpen(false)} />
             </div>
           </div>
-        </section>
-      </main>
+        )}
+
+        {/* Main content */}
+        <div className="flex-1 p-8">
+          <ProjectGrid />
+        </div>
+      </div>
       <Footer />
     </div>
   );
