@@ -25,10 +25,10 @@ function ProjectGrid() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="grid grid-cols-2 gap-8">
       {projects.map((project) => (
         <div key={project.id} className="relative group">
-          <div className="aspect-w-3 aspect-h-4 overflow-hidden">
+          <div className="aspect-3/4 overflow-hidden">
             <img
               src={project.image}
               alt={project.title}
