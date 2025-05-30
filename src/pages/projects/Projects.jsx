@@ -23,7 +23,7 @@ export default function Projects() {
       </div>
     
       {/* Main Container */}
-      <div className="max-w-screen-xl mx-auto px-4 md:px-12 md:ml-64 pt-6 md:pt-6 md:pl-6">
+      <div className="max-w-screen-xl mx-auto px-4 md:px-12 md:ml-64 pt-12 md:pt-12 md:pl-12">
         <main>
           <ProjectGrid />
         </main>
