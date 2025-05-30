@@ -12,7 +12,7 @@ export default function Projects() {
       <Navbar />
 
       {/* Left-side Sidebar (absolute) */}
-      <div className="hidden md:block fixed left-0 top-0 h-screen w-[16%] z-0 pt-24 px-4 bg-white">
+      <div className="hidden md:block fixed left-0 top-0 h-screen w-[16%] -z-10 pt-24 px-4 bg-white">
         <Sidebar />
       </div>
 
