@@ -6,10 +6,14 @@ export default function Sidebar({ onItemClick }) {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col gap-2 text-sm text-gray-600 w-full pr-4">
-      <h2 className="font-bold text-lg text-black mb-4">WORK</h2>
+    <aside className="hidden md:flex flex-col gap-4 text-lg text-gray-600 w-full pr-8">
+      <h2 className="font-bold text-3xl text-black mb-8">WORK</h2>
       {categories.map((cat) => (
-        <button key={cat} onClick={() => onItemClick?.(cat)} className="text-left hover:text-black transition-all">
+        <button 
+          key={cat} 
+          onClick={() => onItemClick?.(cat)} 
+          className="text-left hover:text-black transition-all text-xl font-light tracking-wide"
+        >
           {cat}
         </button>
       ))}
