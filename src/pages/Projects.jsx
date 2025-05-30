@@ -22,7 +22,7 @@ function Projects() {
   return (
     <div className="font-neutra">
       <Navbar />
-      <div className="grid grid-cols-1 md:grid-cols-12 min-h-screen pt-20">
+      <div className="grid grid-cols-1 md:grid-cols-12 min-h-screen pt-32">
         {/* Sidebar */}
         <aside className="hidden md:block md:col-span-3">
           <ProjectSidebar />
