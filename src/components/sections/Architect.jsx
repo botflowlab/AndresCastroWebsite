@@ -9,8 +9,8 @@ function Architect() {
       {/* Top Section with Centered Content */}
       <div className="text-center max-w-4xl mx-auto px-4 mb-32">
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-8">{t('architect.title')}</h1>
-        <h2 className="text-lg sm:text-xl md:text-2xl mb-8 font-light">{t('architect.subtitle')}</h2>
-        <p className="text-sm sm:text-base md:text-lg text-gray-600 font-light max-w-2xl mx-auto">
+        <h2 className="text-lg sm:text-xl md:text-2xl mb-8">{t('architect.subtitle')}</h2>
+        <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
           {t('architect.intro')}
         </p>
       </div>
@@ -30,10 +30,10 @@ function Architect() {
           {/* Right Column - Content */}
           <div className="w-full md:w-2/5 bg-[#f5f5f0] p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-between">
             <div className="flex-grow">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-[#0c0c0c] mb-8">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0c0c0c] mb-8">
                 {t('architect.name')}
               </h2>
-              <p className="text-base sm:text-lg md:text-xl leading-relaxed text-[#0c0c0c] font-medium mb-12">
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed text-[#0c0c0c] mb-12">
                 {t('architect.description')}
               </p>
             </div>

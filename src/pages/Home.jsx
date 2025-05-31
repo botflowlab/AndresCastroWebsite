@@ -4,10 +4,10 @@ import Architect from '../components/sections/Architect';
 
 function Home() {
   return (
-    <>
+    <div className="font-neutra">
       <Hero />
       <Architect />
-    </>
+    </div>
   );
 }
 
