@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { MdEmail, MdPhone } from 'react-icons/md';
-import { FaLinkedin, FaFacebook } from 'react-icons/fa';
+import { FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
 
 function Footer() {
   const { t } = useTranslation();
