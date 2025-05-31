@@ -7,7 +7,7 @@ function ProjectsSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="w-full py-32 bg-[#f5f5f0]">
+    <section className="w-full py-32 bg-[#BBB0A0]">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-8 font-cormorant">{t('nav.projects')}</h2>
