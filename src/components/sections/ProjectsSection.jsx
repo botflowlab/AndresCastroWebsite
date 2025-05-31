@@ -8,7 +8,7 @@ function ProjectsSection() {
 
   return (
     <section className="w-full py-32 bg-[#BBB0A0]">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-6xl font-bold mb-8 font-cormorant text-white">{t('nav.projects')}</h2>
           <p className="text-2xl font-medium max-w-3xl mx-auto text-white">
@@ -16,7 +16,7 @@ function ProjectsSection() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {/* Sample Project Cards */}
           <div className="aspect-[7/9] relative overflow-hidden">
             <img 
