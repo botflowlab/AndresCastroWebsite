@@ -7,7 +7,7 @@ function Architect() {
   return (
     <section className="w-full flex flex-col justify-start overflow-hidden py-32">
       {/* Top Section with Centered Content */}
-      <div className="text-center max-w-4xl mx-auto px-4 mb-32">
+      <div className="text-center max-w-5xl mx-auto px-4 mb-32">
         <h1 
           className="text-3xl sm:text-3xl md:text-5xl font-medium mb-8 font-cormorant tracking-[.25em] uppercase"
           style={{ WebkitTextStroke: '2px black', color: 'transparent' }}
