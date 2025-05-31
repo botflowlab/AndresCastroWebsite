@@ -8,7 +8,12 @@ function Architect() {
     <section className="w-full flex flex-col justify-start overflow-hidden py-32">
       {/* Top Section with Centered Content */}
       <div className="text-center max-w-4xl mx-auto px-4 mb-32">
-        <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-8 font-cormorant">{t('architect.title')}</h1>
+        <h1 
+          className="text-2xl sm:text-3xl md:text-5xl font-bold mb-8 font-cormorant tracking-[.25em] uppercase"
+          style={{ WebkitTextStroke: '2px black', color: 'transparent' }}
+        >
+          {t('architect.title')}
+        </h1>
         <h2 className="text-lg sm:text-xl md:text-2xl mb-8 font-cormorant">{t('architect.subtitle')}</h2>
         <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto font-cormorant font-light">
           {t('architect.intro')}
