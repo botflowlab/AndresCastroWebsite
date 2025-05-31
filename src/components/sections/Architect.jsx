@@ -5,7 +5,7 @@ function Architect() {
   const { t } = useTranslation();
 
   return (
-    <section className="min-h-screen flex flex-col justify-start overflow-hidden py-8 md:py-16">
+    <section className="w-full flex flex-col justify-start overflow-hidden py-8 md:py-16">
       {/* Top Section with Centered Content */}
       <div className="text-center max-w-4xl mx-auto px-4 mb-16">
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4">{t('architect.title')}</h1>
@@ -16,7 +16,7 @@ function Architect() {
       </div>
 
       {/* Two Column Layout */}
-      <div className="flex-1 flex items-center px-4 md:px-10">
+      <div className="flex items-center px-4 md:px-10">
         <div className="w-full flex flex-col md:flex-row h-[60vh]">
           {/* Left Column - Image */}
           <div className="w-full md:w-3/5 h-full">
