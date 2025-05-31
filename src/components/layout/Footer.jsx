@@ -42,7 +42,7 @@ function Footer() {
               <FaLinkedin className="text-2xl" />
               LINKEDIN
             </a>
-            <a href="https://www.facebookhttps://www.instagram.com/arq_andres_castro?igsh=bGRua3dpY2VhcWxx&utm_source=qrcom/profile.php?id=100063929412411" 
+            <a href="https://www.instagram.com/arq_andres_castro?igsh=bGRua3dpY2VhcWxx&utm_source=qr" 
                target="_blank" 
                rel="noopener noreferrer" 
                className="flex items-center gap-3 hover:text-gray-300">
