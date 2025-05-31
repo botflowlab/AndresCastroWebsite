@@ -7,9 +7,9 @@ function ProjectsSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="w-full py-32 bg-[#BBB0A0]">
+    <section className="w-full py-20 bg-[#BBB0A0]">
       <div className="max-w-8xl mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <h2 
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 font-cormorant tracking-[.25em] uppercase"
             style={{ WebkitTextStroke: '2px white', color: 'transparent' }}
@@ -18,7 +18,7 @@ function ProjectsSection() {
           </h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {/* Sample Project Cards */}
           <div className="aspect-[7/9] relative overflow-hidden">
             <img 

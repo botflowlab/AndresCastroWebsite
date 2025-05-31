@@ -5,9 +5,9 @@ function Architect() {
   const { t } = useTranslation();
 
   return (
-    <section className="w-full flex flex-col justify-start overflow-hidden py-32">
+    <section className="w-full flex flex-col justify-start overflow-hidden py-20">
       {/* Top Section with Centered Content */}
-      <div className="text-center max-w-8xl mx-auto px-4 mb-32">
+      <div className="text-center max-w-8xl mx-auto px-4 mb-20">
         <h1 
           className="text-3xl sm:text-3xl md:text-5xl font-medium mb-8 font-cormorant tracking-[.25em] uppercase"
           style={{ WebkitTextStroke: '2px black', color: 'transparent' }}
@@ -22,7 +22,7 @@ function Architect() {
 
       {/* Two Column Layout */}
       <div className="flex items-center px-4 md:px-10">
-        <div className="w-full flex flex-col md:flex-row min-h-[60vh]">
+        <div className="w-full flex flex-col md:flex-row min-h-[50vh]">
           {/* Left Column - Image */}
           <div className="w-full md:w-3/5 h-[300px] md:h-full">
             <img
