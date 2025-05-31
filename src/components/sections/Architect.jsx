@@ -17,9 +17,9 @@ function Architect() {
 
       {/* Two Column Layout */}
       <div className="flex items-center px-4 md:px-10">
-        <div className="w-full flex flex-col md:flex-row h-[60vh]">
+        <div className="w-full flex flex-col md:flex-row min-h-[60vh]">
           {/* Left Column - Image */}
-          <div className="w-full md:w-3/5 h-full">
+          <div className="w-full md:w-3/5 h-[300px] md:h-full">
             <img
               src="/images/home/ac1.jpg"
               alt="Professional architect"
@@ -29,15 +29,15 @@ function Architect() {
 
           {/* Right Column - Content */}
           <div className="w-full md:w-2/5 bg-[#f5f5f0] p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-between">
-            <div className="flex-grow">
+            <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0c0c0c] mb-8 font-cormorant">
                 {t('architect.name')}
               </h2>
-              <p className="text-base sm:text-lg md:text-xl leading-relaxed text-[#0c0c0c] mb-12 font-cormorant font-light">
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed text-[#0c0c0c] mb-8 font-cormorant font-light">
                 {t('architect.description')}
               </p>
             </div>
-            <div className="mt-auto">
+            <div className="mt-4">
               <hr className="border-t border-gray-300 mb-8" />
               <a
                 href="/arquitecto"
