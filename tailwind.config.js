@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         'neutra': ['Neutra Text', 'sans-serif'],
+        'cormorant': ['Cormorant Garamond', 'serif'],
       },
       keyframes: {
         fadeIn: {
