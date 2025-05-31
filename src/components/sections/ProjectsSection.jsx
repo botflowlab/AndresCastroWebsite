@@ -19,38 +19,27 @@ function ProjectsSection() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {/* Project Cards with Window Style */}
-          <div className="relative">
-            <div className="aspect-[7/9] overflow-hidden rounded-t-[60px] border-4 border-white">
-              <img 
-                src="/images/placeholder.jpg" 
-                alt="Project 1"
-                className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
-              />
-            </div>
-            <div className="h-4 bg-white -mt-1"></div>
+          {/* Sample Project Cards */}
+          <div className="aspect-[7/9] relative overflow-hidden">
+            <img 
+              src="/images/placeholder.jpg" 
+              alt="Project 1"
+              className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
+            />
           </div>
-          
-          <div className="relative">
-            <div className="aspect-[7/9] overflow-hidden rounded-t-[60px] border-4 border-white">
-              <img 
-                src="/images/placeholder.jpg" 
-                alt="Project 2"
-                className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
-              />
-            </div>
-            <div className="h-4 bg-white -mt-1"></div>
+          <div className="aspect-[7/9] relative overflow-hidden">
+            <img 
+              src="/images/placeholder.jpg" 
+              alt="Project 2"
+              className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
+            />
           </div>
-          
-          <div className="relative">
-            <div className="aspect-[7/9] overflow-hidden rounded-t-[60px] border-4 border-white">
-              <img 
-                src="/images/placeholder.jpg" 
-                alt="Project 3"
-                className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
-              />
-            </div>
-            <div className="h-4 bg-white -mt-1"></div>
+          <div className="aspect-[7/9] relative overflow-hidden">
+            <img 
+              src="/images/placeholder.jpg" 
+              alt="Project 3"
+              className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
+            />
           </div>
         </div>
 
