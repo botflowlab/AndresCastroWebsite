@@ -11,7 +11,7 @@ function ProjectsSection() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-8 font-cormorant text-white">{t('nav.projects')}</h2>
-          <p className="text-xl font-light max-w-3xl mx-auto text-white">
+          <p className="text-xl font-medium max-w-3xl mx-auto text-white">
             Explore our diverse portfolio of sustainable and bioclimatic architectural projects
           </p>
         </div>
