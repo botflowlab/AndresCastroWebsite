@@ -30,8 +30,8 @@ function NewsSection() {
     <section className="w-full py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         {/* Navigation and Title Header */}
-        <div className="flex justify-between items-center mb-12">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#0c0c0c] font-cormorant tracking-[.25em]">
+        <div className="flex flex-col items-center mb-12">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#0c0c0c] font-cormorant tracking-[.25em] text-center mb-8">
             IN THE NEWS
           </h2>
           <div className="flex gap-4">
