@@ -5,7 +5,7 @@ function Architect() {
   const { t } = useTranslation();
 
   return (
-    <section className="w-full flex flex-col justify-start overflow-hidden py-32">
+    <section className="w-full flex flex-col justify-start overflow-hidden py-32 bg-BBB0A0">
       {/* Top Section with Centered Content */}
       <div className="text-center max-w-4xl mx-auto px-4 mb-32">
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-8 font-cormorant">{t('architect.title')}</h1>
