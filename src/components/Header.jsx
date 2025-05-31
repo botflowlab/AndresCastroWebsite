@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './layout/Navbar';
+import Footer from './layout/Footer';
 
 const Header = () => {
   return (
