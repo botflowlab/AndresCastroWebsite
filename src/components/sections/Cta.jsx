@@ -2,7 +2,7 @@ import React from 'react';
 
 function Cta() {
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section className="relative py-40 overflow-hidden">
       {/* Fixed Background Image */}
       <div 
         className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
@@ -17,14 +17,14 @@ function Cta() {
 
       {/* Content */}
       <div className="relative container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center text-white">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 font-cormorant leading-tight text-shadow">
+        <div className="max-w-3xl mx-auto text-center text-white py-8">
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 font-cormorant leading-tight text-shadow">
             Ready to elevate your brand?
           </h2>
-          <p className="text-xl md:text-2xl mb-12 font-cormorant font-light text-shadow">
+          <p className="text-xl md:text-2xl mb-16 font-cormorant font-light text-shadow">
             Let's create something extraordinary together.
           </p>
-          <button className="inline-block border-2 border-white px-8 py-3 text-lg font-medium hover:bg-white hover:text-black transition-all duration-300 tracking-[.25em] uppercase">
+          <button className="inline-block border-2 border-white px-12 py-4 text-lg font-medium hover:bg-white hover:text-black transition-all duration-300 tracking-[.25em] uppercase">
             Let's Build Together
           </button>
         </div>
