@@ -12,9 +12,7 @@ function Architect() {
         style={{
           backgroundImage: 'url(/images/concrete1.svg)',
           backgroundRepeat: 'repeat',
-          backgroundSize: '100%',
-          backgroundPosition: 'center',
-          transform: 'scale(0.5)'
+          backgroundSize: '500px'
         }}
       />
 
