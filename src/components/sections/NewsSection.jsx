@@ -35,7 +35,6 @@ function NewsSection() {
           className="absolute inset-0 w-full h-full opacity-10"
           style={{
             backgroundImage: 'url(/images/concrete2.svg)',
-            backgroundRepeat: 'repeat',
           }}
         />
         {/* Top Fade */}
