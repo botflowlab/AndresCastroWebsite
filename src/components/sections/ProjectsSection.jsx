@@ -20,28 +20,28 @@ function ProjectsSection() {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {/* Project Cards */}
-          <div className="aspect-square relative overflow-hidden">
+          <div className="w-full aspect-square relative overflow-hidden">
             <img 
               src="/images/placeholder.jpg" 
               alt="Project 1"
               className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
             />
           </div>
-          <div className="aspect-square relative overflow-hidden">
+          <div className="w-full aspect-square relative overflow-hidden">
             <img 
               src="/images/placeholder.jpg" 
               alt="Project 2"
               className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
             />
           </div>
-          <div className="aspect-square relative overflow-hidden">
+          <div className="w-full aspect-square relative overflow-hidden">
             <img 
               src="/images/placeholder.jpg" 
               alt="Project 3"
               className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
             />
           </div>
-          <div className="aspect-square relative overflow-hidden">
+          <div className="w-full aspect-square relative overflow-hidden">
             <img 
               src="/images/placeholder.jpg" 
               alt="Project 4"
