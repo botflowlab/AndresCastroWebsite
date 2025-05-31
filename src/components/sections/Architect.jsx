@@ -6,15 +6,26 @@ function Architect() {
 
   return (
     <section className="w-full flex flex-col justify-start overflow-hidden py-20 relative">
-      {/* Background Pattern */}
-      <div 
-        className="absolute inset-0 w-full h-full opacity-10"
-        style={{
-          backgroundImage: 'url(/images/concrete1.svg)',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '500px'
-        }}
-      />
+      {/* Background Pattern Container with Gradient Overlays */}
+      <div className="absolute inset-0 w-full h-full">
+        {/* SVG Pattern Background */}
+        <div 
+          className="absolute inset-0 w-full h-full opacity-10"
+          style={{
+            backgroundImage: 'url(/images/concrete1.svg)',
+            backgroundRepeat: 'repeat',
+            backgroundSize: '500px'
+          }}
+        />
+        {/* Top Fade */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent"
+        />
+        {/* Bottom Fade */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"
+        />
+      </div>
 
       {/* Content */}
       <div className="relative z-10">
