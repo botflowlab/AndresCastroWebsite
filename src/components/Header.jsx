@@ -1,6 +1,5 @@
 import React from 'react';
 import Navbar from './layout/Navbar';
-import Footer from './layout/Footer';
 
 const Header = () => {
   return (
@@ -12,7 +11,6 @@ const Header = () => {
           <li><a href="/proyectos">Proyectos</a></li>
         </ul>
       </nav>
-      <Footer />
     </header>
   );
 };

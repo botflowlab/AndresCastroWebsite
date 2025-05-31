@@ -1,13 +1,14 @@
-// src/components/Layout.jsx
 import React from 'react';
-import Header from './Header';
+import Navbar from './layout/Navbar';
+import Footer from './layout/Footer';
 
 const Layout = ({ children }) => {
   return (
-    <>
-      <Header />
-      <main>{children}</main>
-    </>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-grow">{children}</main>
+      <Footer />
+    </div>
   );
 };
 
