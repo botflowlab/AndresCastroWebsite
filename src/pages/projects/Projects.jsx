@@ -6,7 +6,7 @@ export default function Projects() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div>
+    <div className="font-cormorant">
       {/* Right-side Vertical Text */}
       <div className="hidden md:flex fixed right-0 top-12 h-screen w-1/6 items-center justify-center text-align-right z-0 pointer-events-none">
         <div
