@@ -4,6 +4,7 @@ import Testimonial from '../components/sections/Testimonial';
 import Architect from '../components/sections/Architect';
 import ProjectsSection from '../components/sections/ProjectsSection';
 import NewsSection from '../components/sections/NewsSection';
+import Cta from '../components/sections/Cta';
 
 function Home() {
   return (
@@ -13,6 +14,7 @@ function Home() {
       <Architect />
       <ProjectsSection />
       <NewsSection />
+      <Cta />
     </div>
   );
 }
