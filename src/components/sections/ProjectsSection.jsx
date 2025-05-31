@@ -41,11 +41,11 @@ function ProjectsSection() {
               className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 hover:scale-125"
             />
           </div>
-          <div className="w-full aspect-square relative overflow-hidden">
+          <div className="relative w-full pb-[100%] overflow-hidden">
             <img 
               src="/images/placeholder.jpg" 
-              alt="Project 4"
-              className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
+              alt="Project 1"
+              className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 hover:scale-125"
             />
           </div>
         </div>
