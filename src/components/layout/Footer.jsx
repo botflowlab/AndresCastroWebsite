@@ -46,8 +46,8 @@ function Footer() {
                target="_blank" 
                rel="noopener noreferrer" 
                className="flex items-center gap-3 hover:text-gray-300">
-              <FaFacebook className="text-2xl" />
-              FACEBOOK
+              <FaInstagram className="text-2xl" />
+              INSTAGRAM
             </a>
           </div>
         </div>
