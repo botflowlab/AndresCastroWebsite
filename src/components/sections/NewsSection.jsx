@@ -81,7 +81,7 @@ function NewsSection() {
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                 />
               </div>
-              <h3 className="text-xl font-bold mb-4 text-[#0c0c0c]">{title}</h3>
+              <h3 className="text-xl font-bold mb-4 text-[#0c0c0c]">{article.title}</h3>
               <p className="text-gray-600 mb-4 flex-grow font-light">{article.excerpt}</p>
               <p className="text-sm text-[#0c0c0c] font-medium">
                 {article.source} | {article.date}
