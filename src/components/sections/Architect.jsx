@@ -22,7 +22,7 @@ function Architect() {
 
       {/* Two Column Layout */}
       <div className="flex items-center px-4 md:px-10">
-        <div className="w-full flex flex-col md:flex-row min-h-[50vh]">
+        <div className="w-full flex flex-col md:flex-row min-h-[40vh]">
           {/* Left Column - Image */}
           <div className="w-full md:w-3/5 h-[300px] md:h-full">
             <img
