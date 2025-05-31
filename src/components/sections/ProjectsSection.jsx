@@ -28,13 +28,6 @@ function ProjectsSection() {
           <div className="aspect-[7/9] relative overflow-hidden">
             <img 
               src="/images/placeholder.jpg" 
-              alt="Project 1"
-              className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
-            />
-          </div>
-          <div className="aspect-[7/9] relative overflow-hidden">
-            <img 
-              src="/images/placeholder.jpg" 
               alt="Project 2"
               className="w-full h-full object-cover transition-transform duration-300 hover:scale-125"
             />
