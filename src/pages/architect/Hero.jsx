@@ -24,7 +24,7 @@ export default function Hero() {
             Meet Andrés Castro
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl">
-            With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.
+            The architect with 25 years of experiencie.
           </p>
         </div>
       </div>
