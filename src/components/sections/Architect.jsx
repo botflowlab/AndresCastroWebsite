@@ -33,7 +33,7 @@ function Architect() {
         <div className="text-center max-w-8xl mx-auto px-4 mb-20">
           <h1 
             className="text-3xl sm:text-3xl md:text-5xl font-medium mb-8 font-cormorant tracking-[.25em] uppercase"
-            style={{ WebkitTextStroke: '2px black', color: 'transparent' }}
+            
           >
             {t('architect.title')}
           </h1>
