@@ -36,9 +36,7 @@ function Footer() {
               <MdPhone className="text-2xl" />
               +506 22538380
             </a>
-            <Link to="/contacto" className="inline-block hover:text-gray-300 px-4 py-2 border border-white rounded transition-colors duration-200">
-              {t('footer.contact')}
-            </Link>
+            
             <a href="https://www.linkedin.com/in/arquitecto-andr%C3%A9s-castro-ruiz-238858339/" 
                target="_blank" 
                rel="noopener noreferrer" 
