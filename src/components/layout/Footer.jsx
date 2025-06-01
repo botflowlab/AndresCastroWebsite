@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { MdEmail, MdPhone } from 'react-icons/md';
 import { FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   const { t } = useTranslation();
@@ -18,23 +19,23 @@ function Footer() {
         <div>
           <h3 className="text-xl mb-6">{t('footer.help')}</h3>
           <nav className="space-y-4">
-            <a href="/proyectos" className="block hover:text-gray-300">{t('footer.featuredProjects')}</a>
-            <a href="/architect" className="block hover:text-gray-300">{t('footer.architect')}</a>
-            <a href="/publications" className="block hover:text-gray-300">{t('footer.publications')}</a>
+            <Link to="/proyectos" className="block hover:text-gray-300">{t('footer.featuredProjects')}</Link>
+            <Link to="/architect" className="block hover:text-gray-300">{t('footer.architect')}</Link>
+            <Link to="/publications" className="block hover:text-gray-300">{t('footer.publications')}</Link>
           </nav>
         </div>
 
         <div>
           <h3 className="text-xl mb-6">{t('footer.contact')}</h3>
           <div className="space-y-4">
-            <a href="mailto:arquiteccr@gmail.com" className="flex items-center gap-3 hover:text-gray-300">
+            <Link to="/contacto" className="flex items-center gap-3 hover:text-gray-300">
               <MdEmail className="text-2xl" />
               arquiteccr@gmail.com
-            </a>
-            <a href="tel:+50622538380" className="flex items-center gap-3 hover:text-gray-300">
+            </Link>
+            <Link to="/contacto" className="flex items-center gap-3 hover:text-gray-300">
               <MdPhone className="text-2xl" />
               +506 22538380
-            </a>
+            </Link>
             <a href="https://www.linkedin.com/in/arquitecto-andr%C3%A9s-castro-ruiz-238858339/" 
                target="_blank" 
                rel="noopener noreferrer" 
@@ -56,8 +57,8 @@ function Footer() {
       <div className="max-w-7xl mx-auto mt-16 flex flex-col md:flex-row justify-between items-center">
         <p>{t('footer.rights')}</p>
         <div className="flex gap-8 mt-4 md:mt-0">
-          <a href="/privacy" className="hover:text-gray-300">{t('footer.privacy')}</a>
-          <a href="/terms" className="hover:text-gray-300">{t('footer.terms')}</a>
+          <Link to="/privacy" className="hover:text-gray-300">{t('footer.privacy')}</Link>
+          <Link to="/terms" className="hover:text-gray-300">{t('footer.terms')}</Link>
         </div>
       </div>
     </footer>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,7 +14,6 @@ function Navbar() {
       const currentScrollPos = window.scrollY;
       setIsScrolled(currentScrollPos > 0);
       
-      // Set navbar visibility based on scroll direction
       setVisible((prevVisible) => {
         const isScrollingUp = prevScrollPos > currentScrollPos || currentScrollPos < 10;
         return isScrollingUp;
@@ -39,30 +39,27 @@ function Navbar() {
         } ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-white/80 backdrop-blur-md shadow-sm'}`}
       >
         <div className="px-6 sm:px-8 lg:px-10 flex justify-between items-center h-20">
-          {/* Logo placeholder */}
           <div className="flex-shrink-0 flex items-center">
             <img src="/images/andrescastrologohor.png" alt="Logo" className="h-12 md:h-16 object-contain" />
           </div>
 
-          {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.home')}
-            </a>
-            <a href="/arquitecto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            </Link>
+            <Link to="/arquitecto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.architect')}
-            </a>
-            <a href="/proyectos" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            </Link>
+            <Link to="/proyectos" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.projects')}
-            </a>
-            <a href="/publicaciones" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            </Link>
+            <Link to="/publicaciones" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.publications')}
-            </a>
-            <a href="mailto:arquiteccr@gmail.com" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            </Link>
+            <Link to="/contacto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.contact')}
-            </a>
+            </Link>
             
-            {/* Language Switcher */}
             <button
               onClick={toggleLanguage}
               className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium flex items-center"
@@ -71,9 +68,7 @@ function Navbar() {
             </button>
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-4">
-            {/* Language Switcher for Mobile */}
             <button
               onClick={toggleLanguage}
               className="text-black-900 hover:text-gray-600 px-2 py-1 text-lg font-medium"
@@ -99,45 +94,44 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu overlay */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-white/95 backdrop-blur-sm md:hidden">
           <div className="flex flex-col items-center justify-center h-full space-y-8">
-            <a 
-              href="/" 
+            <Link 
+              to="/" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.home')}
-            </a>
-            <a 
-              href="/arquitecto" 
+            </Link>
+            <Link 
+              to="/arquitecto" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.architect')}
-            </a>
-            <a 
-              href="/proyectos" 
+            </Link>
+            <Link 
+              to="/proyectos" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.projects')}
-            </a>
-            <a 
-              href="/publicaciones" 
+            </Link>
+            <Link 
+              to="/publicaciones" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.publications')}
-            </a>
-            <a 
-              href="mailto:arquiteccr@gmail.com" 
+            </Link>
+            <Link 
+              to="/contacto" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('nav.contact')}
-            </a>
+            </Link>
           </div>
         </div>
       )}
