@@ -1,0 +1,23 @@
+import React from 'react';
+import ContactForm from './ContactForm';
+import AgentInfo from './AgentInfo';
+
+export default function Contact() {
+  return (
+    <div className="min-h-screen pt-20">
+      <div className="container mx-auto">
+        <div className="flex flex-col md:flex-row min-h-[calc(100vh-5rem)]">
+          {/* Left side - Contact Form */}
+          <div className="w-full md:w-1/2 p-8 md:p-16">
+            <ContactForm />
+          </div>
+
+          {/* Right side - Agent Info */}
+          <div className="w-full md:w-1/2 relative">
+            <AgentInfo />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
