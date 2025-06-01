@@ -28,13 +28,16 @@ function Footer() {
         <div>
           <h3 className="text-xl mb-6">{t('footer.contact')}</h3>
           <div className="space-y-4">
-            <Link to="/contacto" className="flex items-center gap-3 hover:text-gray-300">
+            <a href="mailto:arquiteccr@gmail.com" className="flex items-center gap-3 hover:text-gray-300">
               <MdEmail className="text-2xl" />
               arquiteccr@gmail.com
-            </Link>
-            <Link to="/contacto" className="flex items-center gap-3 hover:text-gray-300">
+            </a>
+            <a href="tel:+50622538380" className="flex items-center gap-3 hover:text-gray-300">
               <MdPhone className="text-2xl" />
               +506 22538380
+            </a>
+            <Link to="/contacto" className="inline-block hover:text-gray-300 px-4 py-2 border border-white rounded transition-colors duration-200">
+              {t('footer.contact')}
             </Link>
             <a href="https://www.linkedin.com/in/arquitecto-andr%C3%A9s-castro-ruiz-238858339/" 
                target="_blank" 
