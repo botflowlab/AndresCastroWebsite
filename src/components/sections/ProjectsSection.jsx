@@ -12,7 +12,6 @@ function ProjectsSection() {
         <div className="text-center mb-8">
           <h2 
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 font-cormorant tracking-[.25em] uppercase"
-            style={{ WebkitTextStroke: '2px white', color: 'transparent' }}
           >
             {t('nav.projects')}
           </h2>
