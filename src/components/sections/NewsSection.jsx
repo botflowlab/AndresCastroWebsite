@@ -35,8 +35,9 @@ function NewsSection() {
           className="absolute inset-0 w-full h-full opacity-10"
           style={{
             backgroundImage: 'url(/images/concrete2.png)',
-            backgroundRepeat: 'repeat',
-            backgroundSize: '500px'
+            backgroundRepeat: 'repeat-x',
+            backgroundSize: '500px',
+            transform: 'rotate(180deg)'
           }}
         />
         {/* Top Fade */}
