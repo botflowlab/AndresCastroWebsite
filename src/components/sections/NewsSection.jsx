@@ -32,12 +32,11 @@ function NewsSection() {
       <div className="absolute inset-0 w-full h-full">
         {/* Pattern Background */}
         <div 
-          className="absolute inset-0 w-full h-full opacity-20"
+          className="absolute inset-0 w-full h-full opacity-50"
           style={{
             backgroundImage: 'url(/images/concrete1.png)',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundRepeat: 'repeat',
+            backgroundSize: '500px'
           }}
         />
         {/* Top Fade */}
