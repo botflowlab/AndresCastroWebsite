@@ -81,7 +81,7 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-white mb-1">
+          <label htmlFor="phone" className="block text-sm font-medium text-[0c0c0c] mb-1">
             {t('contact.phone', 'Phone')}
           </label>
           <input
