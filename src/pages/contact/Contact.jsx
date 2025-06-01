@@ -6,9 +6,9 @@ export default function Contact() {
   return (
     <div className="min-h-screen pt-20">
       <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row h-full md:h-[calc(100vh-5rem)] mt-20 mb-20 items-stretch">
+        <div className="flex flex-col md:flex-row min-h-[calc(100vh-5rem)] mt-20 items-center">
           {/* Left side - Contact Form */}
-          <div className="w-full md:w-1/2 p-8 md:p-16">
+          <div className="w-full md:w-1/2 p-8 md:p-16 flex items-center">
             <ContactForm />
           </div>
 
