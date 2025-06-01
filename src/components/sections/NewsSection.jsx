@@ -34,7 +34,7 @@ function NewsSection() {
         <div 
           className="absolute inset-0 w-full h-full opacity-20"
           style={{
-            backgroundImage: 'url(/images/concrete2.png)',
+            backgroundImage: 'url(/images/concrete1.png)',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             backgroundPosition: 'center'
