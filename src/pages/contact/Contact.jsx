@@ -13,7 +13,7 @@ export default function Contact() {
           </div>
 
           {/* Right side - Agent Info */}
-          <div className="w-full md:w-1/2 relative">
+          <div className="w-full md:w-1/2 flex items-center justify-center">
             <AgentInfo />
           </div>
         </div>
