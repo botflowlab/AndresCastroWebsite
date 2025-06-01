@@ -18,12 +18,12 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative h-full container mx-auto px-4 flex items-center">
-        <div className="max-w-4xl">
+      <div className="relative h-full container mx-auto px-4 flex items-center justify-center">
+        <div className="max-w-4xl text-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl text-white font-bold mb-6 leading-tight">
             Meet Andrés Castro
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl">
+          <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto">
             The architect with 25 years of experiencie.
           </p>
         </div>
