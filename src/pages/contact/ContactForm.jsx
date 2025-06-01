@@ -66,7 +66,7 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
             {t('contact.email', 'Email')}
           </label>
           <input
