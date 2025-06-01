@@ -11,7 +11,7 @@ function ProjectsSection() {
       <div className="max-w-8xl mx-auto px-4">
         <div className="text-center mb-8">
           <h2 
-            className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 font-cormorant tracking-[.25em] uppercase"
+            className="text-4xl sm:text-5xl md:text-6xl text-white font-bold mb-8 font-cormorant tracking-[.25em] uppercase"
           >
             {t('nav.projects')}
           </h2>
