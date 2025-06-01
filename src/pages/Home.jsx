@@ -10,8 +10,8 @@ function Home() {
   return (
     <div className="font-cormorant">
       <Hero />
-      <Testimonial />
       <Architect />
+      <Testimonial />
       <ProjectsSection />
       <NewsSection />
       <Cta />
