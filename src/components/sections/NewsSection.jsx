@@ -32,7 +32,7 @@ function NewsSection() {
       <div className="absolute inset-0 w-full h-full">
         {/* Pattern Background */}
         <div 
-          className="absolute inset-0 w-full h-full opacity-10"
+          className="absolute inset-0 w-full h-full opacity-100"
           style={{
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
