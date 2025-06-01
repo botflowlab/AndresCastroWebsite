@@ -76,7 +76,7 @@ export default function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            className="w-full px-4 py-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           />
         </div>
 
