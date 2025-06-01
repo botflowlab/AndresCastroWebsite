@@ -5,7 +5,7 @@ import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md';
 export default function AgentInfo() {
   return (
     <div className="h-full bg-white flex items-center justify-center p-8 md:p-16">
-      <div className="w-full max-w-md flex flex-col items-center text-center justify-center h-full">
+      <div className="w-full max-w-md flex flex-col items-center text-center justify-center min-h-full">
         {/* Logo */}
         <img 
           src="/images/andrescastrologosolo.png" 
