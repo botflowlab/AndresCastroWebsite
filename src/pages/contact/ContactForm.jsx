@@ -27,15 +27,15 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="max-w-xl mx-auto">
-      <h2 className="text-4xl font-cormorant font-bold mb-8 text-[0c0c0c]">
+    <div className="w-full max-w-2xl mx-auto">
+      <h2 className="text-5xl lg:text-6xl font-cormorant font-bold mb-12 text-[0c0c0c]">
         {t('contact.title', 'Get in Touch')}
       </h2>
       
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-            <label htmlFor="firstName" className="block text-sm font-medium text-[0c0c0c] mb-1">
+            <label htmlFor="firstName" className="block text-base font-medium text-[0c0c0c] mb-2">
               {t('contact.firstName', 'First Name')}
             </label>
             <input
@@ -45,12 +45,12 @@ export default function ContactForm() {
               value={formData.firstName}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              className="w-full px-6 py-3 text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             />
           </div>
 
           <div>
-            <label htmlFor="lastName" className="block text-sm font-medium text-[0c0c0c] mb-1">
+            <label htmlFor="lastName" className="block text-base font-medium text-[0c0c0c] mb-2">
               {t('contact.lastName', 'Last Name')}
             </label>
             <input
@@ -60,13 +60,13 @@ export default function ContactForm() {
               value={formData.lastName}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              className="w-full px-6 py-3 text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             />
           </div>
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-[0c0c0c] mb-1">
+          <label htmlFor="email" className="block text-base font-medium text-[0c0c0c] mb-2">
             {t('contact.email', 'Email')}
           </label>
           <input
@@ -76,12 +76,12 @@ export default function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            className="w-full px-6 py-3 text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           />
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-[0c0c0c] mb-1">
+          <label htmlFor="phone" className="block text-base font-medium text-[0c0c0c] mb-2">
             {t('contact.phone', 'Phone')}
           </label>
           <input
@@ -91,12 +91,12 @@ export default function ContactForm() {
             value={formData.phone}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            className="w-full px-6 py-3 text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           />
         </div>
 
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="message" className="block text-base font-medium text-gray-700 mb-2">
             {t('contact.message', 'Message')}
           </label>
           <textarea
@@ -105,8 +105,8 @@ export default function ContactForm() {
             value={formData.message}
             onChange={handleChange}
             required
-            rows="4"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            rows="5"
+            className="w-full px-6 py-3 text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           ></textarea>
         </div>
 
@@ -118,16 +118,16 @@ export default function ContactForm() {
             checked={formData.privacyPolicy}
             onChange={handleChange}
             required
-            className="mt-1 h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
+            className="mt-1.5 h-5 w-5 text-black focus:ring-black border-gray-300 rounded"
           />
-          <label htmlFor="privacyPolicy" className="ml-2 block text-sm text-gray-700">
+          <label htmlFor="privacyPolicy" className="ml-3 block text-base text-gray-700">
             {t('contact.privacyPolicy', 'I agree to the privacy policy and terms of service')}
           </label>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-[#0c0c0c] text-white py-3 px-6 rounded-md hover:bg-black/80 transition-colors duration-200 font-medium"
+          className="w-full bg-[#0c0c0c] text-white py-4 px-8 rounded-md hover:bg-black/80 transition-colors duration-200 text-lg font-medium"
         >
           {t('contact.submit', 'Submit')}
         </button>

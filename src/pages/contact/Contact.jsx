@@ -27,14 +27,14 @@ export default function Contact() {
       </div>
 
       <div className="container mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row min-h-[calc(100vh-5rem)] mt-20 mb-20 items-center">
+        <div className="flex flex-col md:flex-row min-h-[calc(100vh-5rem)] mt-20 mb-20 items-center max-w-[1600px] mx-auto">
           {/* Left side - Contact Form */}
-          <div className="w-full md:w-1/2 p-8 md:p-16 flex items-center">
+          <div className="w-full md:w-1/2 p-8 lg:p-20 xl:p-24 flex items-center">
             <ContactForm />
           </div>
 
           {/* Right side - Agent Info */}
-          <div className="w-full md:w-1/2 flex items-center justify-center">
+          <div className="w-full md:w-1/2 p-8 lg:p-20 xl:p-24 flex items-center justify-center">
             <AgentInfo />
           </div>
         </div>
