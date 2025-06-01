@@ -73,7 +73,7 @@ function NewsSection() {
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {articles.map((article, index) => (
-            <article key={index} className="flex flex-col bg-white p-6 shadow-xl">
+            <article key={index} className="flex flex-col bg-white p-6 shadow-xl border border-black">
               <div className="aspect-[4/3] overflow-hidden mb-6">
                 <img
                   src={article.image}
