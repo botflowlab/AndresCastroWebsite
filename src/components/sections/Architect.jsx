@@ -10,7 +10,7 @@ function Architect() {
       <div className="absolute inset-0 w-full h-full">
         {/* Pattern Background */}
         <div 
-          className="absolute inset-0 w-full h-full opacity-50"
+          className="absolute inset-0 w-full h-full opacity-20"
           style={{
             backgroundImage: 'url(/images/concrete1.png)',
             backgroundRepeat: 'repeat',
