@@ -37,7 +37,7 @@ function Architect() {
           >
             {t('architect.title')}
           </h1>
-          <h2 className="text-md sm:text-xl md:text-2xl mb-8 font-cormorant">{t('architect.subtitle')}</h2>
+          <h2 className="text-md sm:text-xl md:text-2xl mb-8 font-cormorant font-medium">{t('architect.subtitle')}</h2>
           <p className="text-sm sm:text-base md:text-md text-gray-600 max-w-2xl mx-auto font-cormorant font-medium">
             {t('architect.intro')}
           </p>
