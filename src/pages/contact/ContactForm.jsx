@@ -28,7 +28,7 @@ export default function ContactForm() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <h2 className="text-4xl font-cormorant font-bold mb-8 text-[#0c0c0c]">
+      <h2 className="text-4xl font-cormorant font-bold mb-8 text-white">
         {t('contact.title', 'Get in Touch')}
       </h2>
       
