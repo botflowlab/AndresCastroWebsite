@@ -27,29 +27,8 @@ function NewsSection() {
   ];
 
   return (
-    <section className="w-full py-20 bg-white relative">
-      {/* Background Pattern Container with Gradient Overlays */}
-      <div className="absolute inset-0 w-full h-full">
-        {/* Pattern Background */}
-        <div 
-          className="absolute inset-0 w-full h-full opacity-30"
-          style={{
-            backgroundImage: 'url(/images/concrete1.png)',
-            backgroundRepeat: 'repeat',
-            backgroundSize: '500px'
-          }}
-        />
-        {/* Top Fade */}
-        <div 
-          className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent"
-        />
-        {/* Bottom Fade */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"
-        />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
+    <section className="w-full py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Navigation and Title Header */}
         <div className="flex flex-col items-center mb-12">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#0c0c0c] font-cormorant tracking-[.25em] text-center mb-8">
@@ -73,7 +52,7 @@ function NewsSection() {
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {articles.map((article, index) => (
-            <article key={index} className="flex flex-col">
+            <article key={index} className="flex flex-col bg-white p-6">
               <div className="aspect-[4/3] overflow-hidden mb-6">
                 <img
                   src={article.image}
