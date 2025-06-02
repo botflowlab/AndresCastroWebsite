@@ -5,7 +5,7 @@ export default function About() {
   const { t } = useTranslation();
   
   return (
-    <section className="py-20 px-4 relative">
+    <section className="py-20 px-4 relative overflow-hidden">
       <div className="max-w-screen-xl mx-auto">
         <div className="relative flex flex-col md:flex-row gap-12 md:gap-24 items-start md:items-stretch">
           {/* Left side - Image */}
