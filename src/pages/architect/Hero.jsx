@@ -23,7 +23,7 @@ export default function Hero() {
           <h1 className="text-4xl md:text-6xl lg:text-7xl text-black font-bold mb-6 leading-tight">
             MEET ANDRÉS CASTRO
           </h1>
-          <p className="text-xl md:text-2xl text-blakc/90 font-light max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-black/90 font-light max-w-2xl mx-auto">
             The architect with 25 years of experience.
           </p>
         </div>
