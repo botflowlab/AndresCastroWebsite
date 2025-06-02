@@ -24,7 +24,16 @@ export default function Awards() {
 
   return (
     <section className="py-20 px-4 bg-[#0c0c0c] relative">
-      <div className="max-w-7xl mx-auto">
+      {/* Parallax Background */}
+      <div 
+        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
+        style={{
+          backgroundImage: 'url(https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg)',
+          backgroundAttachment: 'fixed'
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto relative">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-wider text-white">
             PREMIOS Y RECONOCIMIENTOS
@@ -36,15 +45,21 @@ export default function Awards() {
           {awards.map((award, index) => (
             <div 
               key={index}
-              className="bg-white/10 backdrop-blur-sm p-8 rounded-lg hover:bg-white/20 transition-all duration-300"
+              className="relative overflow-hidden rounded-lg group"
             >
-              <div className="border-b border-white/20 pb-4 mb-4">
-                <span className="text-white/70 text-sm">{award.year}</span>
-                <h3 className="text-2xl font-medium text-white mt-2">{award.title}</h3>
-              </div>
-              <div className="space-y-2">
-                <p className="text-xl text-white/90">{award.event}</p>
-                <p className="text-white/70 italic">{award.description}</p>
+              {/* Background Mask */}
+              <div className="absolute inset-0 bg-[#0c0c0c] mix-blend-overlay"></div>
+              
+              {/* Content */}
+              <div className="relative p-8 backdrop-blur-sm bg-black/30">
+                <div className="border-b border-white/20 pb-4 mb-4">
+                  <span className="text-white/70 text-sm">{award.year}</span>
+                  <h3 className="text-2xl font-medium text-white mt-2">{award.title}</h3>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-xl text-white/90">{award.event}</p>
+                  <p className="text-white/70 italic">{award.description}</p>
+                </div>
               </div>
             </div>
           ))}
