@@ -4,18 +4,24 @@ import { Link } from 'react-router-dom';
 export default function ParallaxContact() {
   return (
     <section className="relative py-40 overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat filter blur-lg"
-        style={{
-          backgroundImage: 'url(/images/acContact.jpg)',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50"></div>
+      {/* Background container with blur */}
+      <div className="absolute inset-0">
+        {/* Blurred background image */}
+        <div 
+          className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat blur-md scale-110"
+          style={{
+            backgroundImage: 'url(/images/acContact.jpg)',
+            backgroundAttachment: 'fixed',
+            transform: 'scale(1.1)'
+          }}
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
+      {/* Content */}
       <div className="relative container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center text-white py-8">
+        <div className="max-w-3xl mx-auto text-center text-white py-8 backdrop-blur-sm bg-black/10 rounded-lg">
           <h2 className="text-4xl md:text-5xl font-bold mb-8 font-cormorant leading-tight">
             Let's Create Something Extraordinary Together
           </h2>
