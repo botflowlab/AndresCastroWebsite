@@ -9,7 +9,7 @@ export default function Experience() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row-reverse gap-64 items-center">
           {/* Right side - Image */}
-          <div className="w-ful">
+          <div className="w-full">
             <img
               src="/images/theArchitect/ac03.jpg"
               alt="Andres Castro Experience"
