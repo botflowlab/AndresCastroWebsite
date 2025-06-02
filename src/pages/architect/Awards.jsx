@@ -24,18 +24,19 @@ export default function Awards() {
 
   return (
     <section className="py-20 px-4 relative overflow-hidden">
-      {/* Base Background */}
-      <div className="absolute inset-0 bg-[#0c0c0c] z-5"></div>
-      
       {/* Parallax Background Image */}
       <div 
-        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat z-1"
+        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat z-0"
         style={{
           backgroundImage: 'url(https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg)',
           backgroundAttachment: 'fixed'
         }}
       />
 
+      {/* Black Overlay Layer */}
+      <div className="absolute inset-0 bg-[#0c0c0c] z-5 pointer-events-none"></div>
+
+      {/* Content */}
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-wider text-white">
