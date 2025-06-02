@@ -5,7 +5,7 @@ export default function ParallaxContact() {
   return (
     <section className="relative py-40 overflow-hidden">
       <div 
-        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
+        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat filter blur-sm"
         style={{
           backgroundImage: 'url(/images/acContact.jpg)',
           backgroundAttachment: 'fixed'
