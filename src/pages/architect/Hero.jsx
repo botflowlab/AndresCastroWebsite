@@ -6,13 +6,13 @@ export default function Hero() {
 
   return (
     <section className="relative w-full h-[70vh] overflow-hidden bg-white">
-      {/* Background Image */}
+      {/* Background Image
       <div 
         className="absolute inset-0 bg-center bg-cover bg-white"
         style={{
           backgroundImage: '',
         }}
-      >
+      > */}
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
