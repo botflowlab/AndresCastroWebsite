@@ -23,8 +23,20 @@ export default function Awards() {
   ];
 
   return (
-    <section className="py-20 px-4 bg-[#0c0c0c] relative">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-20 px-4 relative overflow-hidden">
+      {/* Parallax Background */}
+      <div 
+        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
+        style={{
+          backgroundImage: 'url(https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg)',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/80"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-wider text-white">
             PREMIOS Y RECONOCIMIENTOS
