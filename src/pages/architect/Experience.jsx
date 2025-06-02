@@ -7,9 +7,9 @@ export default function Experience() {
   return (
     <section className="py-20 px-4 bg-[#0c0c0c] relative">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row-reverse gap-64 items-center">
+        <div className="flex flex-col md:flex-row-reverse gap-16 items-center">
           {/* Right side - Image */}
-          <div className="w-full">
+          <div className="w-full md:w-1/2">
             <img
               src="/images/theArchitect/ac03.jpg"
               alt="Andres Castro Experience"
@@ -19,7 +19,7 @@ export default function Experience() {
           
           {/* Left side - Content */}
           <div className="w-full md:w-1/2">
-            <div className="max-w-[100%]">
+            <div className="max-w-[90%]">
               <h2 className="text-4xl md:text-5xl text-white font-bold mb-8 tracking-wide">
                 PERSISTENCE ALWAYS BEATS RESISTANCE
               </h2>
