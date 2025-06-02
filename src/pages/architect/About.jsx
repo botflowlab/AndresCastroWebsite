@@ -22,7 +22,7 @@ export default function About() {
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-8 tracking-wide text-white whitespace-nowrap">
               MEET THE ARCHITECT
             </h2>
-            <div className="space-y-6 text-lg text-white-600">
+            <div className="space-y-6 text-lg text-white">
               <p>
                 With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.
               </p>
