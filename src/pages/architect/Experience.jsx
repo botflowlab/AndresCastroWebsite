@@ -21,7 +21,7 @@ export default function Experience() {
           <div className="w-full md:w-1/2">
             <div className="max-w-[80%]">
               <h2 className="text-4xl md:text-6xl text-white font-light mb-8">
-                PERSISTENCE ALWAYS BEATS RESISTANCE
+                EXPERIENCE
               </h2>
               <div className="space-y-6 text-lg text-white">
                 <p>
