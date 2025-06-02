@@ -22,7 +22,7 @@ export default function Experience() {
       year: '2020',
       title: 'Master in Tropical Architecture',
       institution: 'Universidad de Costa Rica (UCR)',
-      type: 'Master's Degree'
+      type: 'Master\'s Degree'
     },
     {
       year: '2018',
@@ -34,7 +34,7 @@ export default function Experience() {
       year: '2016',
       title: 'Architecture',
       institution: 'Universidad Autónoma de Centroamérica (UACA)',
-      type: 'Bachelor's Degree'
+      type: 'Bachelor\'s Degree'
     }
   ];
 
