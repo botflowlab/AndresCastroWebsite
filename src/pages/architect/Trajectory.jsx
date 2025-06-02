@@ -51,10 +51,10 @@ export default function Trajectory() {
     <section className="py-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-wider text-[#0c0c0c]">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 tracking-wider text-[#0c0c0c]">
             TRAYECTORIA ARQUITECTÓNICA
           </h2>
-          <div className="w-24 h-1 bg-[#0c0c0c] mx-auto"></div>
+          <div className="w-32 h-1 bg-[#0c0c0c] mx-auto"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -63,14 +63,14 @@ export default function Trajectory() {
               key={index}
               className="p-8 border border-gray-200 rounded-lg hover:shadow-xl transition-all duration-300 bg-white"
             >
-              <h3 className="text-2xl font-medium text-[#0c0c0c] mb-6 pb-4 border-b border-gray-200">
+              <h3 className="text-3xl font-medium text-[#0c0c0c] mb-6 pb-4 border-b border-gray-200">
                 {category.title}
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-4">
                 {category.items.map((item, itemIndex) => (
                   <li 
                     key={itemIndex}
-                    className="text-gray-600 flex items-center"
+                    className="text-xl text-gray-600 flex items-center"
                   >
                     <span className="w-2 h-2 bg-[#0c0c0c] rounded-full mr-3"></span>
                     {item}

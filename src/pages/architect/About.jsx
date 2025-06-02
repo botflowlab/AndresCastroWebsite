@@ -8,14 +8,13 @@ export default function About() {
     <section className="py-20 px-4 bg-[#0c0c0c] relative">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-wider text-white">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 tracking-wider text-white">
             MEET THE ARCHITECT
           </h2>
-          <div className="w-24 h-1 bg-white mx-auto"></div>
+          <div className="w-32 h-1 bg-white mx-auto"></div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-12 items-center">
-          {/* Left side - Image */}
           <div className="w-full md:w-1/2 relative aspect-[4/3] overflow-hidden rounded-lg">
             <img
               src="/images/theArchitect/ac02.jpg"
@@ -24,9 +23,8 @@ export default function About() {
             />
           </div>
           
-          {/* Right side - Content */}
           <div className="w-full md:w-1/2">
-            <div className="space-y-8 text-lg text-white/80">
+            <div className="space-y-8 text-xl md:text-2xl text-white/80">
               <p className="leading-relaxed">
                 With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.
               </p>

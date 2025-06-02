@@ -24,7 +24,6 @@ export default function Awards() {
 
   return (
     <section className="py-20 px-4 relative overflow-hidden">
-      {/* Parallax Background */}
       <div 
         className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
         style={{
@@ -32,16 +31,15 @@ export default function Awards() {
           backgroundAttachment: 'fixed'
         }}
       >
-        {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/80"></div>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-wider text-white">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 tracking-wider text-white">
             PREMIOS Y RECONOCIMIENTOS
           </h2>
-          <div className="w-24 h-1 bg-white mx-auto"></div>
+          <div className="w-32 h-1 bg-white mx-auto"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
@@ -51,19 +49,19 @@ export default function Awards() {
               className="bg-white/10 backdrop-blur-sm p-8 rounded-lg hover:bg-white/20 transition-all duration-300"
             >
               <div className="border-b border-white/20 pb-4 mb-4">
-                <span className="text-white/70 text-sm">{award.year}</span>
-                <h3 className="text-2xl font-medium text-white mt-2">{award.title}</h3>
+                <span className="text-white/70 text-lg">{award.year}</span>
+                <h3 className="text-3xl font-medium text-white mt-2">{award.title}</h3>
               </div>
               <div className="space-y-2">
-                <p className="text-xl text-white/90">{award.event}</p>
-                <p className="text-white/70 italic">{award.description}</p>
+                <p className="text-2xl text-white/90">{award.event}</p>
+                <p className="text-xl text-white/70 italic">{award.description}</p>
               </div>
             </div>
           ))}
         </div>
 
         <div className="text-center">
-          <p className="text-2xl text-white/80 font-light italic">
+          <p className="text-3xl md:text-4xl text-white/80 font-light italic">
             "La arquitectura es el testigo insobornable de la historia"
           </p>
         </div>
