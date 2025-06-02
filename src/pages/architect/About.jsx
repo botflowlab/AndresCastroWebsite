@@ -5,7 +5,7 @@ export default function About() {
   const { t } = useTranslation();
   
   return (
-    <section className="py-20 px-4 relative bg-[0c0c0c]">
+    <section className="py-20 px-4 relative bg-[#0c0c0c]">
       <div className="max-w-screen-xl mx-auto">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           {/* Left side - Image */}
