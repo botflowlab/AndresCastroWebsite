@@ -11,7 +11,7 @@ export default function About() {
           {/* Left side - Image */}
           <div className="w-full md:w-1/2">
             <img
-              src="/images/theArchitect/image.png"
+              src="/images/theArchitect/ac02.png"
               alt="Andres Castro"
               className="w-full h-auto object-cover"
             />
