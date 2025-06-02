@@ -22,7 +22,7 @@ export default function Experience() {
             <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-wide">
               PERSISTENCE ALWAYS BEATS RESISTANCE
             </h2>
-            <div className="space-y-6 text-lg text-gray-600">
+            <div className="space-y-6 text-lg text-white-600">
               <p>
                 With over $100 Million in architectural projects completed, Andrés Castro has established a remarkable track record in sustainable and bioclimatic architecture. This success within the Costa Rican architectural community is founded on several primary principles that are implemented in every project, regardless of scale.
               </p>
