@@ -20,7 +20,7 @@ export default function Hero() {
       {/* Content */}
       <div className="relative h-full container mx-auto px-4 flex items-center justify-center">
         <div className="max-w-4xl text-center">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl text-white font-bold mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl text-black font-bold mb-6 leading-tight">
             MEET ANDRÉS CASTRO
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto">
