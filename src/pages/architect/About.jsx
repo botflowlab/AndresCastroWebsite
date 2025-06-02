@@ -7,22 +7,23 @@ export default function About() {
   return (
     <section className="py-20 px-4 relative">
       <div className="max-w-screen-xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-12 items-center">
+        <div className="flex flex-col md:flex-row gap-12 items-center md:items-start">
+          
           {/* Left side - Image */}
-          <div className="relative w-full md:w-1/2 pb-[100%] md:pb-[50%]">
+          <div className="relative w-full md:w-5/12 lg:w-[45%] pb-[100%] md:pb-[60%] md:-ml-10 lg:-ml-20">
             <img
               src="/images/theArchitect/ac02.jpg"
               alt="Andres Castro"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
             />
           </div>
-          
+    
           {/* Right side - Content */}
-          <div className="w-full md:w-1/2">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-8 tracking-wide">
+          <div className="w-full md:w-7/12 lg:w-[55%]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-8 tracking-wide leading-tight">
               MEET THE ARCHITECT
             </h2>
-            <div className="space-y-6 text-lg text-black-600">
+            <div className="space-y-6 text-base md:text-lg text-black">
               <p>
                 With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.
               </p>
@@ -34,6 +35,7 @@ export default function About() {
               </p>
             </div>
           </div>
+    
         </div>
       </div>
     </section>
