@@ -6,7 +6,7 @@ export default function Experience() {
   
   return (
     <section className="py-20 px-4 bg-[#0c0c0c] relative">
-      <div className="max-w-[1920px] mx-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row-reverse gap-16 items-center">
           {/* Right side - Image */}
           <div className="w-full md:w-1/2">
@@ -18,7 +18,7 @@ export default function Experience() {
           </div>
           
           {/* Left side - Content */}
-          <div className="w-full md:w-1/2 max-w-3xl">
+          <div className="w-full md:w-1/2">
             <h2 className="text-4xl md:text-5xl text-white font-bold mb-8 tracking-wide">
               PERSISTENCE ALWAYS BEATS RESISTANCE
             </h2>
