@@ -5,11 +5,11 @@ export default function About() {
   const { t } = useTranslation();
   
   return (
-    <section className="py-20 relative">
-      <div className="max-w-[2000px] mx-auto">
-        <div className="flex flex-col md:flex-row items-center">
+    <section className="py-20 px-4 relative">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row gap-16 items-center">
           {/* Left side - Image */}
-          <div className="w-full md:w-1/2 md:ml-0">
+          <div className="w-full md:w-1/2">
             <img
               src="/images/theArchitect/ac02.jpg"
               alt="Andres Castro"
@@ -18,7 +18,7 @@ export default function About() {
           </div>
           
           {/* Right side - Content */}
-          <div className="w-full md:w-1/2 px-4 md:px-20 lg:px-32 xl:px-40 mt-8 md:mt-0">
+          <div className="w-full md:w-1/2">
             <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-wide">
               MEET THE ARCHITECT
             </h2>

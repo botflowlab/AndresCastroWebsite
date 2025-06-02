@@ -5,11 +5,11 @@ export default function Experience() {
   const { t } = useTranslation();
   
   return (
-    <section className="py-20 bg-[#0c0c0c] relative">
-      <div className="max-w-[2000px] mx-auto">
-        <div className="flex flex-col md:flex-row-reverse items-center">
+    <section className="py-20 px-4 bg-[#0c0c0c] relative">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row-reverse gap-16 items-center">
           {/* Right side - Image */}
-          <div className="w-full md:w-1/2 md:mr-0">
+          <div className="w-full md:w-1/2">
             <img
               src="/images/theArchitect/ac03.jpg"
               alt="Andres Castro Experience"
@@ -18,7 +18,7 @@ export default function Experience() {
           </div>
           
           {/* Left side - Content */}
-          <div className="w-full md:w-1/2 px-4 md:px-20 lg:px-32 xl:px-40 mt-8 md:mt-0">
+          <div className="w-full md:w-1/2">
             <h2 className="text-4xl md:text-5xl text-white font-bold mb-8 tracking-wide">
               PERSISTENCE ALWAYS BEATS RESISTANCE
             </h2>
