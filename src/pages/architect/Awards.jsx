@@ -23,21 +23,17 @@ export default function Awards() {
   ];
 
   return (
-    <section className="py-20 px-4 relative overflow-hidden">
-      {/* Parallax Background Image */}
+    <section className="py-20 px-4 bg-[#0c0c0c] relative">
+      {/* Parallax Background */}
       <div 
-        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat z-0"
+        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
         style={{
-          backgroundImage: 'url(/images/theArchitect/ac01.jpg)',
+          backgroundImage: 'url(https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg)',
           backgroundAttachment: 'fixed'
         }}
       />
 
-      {/* Black Overlay Layer */}
-      <div className="absolute inset-0 bg-[#0c0c0c]/95 z-5 pointer-events-none"></div>
-
-      {/* Content */}
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-wider text-white">
             PREMIOS Y RECONOCIMIENTOS
@@ -49,9 +45,13 @@ export default function Awards() {
           {awards.map((award, index) => (
             <div 
               key={index}
-              className="backdrop-blur-sm bg-black/30 rounded-lg overflow-hidden"
+              className="relative overflow-hidden rounded-lg group"
             >
-              <div className="relative p-8">
+              {/* Background Mask */}
+              <div className="absolute inset-0 bg-[#0c0c0c] mix-blend-overlay"></div>
+              
+              {/* Content */}
+              <div className="relative p-8 backdrop-blur-sm bg-black/30">
                 <div className="border-b border-white/20 pb-4 mb-4">
                   <span className="text-white/70 text-sm">{award.year}</span>
                   <h3 className="text-2xl font-medium text-white mt-2">{award.title}</h3>
@@ -65,7 +65,7 @@ export default function Awards() {
           ))}
         </div>
 
-        <div className="text-center z-10 relative">
+        <div className="text-center">
           <p className="text-2xl text-white/80 font-light italic">
             "La arquitectura es el testigo insobornable de la historia"
           </p>
