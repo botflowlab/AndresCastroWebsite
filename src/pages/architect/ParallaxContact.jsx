@@ -1,22 +1,57 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function ParallaxContact() {
+  const parallaxRef = useRef(null);
+
+  useEffect(() => {
+    const parallaxElement = parallaxRef.current;
+    let ticking = false;
+    let lastScrollY = window.scrollY;
+
+    const updateParallax = () => {
+      const scrolled = window.scrollY;
+      if (parallaxElement) {
+        const speed = 0.5;
+        const yPos = -(scrolled * speed);
+        parallaxElement.style.transform = `translate3d(0, ${yPos}px, 0)`;
+      }
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      lastScrollY = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateParallax();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
   return (
     <section className="relative py-40 overflow-hidden">
       <div 
-        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
+        ref={parallaxRef}
+        className="absolute inset-0 bg-center bg-cover bg-no-repeat"
         style={{
           backgroundImage: 'url(/images/acContact.jpg)',
-          backgroundAttachment: 'fixed',
-          willChange: 'transform'
+          transform: 'translate3d(0, 0, 0)',
+          willChange: 'transform',
+          zIndex: -1,
         }}
       >
-        {/* Subtle blur and overlay */}
-        <div className="absolute inset-0 backdrop-blur-[2px] bg-black/30" />
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
       </div>
 
-      {/* Content */}
       <div className="relative container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center text-white py-8">
           <h2 className="text-4xl md:text-5xl font-bold mb-8 font-cormorant leading-tight">
