@@ -6,7 +6,7 @@ export default function About() {
   
   return (
     <section className="py-20 px-4 relative">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1920px] mx-auto">
         <div className="flex flex-col md:flex-row gap-16 items-center">
           {/* Left side - Image */}
           <div className="w-full md:w-1/2">
@@ -18,7 +18,7 @@ export default function About() {
           </div>
           
           {/* Right side - Content */}
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-1/2 max-w-3xl">
             <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-wide">
               MEET THE ARCHITECT
             </h2>
