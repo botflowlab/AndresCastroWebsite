@@ -24,14 +24,4 @@ export default {
   plugins: [
     require('@tailwindcss/aspect-ratio'),
   ],
-  module.exports = {
-  // ...
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    // add this only if needed:
-    require('tailwindcss-filters'),
-  ],
 }
-}
-
