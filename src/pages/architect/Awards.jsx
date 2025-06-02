@@ -32,7 +32,7 @@ export default function Awards() {
           <div className="w-24 h-1 bg-white mx-auto"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {awards.map((award, index) => (
             <div 
               key={index}
@@ -48,6 +48,12 @@ export default function Awards() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="text-center">
+          <p className="text-2xl text-white/80 font-light italic">
+            "La arquitectura es el testigo insobornable de la historia"
+          </p>
         </div>
       </div>
     </section>
