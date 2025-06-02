@@ -6,7 +6,7 @@ export default function About() {
   
   return (
     <section className="py-20 px-4 relative">
-      <div className="max-w-screen-xl mx-auto gap-64">
+      <div className="max-w-screen-xl mx-auto">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           {/* Left side - Image */}
           <div className="relative w-full md:w-1/2 pb-[100%] md:pb-[50%]">
