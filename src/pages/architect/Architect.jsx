@@ -3,6 +3,7 @@ import Hero from './Hero';
 import About from './About';
 import Experience from './Experience';
 import Awards from './Awards';
+import Trajectory from './Trajectory';
 import ParallaxContact from '../../components/sections/ParallaxContact';
 
 export default function Architect() {
@@ -12,6 +13,7 @@ export default function Architect() {
       <About />
       <Experience />
       <Awards />
+      <Trajectory />
       <ParallaxContact />
     </div>
   );
