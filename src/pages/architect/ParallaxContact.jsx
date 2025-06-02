@@ -1,55 +1,17 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function ParallaxContact() {
-  const parallaxRef = useRef(null);
-
-  useEffect(() => {
-    const parallaxElement = parallaxRef.current;
-    let ticking = false;
-    let lastScrollY = window.scrollY;
-
-    const updateParallax = () => {
-      const scrolled = window.scrollY;
-      if (parallaxElement) {
-        const speed = 0.5;
-        const yPos = -(scrolled * speed);
-        parallaxElement.style.transform = `translate3d(0, ${yPos}px, 0)`;
-      }
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      lastScrollY = window.scrollY;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updateParallax();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, []);
-
   return (
     <section className="relative py-40 overflow-hidden">
       <div 
-        ref={parallaxRef}
-        className="absolute inset-0 bg-center bg-cover bg-no-repeat"
+        className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat filter blur-lg"
         style={{
           backgroundImage: 'url(/images/acContact.jpg)',
-          transform: 'translate3d(0, 0, 0)',
-          willChange: 'transform',
-          zIndex: -1,
+          backgroundAttachment: 'fixed'
         }}
       >
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-black/50"></div>
       </div>
 
       <div className="relative container mx-auto px-4">
