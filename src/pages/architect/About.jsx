@@ -18,7 +18,7 @@ export default function About() {
           </div>
           
           {/* Right side - Content */}
-          <div className="w-full md:w-3/4">
+          <div className="w-full">
             <h2 className="text-8xl md:text-7xl font-light mb-16 tracking-wide">
               MEET THE ARCHITECT
             </h2>
