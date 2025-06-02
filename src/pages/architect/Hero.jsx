@@ -5,7 +5,7 @@ export default function Hero() {
   const { t } = useTranslation();
 
   return (
-    <section className="relative w-full h-[70vh] overflow-hidden">
+    <section className="relative w-full h-[70vh] overflow-hidden bg-white">
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-center bg-cover"
