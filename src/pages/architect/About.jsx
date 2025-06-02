@@ -19,7 +19,7 @@ export default function About() {
           
           {/* Right side - Content */}
           <div className="w-full md:w-1/2">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-8 tracking-wide whitespace-nowrap">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-8 tracking-wide text-white whitespace-nowrap">
               MEET THE ARCHITECT
             </h2>
             <div className="space-y-6 text-lg text-white-600">
