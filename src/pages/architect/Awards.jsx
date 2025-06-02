@@ -34,7 +34,7 @@ export default function Awards() {
       />
 
       {/* Black Overlay Layer */}
-      <div className="absolute inset-0 bg-[#0c0c0c] z-5 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[#0c0c0c]/95 z-5 pointer-events-none"></div>
 
       {/* Content */}
       <div className="max-w-7xl mx-auto relative z-10">
