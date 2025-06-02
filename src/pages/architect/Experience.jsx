@@ -6,7 +6,7 @@ export default function Experience() {
   
   return (
     <section className="py-20 px-4 bg-[#0c0c0c] relative">
-      <div className="max-w-screen-2xl mx-auto px-4 md:px-12 xl:px-24">
+      <div className="w-full max-w-none px-4 md:px-12 xl:px-24 mx-auto">
         <div className="flex flex-col md:flex-row-reverse gap-16 items-center">
           {/* Right side - Image */}
           <div className="w-full md:w-1/2">
