@@ -7,9 +7,9 @@ export default function About() {
   return (
     <section className="py-20 px-4 relative">
       <div className="max-w-screen-xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-24 items-center">
+        <div className="flex flex-col md:flex-row gap-12 items-center">
           {/* Left side - Image */}
-          <div className="relative w-full md:w-3/4 pb-[100%] md:pb-[50%]">
+          <div className="relative w-full md:w-1/2 pb-[100%] md:pb-[50%]">
             <img
               src="/images/theArchitect/ac02.jpg"
               alt="Andres Castro"
@@ -19,7 +19,7 @@ export default function About() {
           
           {/* Right side - Content */}
           <div className="w-full md:w-3/4">
-            <h2 className="text-8xl md:text-7xl font-light mb-16 tracking-wide">
+            <h2 className="text-5xl md:text-6xl font-bold mb-8 tracking-wide">
               MEET THE ARCHITECT
             </h2>
             <div className="space-y-6 text-lg text-black-600">
