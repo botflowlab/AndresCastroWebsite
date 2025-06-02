@@ -12,10 +12,10 @@ export default function Hero() {
         style={{
           backgroundImage: '',
         }}
-      > */}
-        {/* Dark Overlay */}
+      > 
+
         <div className="absolute inset-0 bg-black/40"></div>
-      </div>
+      </div> */}
 
       {/* Content */}
       <div className="relative h-full container mx-auto px-4 flex items-center justify-center">
