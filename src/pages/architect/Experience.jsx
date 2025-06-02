@@ -39,18 +39,18 @@ export default function Experience() {
   ];
 
   return (
-    <section className="py-20 px-4 bg-black relative">
+    <section className="py-20 px-4 bg-gradient-to-b from-white to-gray-50 relative">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-wider text-white">
+          <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-wider">
             ACADEMIC FORMATION
           </h2>
-          <div className="w-24 h-1 bg-white mx-auto"></div>
+          <div className="w-24 h-1 bg-black mx-auto"></div>
         </div>
 
         <div className="relative">
           {/* Vertical Line */}
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gray-700 transform -translate-x-1/2"></div>
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gray-200 transform -translate-x-1/2"></div>
 
           {/* Timeline Items */}
           <div className="space-y-16">
@@ -62,17 +62,17 @@ export default function Experience() {
                 }`}
               >
                 {/* Year Marker */}
-                <div className="absolute left-4 md:left-1/2 w-8 h-8 bg-white rounded-full transform -translate-x-1/2 flex items-center justify-center">
-                  <div className="w-3 h-3 bg-black rounded-full"></div>
+                <div className="absolute left-4 md:left-1/2 w-8 h-8 bg-black rounded-full transform -translate-x-1/2 flex items-center justify-center">
+                  <div className="w-3 h-3 bg-white rounded-full"></div>
                 </div>
 
                 {/* Content */}
                 <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:pr-16' : 'md:pl-16'} pl-16 md:pl-0`}>
-                  <div className="bg-gray-900 p-8 shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300 border border-gray-800">
-                    <span className="text-sm font-medium text-gray-400">{item.year}</span>
-                    <h3 className="text-2xl font-medium mt-2 mb-2 text-white">{item.type}</h3>
-                    <h4 className="text-xl text-gray-300 mb-2">{item.title}</h4>
-                    <p className="text-gray-400">{item.institution}</p>
+                  <div className="bg-white p-8 shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300">
+                    <span className="text-sm font-medium text-gray-500">{item.year}</span>
+                    <h3 className="text-2xl font-medium mt-2 mb-2">{item.type}</h3>
+                    <h4 className="text-xl text-gray-800 mb-2">{item.title}</h4>
+                    <p className="text-gray-600">{item.institution}</p>
                     {item.specialization && (
                       <p className="text-gray-500 mt-2 italic">{item.specialization}</p>
                     )}
