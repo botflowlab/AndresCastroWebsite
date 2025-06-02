@@ -1,0 +1,55 @@
+import React from 'react';
+
+export default function Awards() {
+  const awards = [
+    {
+      year: '2012',
+      title: 'Candidato al Premio Nacional de Arquitectura',
+      event: 'Bienal Arquitectura Verde',
+      description: 'Mejor integración con el paisaje natural existente'
+    },
+    {
+      year: '2007',
+      title: 'Primera Mención de Honor',
+      event: '3ra Bienal de Arquitectura Veritas',
+      description: 'Escuela de Bahía Ballena'
+    },
+    {
+      year: '2007',
+      title: 'Primer Lugar',
+      event: 'Concurso Holcim & Fundación de Parques Nacionales',
+      description: 'Construcción en armonía con el medio ambiente (Escuela de Bahía Ballena)'
+    }
+  ];
+
+  return (
+    <section className="py-20 px-4 bg-[#0c0c0c] relative">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-light mb-4 tracking-wider text-white">
+            PREMIOS Y RECONOCIMIENTOS
+          </h2>
+          <div className="w-24 h-1 bg-white mx-auto"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {awards.map((award, index) => (
+            <div 
+              key={index}
+              className="bg-white/10 backdrop-blur-sm p-8 rounded-lg hover:bg-white/20 transition-all duration-300"
+            >
+              <div className="border-b border-white/20 pb-4 mb-4">
+                <span className="text-white/70 text-sm">{award.year}</span>
+                <h3 className="text-2xl font-medium text-white mt-2">{award.title}</h3>
+              </div>
+              <div className="space-y-2">
+                <p className="text-xl text-white/90">{award.event}</p>
+                <p className="text-white/70 italic">{award.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
