@@ -9,11 +9,11 @@ export default function About() {
       <div className="max-w-screen-xl mx-auto">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           {/* Left side - Image */}
-          <div className="w-full md:w-1/2 aspect-square">
+          <div className="relative w-full md:w-1/2 pb-[100%] md:pb-[50%]">
             <img
               src="/images/theArchitect/ac02.jpg"
               alt="Andres Castro"
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
           
