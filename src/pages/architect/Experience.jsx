@@ -20,7 +20,7 @@ export default function Experience() {
           {/* Left side - Content */}
           <div className="w-full md:w-1/2">
             <div className="max-w-[80%]">
-              <h2 className="text-2xl md:text-2xl text-white font-light mb-8 tracking-wide">
+              <h2 className="text-2xl md:text-2xl text-white font-light mb-8">
                 PERSISTENCE ALWAYS BEATS RESISTANCE
               </h2>
               <div className="space-y-6 text-lg text-white">
