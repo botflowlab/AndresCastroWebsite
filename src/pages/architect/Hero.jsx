@@ -10,7 +10,7 @@ export default function Hero() {
       <div 
         className="absolute inset-0 bg-center bg-cover"
         style={{
-          backgroundImage: 'url(https://images.pexels.com/photos/5417293/pexels-photo-5417293.jpeg)',
+          backgroundImage: 'url(/images/theArchitect/ac01.jpg)',
         }}
       >
         {/* Dark Overlay */}
@@ -24,7 +24,7 @@ export default function Hero() {
             Meet Andrés Castro
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto">
-            The architect with 25 years of experiencie.
+            The architect with 25 years of experience.
           </p>
         </div>
       </div>
