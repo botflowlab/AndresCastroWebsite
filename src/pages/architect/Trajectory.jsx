@@ -61,7 +61,7 @@ export default function Trajectory() {
             {categories.map((category, index) => (
               <div 
                 key={index}
-                className="p-8 rounded-lg hover:shadow-xl transition-all duration-300 bg-white"
+                className="p-8 rounded-lg hover:shadow-xl transition-all duration-300 bg-[#0c0c0c]"
               >
                 <h3 className="text-3xl font-medium text-white mb-6 pb-4">
                   {category.title}
