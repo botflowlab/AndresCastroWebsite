@@ -179,7 +179,7 @@ export default function Dashboard() {
 
         <ProjectForm
           mode={mode}
-          initialData={editingProject}
+          initialData={editingProject || {}}
           onSubmit={handleSubmit}
           onCancel={resetForm}
           loading={loading}
