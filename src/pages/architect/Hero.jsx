@@ -12,7 +12,7 @@ export default function Hero() {
             MEET ANDRÉS CASTRO
           </h1>
           <p className="text-2xl md:text-3xl text-black/90 font-light max-w-2xl mx-auto">
-            The architect with 25 years of experience.
+            The architect with over 25 years of experience.
           </p>
         </div>
       </div>
