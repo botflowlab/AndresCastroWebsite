@@ -55,7 +55,7 @@ export default function Trajectory() {
             <h2 className="text-4xl md:text-4xl lg:text-7xl font-light mb-6 tracking-wider text-white">
               TRAYECTORIA ARQUITECTÓNICA
             </h2>
-            <div className="w-32 h-1 bg-white mx-auto"></div>
+            <div className="w-32 h-1 bg-[0c0c0c] mx-auto"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
