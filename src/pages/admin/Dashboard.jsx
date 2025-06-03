@@ -12,6 +12,34 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchProjects();
+
+    // Subscribe to changes
+    const channel = supabase
+      .channel('projects_channel')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'projects'
+        },
+        (payload) => {
+          if (payload.eventType === 'DELETE') {
+            setProjects(prev => prev.filter(project => project.id !== payload.old.id));
+          } else if (payload.eventType === 'INSERT') {
+            setProjects(prev => [payload.new, ...prev]);
+          } else if (payload.eventType === 'UPDATE') {
+            setProjects(prev => prev.map(project => 
+              project.id === payload.new.id ? payload.new : project
+            ));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const fetchProjects = async () => {
@@ -33,6 +61,20 @@ export default function Dashboard() {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)+/g, '');
+  };
+
+  const deleteImagesFromStorage = async (imageUrls) => {
+    for (const url of imageUrls) {
+      const path = url.split('/').pop(); // Get filename from URL
+      try {
+        const { error } = await supabase.storage
+          .from('project-images')
+          .remove([path]);
+        if (error) throw error;
+      } catch (error) {
+        console.error('Error deleting image from storage:', error);
+      }
+    }
   };
 
   const uploadImages = async (files, setUploadProgress) => {
@@ -108,7 +150,6 @@ export default function Dashboard() {
       }
 
       resetForm();
-      fetchProjects();
       alert(`Project ${mode === 'edit' ? 'updated' : 'created'} successfully!`);
     } catch (error) {
       setError(error.message);
@@ -122,15 +163,21 @@ export default function Dashboard() {
 
     try {
       setLoading(true);
+      
+      // Get project images before deletion
+      const project = projects.find(p => p.id === projectId);
+      const imagesToDelete = project?.images || [];
+
+      // Delete project from database
       const { error } = await supabase
         .from('projects')
         .delete()
         .eq('id', projectId);
 
       if (error) throw error;
-      
-      // Update local state immediately after successful deletion
-      setProjects(projects.filter(project => project.id !== projectId));
+
+      // Delete images from storage
+      await deleteImagesFromStorage(imagesToDelete);
       
       // Reset editing state if the deleted project was being edited
       if (editingProject?.id === projectId) {
@@ -152,22 +199,19 @@ export default function Dashboard() {
     try {
       setLoading(true);
       const project = projects.find(p => p.id === projectId);
+      const imageToDelete = project.images[imageIndex];
       const updatedImages = project.images.filter((_, index) => index !== imageIndex);
 
+      // Delete image from storage first
+      await deleteImagesFromStorage([imageToDelete]);
+
+      // Update project with remaining images
       const { error } = await supabase
         .from('projects')
         .update({ images: updatedImages })
         .eq('id', projectId);
 
       if (error) throw error;
-
-      // Update local state immediately
-      setProjects(projects.map(p => {
-        if (p.id === projectId) {
-          return { ...p, images: updatedImages };
-        }
-        return p;
-      }));
 
       if (editingProject?.id === projectId) {
         setEditingProject({ ...editingProject, images: updatedImages });
