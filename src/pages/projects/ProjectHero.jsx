@@ -20,7 +20,7 @@ export default function ProjectHero({ project, onOpenLightbox }) {
   if (!project?.images?.length) return null;
 
   return (
-    <div className="min-h-screen flex flex-col mt-20 mb-20">
+    <div className="min-h-screen flex flex-col mb-20">
 
       {/* Image Carousel */}
       <div className="bg-white py-8">
