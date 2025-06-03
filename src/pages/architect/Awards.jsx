@@ -23,7 +23,7 @@ export default function Awards() {
   ];
 
   return (
-    <section className="py-40 px-4 relative overflow-hidden">
+    <section className="py-20 px-4 relative overflow-hidden">
       <div 
         className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
         style={{
