@@ -30,7 +30,6 @@ export default function ProjectHero({ project, onOpenLightbox }) {
             className="w-full h-full object-cover"
             loading="eager"
           />
-          
 
           {/* Navigation Buttons */}
           <div className="absolute inset-x-0 bottom-1/2 flex items-center justify-between px-4 md:px-8 pointer-events-none transform translate-y-1/2">
@@ -61,10 +60,10 @@ export default function ProjectHero({ project, onOpenLightbox }) {
         </div>
       </div>
 
-      {/* Thumbnail Navigation */}
-      <div className="bg-white py-6 md:py-8">
-        <div className="max-w-8xl mx-auto px-4 md:px-8">
-          <div className="flex gap-3 md:gap-4 overflow-x-auto pb-2 scrollbar-hide">
+      {/* Thumbnail Navigation - Hidden on mobile */}
+      <div className="hidden md:block bg-white py-8">
+        <div className="max-w-8xl mx-auto px-8">
+          <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
             {project.images.map((image, index) => (
               <button
                 key={index}
@@ -74,7 +73,7 @@ export default function ProjectHero({ project, onOpenLightbox }) {
                     ? 'opacity-100 ring-2 ring-black' 
                     : 'opacity-50 hover:opacity-75'
                 }`}
-                style={{ width: '160px', height: '90px' }} // 16:9 ratio for thumbnails
+                style={{ width: '160px', height: '90px' }}
                 aria-label={`View image ${index + 1}`}
               >
                 <img
