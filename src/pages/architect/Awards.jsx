@@ -61,7 +61,7 @@ export default function Awards() {
         </div>
 
         <div className="text-center">
-          <p className="text-3xl md:text-4xl text-white/80 font-light italic tracking-wide">
+          <p className="text-3xl md:text-4xl text-white/80 font-light italic tracking-wde">
             "La forma y la función siguen al confort"
           </p>
         </div>
