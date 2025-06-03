@@ -21,23 +21,6 @@ export default function ProjectHero({ project, onOpenLightbox }) {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Main Hero Image */}
-      <div className="relative h-screen w-full">
-        <img
-          src={project.images[0]}
-          alt={project.title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white max-w-4xl px-4">
-            <h1 className="text-5xl md:text-7xl font-bold mb-4">{project.title}</h1>
-            <p className="text-xl md:text-2xl font-light">
-              {project.description}
-            </p>
-          </div>
-        </div>
-      </div>
 
       {/* Image Carousel */}
       <div className="bg-white py-8">
