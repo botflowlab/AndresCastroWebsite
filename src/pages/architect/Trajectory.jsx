@@ -64,7 +64,7 @@ export default function Trajectory() {
                 key={index}
                 className="p-8 rounded-lg hover:shadow-xl transition-all duration-300 bg-white"
               >
-                <h3 className="text-3xl font-medium text-[#0c0c0c] mb-6 pb-4">
+                <h3 className="text-3xl font-medium text-white mb-6 pb-4">
                   {category.title}
                 </h3>
                 <ul className="space-y-4">
