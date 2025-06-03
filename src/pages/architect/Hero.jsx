@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section className="relative w-full h-[70vh] overflow-hidden bg-white">
       <div className="relative h-full container mx-auto px-4 flex items-center justify-center">
-        <div className="max-w-5xl text-center">
+        <div className="max-w-6xl text-center">
           <h1 className="text-5xl md:text-7xl lg:text-8xl text-black font-bold mb-8 leading-tight">
             MEET ANDRÉS CASTRO
           </h1>
