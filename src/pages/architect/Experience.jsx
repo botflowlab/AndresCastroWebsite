@@ -42,7 +42,7 @@ export default function Experience() {
     <section className="py-20 px-4 bg-white relative mb-20 mt-20">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 tracking-wider">
+          <h2 className="text-5xl md:text-4xl lg:text-7xl font-light mb-6 tracking-wider">
             ACADEMIC FORMATION
           </h2>
           <div className="w-32 h-1 bg-black mx-auto"></div>
