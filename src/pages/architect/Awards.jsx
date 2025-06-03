@@ -62,7 +62,7 @@ export default function Awards() {
 
         <div className="text-center">
           <p className="text-3xl md:text-4xl text-white/80 font-light italic">
-            "La arquitectura es el testigo insobornable de la historia"
+            "La forma y la función siguen al confort."
           </p>
         </div>
       </div>
