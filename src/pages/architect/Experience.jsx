@@ -59,7 +59,7 @@ export default function Experience() {
                   index % 2 === 0 ? 'md:flex-row-reverse' : ''
                 }`}
               >
-                <div className="absolute left-4 md:left-1/2 w-8 h-8 bg-black rounded-full transform -translate-x-1/2 flex items-center justify-center">
+                <div className="absolute left-4 md:left-1/2 w-8 h-8 bg-[D19345] rounded-full transform -translate-x-1/2 flex items-center justify-center">
                   <div className="w-3 h-3 bg-white rounded-full"></div>
                 </div>
 
