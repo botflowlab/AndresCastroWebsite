@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Dashboard from '../admin/Dashboard';
 
 // List of allowed email addresses
-const ALLOWED_EMAILS = ['arquiteccr@gmail.com', 'your@email.com'];
+const ALLOWED_EMAILS = ['arquiteccr@gmail.com', 'nunezdilanv@email.com'];
 
 export default function AuthPage() {
   const [email, setEmail] = useState('');
