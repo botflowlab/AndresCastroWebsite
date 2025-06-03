@@ -121,17 +121,28 @@ export default function Dashboard() {
     if (!confirm('Are you sure you want to delete this project?')) return;
 
     try {
+      setLoading(true);
       const { error } = await supabase
         .from('projects')
         .delete()
         .eq('id', projectId);
 
       if (error) throw error;
-      fetchProjects();
+      
+      // Update local state immediately after successful deletion
+      setProjects(projects.filter(project => project.id !== projectId));
+      
+      // Reset editing state if the deleted project was being edited
+      if (editingProject?.id === projectId) {
+        resetForm();
+      }
+      
       alert('Project deleted successfully!');
     } catch (error) {
       console.error('Error deleting project:', error);
       alert('Error deleting project');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -139,6 +150,7 @@ export default function Dashboard() {
     if (!confirm('Are you sure you want to delete this image?')) return;
     
     try {
+      setLoading(true);
       const project = projects.find(p => p.id === projectId);
       const updatedImages = project.images.filter((_, index) => index !== imageIndex);
 
@@ -149,6 +161,7 @@ export default function Dashboard() {
 
       if (error) throw error;
 
+      // Update local state immediately
       setProjects(projects.map(p => {
         if (p.id === projectId) {
           return { ...p, images: updatedImages };
@@ -162,6 +175,8 @@ export default function Dashboard() {
     } catch (error) {
       console.error('Error deleting image:', error);
       alert('Error deleting image');
+    } finally {
+      setLoading(false);
     }
   };
 
