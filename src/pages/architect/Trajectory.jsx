@@ -48,48 +48,39 @@ export default function Trajectory() {
   ];
 
   return (
-    <>
-      <section className="py-40 px-4 bg-[#0c0c0c]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-4xl lg:text-7xl font-light mb-6 tracking-wider text-white">
-              TRAYECTORIA ARQUITECTÓNICA
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category, index) => (
-              <div 
-                key={index}
-                className="p-8 border border-white rounded-lg hover:shadow-xl transition-all duration-300 bg-[#0c0c0c]"
-              >
-                <h3 className="text-3xl font-medium text-white mb-6 pb-4">
-                  {category.title}
-                </h3>
-                <ul className="space-y-4">
-                  {category.items.map((item, itemIndex) => (
-                    <li 
-                      key={itemIndex}
-                      className="text-xl text-white flex items-center"
-                    >
-                      <span className="w-2 h-2 bg-[#0c0c0c] rounded-full mr-3"></span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+    <section className="py-40 px-4 bg-[#0c0c0c]">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-4xl lg:text-7xl font-light mb-6 tracking-wider text-white">
+            TRAYECTORIA ARQUITECTÓNICA
+          </h2>
+          <div className="w-32 h-1 bg-[#0c0c0c] mx-auto"></div>
         </div>
-      </section>
 
-      <section className="py-32 bg-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-4xl md:text-5xl text-[#0c0c0c] font-light tracking-[.15em]">
-            "La forma y la función siguen al confort"
-          </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categories.map((category, index) => (
+            <div 
+              key={index}
+              className="p-8 border border-gray-200 rounded-lg hover:shadow-xl transition-all duration-300 bg-white"
+            >
+              <h3 className="text-3xl font-medium text-[#0c0c0c] mb-6 pb-4 border-b border-gray-200">
+                {category.title}
+              </h3>
+              <ul className="space-y-4">
+                {category.items.map((item, itemIndex) => (
+                  <li 
+                    key={itemIndex}
+                    className="text-xl text-gray-600 flex items-center"
+                  >
+                    <span className="w-2 h-2 bg-[#0c0c0c] rounded-full mr-3"></span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
