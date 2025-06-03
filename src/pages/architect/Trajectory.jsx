@@ -62,16 +62,16 @@ export default function Trajectory() {
             {categories.map((category, index) => (
               <div 
                 key={index}
-                className="p-8 rounded-lg hover:shadow-xl transition-all duration-300 bg-[#0c0c0c]"
+                className="p-8 border border-gray-200 rounded-lg hover:shadow-xl transition-all duration-300 bg-[#0c0c0c]"
               >
-                <h3 className="text-3xl font-medium text-white mb-6 pb-4">
+                <h3 className="text-3xl font-medium text-[#0c0c0c] mb-6 pb-4 border-b border-gray-200">
                   {category.title}
                 </h3>
                 <ul className="space-y-4">
                   {category.items.map((item, itemIndex) => (
                     <li 
                       key={itemIndex}
-                      className="text-xl text-white flex items-center"
+                      className="text-xl text-gray-600 flex items-center"
                     >
                       <span className="w-2 h-2 bg-[#0c0c0c] rounded-full mr-3"></span>
                       {item}
