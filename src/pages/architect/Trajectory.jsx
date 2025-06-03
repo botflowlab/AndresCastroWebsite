@@ -48,7 +48,7 @@ export default function Trajectory() {
   ];
 
   return (
-    <section className="py-40 px-4 bg-[#0c0c0c]">
+    <section className="py-40 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-4xl lg:text-7xl font-light mb-6 tracking-wider text-white">
