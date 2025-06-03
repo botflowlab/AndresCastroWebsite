@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import Dashboard from '../admin/Dashboard';
+
+// List of allowed email addresses
+const ALLOWED_EMAILS = ['arquiteccr@gmail.com', 'your@email.com'];
 
 export default function AuthPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [mode, setMode] = useState('login'); // 'login' or 'register'
+  const [mode, setMode] = useState('login');
   const [session, setSession] = useState(null);
   const navigate = useNavigate();
 
@@ -29,6 +33,12 @@ export default function AuthPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    if (!ALLOWED_EMAILS.includes(email)) {
+      setError('Registration is not allowed for this email address');
+      setLoading(false);
+      return;
+    }
 
     try {
       const { error } = await supabase.auth.signUp({
@@ -77,14 +87,16 @@ export default function AuthPage() {
   if (session) {
     return (
       <div className="min-h-screen pt-24 bg-gray-50">
-        <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold mb-6">Welcome, {session.user.email}</h2>
-          <button
-            onClick={handleSignOut}
-            className="w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition-colors"
-          >
-            Sign Out
-          </button>
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-end mb-8">
+            <button
+              onClick={handleSignOut}
+              className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition-colors"
+            >
+              Sign Out
+            </button>
+          </div>
+          <Dashboard />
         </div>
       </div>
     );
