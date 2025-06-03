@@ -31,17 +31,6 @@ export default function ProjectHero({ project, onOpenLightbox }) {
             loading="eager"
           />
           
-          {/* Overlay with Project Title */}
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center p-6 md:p-12 backdrop-blur-[2px]">
-            <div className="text-center text-white max-w-4xl">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light mb-6 tracking-wide">
-                {project.title}
-              </h1>
-              <p className="text-xl sm:text-2xl md:text-3xl font-light opacity-90 max-w-2xl mx-auto">
-                {project.description}
-              </p>
-            </div>
-          </div>
 
           {/* Navigation Buttons */}
           <div className="absolute inset-x-0 bottom-1/2 flex items-center justify-between px-4 md:px-8 pointer-events-none transform translate-y-1/2">
