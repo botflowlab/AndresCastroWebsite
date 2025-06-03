@@ -1,9 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from './ProjectSidebar';
 import ProjectGrid from './ProjectGrid';
+import { supabase } from '../../supabaseClient';
 
 export default function Projects() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  useEffect(() => {
+    fetchProjects();
+  }, [selectedCategory]);
+
+  async function fetchProjects() {
+    try {
+      setLoading(true);
+      let query = supabase.from('projects').select('*');
+      
+      if (selectedCategory) {
+        query = query.eq('category', selectedCategory);
+      }
+
+      const { data, error } = await query;
+      
+      if (error) throw error;
+      setProjects(data || []);
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setMenuOpen(false);
+  };
 
   return (
     <div className="font-cormorant">
@@ -34,14 +67,20 @@ export default function Projects() {
         <div className="hidden md:flex">
           {/* Sidebar */}
           <div className="w-64 pl-10 pt-6 shrink-0">
-            <Sidebar />
+            <Sidebar onCategorySelect={handleCategorySelect} selectedCategory={selectedCategory} />
           </div>
 
           {/* Main Grid Content */}
           <div className="flex-1">
             <div className="max-w-5xl mx-auto px-6 mt-12">
               <main>
-                <ProjectGrid />
+                {loading ? (
+                  <div className="flex items-center justify-center h-64">
+                    <p className="text-2xl">Loading projects...</p>
+                  </div>
+                ) : (
+                  <ProjectGrid projects={projects} />
+                )}
               </main>
             </div>
           </div>
@@ -49,7 +88,13 @@ export default function Projects() {
 
         {/* Mobile Layout */}
         <div className="md:hidden px-4 mt-12">
-          <ProjectGrid />
+          {loading ? (
+            <div className="flex items-center justify-center h-64">
+              <p className="text-2xl">Loading projects...</p>
+            </div>
+          ) : (
+            <ProjectGrid projects={projects} />
+          )}
         </div>
       </div>
 
@@ -67,7 +112,7 @@ export default function Projects() {
                 </svg>
               </button>
             </div>
-            <Sidebar onItemClick={() => setMenuOpen(false)} />
+            <Sidebar onCategorySelect={handleCategorySelect} selectedCategory={selectedCategory} />
           </div>
         </div>
       )}

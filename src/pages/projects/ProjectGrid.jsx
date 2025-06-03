@@ -1,19 +1,16 @@
+import { Link } from 'react-router-dom';
 import ProjectCard from './ProjectCard';
 
-const projects = [
-  { title: 'MCI Parking Structure', image: '/images/placeholder.jpg' },
-  { title: 'MCI Parking Structure', image: '/images/placeholder.jpg' },
-  { title: 'MCI Parking Structure', image: '/images/placeholder.jpg' },
-  { title: 'MCI Parking Structure', image: '/images/placeholder.jpg' },
-  { title: 'MCI Parking Structure', image: '/images/placeholder.jpg' },
-  // Add more as needed
-];
-
-export default function ProjectGrid() {
+export default function ProjectGrid({ projects }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-      {projects.map((p, i) => (
-        <ProjectCard key={i} title={p.title} image={p.image} />
+      {projects.map((project) => (
+        <Link key={project.id} to={`/proyectos/${project.slug}`}>
+          <ProjectCard 
+            title={project.title} 
+            image={project.images?.[0] || '/images/placeholder.jpg'} 
+          />
+        </Link>
       ))}
     </div>
   );
