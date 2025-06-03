@@ -64,7 +64,7 @@ export default function Trajectory() {
                 key={index}
                 className="p-8 border border-gray-200 rounded-lg hover:shadow-xl transition-all duration-300 bg-[#0c0c0c]"
               >
-                <h3 className="text-3xl font-medium text-[#0c0c0c] mb-6 pb-4 border-b border-gray-200">
+                <h3 className="text-3xl font-medium text-white mb-6 pb-4 border-b border-gray-200">
                   {category.title}
                 </h3>
                 <ul className="space-y-4">
