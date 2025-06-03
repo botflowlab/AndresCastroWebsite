@@ -36,7 +36,7 @@ export default function Awards() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 tracking-wider text-white">
+          <h2 className="text-5xl md:text-4xl lg:text-7xl font-light mb-6 tracking-wider text-white">
             PREMIOS Y RECONOCIMIENTOS
           </h2>
           <div className="w-32 h-1 bg-white mx-auto"></div>
