@@ -11,8 +11,8 @@ export default function Architect() {
     <div className="font-cormorant">
       <Hero />
       <About />
-      <Experience />
       <Awards />
+      <Experience />
       <Trajectory />
       <ParallaxContact />
     </div>
