@@ -157,7 +157,9 @@ export default function Dashboard() {
     }
   };
 
-  const handleDeleteImage = async (projectId, imageUrl, imageIndex) => {
+  const handleDeleteImage = async (projectId, imageIndex) => {
+    if (!confirm('Are you sure you want to delete this image?')) return;
+    
     try {
       const project = projects.find(p => p.id === projectId);
       const updatedImages = project.images.filter((_, index) => index !== imageIndex);
@@ -168,7 +170,18 @@ export default function Dashboard() {
         .eq('id', projectId);
 
       if (error) throw error;
-      fetchProjects();
+
+      // Update local state immediately
+      setProjects(projects.map(p => {
+        if (p.id === projectId) {
+          return { ...p, images: updatedImages };
+        }
+        return p;
+      }));
+
+      if (editingProject?.id === projectId) {
+        setEditingProject({ ...editingProject, images: updatedImages });
+      }
     } catch (error) {
       console.error('Error deleting image:', error);
       alert('Error deleting image');
@@ -331,8 +344,9 @@ export default function Dashboard() {
                       className="w-full h-32 object-cover rounded"
                     />
                     <button
-                      onClick={() => handleDeleteImage(project.id, imageUrl, index)}
-                      className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={() => handleDeleteImage(project.id, index)}
+                      className="absolute top-2 right-2 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity"
+                      title="Delete image"
                     >
                       ×
                     </button>
