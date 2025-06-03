@@ -39,7 +39,7 @@ export default function Experience() {
   ];
 
   return (
-    <section className="py-20 px-4 bg-white relative mb-20 mt-20">
+    <section className="py-20 px-4 bg-white relative mb-40 mt-20">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 tracking-wider">
