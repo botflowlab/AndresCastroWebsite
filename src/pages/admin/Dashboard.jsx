@@ -5,9 +5,10 @@ export default function Dashboard() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('sustainable');
-  const [images, setImages] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const categories = ['sustainable', 'outdoor', 'infrastructure', 'recreational'];
 
@@ -18,14 +19,56 @@ export default function Dashboard() {
       .replace(/(^-|-$)+/g, '');
   };
 
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedFiles(files);
+  };
+
+  const uploadImages = async () => {
+    const uploadedUrls = [];
+    const timestamp = Date.now();
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${timestamp}-${i}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      try {
+        const { error: uploadError, data } = await supabase.storage
+          .from('project-images')
+          .upload(filePath, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('project-images')
+          .getPublicUrl(filePath);
+
+        uploadedUrls.push(publicUrl);
+        setUploadProgress(((i + 1) / selectedFiles.length) * 100);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        throw error;
+      }
+    }
+
+    return uploadedUrls;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setUploadProgress(0);
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
       
+      // First upload the images
+      const imageUrls = await uploadImages();
+
+      // Then create the project with the image URLs
       const { error } = await supabase
         .from('projects')
         .insert([
@@ -34,7 +77,7 @@ export default function Dashboard() {
             slug: generateSlug(title),
             description,
             category,
-            images,
+            images: imageUrls,
             user_id: user.id
           }
         ]);
@@ -45,7 +88,8 @@ export default function Dashboard() {
       setTitle('');
       setDescription('');
       setCategory('sustainable');
-      setImages([]);
+      setSelectedFiles([]);
+      setUploadProgress(0);
       alert('Project created successfully!');
     } catch (error) {
       setError(error.message);
@@ -106,15 +150,33 @@ export default function Dashboard() {
 
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Image URLs (one per line)
+              Images
             </label>
-            <textarea
-              value={images.join('\n')}
-              onChange={(e) => setImages(e.target.value.split('\n').filter(url => url.trim()))}
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
-              rows="4"
-              placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
             />
+            {selectedFiles.length > 0 && (
+              <div className="mt-2 text-sm text-gray-600">
+                {selectedFiles.length} files selected
+              </div>
+            )}
+            {uploadProgress > 0 && uploadProgress < 100 && (
+              <div className="mt-2">
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                  <div
+                    className="bg-black h-2.5 rounded-full"
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                </div>
+                <p className="text-sm text-gray-600 mt-1">
+                  Uploading: {Math.round(uploadProgress)}%
+                </p>
+              </div>
+            )}
           </div>
 
           {error && (
@@ -126,7 +188,7 @@ export default function Dashboard() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors"
+            className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors disabled:bg-gray-400"
           >
             {loading ? 'Creating...' : 'Create Project'}
           </button>
