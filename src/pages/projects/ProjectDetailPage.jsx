@@ -70,31 +70,6 @@ export default function ProjectDetailPage() {
     <div className="min-h-screen">
       <ProjectHero project={project} onOpenLightbox={handleOpenLightbox} />
 
-      {/* Project Details */}
-      <div className="max-w-7xl mx-auto px-4 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-          <div>
-            <h2 className="text-3xl font-bold mb-6">About the Project</h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              {project.description}
-            </p>
-          </div>
-          <div>
-            <h2 className="text-3xl font-bold mb-6">Project Details</h2>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-xl font-semibold">Category</h3>
-                <p className="text-lg text-gray-700 capitalize">{project.category}</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold">Location</h3>
-                <p className="text-lg text-gray-700">Costa Rica</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Lightbox */}
       {isLightboxOpen && (
         <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
