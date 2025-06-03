@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../../supabaseClient';
 
 export default function Dashboard() {
@@ -9,8 +9,29 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [projects, setProjects] = useState([]);
+  const [editingProject, setEditingProject] = useState(null);
+  const [mode, setMode] = useState('create'); // 'create' or 'edit'
 
   const categories = ['sustainable', 'outdoor', 'infrastructure', 'recreational'];
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setProjects(data || []);
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+    }
+  };
 
   const generateSlug = (title) => {
     return title
@@ -64,33 +85,45 @@ export default function Dashboard() {
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
-      // First upload the images
-      const imageUrls = await uploadImages();
+      let imageUrls = [];
 
-      // Then create the project with the image URLs
-      const { error } = await supabase
-        .from('projects')
-        .insert([
-          {
+      if (selectedFiles.length > 0) {
+        imageUrls = await uploadImages();
+      }
+
+      if (mode === 'edit' && editingProject) {
+        const updatedImages = [...(editingProject.images || []), ...imageUrls];
+        const { error } = await supabase
+          .from('projects')
+          .update({
+            title,
+            slug: generateSlug(title),
+            description,
+            category,
+            images: updatedImages,
+          })
+          .eq('id', editingProject.id);
+
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('projects')
+          .insert([{
             title,
             slug: generateSlug(title),
             description,
             category,
             images: imageUrls,
             user_id: user.id
-          }
-        ]);
+          }]);
 
-      if (error) throw error;
+        if (error) throw error;
+      }
 
-      // Reset form
-      setTitle('');
-      setDescription('');
-      setCategory('sustainable');
-      setSelectedFiles([]);
-      setUploadProgress(0);
-      alert('Project created successfully!');
+      // Reset form and refresh projects
+      resetForm();
+      fetchProjects();
+      alert(`Project ${mode === 'edit' ? 'updated' : 'created'} successfully!`);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -98,10 +131,66 @@ export default function Dashboard() {
     }
   };
 
+  const handleEdit = (project) => {
+    setEditingProject(project);
+    setTitle(project.title);
+    setDescription(project.description);
+    setCategory(project.category);
+    setMode('edit');
+  };
+
+  const handleDelete = async (projectId) => {
+    if (!confirm('Are you sure you want to delete this project?')) return;
+
+    try {
+      const { error } = await supabase
+        .from('projects')
+        .delete()
+        .eq('id', projectId);
+
+      if (error) throw error;
+      fetchProjects();
+      alert('Project deleted successfully!');
+    } catch (error) {
+      console.error('Error deleting project:', error);
+      alert('Error deleting project');
+    }
+  };
+
+  const handleDeleteImage = async (projectId, imageUrl, imageIndex) => {
+    try {
+      const project = projects.find(p => p.id === projectId);
+      const updatedImages = project.images.filter((_, index) => index !== imageIndex);
+
+      const { error } = await supabase
+        .from('projects')
+        .update({ images: updatedImages })
+        .eq('id', projectId);
+
+      if (error) throw error;
+      fetchProjects();
+    } catch (error) {
+      console.error('Error deleting image:', error);
+      alert('Error deleting image');
+    }
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setCategory('sustainable');
+    setSelectedFiles([]);
+    setUploadProgress(0);
+    setEditingProject(null);
+    setMode('create');
+  };
+
   return (
-    <div className="min-h-screen pt-24 bg-gray-50">
-      <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-6">Create New Project</h2>
+    <div className="space-y-8">
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-bold mb-6">
+          {mode === 'edit' ? 'Edit Project' : 'Create New Project'}
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -150,7 +239,7 @@ export default function Dashboard() {
 
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Images
+              Add Images
             </label>
             <input
               type="file"
@@ -185,14 +274,74 @@ export default function Dashboard() {
             </div>
           )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors disabled:bg-gray-400"
-          >
-            {loading ? 'Creating...' : 'Create Project'}
-          </button>
+          <div className="flex gap-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors disabled:bg-gray-400"
+            >
+              {loading ? 'Saving...' : mode === 'edit' ? 'Update Project' : 'Create Project'}
+            </button>
+            {mode === 'edit' && (
+              <button
+                type="button"
+                onClick={resetForm}
+                className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition-colors"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
         </form>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-bold mb-6">Manage Projects</h2>
+        <div className="space-y-6">
+          {projects.map((project) => (
+            <div key={project.id} className="border rounded-lg p-4">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h3 className="text-xl font-bold">{project.title}</h3>
+                  <p className="text-gray-600">{project.description}</p>
+                  <p className="text-sm text-gray-500 mt-2">Category: {project.category}</p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEdit(project)}
+                    className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(project.id)}
+                    className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {project.images?.map((imageUrl, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={imageUrl}
+                      alt={`${project.title} - Image ${index + 1}`}
+                      className="w-full h-32 object-cover rounded"
+                    />
+                    <button
+                      onClick={() => handleDeleteImage(project.id, imageUrl, index)}
+                      className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
