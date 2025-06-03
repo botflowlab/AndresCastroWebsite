@@ -70,7 +70,7 @@ export default function Trajectory() {
                   {category.items.map((item, itemIndex) => (
                     <li 
                       key={itemIndex}
-                      className="text-xl text-gray-600 flex items-center"
+                      className="text-xl text-white flex items-center"
                     >
                       <span className="w-2 h-2 bg-[#0c0c0c] rounded-full mr-3"></span>
                       {item}
