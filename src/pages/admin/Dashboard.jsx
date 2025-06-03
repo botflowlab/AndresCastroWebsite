@@ -44,15 +44,22 @@ export default function Dashboard() {
 
   const fetchProjects = async () => {
     try {
+      setLoading(true);
+      const { data: { user } } = await supabase.auth.getUser();
+      
       const { data, error } = await supabase
         .from('projects')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
       setProjects(data || []);
     } catch (error) {
       console.error('Error fetching projects:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,16 +71,19 @@ export default function Dashboard() {
   };
 
   const deleteImagesFromStorage = async (imageUrls) => {
-    for (const url of imageUrls) {
-      const path = url.split('/').pop(); // Get filename from URL
-      try {
-        const { error } = await supabase.storage
-          .from('project-images')
-          .remove([path]);
-        if (error) throw error;
-      } catch (error) {
-        console.error('Error deleting image from storage:', error);
-      }
+    if (!imageUrls?.length) return;
+    
+    const filesToDelete = imageUrls.map(url => url.split('/').pop());
+    
+    try {
+      const { error } = await supabase.storage
+        .from('project-images')
+        .remove(filesToDelete);
+        
+      if (error) throw error;
+    } catch (error) {
+      console.error('Error deleting images from storage:', error);
+      throw error;
     }
   };
 
@@ -131,7 +141,8 @@ export default function Dashboard() {
             category,
             images: updatedImages,
           })
-          .eq('id', editingProject.id);
+          .eq('id', editingProject.id)
+          .eq('user_id', user.id);
 
         if (error) throw error;
       } else {
@@ -150,7 +161,7 @@ export default function Dashboard() {
       }
 
       resetForm();
-      alert(`Project ${mode === 'edit' ? 'updated' : 'created'} successfully!`);
+      await fetchProjects();
     } catch (error) {
       setError(error.message);
     } finally {
@@ -166,28 +177,29 @@ export default function Dashboard() {
       
       // Get project images before deletion
       const project = projects.find(p => p.id === projectId);
-      const imagesToDelete = project?.images || [];
+      if (!project) throw new Error('Project not found');
+
+      // Delete images from storage first
+      await deleteImagesFromStorage(project.images);
 
       // Delete project from database
       const { error } = await supabase
         .from('projects')
         .delete()
-        .eq('id', projectId);
+        .eq('id', projectId)
+        .eq('user_id', project.user_id);
 
       if (error) throw error;
 
-      // Delete images from storage
-      await deleteImagesFromStorage(imagesToDelete);
-      
       // Reset editing state if the deleted project was being edited
       if (editingProject?.id === projectId) {
         resetForm();
       }
-      
-      alert('Project deleted successfully!');
+
+      await fetchProjects();
     } catch (error) {
       console.error('Error deleting project:', error);
-      alert('Error deleting project');
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -199,6 +211,8 @@ export default function Dashboard() {
     try {
       setLoading(true);
       const project = projects.find(p => p.id === projectId);
+      if (!project) throw new Error('Project not found');
+
       const imageToDelete = project.images[imageIndex];
       const updatedImages = project.images.filter((_, index) => index !== imageIndex);
 
@@ -209,16 +223,19 @@ export default function Dashboard() {
       const { error } = await supabase
         .from('projects')
         .update({ images: updatedImages })
-        .eq('id', projectId);
+        .eq('id', projectId)
+        .eq('user_id', project.user_id);
 
       if (error) throw error;
 
       if (editingProject?.id === projectId) {
         setEditingProject({ ...editingProject, images: updatedImages });
       }
+
+      await fetchProjects();
     } catch (error) {
       console.error('Error deleting image:', error);
-      alert('Error deleting image');
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -227,7 +244,12 @@ export default function Dashboard() {
   const resetForm = () => {
     setEditingProject(null);
     setMode('create');
+    setError(null);
   };
+
+  if (loading && !projects.length) {
+    return <div className="text-center py-8">Loading...</div>;
+  }
 
   return (
     <div className="space-y-8">
