@@ -252,7 +252,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 mb-20">
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-bold mb-6">
           {mode === 'edit' ? 'Edit Project' : 'Create New Project'}
