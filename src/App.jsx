@@ -6,6 +6,7 @@ import Projects from './pages/projects/Projects.jsx';
 import ProjectDetailPage from './pages/projects/ProjectDetailPage.jsx';
 import Contact from './pages/contact/Contact.jsx';
 import Architect from './pages/architect/Architect.jsx';
+import AuthPage from './pages/auth/AuthPage.jsx';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/proyectos/:slug" element={<ProjectDetailPage />} />
           <Route path="/contacto" element={<Contact />} />
           <Route path="/arquitecto" element={<Architect />} />
+          <Route path="/client-dashboard" element={<AuthPage />} />
         </Routes>
       </Layout>
     </Router>
