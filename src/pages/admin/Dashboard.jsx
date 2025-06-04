@@ -118,7 +118,7 @@ export default function Dashboard() {
     return uploadedUrls;
   };
 
-  const handleSubmit = async ({ title, description, category, files, setUploadProgress }) => {
+  const handleSubmit = async ({ title, description, category, location, year, client, files, setUploadProgress }) => {
     setLoading(true);
     setError(null);
 
@@ -139,6 +139,9 @@ export default function Dashboard() {
             slug: generateSlug(title),
             description,
             category,
+            location,
+            year,
+            client,
             images: updatedImages,
           })
           .eq('id', editingProject.id)
@@ -153,6 +156,9 @@ export default function Dashboard() {
             slug: generateSlug(title),
             description,
             category,
+            location,
+            year,
+            client,
             images: imageUrls,
             user_id: user.id
           }]);
