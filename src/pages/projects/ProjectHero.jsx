@@ -25,11 +25,11 @@ export default function ProjectHero({ project, onOpenLightbox }) {
       <div className="relative w-full">
         {/* Mobile Square Container */}
         <div className="md:hidden relative w-full pb-[100%]">
-          <div className="absolute inset-0 bg-black">
+          <div className="absolute inset-0 bg-black rounded-lg overflow-hidden">
             <img
               src={project.images[currentImageIndex]}
               alt={`${project.title} - Image ${currentImageIndex + 1}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-lg"
               loading="eager"
             />
           </div>
@@ -37,11 +37,11 @@ export default function ProjectHero({ project, onOpenLightbox }) {
 
         {/* Desktop Full Height Container */}
         <div className="hidden md:block relative h-[calc(100vh-8rem)]">
-          <div className="absolute inset-0 bg-black">
+          <div className="absolute inset-0 bg-black rounded-lg overflow-hidden">
             <img
               src={project.images[currentImageIndex]}
               alt={`${project.title} - Image ${currentImageIndex + 1}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-lg"
               loading="eager"
             />
           </div>
@@ -74,7 +74,7 @@ export default function ProjectHero({ project, onOpenLightbox }) {
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
-                className={`relative flex-shrink-0 transition-all duration-300 ${
+                className={`relative flex-shrink-0 transition-all duration-300 rounded-lg overflow-hidden ${
                   currentImageIndex === index 
                     ? 'opacity-100 ring-2 ring-white' 
                     : 'opacity-50 hover:opacity-75'
