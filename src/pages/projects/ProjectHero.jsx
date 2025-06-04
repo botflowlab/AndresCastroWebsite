@@ -51,14 +51,14 @@ export default function ProjectHero({ project, onOpenLightbox }) {
         <div className="absolute inset-x-0 bottom-1/2 flex items-center justify-between px-4 md:px-8 pointer-events-none transform translate-y-1/2">
           <button
             onClick={prevImage}
-            className="pointer-events-auto border border-white bg-white/0 hover:bg-white text-white p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
+            className="pointer-events-auto border border-white bg-white/0 hover:bg-white text-[#D19345] p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
             aria-label="Previous image"
           >
             <FiArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
           </button>
           <button
             onClick={nextImage}
-            className="pointer-events-auto bg-white/90 hover:bg-white text-black p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
+            className="pointer-events-auto bg-white/0 hover:bg-white text-black p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
             aria-label="Next image"
           >
             <FiArrowRight className="w-6 h-6 md:w-8 md:h-8" />
