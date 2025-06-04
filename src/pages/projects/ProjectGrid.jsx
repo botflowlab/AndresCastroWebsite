@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import ProjectCard from './ProjectCard';
+import { useInView } from 'react-intersection-observer';
 
 export default function ProjectGrid({ projects }) {
   return (
