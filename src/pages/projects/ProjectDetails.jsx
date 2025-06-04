@@ -12,20 +12,15 @@ export default function ProjectDetails({ project }) {
           {project.title}
         </h1>
 
-        {/* Location and Year */}
-        <div className="mb-8">
-          <p className="text-xl md:text-2xl text-white/70">
-            {project.location || 'Location not specified'}
-            {project.year && ` • ${project.year}`}
-          </p>
-        </div>
+        {/* Location */}
+        <p className="text-xl md:text-2xl text-white/70 mb-4">
+          San José, Costa Rica
+        </p>
 
-        {/* Client */}
-        {project.client && (
-          <p className="text-lg md:text-xl text-white/60 mb-8">
-            Client: {project.client}
-          </p>
-        )}
+        {/* Price */}
+        <p className="text-2xl md:text-3xl font-light mb-8">
+          $8,395,000
+        </p>
 
         {/* Separator */}
         <div className="h-px w-32 bg-white/30 mx-auto mb-12"></div>
