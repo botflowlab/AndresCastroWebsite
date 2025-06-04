@@ -36,7 +36,7 @@ function Navbar() {
       <nav 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform ${
           visible ? 'translate-y-0' : '-translate-y-full'
-        } ${isScrolled ? 'bg-black/80 backdrop-blur-md shadow-sm' : 'bg-black/80 backdrop-blur-md shadow-sm'}`}
+        } ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-white/80 backdrop-blur-md shadow-sm'}`}
       >
         <div className="px-6 sm:px-8 lg:px-10 flex justify-between items-center h-20">
           <div className="flex-shrink-0 flex items-center">
@@ -44,19 +44,19 @@ function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-black-900 hover:text-white-600 px-3 py-2 text-lg font-medium">
+            <Link to="/" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.home')}
             </Link>
-            <Link to="/arquitecto" className="text-white-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/arquitecto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.architect')}
             </Link>
-            <Link to="/proyectos" className="text-white-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/proyectos" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.projects')}
             </Link>
-            <Link to="/publicaciones" className="text-white-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/publicaciones" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.publications')}
             </Link>
-            <Link to="/contacto" className="text-white-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/contacto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.contact')}
             </Link>
             
