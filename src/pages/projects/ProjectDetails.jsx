@@ -22,7 +22,7 @@ export default function ProjectDetails({ project }) {
 
         {/* Description */}
         <div className="max-w-3xl mx-auto mb-12">
-          <p className="text-lg md:text-xl leading-relaxed text-white/90">
+          <p className="text-lg md:text-3xl leading-relaxed text-white/90">
             {project.description}
           </p>
         </div>
