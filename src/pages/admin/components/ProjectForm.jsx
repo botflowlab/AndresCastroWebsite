@@ -17,6 +17,7 @@ export default function ProjectForm({
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [fileInputKey, setFileInputKey] = useState(0); // Add key to force input reset
 
   const categories = ['sustainable', 'outdoor', 'infrastructure', 'recreational'];
 
@@ -43,11 +44,16 @@ export default function ProjectForm({
       : formData;
 
     // Always include files if selected
-    onSubmit({
+    await onSubmit({
       ...submitData,
       files: selectedFiles,
       setUploadProgress
     });
+
+    // Clear selected files and reset the file input
+    setSelectedFiles([]);
+    setFileInputKey(prev => prev + 1);
+    setUploadProgress(0);
   };
 
   return (
@@ -150,6 +156,7 @@ export default function ProjectForm({
           Add Images
         </label>
         <input
+          key={fileInputKey}
           type="file"
           accept="image/*"
           multiple
