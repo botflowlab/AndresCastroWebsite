@@ -17,11 +17,6 @@ export default function ProjectDetails({ project }) {
           {project.location}
         </p>
 
-        {/* Price */}
-        <p className="text-2xl md:text-3xl font-light mb-8">
-          ${project.price?.toLocaleString()}
-        </p>
-
         {/* Separator */}
         <div className="w-32 h-px bg-white/30 mx-auto mb-12"></div>
 
