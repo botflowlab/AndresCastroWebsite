@@ -34,7 +34,7 @@ export default function ProjectDetails({ project }) {
         {sideBySideImages.length >= 2 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mt-16">
             {sideBySideImages.map((image, index) => (
-              <div key={index} className="relative aspect-[9/16] overflow-hidden">
+              <div key={index} className="relative aspect-[5/11] overflow-hidden">
                 <img
                   src={image}
                   alt={`${project.title} detail ${index + 1}`}
