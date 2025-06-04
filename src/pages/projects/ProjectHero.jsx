@@ -64,15 +64,6 @@ export default function ProjectHero({ project, onOpenLightbox }) {
             <FiArrowRight className="w-6 h-6 md:w-8 md:h-8" />
           </button>
         </div>
-
-        {/* Expand Button */}
-        <button
-          onClick={() => onOpenLightbox?.(currentImageIndex)}
-          className="absolute top-6 right-6 bg-white/90 hover:bg-white text-black p-3 md:p-4 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
-          aria-label="View fullscreen"
-        >
-          <IoExpand className="w-6 h-6 md:w-7 md:h-7" />
-        </button>
       </div>
 
       {/* Thumbnail Navigation - Hidden on mobile */}
