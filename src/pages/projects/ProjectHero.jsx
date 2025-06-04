@@ -76,7 +76,7 @@ export default function ProjectHero({ project, onOpenLightbox }) {
                 onClick={() => setCurrentImageIndex(index)}
                 className={`relative flex-shrink-0 transition-all duration-300 ${
                   currentImageIndex === index 
-                    ? 'opacity-100 ring-2 ring-black' 
+                    ? 'opacity-100 ring-2 ring-white' 
                     : 'opacity-50 hover:opacity-75'
                 }`}
                 style={{ width: '160px', height: '90px' }}
