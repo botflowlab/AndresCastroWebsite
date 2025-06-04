@@ -20,44 +20,59 @@ export default function ProjectHero({ project, onOpenLightbox }) {
   if (!project?.images?.length) return null;
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
+    <div className="w-full flex flex-col">
       {/* Main Image Container */}
-      <div className="relative w-full h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)]">
-        <div className="absolute inset-0 bg-black">
-          <img
-            src={project.images[currentImageIndex]}
-            alt={`${project.title} - Image ${currentImageIndex + 1}`}
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
-
-          {/* Navigation Buttons */}
-          <div className="absolute inset-x-0 bottom-1/2 flex items-center justify-between px-4 md:px-8 pointer-events-none transform translate-y-1/2">
-            <button
-              onClick={prevImage}
-              className="pointer-events-auto bg-white/90 hover:bg-white text-black p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
-              aria-label="Previous image"
-            >
-              <FiArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
-            </button>
-            <button
-              onClick={nextImage}
-              className="pointer-events-auto bg-white/90 hover:bg-white text-black p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
-              aria-label="Next image"
-            >
-              <FiArrowRight className="w-6 h-6 md:w-8 md:h-8" />
-            </button>
+      <div className="relative w-full">
+        {/* Mobile Square Container */}
+        <div className="md:hidden relative w-full pb-[100%]">
+          <div className="absolute inset-0 bg-black">
+            <img
+              src={project.images[currentImageIndex]}
+              alt={`${project.title} - Image ${currentImageIndex + 1}`}
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
           </div>
+        </div>
 
-          {/* Expand Button */}
+        {/* Desktop Full Height Container */}
+        <div className="hidden md:block relative h-[calc(100vh-8rem)]">
+          <div className="absolute inset-0 bg-black">
+            <img
+              src={project.images[currentImageIndex]}
+              alt={`${project.title} - Image ${currentImageIndex + 1}`}
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
+
+        {/* Navigation Buttons */}
+        <div className="absolute inset-x-0 bottom-1/2 flex items-center justify-between px-4 md:px-8 pointer-events-none transform translate-y-1/2">
           <button
-            onClick={() => onOpenLightbox?.(currentImageIndex)}
-            className="absolute top-6 right-6 bg-white/90 hover:bg-white text-black p-3 md:p-4 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
-            aria-label="View fullscreen"
+            onClick={prevImage}
+            className="pointer-events-auto bg-white/90 hover:bg-white text-black p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
+            aria-label="Previous image"
           >
-            <IoExpand className="w-6 h-6 md:w-7 md:h-7" />
+            <FiArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
+          </button>
+          <button
+            onClick={nextImage}
+            className="pointer-events-auto bg-white/90 hover:bg-white text-black p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
+            aria-label="Next image"
+          >
+            <FiArrowRight className="w-6 h-6 md:w-8 md:h-8" />
           </button>
         </div>
+
+        {/* Expand Button */}
+        <button
+          onClick={() => onOpenLightbox?.(currentImageIndex)}
+          className="absolute top-6 right-6 bg-white/90 hover:bg-white text-black p-3 md:p-4 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
+          aria-label="View fullscreen"
+        >
+          <IoExpand className="w-6 h-6 md:w-7 md:h-7" />
+        </button>
       </div>
 
       {/* Thumbnail Navigation - Hidden on mobile */}
