@@ -7,26 +7,44 @@ export default function ProjectForm({
   onCancel, 
   loading 
 }) {
-  const [title, setTitle] = useState(initialData.title || '');
-  const [description, setDescription] = useState(initialData.description || '');
-  const [category, setCategory] = useState(initialData.category || 'sustainable');
-  const [location, setLocation] = useState(initialData.location || '');
-  const [year, setYear] = useState(initialData.year || '');
-  const [client, setClient] = useState(initialData.client || '');
+  const [formData, setFormData] = useState({
+    title: initialData.title || '',
+    description: initialData.description || '',
+    category: initialData.category || 'sustainable',
+    location: initialData.location || '',
+    year: initialData.year || '',
+    client: initialData.client || '',
+  });
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const categories = ['sustainable', 'outdoor', 'infrastructure', 'recreational'];
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // When editing, only include fields that have been modified
+    const submitData = mode === 'edit' 
+      ? Object.entries(formData).reduce((acc, [key, value]) => {
+          // Only include non-empty values or values that differ from initialData
+          if (value !== '' && value !== initialData[key]) {
+            acc[key] = value;
+          }
+          return acc;
+        }, {})
+      : formData;
+
+    // Always include files if selected
     onSubmit({
-      title,
-      description,
-      category,
-      location,
-      year: parseInt(year) || null,
-      client,
+      ...submitData,
       files: selectedFiles,
       setUploadProgress
     });
@@ -40,10 +58,11 @@ export default function ProjectForm({
         </label>
         <input
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
-          required
+          required={mode !== 'edit'}
         />
       </div>
 
@@ -52,11 +71,12 @@ export default function ProjectForm({
           Description
         </label>
         <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
           rows="4"
-          required
+          required={mode !== 'edit'}
         />
       </div>
 
@@ -67,8 +87,9 @@ export default function ProjectForm({
           </label>
           <input
             type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
             placeholder="e.g., San José, Costa Rica"
           />
@@ -80,8 +101,9 @@ export default function ProjectForm({
           </label>
           <input
             type="number"
-            value={year}
-            onChange={(e) => setYear(e.target.value)}
+            name="year"
+            value={formData.year}
+            onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
             placeholder="e.g., 2025"
             min="1900"
@@ -96,8 +118,9 @@ export default function ProjectForm({
         </label>
         <input
           type="text"
-          value={client}
-          onChange={(e) => setClient(e.target.value)}
+          name="client"
+          value={formData.client}
+          onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
           placeholder="e.g., John Doe"
         />
@@ -108,10 +131,11 @@ export default function ProjectForm({
           Category
         </label>
         <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
-          required
+          required={mode !== 'edit'}
         >
           {categories.map((cat) => (
             <option key={cat} value={cat}>

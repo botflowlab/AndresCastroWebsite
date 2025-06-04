@@ -131,19 +131,30 @@ export default function Dashboard() {
       }
 
       if (mode === 'edit' && editingProject) {
-        const updatedImages = [...(editingProject.images || []), ...imageUrls];
+        // Create update object only with provided values
+        const updateData = {};
+        
+        // Only include fields that were provided
+        if (title !== undefined) updateData.title = title;
+        if (description !== undefined) updateData.description = description;
+        if (category !== undefined) updateData.category = category;
+        if (location !== undefined) updateData.location = location;
+        if (year !== undefined) updateData.year = year;
+        if (client !== undefined) updateData.client = client;
+        
+        // If new images were uploaded, append them to existing ones
+        if (imageUrls.length > 0) {
+          updateData.images = [...(editingProject.images || []), ...imageUrls];
+        }
+
+        // If title was updated, update slug
+        if (title) {
+          updateData.slug = generateSlug(title);
+        }
+
         const { error } = await supabase
           .from('projects')
-          .update({
-            title,
-            slug: generateSlug(title),
-            description,
-            category,
-            location,
-            year,
-            client,
-            images: updatedImages,
-          })
+          .update(updateData)
           .eq('id', editingProject.id)
           .eq('user_id', user.id);
 
