@@ -51,7 +51,6 @@ export default function ProjectDetailPage() {
     <div className="min-h-screen">
       <ProjectHero project={project} />
       <ProjectDetails project={project} />
-      <ProjectPhotos images={project.images} />
     </div>
   );
 }
