@@ -10,6 +10,9 @@ export default function ProjectForm({
   const [title, setTitle] = useState(initialData.title || '');
   const [description, setDescription] = useState(initialData.description || '');
   const [category, setCategory] = useState(initialData.category || 'sustainable');
+  const [location, setLocation] = useState(initialData.location || '');
+  const [year, setYear] = useState(initialData.year || '');
+  const [client, setClient] = useState(initialData.client || '');
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -21,6 +24,9 @@ export default function ProjectForm({
       title,
       description,
       category,
+      location,
+      year: year ? parseInt(year) : null,
+      client,
       files: selectedFiles,
       setUploadProgress
     });
@@ -52,6 +58,49 @@ export default function ProjectForm({
           rows="4"
           required
         />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Location
+          </label>
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
+            placeholder="e.g., San José, Costa Rica"
+          />
+        </div>
+
+        <div>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Year
+          </label>
+          <input
+            type="number"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
+            placeholder="e.g., 2025"
+            min="1900"
+            max="2100"
+          />
+        </div>
+
+        <div>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Client
+          </label>
+          <input
+            type="text"
+            value={client}
+            onChange={(e) => setClient(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
+            placeholder="Client name"
+          />
+        </div>
       </div>
 
       <div>
