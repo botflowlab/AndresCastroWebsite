@@ -5,7 +5,7 @@ export default function ProjectDetails({ project }) {
   const { t } = useTranslation();
 
   return (
-    <section className="bg-black text-white py-20 px-6 md:px-8">
+    <section className="bg-[#0c0c0c] text-white py-20 px-6 md:px-8">
       <div className="max-w-4xl mx-auto text-center">
         {/* Title */}
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-4 uppercase">
