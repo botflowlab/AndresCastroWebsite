@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home.jsx';
 import Projects from './pages/projects/Projects.jsx';
@@ -8,9 +8,21 @@ import Contact from './pages/contact/Contact.jsx';
 import Architect from './pages/architect/Architect.jsx';
 import AuthPage from './pages/auth/AuthPage.jsx';
 
+// ScrollToTop component that handles scrolling on route change
+function ScrollToTop() {
+  const location = useLocation();
+  
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  return null;
+}
+
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
