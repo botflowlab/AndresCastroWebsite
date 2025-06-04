@@ -20,7 +20,7 @@ export default function ProjectHero({ project, onOpenLightbox }) {
   if (!project?.images?.length) return null;
 
   return (
-    <div className="w-full flex flex-col mt-20 p-6">
+    <div className="w-full flex flex-col p-6">
       {/* Main Image Container */}
       <div className="relative w-full">
         {/* Mobile Square Container */}
