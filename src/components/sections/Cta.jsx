@@ -26,7 +26,7 @@ function Cta() {
             to="/contacto" 
             className="inline-block border-2 border-white px-12 py-4 text-lg font-medium hover:bg-white hover:text-black transition-all duration-300 tracking-[.25em] uppercase"
           >
-            Let's Build Together
+            CONTACT US
           </Link>
         </div>
       </div>
