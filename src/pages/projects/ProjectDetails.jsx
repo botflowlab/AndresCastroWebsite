@@ -30,6 +30,12 @@ export default function ProjectDetails({ project }) {
   // Get the first two images from the project
   const sideBySideImages = project.images?.slice(0, 2) || [];
 
+  // Function to truncate text
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '...';
+  };
+
   return (
     <>
       <section className="bg-[#0c0c0c] text-white py-20 px-6 md:px-8">
@@ -93,8 +99,8 @@ export default function ProjectDetails({ project }) {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
-                  <h3 className="mt-4 text-xl font-medium text-center">
-                    {relatedProject.title}
+                  <h3 className="mt-4 text-xl font-medium text-center px-4 whitespace-normal line-clamp-2">
+                    {truncateText(relatedProject.title, 50)}
                   </h3>
                   <p className="text-gray-600 text-center">
                     {relatedProject.location}
