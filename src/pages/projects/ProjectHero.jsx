@@ -58,7 +58,7 @@ export default function ProjectHero({ project, onOpenLightbox }) {
           </button>
           <button
             onClick={nextImage}
-            className="pointer-events-auto bg-white/0 hover:bg-white text-black p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
+            className="pointer-events-auto bg-white/0 hover:bg-white text-[#D19345] p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
             aria-label="Next image"
           >
             <FiArrowRight className="w-6 h-6 md:w-8 md:h-8" />
