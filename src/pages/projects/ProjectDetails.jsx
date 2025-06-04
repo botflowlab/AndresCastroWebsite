@@ -28,7 +28,6 @@ export default function ProjectDetails({ project }) {
 
         {/* Description */}
         <div className="max-w-3xl mx-auto mb-12">
-          <h2 className="text-2xl uppercase mb-8">PROYECTO @ DESCRIPCION</h2>
           <p className="text-lg md:text-xl leading-relaxed text-white/90">
             {project.description}
           </p>
