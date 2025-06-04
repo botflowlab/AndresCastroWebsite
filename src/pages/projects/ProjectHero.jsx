@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 import { IoExpand } from 'react-icons/io5';
 
 export default function ProjectHero({ project, onOpenLightbox }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const scrollContainerRef = useRef(null);
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => 
@@ -15,6 +16,16 @@ export default function ProjectHero({ project, onOpenLightbox }) {
     setCurrentImageIndex((prev) => 
       prev === 0 ? (project?.images?.length || 0) - 1 : prev - 1
     );
+  };
+
+  const scrollThumbnails = (direction) => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 200; // Adjust this value to control scroll distance
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'right' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth'
+      });
+    }
   };
 
   if (!project?.images?.length) return null;
@@ -68,15 +79,29 @@ export default function ProjectHero({ project, onOpenLightbox }) {
 
       {/* Thumbnail Navigation - Hidden on mobile */}
       <div className="hidden md:block bg-white py-8">
-        <div className="max-w-8xl mx-auto px-8">
-          <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="max-w-8xl mx-auto px-8 relative">
+          {/* Left scroll button */}
+          <button
+            onClick={() => scrollThumbnails('left')}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg hover:bg-black hover:text-white transition-all duration-300"
+            aria-label="Scroll thumbnails left"
+          >
+            <FiArrowLeft className="w-6 h-6" />
+          </button>
+
+          {/* Thumbnails container */}
+          <div 
+            ref={scrollContainerRef}
+            className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide scroll-smooth mx-12"
+            style={{ scrollBehavior: 'smooth' }}
+          >
             {project.images.map((image, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
                 className={`relative flex-shrink-0 transition-all duration-300 rounded-lg overflow-hidden ${
                   currentImageIndex === index 
-                    ? 'opacity-100 ring-2 ring-white' 
+                    ? 'opacity-100 ring-2 ring-black' 
                     : 'opacity-50 hover:opacity-75'
                 }`}
                 style={{ width: '160px', height: '90px' }}
@@ -91,6 +116,15 @@ export default function ProjectHero({ project, onOpenLightbox }) {
               </button>
             ))}
           </div>
+
+          {/* Right scroll button */}
+          <button
+            onClick={() => scrollThumbnails('right')}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg hover:bg-black hover:text-white transition-all duration-300"
+            aria-label="Scroll thumbnails right"
+          >
+            <FiArrowRight className="w-6 h-6" />
+          </button>
         </div>
       </div>
     </div>
