@@ -25,25 +25,6 @@ export default function ProjectDetails({ project }) {
         {/* Separator */}
         <div className="w-32 h-px bg-white/30 mx-auto mb-12"></div>
 
-        {/* Highlights Grid */}
-        <div className="grid grid-cols-4 gap-8 mb-16 max-w-2xl mx-auto">
-          <div>
-            <p className="text-4xl font-light mb-2">4</p>
-            <p className="text-sm uppercase tracking-wider text-white/70">Beds</p>
-          </div>
-          <div>
-            <p className="text-4xl font-light mb-2">4</p>
-            <p className="text-sm uppercase tracking-wider text-white/70">Full Baths</p>
-          </div>
-          <div>
-            <p className="text-4xl font-light mb-2">1</p>
-            <p className="text-sm uppercase tracking-wider text-white/70">Half Bath</p>
-          </div>
-          <div>
-            <p className="text-4xl font-light mb-2">4,527</p>
-            <p className="text-sm uppercase tracking-wider text-white/70">SQFT.</p>
-          </div>
-        </div>
 
         {/* Description */}
         <div className="max-w-3xl mx-auto mb-12">
