@@ -1,51 +1,110 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { supabase } from '../../supabaseClient';
 
 export default function ProjectDetails({ project }) {
   const { t } = useTranslation();
+  const [relatedProjects, setRelatedProjects] = useState([]);
+
+  useEffect(() => {
+    fetchRelatedProjects();
+  }, [project.id, project.category]);
+
+  const fetchRelatedProjects = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('category', project.category)
+        .neq('id', project.id)
+        .limit(3);
+
+      if (error) throw error;
+      setRelatedProjects(data || []);
+    } catch (error) {
+      console.error('Error fetching related projects:', error);
+    }
+  };
 
   // Get the first two images from the project
   const sideBySideImages = project.images?.slice(0, 2) || [];
 
   return (
-    <section className="bg-[#0c0c0c] text-white py-20 px-6 md:px-8">
-      <div className="max-w-4xl mx-auto text-center">
-        {/* Title */}
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-4 uppercase">
-          {project.title}
-        </h1>
+    <>
+      <section className="bg-[#0c0c0c] text-white py-20 px-6 md:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-4 uppercase">
+            {project.title}
+          </h1>
 
-        {/* Location */}
-        <p className="text-xl md:text-2xl text-white/70 mb-4">
-          {project.location}
-        </p>
-
-        {/* Separator */}
-        <div className="w-32 h-px bg-white/30 mx-auto mb-12"></div>
-
-        {/* Description */}
-        <div className="max-w-3xl mx-auto mb-12">
-          <p className="text-lg md:text-3xl leading-relaxed text-white/90">
-            {project.description}
+          {/* Location */}
+          <p className="text-xl md:text-2xl text-white/70 mb-4">
+            {project.location}
           </p>
-        </div>
 
-        {/* Side by Side Images */}
-        {sideBySideImages.length >= 2 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mt-16">
-            {sideBySideImages.map((image, index) => (
-              <div key={index} className="relative aspect-[12/16] overflow-hidden">
-                <img
-                  src={image}
-                  alt={`${project.title} detail ${index + 1}`}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                  loading="lazy"
-                />
-              </div>
-            ))}
+          {/* Separator */}
+          <div className="w-32 h-px bg-white/30 mx-auto mb-12"></div>
+
+          {/* Description */}
+          <div className="max-w-3xl mx-auto mb-12">
+            <p className="text-lg md:text-3xl leading-relaxed text-white/90">
+              {project.description}
+            </p>
           </div>
-        )}
-      </div>
-    </section>
+
+          {/* Side by Side Images */}
+          {sideBySideImages.length >= 2 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mt-16">
+              {sideBySideImages.map((image, index) => (
+                <div key={index} className="relative aspect-[12/16] overflow-hidden">
+                  <img
+                    src={image}
+                    alt={`${project.title} detail ${index + 1}`}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Related Projects Section */}
+      {relatedProjects.length > 0 && (
+        <section className="bg-white py-20 px-6 md:px-8">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-light mb-12 text-center">
+              {t(`projects.categories.${project.category}`)}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {relatedProjects.map((relatedProject) => (
+                <Link 
+                  key={relatedProject.id} 
+                  to={`/proyectos/${relatedProject.slug}`}
+                  className="group"
+                >
+                  <div className="aspect-[7/9] overflow-hidden bg-gray-100 rounded-lg">
+                    <img
+                      src={relatedProject.images?.[0] || '/images/placeholder.jpg'}
+                      alt={relatedProject.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+                  <h3 className="mt-4 text-xl font-medium text-center">
+                    {relatedProject.title}
+                  </h3>
+                  <p className="text-gray-600 text-center">
+                    {relatedProject.location}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </>
   );
 }
