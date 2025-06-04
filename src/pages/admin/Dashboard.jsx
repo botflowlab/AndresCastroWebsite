@@ -55,3 +55,5 @@ const handleSubmit = async ({ title, description, category, location, year, clie
     setLoading(false);
   }
 };
+
+export default handleSubmit
