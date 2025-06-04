@@ -20,7 +20,6 @@ export default function ProjectDetails({ project }) {
         {/* Separator */}
         <div className="w-32 h-px bg-white/30 mx-auto mb-12"></div>
 
-
         {/* Description */}
         <div className="max-w-3xl mx-auto mb-12">
           <p className="text-lg md:text-xl leading-relaxed text-white/90">
