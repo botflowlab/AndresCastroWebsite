@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import ProjectHero from './ProjectHero';
+import ProjectDetails from './ProjectDetails';
 
 export default function ProjectDetailPage() {
   const { slug } = useParams();
@@ -48,7 +49,7 @@ export default function ProjectDetailPage() {
   return (
     <div className="min-h-screen">
       <ProjectHero project={project} />
-      {/* Additional sections will be added here */}
+      <ProjectDetails project={project} />
     </div>
   );
 }
