@@ -26,11 +26,6 @@ export default function ProjectDetails({ project }) {
             {project.description}
           </p>
         </div>
-
-        {/* Share Button */}
-        <button className="border border-white px-12 py-3 uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300">
-          Share Property
-        </button>
       </div>
     </section>
   );
