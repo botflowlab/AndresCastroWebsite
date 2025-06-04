@@ -54,11 +54,11 @@ export default function ProjectHero({ project, onOpenLightbox }) {
             className="pointer-events-auto border border-white bg-white/0 hover:bg-white text-white p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
             aria-label="Previous image"
           >
-            <FiArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
+            <FiArrowLeft className="w-4 h-4 md:w-8 md:h-8" />
           </button>
           <button
             onClick={nextImage}
-            className="pointer-events-auto border border-white bg-white/0 hover:bg-white text-white p-1 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
+            className="pointer-events-auto border border-white bg-white/0 hover:bg-white text-white p-3 md:p-5 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110"
             aria-label="Next image"
           >
             <FiArrowRight className="w-6 h-6 md:w-8 md:h-8" />
