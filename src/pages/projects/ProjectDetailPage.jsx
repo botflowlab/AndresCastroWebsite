@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import ProjectHero from './ProjectHero';
 import ProjectDetails from './ProjectDetails';
-import ProjectPhotos from './ProjectPhotos';
 
 export default function ProjectDetailPage() {
   const { slug } = useParams();
