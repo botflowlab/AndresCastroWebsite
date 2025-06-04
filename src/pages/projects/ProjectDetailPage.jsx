@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import ProjectHero from './ProjectHero';
 import ProjectDetails from './ProjectDetails';
+import ProjectPhotos from './ProjectPhotos';
 
 export default function ProjectDetailPage() {
   const { slug } = useParams();
@@ -50,6 +51,7 @@ export default function ProjectDetailPage() {
     <div className="min-h-screen">
       <ProjectHero project={project} />
       <ProjectDetails project={project} />
+      <ProjectPhotos images={project.images} />
     </div>
   );
 }
