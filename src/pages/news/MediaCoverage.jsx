@@ -22,25 +22,25 @@ export default function MediaCoverage() {
     {
       id: "IJ2QtRYl0dA",
       title: "Arquitectura Sostenible",
-      thumbnail: `https://img.youtube.com/vi/IJ2QtRYl0dA/maxresdefault.jpg`,
+      thumbnail: `https://img.youtube.com/vi/IJ2QtRYl0dA/0.jpg`,
       url: "https://www.youtube.com/watch?v=IJ2QtRYl0dA"
     },
     {
       id: "wTrOXg-EVHE",
       title: "Diseño Bioclimático",
-      thumbnail: `https://img.youtube.com/vi/wTrOXg-EVHE/maxresdefault.jpg`,
+      thumbnail: `https://img.youtube.com/vi/wTrOXg-EVHE/0.jpg`,
       url: "https://www.youtube.com/watch?v=wTrOXg-EVHE"
     },
     {
       id: "CPU7lAlXSj0",
       title: "Habitat TV",
-      thumbnail: `https://img.youtube.com/vi/CPU7lAlXSj0/maxresdefault.jpg`,
+      thumbnail: `https://img.youtube.com/vi/CPU7lAlXSj0/0.jpg`,
       url: "https://www.youtube.com/watch?v=CPU7lAlXSj0"
     },
     {
       id: "VotRi8jnh3w",
       title: "Habitat TV",
-      thumbnail: `https://img.youtube.com/vi/VotRi8jnh3w/maxresdefault.jpg`,
+      thumbnail: `https://img.youtube.com/vi/VotRi8jnh3w/0.jpg`,
       url: "https://www.youtube.com/watch?v=VotRi8jnh3w"
     }
   ];
