@@ -2,9 +2,9 @@ import React from 'react';
 
 export default function ImageGallery() {
   const images = [
-    '/images/theArchitect/ac01.jpg',
-    '/images/theArchitect/ac02.jpg',
-    '/images/theArchitect/ac03.jpg'
+    '/images/theArchitect/gallery1.jpg',
+    '/images/theArchitect/gallery2.jpg',
+    '/images/theArchitect/gallery3.jpg'
   ];
 
   return (
