@@ -20,7 +20,7 @@ function ParallaxContact() {
             ¿EN QUÉ TE PUEDO AYUDAR?
           </h2>
           <p className="text-xl md:text-2xl mb-16 font-cormorant font-light text-shadow">
-            Contáctanos.
+            Contácto.
           </p>
           <Link 
             to="/contacto" 
