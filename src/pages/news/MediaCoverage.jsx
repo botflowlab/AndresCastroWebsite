@@ -30,6 +30,18 @@ export default function MediaCoverage() {
       title: "Diseño Bioclimático",
       thumbnail: `https://img.youtube.com/vi/wTrOXg-EVHE/maxresdefault.jpg`,
       url: "https://www.youtube.com/watch?v=wTrOXg-EVHE"
+    },
+    {
+      id: "CPU7lAlXSj0",
+      title: "Habitat TV",
+      thumbnail: `https://img.youtube.com/vi/CPU7lAlXSj0/maxresdefault.jpg`,
+      url: "https://www.youtube.com/watch?v=CPU7lAlXSj0"
+    },
+    {
+      id: "VotRi8jnh3w",
+      title: "Habitat TV",
+      thumbnail: `https://img.youtube.com/vi/VotRi8jnh3w/maxresdefault.jpg`,
+      url: "https://www.youtube.com/watch?v=VotRi8jnh3w"
     }
   ];
 
@@ -40,7 +52,7 @@ export default function MediaCoverage() {
           FEATURED VIDEOS
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {videos.map((video) => (
             <a
               key={video.id}
