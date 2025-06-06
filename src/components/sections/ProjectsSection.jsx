@@ -8,6 +8,7 @@ function ProjectsSection() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchProjects();
@@ -16,19 +17,61 @@ function ProjectsSection() {
   async function fetchProjects() {
     try {
       setLoading(true);
+      setError(null);
+      
+      // Test connection first
+      const { data: testData, error: testError } = await supabase
+        .from('projects')
+        .select('count', { count: 'exact', head: true });
+      
+      if (testError) {
+        console.error('Connection test failed:', testError);
+        throw new Error(`Database connection failed: ${testError.message}`);
+      }
+
+      // Fetch projects
       const { data, error } = await supabase
         .from('projects')
         .select('*')
         .limit(4)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching projects:', error);
+        throw new Error(`Failed to fetch projects: ${error.message}`);
+      }
+      
       setProjects(data || []);
     } catch (error) {
       console.error('Error fetching projects:', error);
+      setError(error.message);
     } finally {
       setLoading(false);
     }
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <section className="w-full py-12 bg-[#0c0c0c]">
+        <div className="max-w-8xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl text-white font-bold mb-8 font-cormorant tracking-[.25em] uppercase">
+              {t('nav.projects')}
+            </h2>
+          </div>
+          <div className="text-center text-red-400 mb-8">
+            <p>Unable to load projects. Please check your connection.</p>
+            <button 
+              onClick={fetchProjects}
+              className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
