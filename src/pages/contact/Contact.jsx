@@ -24,7 +24,7 @@ export default function Contact() {
               GET IN TOUCH
             </h1>
             <p className="text-2xl md:text-3xl text-white/90 font-light max-w-2xl mx-auto">
-              Let's discuss your project and create something extraordinary together
+              Let's build your dream together!
             </p>
           </div>
         </div>
