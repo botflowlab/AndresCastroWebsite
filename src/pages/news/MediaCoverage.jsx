@@ -36,7 +36,7 @@ export default function MediaCoverage() {
   return (
     <section className="py-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-light mb-12 text-center">
+        <h2 className="text-5xl font-light mb-12 text-center">
           FEATURED VIDEOS
         </h2>
 
