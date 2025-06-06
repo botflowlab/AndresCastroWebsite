@@ -9,7 +9,7 @@ function Hero() {
     '/images/home/acHero2.jpg',
     '/images/home/acHero5.jpg',
     '/images/home/ac1.jpg',
-    '/images/home/acHero4.jpg',
+    '/images/home/acHero6.jpg',
   ];
 
   useEffect(() => {
