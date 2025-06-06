@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
+import ArchitecturalDrawings from './ArchitecturalDrawings';
 
 export default function ProjectDetails({ project }) {
   const { t } = useTranslation();
@@ -77,6 +78,9 @@ export default function ProjectDetails({ project }) {
           )}
         </div>
       </section>
+
+      {/* Architectural Drawings Section */}
+      <ArchitecturalDrawings project={project} />
 
       {/* Related Projects Section */}
       {relatedProjects.length > 0 && (
