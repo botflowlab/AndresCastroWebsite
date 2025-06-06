@@ -17,7 +17,7 @@ function Testimonial() {
 
       {/* Content */}
       <div className="relative container mx-auto px-4">
-        <div className="max-w-5xl mx-auto text-center text-white">
+        <div className="max-w-6xl mx-auto text-center text-white">
           <p className="text-3xl md:text-5xl font-light mb-8 font-cormorant leading-relaxed text-shadow">
             "LA FORMA Y LA FUNCIÓN SIGUEN AL CONFORT"
           </p>
