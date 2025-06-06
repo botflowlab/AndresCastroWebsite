@@ -24,18 +24,18 @@
   },
   "projects": {
     "categories": {
-      "academic": "ACADEMIC",
-      "cultural": "CULTURAL",
-      "government": "GOVERNMENT",
-      "health": "HEALTH",
-      "historic": "HISTORIC PRESERVATION",
-      "infrastructure": "INFRASTRUCTURE / INDUSTRIAL",
-      "office": "OFFICE",
+      "infrastructure": "INFRASTRUCTURE",
       "outdoor": "OUTDOOR",
-      "recreational": "RECREATIONAL",
-      "retail": "RETAIL",
-      "student": "STUDENT HOUSING",
-      "sustainable": "SUSTAINABLE / LEED"
+      "recreational": "RENDERS",
+      "sustainable": "SUSTAINABLE"
     }
+  },
+  "architect": {
+    "title": "ANDRÉS CASTRO - THE ARCHITECT",
+    "subtitle": "#1 in sustainable architecture in Costa Rica",
+    "intro": "With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.",
+    "name": "ANDRÉS CASTRO",
+    "description": "As a pioneer in sustainable architecture, Andrés has led numerous groundbreaking projects that seamlessly blend environmental consciousness with stunning design. His work has earned international recognition and has set new standards for sustainable architecture in Central America.",
+    "learnMore": "LEARN MORE"
   }
 }
