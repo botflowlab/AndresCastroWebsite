@@ -6,9 +6,9 @@ import Projects from './pages/projects/Projects.jsx';
 import ProjectDetailPage from './pages/projects/ProjectDetailPage.jsx';
 import Contact from './pages/contact/Contact.jsx';
 import Architect from './pages/architect/Architect.jsx';
+import News from './pages/news/News.jsx';
 import AuthPage from './pages/auth/AuthPage.jsx';
 
-// ScrollToTop component that handles scrolling on route change
 function ScrollToTop() {
   const location = useLocation();
   
@@ -30,6 +30,7 @@ function App() {
           <Route path="/proyectos/:slug" element={<ProjectDetailPage />} />
           <Route path="/contacto" element={<Contact />} />
           <Route path="/arquitecto" element={<Architect />} />
+          <Route path="/noticias" element={<News />} />
           <Route path="/client-dashboard" element={<AuthPage />} />
         </Routes>
       </Layout>
