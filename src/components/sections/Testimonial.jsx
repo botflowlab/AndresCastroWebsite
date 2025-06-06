@@ -6,7 +6,7 @@ function Testimonial() {
     <>
       <section className="relative py-32 overflow-hidden">
         <div 
-          className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
+          className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat backdrop-blur-md shadow-sm"
           style={{
             backgroundImage: 'url(/images/theArchitect/acCta2.jpg)',
             backgroundAttachment: 'fixed'
