@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function NewsSection() {
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const videos = [
     {
       id: "IJ2QtRYl0dA",
@@ -17,21 +19,11 @@ function NewsSection() {
     }
   ];
 
-  const articles = [
-    {
-      image: "/images/publications/news1.jpg",
-      title: "SUSTAINABLE DESIGN AWARD 2023",
-      excerpt: "Andres Castro's innovative approach to sustainable architecture earns prestigious recognition at the International Design Awards.",
-      source: "ARCHITECTURE TODAY",
-      date: "MARCH 15, 2024"
-    },
-    {
-      image: "/images/publications/news2.jpg",
-      title: "LEADING THE GREEN REVOLUTION",
-      excerpt: "How Andres Castro is reshaping Costa Rica's architectural landscape with sustainable practices and innovative design solutions.",
-      source: "ECO BUILDERS MAGAZINE",
-      date: "FEBRUARY 28, 2024"
-    }
+  const newsImages = [
+    '/images/news/1.jpg',
+    '/images/news/3.jpg',
+    '/images/news/11.jpg',
+    '/images/news/17.jpg'
   ];
 
   return (
@@ -91,36 +83,59 @@ function NewsSection() {
           </div>
         </div>
 
-        {/* Latest Articles */}
+        {/* News Images Grid */}
         <div>
           <h3 className="text-3xl font-light mb-12 text-center">
-            ARTICLES
+            PRESS COVERAGE
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {articles.map((article, index) => (
-              <article key={index} className="group">
-                <div className="aspect-[16/9] overflow-hidden rounded-lg mb-6">
-                  <img
-                    src="url(/images/news/1.jpg)"
-                    alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {newsImages.map((image, index) => (
+              <div 
+                key={index}
+                onClick={() => setSelectedImage(image)}
+                className="relative aspect-[3/4] overflow-hidden cursor-pointer group"
+              >
+                <img
+                  src={image}
+                  alt={`News coverage ${index + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                  <svg 
+                    className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m4-3H6" />
+                  </svg>
                 </div>
-                <div className="space-y-4">
-                  <h4 className="text-2xl font-medium group-hover:text-gray-600 transition-colors">
-                    {article.title}
-                  </h4>
-                  <p className="text-gray-600 line-clamp-2">
-                    {article.excerpt}
-                  </p>
-                  <div className="text-sm text-gray-500">
-                    {article.source} • {article.date}
-                  </div>
-                </div>
-              </article>
+              </div>
             ))}
           </div>
         </div>
+
+        {/* Fullscreen Image Viewer */}
+        {selectedImage && (
+          <div 
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            onClick={() => setSelectedImage(null)}
+          >
+            <button 
+              className="absolute top-4 right-4 text-white p-2 hover:text-gray-300 transition-colors"
+              onClick={() => setSelectedImage(null)}
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <img
+              src={selectedImage}
+              alt="Full size news coverage"
+              className="max-h-[90vh] max-w-[90vw] object-contain"
+            />
+          </div>
+        )}
 
         {/* CTA Button */}
         <div className="text-center mt-16">
