@@ -67,7 +67,7 @@ export default function About() {
                 <div className="text-sm text-gray-600 uppercase tracking-wider">Awards</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-light text-[#0c0c0c] mb-2">4</div>
+                <div className="text-4xl font-light text-[#0c0c0c] mb-2">+50</div>
                 <div className="text-sm text-gray-600 uppercase tracking-wider">Publications</div>
               </div>
             </div>
