@@ -13,7 +13,6 @@ function Home() {
       <Hero />
       <Architect />
       <ProjectsSection />
-      <Testimonial />
       <NewsSection />
       <Cta />
     </div>
