@@ -27,7 +27,7 @@ export default function Awards() {
       <div 
         className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
         style={{
-          backgroundImage: 'url(https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg)',
+          backgroundImage: 'url(/images/theArchitect/acAwards.jpg)',
           backgroundAttachment: 'fixed'
         }}
       >
