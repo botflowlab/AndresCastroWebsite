@@ -94,7 +94,7 @@ function NewsSection() {
         {/* Latest Articles */}
         <div>
           <h3 className="text-3xl font-light mb-12 text-center">
-            RECENT ARTICLES
+            ARTICLES
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {articles.map((article, index) => (
