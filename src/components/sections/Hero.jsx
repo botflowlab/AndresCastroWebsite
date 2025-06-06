@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 function Hero() {
   const { t } = useTranslation();
@@ -50,6 +51,16 @@ function Hero() {
           <p className="text-xl md:text-2xl text-white opacity-0 animate-[fadeIn_1s_ease-in_0.5s_forwards] font-light mb-12">
             Diseño y Consultoría en Arquitectura Bioclimatica Sostenible
           </p>
+
+          {/* Temporary Dashboard Button */}
+          <div className="mb-8">
+            <Link
+              to="/client-dashboard"
+              className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              🚀 ADMIN DASHBOARD (TEMP)
+            </Link>
+          </div>
 
           {/* Navigation Dots */}
           <div className="flex justify-center gap-3 mt-8">
