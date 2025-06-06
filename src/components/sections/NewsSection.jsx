@@ -101,7 +101,7 @@ function NewsSection() {
               <article key={index} className="group">
                 <div className="aspect-[16/9] overflow-hidden rounded-lg mb-6">
                   <img
-                    src={/images/news/1.jpg}
+                    src="/images/news/1.jpg}"
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
