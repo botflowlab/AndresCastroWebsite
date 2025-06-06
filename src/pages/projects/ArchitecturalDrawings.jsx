@@ -18,7 +18,7 @@ export default function ArchitecturalDrawings({ project }) {
           {/* Simple Header */}
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-light mb-8 text-slate-900">
-              ARCHITECTURAL DRAWINGS
+              BLUEPRINTS
             </h2>
             <div className="w-24 h-1 bg-slate-900 mx-auto"></div>
           </div>
