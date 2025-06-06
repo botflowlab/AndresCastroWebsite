@@ -21,9 +21,9 @@ function Testimonial() {
           <p className="text-3xl md:text-4xl font-light mb-8 font-cormorant leading-relaxed text-shadow">
             "LA FORMA Y LA FUNCIÓN SIGUEN AL CONFORT"
           </p>
-          <p className="text-xl md:text-2xl font-cormorant italic">
+          {/* <p className="text-xl md:text-2xl font-cormorant italic">  Content
             — Andrea M., Creative Director
-          </p>
+          </p>  */}
         </div>
       </div>
     </section>
