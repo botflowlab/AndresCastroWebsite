@@ -17,7 +17,7 @@ function ParallaxContact() {
       <div className="relative container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center text-white py-8">
           <h2 className="text-4xl md:text-5xl font-bold mb-8 font-cormorant leading-tight text-shadow">
-            ¿EN QUÉ TE PODEMOS AYUDAR?
+            LA FORMA Y LA FUNCIÓN SIGUEN AL CONFORT
           </h2>
           <p className="text-xl md:text-2xl mb-16 font-cormorant font-light text-shadow">
             Contáctanos.
