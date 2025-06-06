@@ -53,7 +53,7 @@ function Navbar() {
             <Link to="/proyectos" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.projects')}
             </Link>
-            <Link to="/publicaciones" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/noticias" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
               {t('nav.publications')}
             </Link>
             <Link to="/contacto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
@@ -119,7 +119,7 @@ function Navbar() {
               {t('nav.projects')}
             </Link>
             <Link 
-              to="/publicaciones" 
+              to="/noticias" 
               className="text-2xl text-black-900 hover:text-gray-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
