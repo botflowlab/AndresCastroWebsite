@@ -35,29 +35,6 @@ export default function MediaCoverage() {
 
   return (
     <section className="py-20 px-4 bg-white">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-light mb-12 text-center tracking-wider">
-          MEDIA COVERAGE
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-          {mediaItems.map((item, index) => (
-            <article key={index} className="group cursor-pointer">
-              <div className="aspect-video overflow-hidden rounded-lg mb-6">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
-              <div>
-                <h3 className="text-2xl font-medium mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.outlet}</p>
-                <p className="text-gray-500">{item.date}</p>
-              </div>
-            </article>
-          ))}
-        </div>
 
         <h3 className="text-3xl font-light mb-12 text-center">
           FEATURED VIDEOS
