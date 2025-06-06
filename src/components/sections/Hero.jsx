@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 function Hero() {
@@ -12,25 +12,15 @@ function Hero() {
     '/images/home/acHero6.jpg',
   ];
 
-  const startSlideshow = useCallback(() => {
-    return setInterval(() => {
+  useEffect(() => {
+    const timer = setInterval(() => {
       setCurrentImageIndex((prevIndex) => 
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
     }, 7000);
-  }, [images.length]);
 
-  useEffect(() => {
-    const timer = startSlideshow();
     return () => clearInterval(timer);
-  }, [startSlideshow]);
-
-  const handleDotClick = (index) => {
-    setCurrentImageIndex(index);
-    // Clear existing interval and start a new one
-    clearInterval(startSlideshow());
-    startSlideshow();
-  };
+  }, []);
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
@@ -66,7 +56,7 @@ function Hero() {
             {images.map((_, index) => (
               <button
                 key={index}
-                onClick={() => handleDotClick(index)}
+                onClick={() => setCurrentImageIndex(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   currentImageIndex === index 
                     ? 'bg-white w-6' 
