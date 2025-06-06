@@ -23,7 +23,7 @@ export default function Hero() {
             NEWS & PUBLICATIONS
           </h1>
           <p className="text-2xl md:text-3xl text-white/90 font-light max-w-2xl mx-auto">
-            Latest projects, publications, and media coverage
+            Publications, and media coverage
           </p>
         </div>
       </div>
