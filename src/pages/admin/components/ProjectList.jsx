@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectCard from './ProjectCard';
 
-export default function ProjectList({ projects, onEdit, onDelete, onDeleteImage }) {
+export default function ProjectList({ projects, onEdit, onDelete, onDeleteImage, onDeleteBlueprint }) {
   return (
     <div className="space-y-6">
       {projects.map((project) => (
@@ -11,6 +11,7 @@ export default function ProjectList({ projects, onEdit, onDelete, onDeleteImage 
           onEdit={onEdit}
           onDelete={onDelete}
           onDeleteImage={onDeleteImage}
+          onDeleteBlueprint={onDeleteBlueprint}
         />
       ))}
     </div>

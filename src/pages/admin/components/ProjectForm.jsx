@@ -16,8 +16,10 @@ export default function ProjectForm({
     client: initialData.client || '',
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedBlueprints, setSelectedBlueprints] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [fileInputKey, setFileInputKey] = useState(0); // Add key to force input reset
+  const [fileInputKey, setFileInputKey] = useState(0);
+  const [blueprintInputKey, setBlueprintInputKey] = useState(0);
 
   const categories = ['sustainable', 'outdoor', 'infrastructure', 'recreational'];
 
@@ -47,12 +49,15 @@ export default function ProjectForm({
     await onSubmit({
       ...submitData,
       files: selectedFiles,
+      blueprints: selectedBlueprints,
       setUploadProgress
     });
 
-    // Clear selected files and reset the file input
+    // Clear selected files and reset the file inputs
     setSelectedFiles([]);
+    setSelectedBlueprints([]);
     setFileInputKey(prev => prev + 1);
+    setBlueprintInputKey(prev => prev + 1);
     setUploadProgress(0);
   };
 
@@ -151,10 +156,14 @@ export default function ProjectForm({
         </select>
       </div>
 
+      {/* Project Images Upload */}
       <div>
         <label className="block text-gray-700 text-sm font-bold mb-2">
-          Add Images
+          Add Project Images
         </label>
+        <p className="text-sm text-gray-600 mb-2">
+          Upload photos, renderings, and visual representations of the project
+        </p>
         <input
           key={fileInputKey}
           type="file"
@@ -165,23 +174,47 @@ export default function ProjectForm({
         />
         {selectedFiles.length > 0 && (
           <div className="mt-2 text-sm text-gray-600">
-            {selectedFiles.length} files selected
-          </div>
-        )}
-        {uploadProgress > 0 && uploadProgress < 100 && (
-          <div className="mt-2">
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div
-                className="bg-black h-2.5 rounded-full"
-                style={{ width: `${uploadProgress}%` }}
-              ></div>
-            </div>
-            <p className="text-sm text-gray-600 mt-1">
-              Uploading: {Math.round(uploadProgress)}%
-            </p>
+            {selectedFiles.length} project images selected
           </div>
         )}
       </div>
+
+      {/* Blueprints Upload */}
+      <div>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Add Architectural Drawings
+        </label>
+        <p className="text-sm text-gray-600 mb-2">
+          Upload technical drawings, floor plans, elevations, and blueprints
+        </p>
+        <input
+          key={blueprintInputKey}
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) => setSelectedBlueprints(Array.from(e.target.files))}
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
+        />
+        {selectedBlueprints.length > 0 && (
+          <div className="mt-2 text-sm text-gray-600">
+            {selectedBlueprints.length} architectural drawings selected
+          </div>
+        )}
+      </div>
+
+      {uploadProgress > 0 && uploadProgress < 100 && (
+        <div className="mt-2">
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div
+              className="bg-black h-2.5 rounded-full"
+              style={{ width: `${uploadProgress}%` }}
+            ></div>
+          </div>
+          <p className="text-sm text-gray-600 mt-1">
+            Uploading: {Math.round(uploadProgress)}%
+          </p>
+        </div>
+      )}
 
       <div className="flex gap-4">
         <button

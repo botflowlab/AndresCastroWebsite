@@ -3,12 +3,10 @@ import React, { useState } from 'react';
 export default function ArchitecturalDrawings({ project }) {
   const [selectedDrawing, setSelectedDrawing] = useState(null);
 
-  // Placeholder drawings - will be replaced with actual data from database
-  const drawings = [
-    // These will come from the database later
-  ];
+  // Get blueprints from the project
+  const drawings = project?.blueprints || [];
 
-  // For now, show placeholder if no drawings
+  // If no drawings, show placeholder
   if (!drawings || drawings.length === 0) {
     return (
       <section className="py-20 px-6 md:px-8 bg-gray-50">
@@ -67,13 +65,13 @@ export default function ArchitecturalDrawings({ project }) {
             {drawings.map((drawing, index) => (
               <div 
                 key={index}
-                onClick={() => setSelectedDrawing(drawing)}
+                onClick={() => setSelectedDrawing({ image: drawing, title: `Drawing ${index + 1}`, description: 'Technical architectural drawing' })}
                 className="bg-white rounded-lg shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 cursor-pointer"
               >
                 <div className="aspect-[4/3] overflow-hidden relative">
                   <img
-                    src={drawing.image}
-                    alt={drawing.title}
+                    src={drawing}
+                    alt={`Architectural drawing ${index + 1}`}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
@@ -88,11 +86,8 @@ export default function ArchitecturalDrawings({ project }) {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-medium mb-2 text-[#0c0c0c]">{drawing.title}</h3>
-                  <p className="text-gray-600">{drawing.description}</p>
-                  {drawing.scale && (
-                    <p className="text-sm text-gray-500 mt-2">Scale: {drawing.scale}</p>
-                  )}
+                  <h3 className="text-xl font-medium mb-2 text-[#0c0c0c]">Drawing {index + 1}</h3>
+                  <p className="text-gray-600">Technical architectural drawing</p>
                 </div>
               </div>
             ))}
@@ -170,9 +165,6 @@ export default function ArchitecturalDrawings({ project }) {
             <div className="text-white text-center">
               <h3 className="text-2xl font-medium mb-2">{selectedDrawing.title}</h3>
               <p className="text-gray-300">{selectedDrawing.description}</p>
-              {selectedDrawing.scale && (
-                <p className="text-gray-400 mt-2">Scale: {selectedDrawing.scale}</p>
-              )}
             </div>
           </div>
         </div>

@@ -87,7 +87,7 @@ export default function Dashboard() {
     }
   };
 
-  const uploadImages = async (files, setUploadProgress) => {
+  const uploadImages = async (files, setUploadProgress, folder = 'project-images') => {
     const uploadedUrls = [];
     const timestamp = Date.now();
 
@@ -98,13 +98,13 @@ export default function Dashboard() {
 
       try {
         const { error: uploadError } = await supabase.storage
-          .from('project-images')
+          .from(folder)
           .upload(fileName, file);
 
         if (uploadError) throw uploadError;
 
         const { data: { publicUrl } } = supabase.storage
-          .from('project-images')
+          .from(folder)
           .getPublicUrl(fileName);
 
         uploadedUrls.push(publicUrl);
@@ -118,16 +118,23 @@ export default function Dashboard() {
     return uploadedUrls;
   };
 
-  const handleSubmit = async ({ title, description, category, location, year, client, files, setUploadProgress }) => {
+  const handleSubmit = async ({ title, description, category, location, year, client, files, blueprints, setUploadProgress }) => {
     setLoading(true);
     setError(null);
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
       let imageUrls = [];
+      let blueprintUrls = [];
 
+      // Upload project images
       if (files.length > 0) {
-        imageUrls = await uploadImages(files, setUploadProgress);
+        imageUrls = await uploadImages(files, setUploadProgress, 'project-images');
+      }
+
+      // Upload blueprints
+      if (blueprints.length > 0) {
+        blueprintUrls = await uploadImages(blueprints, setUploadProgress, 'project-blueprints');
       }
 
       if (mode === 'edit' && editingProject) {
@@ -145,6 +152,11 @@ export default function Dashboard() {
         // If new images were uploaded, append them to existing ones
         if (imageUrls.length > 0) {
           updateData.images = [...(editingProject.images || []), ...imageUrls];
+        }
+
+        // If new blueprints were uploaded, append them to existing ones
+        if (blueprintUrls.length > 0) {
+          updateData.blueprints = [...(editingProject.blueprints || []), ...blueprintUrls];
         }
 
         // If title was updated, update slug
@@ -171,6 +183,7 @@ export default function Dashboard() {
             year,
             client,
             images: imageUrls,
+            blueprints: blueprintUrls,
             user_id: user.id
           }]);
 
@@ -198,6 +211,7 @@ export default function Dashboard() {
 
       // Delete images from storage first
       await deleteImagesFromStorage(project.images);
+      await deleteImagesFromStorage(project.blueprints);
 
       // Delete project from database
       const { error } = await supabase
@@ -258,6 +272,42 @@ export default function Dashboard() {
     }
   };
 
+  const handleDeleteBlueprint = async (projectId, blueprintIndex) => {
+    if (!confirm('Are you sure you want to delete this blueprint?')) return;
+    
+    try {
+      setLoading(true);
+      const project = projects.find(p => p.id === projectId);
+      if (!project) throw new Error('Project not found');
+
+      const blueprintToDelete = project.blueprints[blueprintIndex];
+      const updatedBlueprints = project.blueprints.filter((_, index) => index !== blueprintIndex);
+
+      // Delete blueprint from storage first
+      await deleteImagesFromStorage([blueprintToDelete]);
+
+      // Update project with remaining blueprints
+      const { error } = await supabase
+        .from('projects')
+        .update({ blueprints: updatedBlueprints })
+        .eq('id', projectId)
+        .eq('user_id', project.user_id);
+
+      if (error) throw error;
+
+      if (editingProject?.id === projectId) {
+        setEditingProject({ ...editingProject, blueprints: updatedBlueprints });
+      }
+
+      await fetchProjects();
+    } catch (error) {
+      console.error('Error deleting blueprint:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const resetForm = () => {
     setEditingProject(null);
     setMode('create');
@@ -300,6 +350,7 @@ export default function Dashboard() {
           }}
           onDelete={handleDelete}
           onDeleteImage={handleDeleteImage}
+          onDeleteBlueprint={handleDeleteBlueprint}
         />
       </div>
     </div>
