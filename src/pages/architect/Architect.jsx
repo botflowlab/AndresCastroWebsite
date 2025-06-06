@@ -1,6 +1,7 @@
 import React from 'react';
 import Hero from './Hero';
 import About from './About';
+import ImageGallery from './ImageGallery';
 import Experience from './Experience';
 import Awards from './Awards';
 import Trajectory from './Trajectory';
@@ -11,6 +12,7 @@ export default function Architect() {
     <div className="font-cormorant">
       <Hero />
       <About />
+      <ImageGallery />
       <Experience />
       <Awards />
       <Trajectory />
