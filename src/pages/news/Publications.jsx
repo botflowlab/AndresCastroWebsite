@@ -22,7 +22,20 @@ export default function Publications() {
         </h2>
         
         {/* Desktop Grid */}
-        <div className="hidden md:grid grid-cols-4 gap-6 auto-rows-[250px]">
+        <div className="hidden md:grid grid-cols-4 gap-6 auto-rows-[250px] relative">
+          {/* Vertical Lines */}
+          <div className="absolute inset-0 grid grid-cols-4 pointer-events-none">
+            <div className="border-r border-gray-200"></div>
+            <div className="border-r border-gray-200"></div>
+            <div className="border-r border-gray-200"></div>
+          </div>
+
+          {/* Horizontal Lines */}
+          <div className="absolute inset-0 grid grid-rows-3 pointer-events-none">
+            <div className="border-b border-gray-200"></div>
+            <div className="border-b border-gray-200"></div>
+          </div>
+
           {newsImages.map((image, index) => (
             <div 
               key={index} 
@@ -56,7 +69,16 @@ export default function Publications() {
         </div>
 
         {/* Mobile Grid */}
-        <div className="md:hidden grid grid-cols-2 gap-4">
+        <div className="md:hidden grid grid-cols-2 gap-4 relative">
+          {/* Vertical Line */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gray-200 -translate-x-1/2 pointer-events-none"></div>
+
+          {/* Horizontal Lines */}
+          <div className="absolute inset-0 grid grid-rows-3 pointer-events-none">
+            <div className="border-b border-gray-200"></div>
+            <div className="border-b border-gray-200"></div>
+          </div>
+
           {newsImages.slice(0, 4).map((image, index) => (
             <div 
               key={index} 
