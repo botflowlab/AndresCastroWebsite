@@ -8,7 +8,7 @@ export default function About() {
     <section className="py-20 px-4 bg-[#0c0c0c] relative pt-20">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 tracking-wider text-white">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 tracking-wider text-[#0c0c0c]">
             THE ARCHITECT
           </h2>
           <div className="w-32 h-1 bg-white mx-auto"></div>
