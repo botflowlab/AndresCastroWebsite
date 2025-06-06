@@ -12,6 +12,7 @@ function Home() {
     <div className="font-cormorant">
       <Hero />
       <Architect />
+      <ImageGalleryHome/>
       <ProjectsSection />
       <Testimonial />
       <NewsSection />
