@@ -65,7 +65,7 @@ function ProjectsSection() {
         <div className="text-center">
           <button
             onClick={() => navigate('/proyectos')}
-            className="hover:bg-black hover:text-white transition-all duration-300 inline-block border-2 text-white border-white px-8 py-3 text-lg font-medium tracking-[.25em] uppercase"
+            className="inline-block border-2 text-white border-white px-8 py-3 text-lg font-medium tracking-[.25em] uppercase transition-all duration-300 hover:bg-white hover:text-[#0c0c0c]"
           >
             View All Projects
           </button>
