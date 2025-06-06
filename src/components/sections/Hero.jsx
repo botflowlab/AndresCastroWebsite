@@ -7,7 +7,7 @@ function Hero() {
 
   const images = [
     '/images/home/acHero2.jpg',
-    '/images/home/acHero1.jpg',
+    '/images/home/acHero5.jpg',
     '/images/home/acHero3.jpg',
     '/images/home/acHero4.jpg',
   ];
