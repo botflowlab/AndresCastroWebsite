@@ -44,7 +44,7 @@ function Hero() {
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-6xl md:text-3xl font-bold text-white mb-6 opacity-100">
+          <h1 className="text-6xl md:text-6xl font-bold text-white mb-6 opacity-100">
             ANDRÉS CASTRO ARCHITECTURE
           </h1>
           <p className="text-xl md:text-2xl text-white opacity-0 animate-[fadeIn_1s_ease-in_0.5s_forwards] font-light mb-12">
