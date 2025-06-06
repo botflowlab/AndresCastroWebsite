@@ -24,7 +24,7 @@ export default function About() {
           </div>
           
           <div className="w-full md:w-1/2">
-            <div className="space-y-8 text-xl md:text-2xl text-white/80">
+            <div className="space-y-8 text-xl md:text-2xl text-[#0c0c0c]">
               <p className="leading-relaxed">
                 With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.
               </p>
