@@ -35,10 +35,10 @@ export default function MediaCoverage() {
 
   return (
     <section className="py-20 px-4 bg-white">
-
-        <h3 className="text-3xl font-light mb-12 text-center">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl font-light mb-12 text-center">
           FEATURED VIDEOS
-        </h3>
+        </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {videos.map((video) => (
