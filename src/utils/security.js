@@ -1,5 +1,8 @@
 /**
  * Security utilities for the application
+ * 
+ * IMPORTANT: JWT secrets should NEVER be in frontend code!
+ * They should only be configured in the Supabase dashboard.
  */
 
 // Validate environment variables
@@ -26,6 +29,19 @@ export const validateEnvironment = () => {
   if (!anonKey.startsWith('eyJ')) {
     throw new Error('Invalid Supabase anon key format');
   }
+
+  // Security check: Ensure no JWT secrets in environment
+  const envVars = Object.keys(import.meta.env);
+  const suspiciousVars = envVars.filter(key => 
+    key.toLowerCase().includes('jwt') || 
+    key.toLowerCase().includes('secret') ||
+    key.toLowerCase().includes('service_role')
+  );
+
+  if (suspiciousVars.length > 0) {
+    console.warn('⚠️ WARNING: Potential sensitive variables detected:', suspiciousVars);
+    console.warn('🔒 JWT secrets should only be in Supabase dashboard, not in frontend code!');
+  }
 };
 
 // Sanitize user input
@@ -34,27 +50,44 @@ export const sanitizeInput = (input) => {
   
   return input
     .replace(/[<>]/g, '') // Remove potential HTML tags
+    .replace(/javascript:/gi, '') // Remove javascript: protocols
+    .replace(/on\w+=/gi, '') // Remove event handlers
     .trim()
     .slice(0, 1000); // Limit length
 };
 
-// Validate file uploads
+// Validate file uploads with enhanced security
 export const validateFileUpload = (file) => {
   const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
   const maxSize = 10 * 1024 * 1024; // 10MB
+  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
 
+  // Check file type
   if (!allowedTypes.includes(file.type)) {
     throw new Error('Invalid file type. Only JPEG, PNG, and WebP images are allowed.');
   }
 
+  // Check file extension
+  const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
+  if (!allowedExtensions.includes(fileExtension)) {
+    throw new Error('Invalid file extension.');
+  }
+
+  // Check file size
   if (file.size > maxSize) {
     throw new Error('File size too large. Maximum size is 10MB.');
+  }
+
+  // Check for suspicious file names
+  const suspiciousPatterns = ['.php', '.js', '.html', '.exe', '.bat', '.sh'];
+  if (suspiciousPatterns.some(pattern => file.name.toLowerCase().includes(pattern))) {
+    throw new Error('File name contains suspicious content.');
   }
 
   return true;
 };
 
-// Rate limiting helper
+// Enhanced rate limiting helper
 export const createRateLimiter = (maxRequests = 10, windowMs = 60000) => {
   const requests = new Map();
 
@@ -101,5 +134,55 @@ export const getCSPHeaders = () => {
       "base-uri 'self'",
       "form-action 'self'"
     ].join('; ')
+  };
+};
+
+// Validate JWT token format (for debugging only - never store JWT secrets in frontend!)
+export const validateJWTFormat = (token) => {
+  if (!token || typeof token !== 'string') {
+    return false;
+  }
+
+  // JWT should have 3 parts separated by dots
+  const parts = token.split('.');
+  if (parts.length !== 3) {
+    return false;
+  }
+
+  try {
+    // Try to decode the header (first part)
+    const header = JSON.parse(atob(parts[0]));
+    return header.alg && header.typ === 'JWT';
+  } catch {
+    return false;
+  }
+};
+
+// Security audit function
+export const performSecurityAudit = () => {
+  const issues = [];
+
+  // Check environment variables
+  try {
+    validateEnvironment();
+  } catch (error) {
+    issues.push(`Environment: ${error.message}`);
+  }
+
+  // Check for development mode in production
+  if (import.meta.env.PROD && import.meta.env.DEV) {
+    issues.push('Development mode detected in production build');
+  }
+
+  // Check for console statements in production
+  if (import.meta.env.PROD && typeof console.log === 'function') {
+    // This is expected in production, but we log it for awareness
+    console.info('🔒 Security: Console logging is available (normal in production)');
+  }
+
+  return {
+    passed: issues.length === 0,
+    issues,
+    timestamp: new Date().toISOString()
   };
 };
