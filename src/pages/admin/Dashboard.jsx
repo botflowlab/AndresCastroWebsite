@@ -87,24 +87,24 @@ export default function Dashboard() {
     }
   };
 
-  const uploadImages = async (files, setUploadProgress, folder = 'project-images') => {
+  const uploadImages = async (files, setUploadProgress, fileType = 'image') => {
     const uploadedUrls = [];
     const timestamp = Date.now();
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const fileExt = file.name.split('.').pop();
-      const fileName = `${timestamp}-${i}.${fileExt}`;
+      const fileName = `${fileType}-${timestamp}-${i}.${fileExt}`;
 
       try {
         const { error: uploadError } = await supabase.storage
-          .from(folder)
+          .from('project-images')
           .upload(fileName, file);
 
         if (uploadError) throw uploadError;
 
         const { data: { publicUrl } } = supabase.storage
-          .from(folder)
+          .from('project-images')
           .getPublicUrl(fileName);
 
         uploadedUrls.push(publicUrl);
@@ -129,12 +129,12 @@ export default function Dashboard() {
 
       // Upload project images
       if (files.length > 0) {
-        imageUrls = await uploadImages(files, setUploadProgress, 'project-images');
+        imageUrls = await uploadImages(files, setUploadProgress, 'project');
       }
 
       // Upload blueprints
       if (blueprints.length > 0) {
-        blueprintUrls = await uploadImages(blueprints, setUploadProgress, 'project-blueprints');
+        blueprintUrls = await uploadImages(blueprints, setUploadProgress, 'blueprint');
       }
 
       if (mode === 'edit' && editingProject) {
