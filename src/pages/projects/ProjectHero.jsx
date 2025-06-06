@@ -70,7 +70,7 @@ export default function ProjectHero({ project }) {
           {/* Fullscreen Button */}
           <button
             onClick={openFullscreen}
-            className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110 z-20"
+            className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110 z-20"
             aria-label="View fullscreen"
           >
             <FiMaximize className="w-5 h-5" />
