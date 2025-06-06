@@ -4,7 +4,6 @@ import ImageGalleryHome from './ImageGalleryHome';
 function Testimonial() {
   return (
     <>
-      <ImageGalleryHome />
       <section className="relative py-32 overflow-hidden">
         <div 
           className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
