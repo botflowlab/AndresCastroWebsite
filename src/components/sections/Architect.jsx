@@ -5,7 +5,7 @@ function Architect() {
   const { t } = useTranslation();
 
   return (
-    <section className="w-full flex flex-col justify-start overflow-hidden py-20 relative">
+    <section className="w-full flex flex-col justify-start overflow-hidden py-12 relative">
       {/* Background Pattern Container with Gradient Overlays */}
       <div className="absolute inset-0 w-full h-full">
         {/* Pattern Background */}
@@ -19,35 +19,34 @@ function Architect() {
         />
         {/* Top Fade */}
         <div 
-          className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent"
+          className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white to-transparent"
         />
         {/* Bottom Fade */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"
+          className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"
         />
       </div>
 
       {/* Content */}
       <div className="relative z-10">
         {/* Top Section with Centered Content */}
-        <div className="text-center max-w-8xl mx-auto px-4 mb-20">
+        <div className="text-center max-w-8xl mx-auto px-4 mb-12">
           <h1 
-            className="text-3xl sm:text-3xl md:text-5xl font-medium mb-8 font-cormorant tracking-[.25em] uppercase"
-            
+            className="text-3xl sm:text-3xl md:text-4xl font-medium mb-4 font-cormorant tracking-[.25em] uppercase"
           >
             {t('architect.title')}
           </h1>
-          <h2 className="text-md sm:text-xl md:text-2xl mb-8 font-cormorant font-medium">{t('architect.subtitle')}</h2>
-          <p className="text-sm sm:text-base md:text-md text-gray-600 max-w-2xl mx-auto font-cormorant font-bold">
+          <h2 className="text-md sm:text-lg md:text-xl mb-4 font-cormorant font-medium">{t('architect.subtitle')}</h2>
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto font-cormorant font-bold">
             {t('architect.intro')}
           </p>
         </div>
 
         {/* Two Column Layout */}
         <div className="flex items-center px-4 md:px-10">
-          <div className="w-full flex flex-col md:flex-row min-h-[40vh]">
+          <div className="w-full flex flex-col md:flex-row min-h-[30vh]">
             {/* Left Column - Image */}
-            <div className="w-full md:w-3/5 h-[300px] md:h-full">
+            <div className="w-full md:w-3/5 h-[250px] md:h-full">
               <img
                 src="/images/home/ac1.jpg"
                 alt="Professional architect"
@@ -56,17 +55,17 @@ function Architect() {
             </div>
 
             {/* Right Column - Content */}
-            <div className="w-full md:w-2/5 bg-[#f5f5f0] p-6 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-between">
+            <div className="w-full md:w-2/5 bg-[#f5f5f0] p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between">
               <div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0c0c0c] mb-8 font-cormorant">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#0c0c0c] mb-4 font-cormorant">
                   {t('architect.name')}
                 </h2>
-                <p className="text-base sm:text-lg md:text-xl leading-relaxed text-[#0c0c0c] mb-8 font-cormorant font-light">
+                <p className="text-base sm:text-lg leading-relaxed text-[#0c0c0c] mb-6 font-cormorant font-light">
                   {t('architect.description')}
                 </p>
               </div>
-              <div className="mt-4">
-                <hr className="border-t border-gray-300 mb-8" />
+              <div>
+                <hr className="border-t border-gray-300 mb-4" />
                 <a
                   href="/arquitecto"
                   className="inline-block border-2 border-black px-4 py-2 text-lg font-medium hover:bg-black hover:text-white transition-all duration-300 text-center w-full font-cormorant"
