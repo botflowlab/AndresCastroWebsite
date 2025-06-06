@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../supabaseClient';
+import { validateFileUpload, sanitizeInput, createRateLimiter } from '../../utils/security';
 import ProjectForm from './components/ProjectForm';
 import ProjectList from './components/ProjectList';
+
+// Create rate limiter for uploads
+const uploadRateLimiter = createRateLimiter(5, 60000); // 5 uploads per minute
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(false);
@@ -9,11 +13,30 @@ export default function Dashboard() {
   const [projects, setProjects] = useState([]);
   const [editingProject, setEditingProject] = useState(null);
   const [mode, setMode] = useState('create');
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetchProjects();
+    // Verify user authentication
+    const checkAuth = async () => {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error) throw error;
+        
+        if (!user) {
+          throw new Error('User not authenticated');
+        }
+        
+        setUser(user);
+        await fetchProjects();
+      } catch (error) {
+        console.error('Authentication error:', error);
+        setError('Authentication required. Please sign in again.');
+      }
+    };
 
-    // Subscribe to changes
+    checkAuth();
+
+    // Subscribe to changes with security validation
     const channel = supabase
       .channel('projects_channel')
       .on(
@@ -24,14 +47,17 @@ export default function Dashboard() {
           table: 'projects'
         },
         (payload) => {
-          if (payload.eventType === 'DELETE') {
-            setProjects(prev => prev.filter(project => project.id !== payload.old.id));
-          } else if (payload.eventType === 'INSERT') {
-            setProjects(prev => [payload.new, ...prev]);
-          } else if (payload.eventType === 'UPDATE') {
-            setProjects(prev => prev.map(project => 
-              project.id === payload.new.id ? payload.new : project
-            ));
+          // Validate that the change belongs to the current user
+          if (payload.new?.user_id === user?.id || payload.old?.user_id === user?.id) {
+            if (payload.eventType === 'DELETE') {
+              setProjects(prev => prev.filter(project => project.id !== payload.old.id));
+            } else if (payload.eventType === 'INSERT') {
+              setProjects(prev => [payload.new, ...prev]);
+            } else if (payload.eventType === 'UPDATE') {
+              setProjects(prev => prev.map(project => 
+                project.id === payload.new.id ? payload.new : project
+              ));
+            }
           }
         }
       )
@@ -40,12 +66,16 @@ export default function Dashboard() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [user?.id]);
 
   const fetchProjects = async () => {
     try {
       setLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
       
       const { data, error } = await supabase
         .from('projects')
@@ -64,7 +94,7 @@ export default function Dashboard() {
   };
 
   const generateSlug = (title) => {
-    return title
+    return sanitizeInput(title)
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)+/g, '');
@@ -73,7 +103,18 @@ export default function Dashboard() {
   const deleteImagesFromStorage = async (imageUrls) => {
     if (!imageUrls?.length) return;
     
-    const filesToDelete = imageUrls.map(url => url.split('/').pop());
+    const filesToDelete = imageUrls
+      .filter(url => url && typeof url === 'string')
+      .map(url => {
+        try {
+          return url.split('/').pop();
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
+    
+    if (filesToDelete.length === 0) return;
     
     try {
       const { error } = await supabase.storage
@@ -88,18 +129,36 @@ export default function Dashboard() {
   };
 
   const uploadImages = async (files, setUploadProgress, fileType = 'image') => {
+    // Rate limiting check
+    try {
+      uploadRateLimiter(user?.id || 'anonymous');
+    } catch (error) {
+      throw new Error('Upload rate limit exceeded. Please wait before uploading more files.');
+    }
+
     const uploadedUrls = [];
     const timestamp = Date.now();
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${fileType}-${timestamp}-${i}.${fileExt}`;
+      
+      // Validate each file
+      try {
+        validateFileUpload(file);
+      } catch (error) {
+        throw new Error(`File ${file.name}: ${error.message}`);
+      }
+
+      const fileExt = file.name.split('.').pop().toLowerCase();
+      const fileName = `${fileType}-${timestamp}-${i}-${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
 
       try {
         const { error: uploadError } = await supabase.storage
           .from('project-images')
-          .upload(fileName, file);
+          .upload(fileName, file, {
+            cacheControl: '3600',
+            upsert: false
+          });
 
         if (uploadError) throw uploadError;
 
@@ -111,7 +170,7 @@ export default function Dashboard() {
         setUploadProgress(((i + 1) / files.length) * 100);
       } catch (error) {
         console.error('Error uploading image:', error);
-        throw error;
+        throw new Error(`Failed to upload ${file.name}: ${error.message}`);
       }
     }
 
@@ -124,16 +183,28 @@ export default function Dashboard() {
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
+      // Sanitize all text inputs
+      const sanitizedData = {
+        title: sanitizeInput(title),
+        description: sanitizeInput(description),
+        category: sanitizeInput(category),
+        location: sanitizeInput(location),
+        year: sanitizeInput(year),
+        client: sanitizeInput(client)
+      };
+
       let imageUrls = [];
       let blueprintUrls = [];
 
       // Upload project images
-      if (files.length > 0) {
+      if (files && files.length > 0) {
         imageUrls = await uploadImages(files, setUploadProgress, 'project');
       }
 
       // Upload blueprints
-      if (blueprints.length > 0) {
+      if (blueprints && blueprints.length > 0) {
         blueprintUrls = await uploadImages(blueprints, setUploadProgress, 'blueprint');
       }
 
@@ -141,13 +212,12 @@ export default function Dashboard() {
         // Create update object only with provided values
         const updateData = {};
         
-        // Only include fields that were provided
-        if (title !== undefined) updateData.title = title;
-        if (description !== undefined) updateData.description = description;
-        if (category !== undefined) updateData.category = category;
-        if (location !== undefined) updateData.location = location;
-        if (year !== undefined) updateData.year = year;
-        if (client !== undefined) updateData.client = client;
+        // Only include fields that were provided and are different
+        Object.entries(sanitizedData).forEach(([key, value]) => {
+          if (value !== undefined && value !== '' && value !== editingProject[key]) {
+            updateData[key] = value;
+          }
+        });
         
         // If new images were uploaded, append them to existing ones
         if (imageUrls.length > 0) {
@@ -160,8 +230,12 @@ export default function Dashboard() {
         }
 
         // If title was updated, update slug
-        if (title) {
-          updateData.slug = generateSlug(title);
+        if (sanitizedData.title && sanitizedData.title !== editingProject.title) {
+          updateData.slug = generateSlug(sanitizedData.title);
+        }
+
+        if (Object.keys(updateData).length === 0) {
+          throw new Error('No changes detected');
         }
 
         const { error } = await supabase
@@ -172,16 +246,16 @@ export default function Dashboard() {
 
         if (error) throw error;
       } else {
+        // Validate required fields for new projects
+        if (!sanitizedData.title || !sanitizedData.description || !sanitizedData.category) {
+          throw new Error('Title, description, and category are required');
+        }
+
         const { error } = await supabase
           .from('projects')
           .insert([{
-            title,
-            slug: generateSlug(title),
-            description,
-            category,
-            location,
-            year,
-            client,
+            ...sanitizedData,
+            slug: generateSlug(sanitizedData.title),
             images: imageUrls,
             blueprints: blueprintUrls,
             user_id: user.id
@@ -193,6 +267,7 @@ export default function Dashboard() {
       resetForm();
       await fetchProjects();
     } catch (error) {
+      console.error('Error saving project:', error);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -200,14 +275,18 @@ export default function Dashboard() {
   };
 
   const handleDelete = async (projectId) => {
-    if (!confirm('Are you sure you want to delete this project?')) return;
+    if (!confirm('Are you sure you want to delete this project? This action cannot be undone.')) return;
 
     try {
       setLoading(true);
       
-      // Get project images before deletion
+      // Get project and verify ownership
       const project = projects.find(p => p.id === projectId);
       if (!project) throw new Error('Project not found');
+      
+      if (project.user_id !== user?.id) {
+        throw new Error('Unauthorized: You can only delete your own projects');
+      }
 
       // Delete images from storage first
       await deleteImagesFromStorage(project.images);
@@ -218,7 +297,7 @@ export default function Dashboard() {
         .from('projects')
         .delete()
         .eq('id', projectId)
-        .eq('user_id', project.user_id);
+        .eq('user_id', user.id);
 
       if (error) throw error;
 
@@ -243,6 +322,10 @@ export default function Dashboard() {
       setLoading(true);
       const project = projects.find(p => p.id === projectId);
       if (!project) throw new Error('Project not found');
+      
+      if (project.user_id !== user?.id) {
+        throw new Error('Unauthorized: You can only modify your own projects');
+      }
 
       const imageToDelete = project.images[imageIndex];
       const updatedImages = project.images.filter((_, index) => index !== imageIndex);
@@ -255,7 +338,7 @@ export default function Dashboard() {
         .from('projects')
         .update({ images: updatedImages })
         .eq('id', projectId)
-        .eq('user_id', project.user_id);
+        .eq('user_id', user.id);
 
       if (error) throw error;
 
@@ -279,6 +362,10 @@ export default function Dashboard() {
       setLoading(true);
       const project = projects.find(p => p.id === projectId);
       if (!project) throw new Error('Project not found');
+      
+      if (project.user_id !== user?.id) {
+        throw new Error('Unauthorized: You can only modify your own projects');
+      }
 
       const blueprintToDelete = project.blueprints[blueprintIndex];
       const updatedBlueprints = project.blueprints.filter((_, index) => index !== blueprintIndex);
@@ -291,7 +378,7 @@ export default function Dashboard() {
         .from('projects')
         .update({ blueprints: updatedBlueprints })
         .eq('id', projectId)
-        .eq('user_id', project.user_id);
+        .eq('user_id', user.id);
 
       if (error) throw error;
 
@@ -313,13 +400,17 @@ export default function Dashboard() {
       setLoading(true);
       const project = projects.find(p => p.id === projectId);
       if (!project) throw new Error('Project not found');
+      
+      if (project.user_id !== user?.id) {
+        throw new Error('Unauthorized: You can only modify your own projects');
+      }
 
       // Update project with new image order
       const { error } = await supabase
         .from('projects')
         .update({ images: newImageOrder })
         .eq('id', projectId)
-        .eq('user_id', project.user_id);
+        .eq('user_id', user.id);
 
       if (error) throw error;
 
@@ -344,13 +435,17 @@ export default function Dashboard() {
       setLoading(true);
       const project = projects.find(p => p.id === projectId);
       if (!project) throw new Error('Project not found');
+      
+      if (project.user_id !== user?.id) {
+        throw new Error('Unauthorized: You can only modify your own projects');
+      }
 
       // Update project with new blueprint order
       const { error } = await supabase
         .from('projects')
         .update({ blueprints: newBlueprintOrder })
         .eq('id', projectId)
-        .eq('user_id', project.user_id);
+        .eq('user_id', user.id);
 
       if (error) throw error;
 
@@ -376,12 +471,36 @@ export default function Dashboard() {
     setError(null);
   };
 
-  if (loading && !projects.length) {
+  // Show loading state
+  if (loading && !projects.length && !user) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your projects...</p>
+          <p className="text-gray-600">Authenticating and loading your projects...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error if user is not authenticated
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="text-red-600 mb-4">
+            <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+          </div>
+          <h3 className="text-xl font-medium text-gray-900 mb-2">Authentication Required</h3>
+          <p className="text-gray-500 mb-4">Please sign in to access the dashboard.</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Retry Authentication
+          </button>
         </div>
       </div>
     );
@@ -406,8 +525,8 @@ export default function Dashboard() {
           <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
             <div className="flex">
               <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-red-400\" viewBox="0 0 20 20\" fill="currentColor">
-                  <path fillRule="evenodd\" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z\" clipRule="evenodd" />
+                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
               </div>
               <div className="ml-3">
