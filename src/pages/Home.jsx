@@ -5,7 +5,7 @@ import Architect from '../components/sections/Architect';
 import ProjectsSection from '../components/sections/ProjectsSection';
 import NewsSection from '../components/sections/NewsSection';
 import Cta from '../components/sections/Cta';
-import ImageGalleryHome from '../ImageGalleryHome';
+import ImageGalleryHome from '../components/sections/ImageGalleryHome';
 
 function Home() {
   return (
