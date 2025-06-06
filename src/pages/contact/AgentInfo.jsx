@@ -4,66 +4,94 @@ import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md';
 
 export default function AgentInfo() {
   return (
-    <div className="h-full flex items-center justify-center w-full">
-      <div className="w-full max-w-xl flex flex-col items-center text-center justify-center min-h-full">
-        {/* Logo */}
+    <div className="space-y-12">
+      {/* Logo and Intro */}
+      <div className="text-center">
         <img 
           src="/images/andrescastrologosolo.png" 
           alt="Andres Castro Logo" 
-          className="w-64 lg:w-72 mb-16"
+          className="w-32 mx-auto mb-8"
         />
+        <h2 className="text-3xl font-light mb-4">ANDRÉS CASTRO</h2>
+        <p className="text-gray-600 text-lg">
+          Sustainable Architecture & Bioclimatic Design
+        </p>
+      </div>
 
-        {/* Contact Information */}
-        <div className="space-y-6 mb-16 w-full">
-          <a 
-            href="mailto:arquiteccr@gmail.com" 
-            className="flex items-center justify-center gap-4 text-[#0c0c0c] hover:text-gray-600 transition-colors text-xl"
-          >
-            <MdEmail className="text-3xl" />
-            <span>arquiteccr@gmail.com</span>
-          </a>
-          
-          <a 
-            href="tel:+50622538380" 
-            className="flex items-center justify-center gap-4 text-[#0c0c0c] hover:text-gray-600 transition-colors text-xl"
-          >
-            <MdPhone className="text-3xl" />
-            <span>+506 2253 8380</span>
-          </a>
-          
-          <div className="flex items-center justify-center gap-4 text-[#0c0c0c] text-xl">
-            <MdLocationOn className="text-3xl" />
-            <span>San José, Costa Rica</span>
+      {/* Contact Information */}
+      <div className="space-y-8">
+        <a 
+          href="mailto:arquiteccr@gmail.com" 
+          className="flex items-center gap-4 text-[#0c0c0c] hover:text-gray-600 transition-colors group"
+        >
+          <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors">
+            <MdEmail className="text-2xl" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">Email</p>
+            <p className="text-lg">arquiteccr@gmail.com</p>
+          </div>
+        </a>
+        
+        <a 
+          href="tel:+50622538380" 
+          className="flex items-center gap-4 text-[#0c0c0c] hover:text-gray-600 transition-colors group"
+        >
+          <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors">
+            <MdPhone className="text-2xl" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">Phone</p>
+            <p className="text-lg">+506 2253 8380</p>
+          </div>
+        </a>
+        
+        <div className="flex items-center gap-4 text-[#0c0c0c] group">
+          <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+            <MdLocationOn className="text-2xl" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-600">Location</p>
+            <p className="text-lg">San José, Costa Rica</p>
           </div>
         </div>
+      </div>
 
-        {/* Social Icons */}
-        <div className="flex justify-center gap-12">
-          <a 
-            href="https://www.instagram.com/arq_andres_castro" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-4xl text-[#0c0c0c] hover:text-gray-600 transition-colors"
-          >
-            <FaInstagram />
-          </a>
-          <a 
-            href="https://www.linkedin.com/in/arquitecto-andr%C3%A9s-castro-ruiz-238858339/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-4xl text-[#0c0c0c] hover:text-gray-600 transition-colors"
-          >
-            <FaLinkedin />
-          </a>
-          <a 
-            href="https://wa.me/50622538380" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-4xl text-[#0c0c0c] hover:text-gray-600 transition-colors"
-          >
-            <FaWhatsapp />
-          </a>
-        </div>
+      {/* Social Links */}
+      <div className="flex justify-center gap-6">
+        <a 
+          href="https://www.instagram.com/arq_andres_castro" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-[#0c0c0c] hover:bg-gray-200 transition-colors"
+        >
+          <FaInstagram className="text-2xl" />
+        </a>
+        <a 
+          href="https://www.linkedin.com/in/arquitecto-andr%C3%A9s-castro-ruiz-238858339/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-[#0c0c0c] hover:bg-gray-200 transition-colors"
+        >
+          <FaLinkedin className="text-2xl" />
+        </a>
+        <a 
+          href="https://wa.me/50622538380" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-[#0c0c0c] hover:bg-gray-200 transition-colors"
+        >
+          <FaWhatsapp className="text-2xl" />
+        </a>
+      </div>
+
+      {/* Office Hours */}
+      <div className="text-center">
+        <h3 className="text-lg font-medium mb-2">Office Hours</h3>
+        <p className="text-gray-600">
+          Monday - Friday: 8:00 AM - 5:00 PM<br />
+          Saturday: By Appointment
+        </p>
       </div>
     </div>
   );
