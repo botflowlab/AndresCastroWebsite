@@ -1,8 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import ContactForm from './ContactForm';
 import AgentInfo from './AgentInfo';
 
 export default function Contact() {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -21,10 +24,10 @@ export default function Contact() {
         <div className="relative h-full container mx-auto px-4 flex items-center justify-center">
           <div className="max-w-6xl text-center">
             <h1 className="text-5xl md:text-7xl lg:text-8xl text-white font-bold mb-8 leading-tight">
-              GET IN TOUCH
+              {t('contact.hero.title')}
             </h1>
             <p className="text-2xl md:text-3xl text-white/90 font-light max-w-2xl mx-auto">
-              Let's build your dream together!
+              {t('contact.hero.subtitle')}
             </p>
           </div>
         </div>

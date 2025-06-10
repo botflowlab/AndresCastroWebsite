@@ -27,13 +27,13 @@ export default function ContactForm() {
 
   return (
     <div>
-      <h2 className="text-4xl font-light mb-8">Send a Message</h2>
+      <h2 className="text-4xl font-light mb-8">{t('contact.form.title')}</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-              First Name
+              {t('contact.form.fields.firstName.label')}
             </label>
             <input
               type="text"
@@ -43,13 +43,13 @@ export default function ContactForm() {
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border-b-2 border-gray-200 focus:border-black transition-colors duration-300 outline-none"
-              placeholder="John"
+              placeholder={t('contact.form.fields.firstName.placeholder')}
             />
           </div>
 
           <div>
             <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-              Last Name
+              {t('contact.form.fields.lastName.label')}
             </label>
             <input
               type="text"
@@ -59,14 +59,14 @@ export default function ContactForm() {
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border-b-2 border-gray-200 focus:border-black transition-colors duration-300 outline-none"
-              placeholder="Doe"
+              placeholder={t('contact.form.fields.lastName.placeholder')}
             />
           </div>
         </div>
 
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email
+            {t('contact.form.fields.email.label')}
           </label>
           <input
             type="email"
@@ -76,13 +76,13 @@ export default function ContactForm() {
             onChange={handleChange}
             required
             className="w-full px-4 py-3 border-b-2 border-gray-200 focus:border-black transition-colors duration-300 outline-none"
-            placeholder="john@example.com"
+            placeholder={t('contact.form.fields.email.placeholder')}
           />
         </div>
 
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-            Phone
+            {t('contact.form.fields.phone.label')}
           </label>
           <input
             type="tel"
@@ -92,13 +92,13 @@ export default function ContactForm() {
             onChange={handleChange}
             required
             className="w-full px-4 py-3 border-b-2 border-gray-200 focus:border-black transition-colors duration-300 outline-none"
-            placeholder="+506 2253 8380"
+            placeholder={t('contact.form.fields.phone.placeholder')}
           />
         </div>
 
         <div>
           <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-            Message
+            {t('contact.form.fields.message.label')}
           </label>
           <textarea
             id="message"
@@ -108,7 +108,7 @@ export default function ContactForm() {
             required
             rows="5"
             className="w-full px-4 py-3 border-2 border-gray-200 focus:border-black transition-colors duration-300 outline-none rounded-lg resize-none"
-            placeholder="Tell us about your project..."
+            placeholder={t('contact.form.fields.message.placeholder')}
           ></textarea>
         </div>
 
@@ -123,7 +123,7 @@ export default function ContactForm() {
             className="mt-1 h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
           />
           <label htmlFor="privacyPolicy" className="ml-3 text-sm text-gray-600">
-            I agree to the privacy policy and terms of service
+            {t('contact.form.fields.privacy')}
           </label>
         </div>
 
@@ -131,7 +131,7 @@ export default function ContactForm() {
           type="submit"
           className="w-full bg-[#0c0c0c] text-white py-4 px-8 rounded-lg hover:bg-black/80 transition-colors duration-300 text-lg font-medium"
         >
-          Send Message
+          {t('contact.form.submit')}
         </button>
       </form>
     </div>

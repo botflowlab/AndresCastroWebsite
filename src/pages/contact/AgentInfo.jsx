@@ -1,8 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md';
 
 export default function AgentInfo() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-12">
       {/* Logo and Intro */}
@@ -14,7 +17,7 @@ export default function AgentInfo() {
         />
         <h2 className="text-3xl font-light mb-4">ANDRÉS CASTRO</h2>
         <p className="text-gray-600 text-lg">
-          Sustainable Architecture & Bioclimatic Design
+          {t('contact.info.tagline')}
         </p>
       </div>
 
@@ -28,7 +31,7 @@ export default function AgentInfo() {
             <MdEmail className="text-2xl" />
           </div>
           <div>
-            <p className="text-sm text-gray-600">Email</p>
+            <p className="text-sm text-gray-600">{t('contact.info.contact.email')}</p>
             <p className="text-lg">arquiteccr@gmail.com</p>
           </div>
         </a>
@@ -41,7 +44,7 @@ export default function AgentInfo() {
             <MdPhone className="text-2xl" />
           </div>
           <div>
-            <p className="text-sm text-gray-600">Phone</p>
+            <p className="text-sm text-gray-600">{t('contact.info.contact.phone')}</p>
             <p className="text-lg">+506 2253 8380</p>
           </div>
         </a>
@@ -51,8 +54,8 @@ export default function AgentInfo() {
             <MdLocationOn className="text-2xl" />
           </div>
           <div>
-            <p className="text-sm text-gray-600">Location</p>
-            <p className="text-lg">San José, Costa Rica</p>
+            <p className="text-sm text-gray-600">{t('contact.info.contact.location')}</p>
+            <p className="text-lg">{t('contact.info.location.city')}</p>
           </div>
         </div>
       </div>
@@ -87,10 +90,10 @@ export default function AgentInfo() {
 
       {/* Office Hours */}
       <div className="text-center">
-        <h3 className="text-lg font-medium mb-2">Office Hours</h3>
+        <h3 className="text-lg font-medium mb-2">{t('contact.info.hours.title')}</h3>
         <p className="text-gray-600">
-          Monday - Friday: 8:00 AM - 5:00 PM<br />
-          Saturday: By Appointment
+          {t('contact.info.hours.weekdays')}<br />
+          {t('contact.info.hours.saturday')}
         </p>
       </div>
     </div>
