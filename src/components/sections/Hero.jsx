@@ -7,10 +7,10 @@ function Hero() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const images = [
-    '/images/home/acHero2.jpg',
-    '/images/home/acHero5.jpg',
-    '/images/home/ac1.jpg',
-    '/images/home/acHero6.jpg',
+    '/images/home/hero1.jpg',
+    '/images/home/hero2.jpg',
+    '/images/home/hero3.jpg',
+    '/images/home/hero4.jpg',
   ];
 
   useEffect(() => {
