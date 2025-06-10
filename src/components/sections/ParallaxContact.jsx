@@ -10,7 +10,7 @@ function ParallaxContact() {
       <div 
         className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat backdrop-blur-sm"
         style={{
-          backgroundImage: 'url(/images/theArchitect/acCta2.jpg)',
+          backgroundImage: 'url(/images/theArchitect/gallery2.jpg)',
           backgroundAttachment: 'fixed'
         }}
       >
