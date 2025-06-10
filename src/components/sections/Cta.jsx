@@ -10,7 +10,7 @@ function Cta() {
       <div 
         className="absolute inset-0 bg-fixed bg-center bg-cover bg-no-repeat"
         style={{
-          backgroundImage: 'url(/images/theArchitect/acCta.jpg)',
+          backgroundImage: 'url(/images/home/hero1.jpg)',
           backgroundAttachment: 'fixed'
         }}
       >
