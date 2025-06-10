@@ -1,24 +1,21 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Awards() {
+  const { t } = useTranslation();
+  
   const awards = [
     {
       year: '2012',
-      title: 'Candidato al Premio Nacional de Arquitectura',
-      event: 'Bienal Arquitectura Verde',
-      description: 'Mejor integración con el paisaje natural existente'
+      key: 'national'
     },
     {
       year: '2007',
-      title: 'Primera Mención de Honor',
-      event: '3ra Bienal de Arquitectura Veritas',
-      description: 'Escuela de Bahía Ballena'
+      key: 'honor'
     },
     {
       year: '2007',
-      title: 'Primer Lugar',
-      event: 'Concurso Holcim & Fundación de Parques Nacionales',
-      description: 'Construcción en armonía con el medio ambiente (Escuela de Bahía Ballena)'
+      key: 'first'
     }
   ];
 
@@ -37,7 +34,7 @@ export default function Awards() {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-4xl lg:text-7xl font-light mb-6 tracking-wider text-white">
-            PREMIOS Y RECONOCIMIENTOS
+            {t('architect.awards.title')}
           </h2>
           <div className="w-32 h-1 bg-white mx-auto"></div>
         </div>
@@ -50,11 +47,17 @@ export default function Awards() {
             >
               <div className="border-b border-white/20 pb-4 mb-4">
                 <span className="text-white/70 text-lg">{award.year}</span>
-                <h3 className="text-3xl font-medium text-white mt-2">{award.title}</h3>
+                <h3 className="text-3xl font-medium text-white mt-2">
+                  {t(`architect.awards.items.${award.key}.title`)}
+                </h3>
               </div>
               <div className="space-y-2">
-                <p className="text-2xl text-white/90">{award.event}</p>
-                <p className="text-xl text-white/70 italic">{award.description}</p>
+                <p className="text-2xl text-white/90">
+                  {t(`architect.awards.items.${award.key}.event`)}
+                </p>
+                <p className="text-xl text-white/70 italic">
+                  {t(`architect.awards.items.${award.key}.description`)}
+                </p>
               </div>
             </div>
           ))}
@@ -62,7 +65,7 @@ export default function Awards() {
 
         <div className="text-center">
           <p className="text-3xl md:text-4xl text-white/80 font-light italic">
-            "La forma y la función siguen al confort"
+            {t('architect.awards.quote')}
           </p>
         </div>
       </div>

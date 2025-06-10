@@ -28,12 +28,12 @@ export default function About() {
           <div className="lg:pl-12">
             {/* Small Title */}
             <h3 className="text-lg font-light tracking-[0.2em] text-gray-600 mb-4">
-              THE ARCHITECT
+              {t('architect.about.subtitle')}
             </h3>
 
             {/* Main Title */}
             <h2 className="text-5xl font-light mb-8 text-[#0c0c0c]">
-              ANDRÉS CASTRO
+              {t('architect.about.name')}
             </h2>
 
             {/* Separator Line */}
@@ -42,13 +42,13 @@ export default function About() {
             {/* Description Paragraphs */}
             <div className="space-y-6 text-lg text-gray-700 leading-relaxed mb-12">
               <p>
-                With over two decades of experience in sustainable architecture, Andrés Castro has established himself as a leading figure in eco-friendly and bioclimatic design throughout Costa Rica.
+                {t('architect.about.intro')}
               </p>
               <p>
-                As a pioneer in sustainable architecture, Andrés has led numerous groundbreaking projects that seamlessly blend environmental consciousness with stunning design. His work has earned international recognition and has set new standards for sustainable architecture in Central America.
+                {t('architect.about.description1')}
               </p>
               <p>
-                Andrés, equipped with a deep understanding of sustainable practices and innovative design solutions, leads a team dedicated to creating spaces that harmonize with their environment while meeting the highest standards of architectural excellence.
+                {t('architect.about.description2')}
               </p>
             </div>
 
@@ -56,19 +56,27 @@ export default function About() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
               <div className="text-center">
                 <div className="text-4xl font-light text-[#0c0c0c] mb-2">25+</div>
-                <div className="text-sm text-gray-600 uppercase tracking-wider">Years Experience</div>
+                <div className="text-sm text-gray-600 uppercase tracking-wider">
+                  {t('architect.about.stats.experience')}
+                </div>
               </div>
               <div className="text-center">
                 <div className="text-4xl font-light text-[#0c0c0c] mb-2">150+</div>
-                <div className="text-sm text-gray-600 uppercase tracking-wider">Projects</div>
+                <div className="text-sm text-gray-600 uppercase tracking-wider">
+                  {t('architect.about.stats.projects')}
+                </div>
               </div>
               <div className="text-center">
                 <div className="text-4xl font-light text-[#0c0c0c] mb-2">15+</div>
-                <div className="text-sm text-gray-600 uppercase tracking-wider">Awards</div>
+                <div className="text-sm text-gray-600 uppercase tracking-wider">
+                  {t('architect.about.stats.awards')}
+                </div>
               </div>
               <div className="text-center">
                 <div className="text-4xl font-light text-[#0c0c0c] mb-2">+50</div>
-                <div className="text-sm text-gray-600 uppercase tracking-wider">Publications</div>
+                <div className="text-sm text-gray-600 uppercase tracking-wider">
+                  {t('architect.about.stats.publications')}
+                </div>
               </div>
             </div>
 
@@ -77,7 +85,7 @@ export default function About() {
               to="/contacto"
               className="inline-block border-2 border-[#0c0c0c] px-12 py-4 text-lg font-medium hover:bg-[#0c0c0c] hover:text-white transition-all duration-300"
             >
-              GET IN TOUCH
+              {t('architect.about.cta')}
             </Link>
           </div>
         </div>
