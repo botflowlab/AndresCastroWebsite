@@ -10,7 +10,7 @@ export default function Hero() {
       <div 
         className="absolute inset-0 bg-center bg-cover bg-no-repeat"
         style={{
-          backgroundImage: 'url(/images/theArchitect/hero1.jpg)'
+          backgroundImage: 'url(./images/theArchitect/hero1.jpg)'
         }}
       >
         {/* Dark Overlay */}
