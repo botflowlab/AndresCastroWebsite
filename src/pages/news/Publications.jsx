@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Publications() {
+  const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(null);
 
   const newsImages = [
@@ -18,7 +20,7 @@ export default function Publications() {
     <section className="py-32 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-light mb-16 text-center tracking-wider">
-          PUBLICATIONS & PRESS
+          {t('publications.press.title')}
         </h2>
         
         {/* Desktop Grid */}
@@ -38,7 +40,7 @@ export default function Publications() {
             >
               <img
                 src={image}
-                alt="News coverage"
+                alt={`${t('publications.press.title')} ${index + 1}`}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
@@ -70,7 +72,7 @@ export default function Publications() {
             >
               <img
                 src={image}
-                alt="News coverage"
+                alt={`${t('publications.press.title')} ${index + 1}`}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
@@ -94,7 +96,7 @@ export default function Publications() {
             </button>
             <img
               src={selectedImage}
-              alt="Full size news coverage"
+              alt={t('publications.press.title')}
               className="max-h-[90vh] max-w-[90vw] object-contain"
             />
           </div>

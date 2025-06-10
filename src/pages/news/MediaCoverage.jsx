@@ -1,23 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function MediaCoverage() {
-  const mediaItems = [
-    {
-      title: "Leading the Way in Sustainable Architecture",
-      outlet: "Costa Rica Architecture Magazine",
-      date: "March 15, 2025",
-      image: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg",
-      link: "#"
-    },
-    {
-      title: "Innovative Designs Reshaping Urban Spaces",
-      outlet: "Design Weekly",
-      date: "February 28, 2025",
-      image: "https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg",
-      link: "#"
-    }
-  ];
-
+  const { t } = useTranslation();
+  
   const videos = [
     {
       id: "IJ2QtRYl0dA",
@@ -49,7 +35,7 @@ export default function MediaCoverage() {
     <section className="py-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-5xl font-light mb-12 text-center">
-          FEATURED VIDEOS
+          {t('publications.videos.title')}
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

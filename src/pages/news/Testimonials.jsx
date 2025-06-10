@@ -1,17 +1,16 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Testimonials() {
+  const { t } = useTranslation();
+  
   const testimonials = [
     {
-      quote: "Working with Andrés transformed our vision into reality. His sustainable approach to architecture is unmatched.",
-      author: "Maria González",
-      role: "CEO, EcoHabitat",
+      key: 'maria',
       image: "https://images.pexels.com/photos/5490276/pexels-photo-5490276.jpeg"
     },
     {
-      quote: "The attention to detail and commitment to sustainability in every project is remarkable.",
-      author: "Carlos Rodríguez",
-      role: "Development Director",
+      key: 'carlos',
       image: "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg"
     }
   ];
@@ -20,7 +19,7 @@ export default function Testimonials() {
     <section className="py-20 px-4 bg-[#0c0c0c] text-white">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-light mb-16 text-center tracking-wider">
-          TESTIMONIALS
+          {t('publications.testimonials.title')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -29,16 +28,20 @@ export default function Testimonials() {
               <div className="w-24 h-24 rounded-full overflow-hidden mb-6">
                 <img
                   src={testimonial.image}
-                  alt={testimonial.author}
+                  alt={t(`publications.testimonials.items.${testimonial.key}.author`)}
                   className="w-full h-full object-cover"
                 />
               </div>
               <blockquote className="text-2xl font-light mb-6 leading-relaxed">
-                "{testimonial.quote}"
+                "{t(`publications.testimonials.items.${testimonial.key}.quote`)}"
               </blockquote>
               <cite className="not-italic">
-                <div className="text-xl font-medium">{testimonial.author}</div>
-                <div className="text-gray-400">{testimonial.role}</div>
+                <div className="text-xl font-medium">
+                  {t(`publications.testimonials.items.${testimonial.key}.author`)}
+                </div>
+                <div className="text-gray-400">
+                  {t(`publications.testimonials.items.${testimonial.key}.role`)}
+                </div>
               </cite>
             </div>
           ))}
