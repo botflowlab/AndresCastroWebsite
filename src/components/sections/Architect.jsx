@@ -49,7 +49,7 @@ function Architect() {
           <div className="lg:col-span-6 relative">
             <div className="aspect-square overflow-hidden">
               <img
-                src="/images/theArchitect/ac02.jpg"
+                src="/images/home/personal.jpg"
                 alt="Andres Castro"
                 className="w-full h-full object-cover"
               />
