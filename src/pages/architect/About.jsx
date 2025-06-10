@@ -14,7 +14,7 @@ export default function About() {
           <div className="relative">
             <div className="aspect-[9/14] overflow-hidden">
               <img
-                src="/images/home/personal.jpg"
+                src="/images/home/about2.jpg"
                 alt="Andres Castro"
                 className="w-full h-full object-cover"
               />
