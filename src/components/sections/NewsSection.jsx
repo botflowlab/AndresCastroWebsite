@@ -25,7 +25,7 @@ function NewsSection() {
     '/images/home/1.jpg',
     '/images/home/3.jpg',
     '/images/home/11.jpg',
-    '/images/news/17.jpg'
+    '/images/home/17.jpg'
   ];
 
   return (
