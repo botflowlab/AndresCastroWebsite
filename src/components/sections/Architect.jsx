@@ -23,11 +23,11 @@ function Architect() {
         {/* Top Content */}
         <div className="text-center mb-20">
           <h2 className="text-6xl md:text-7xl lg:text-8xl font-light mb-8 text-[#0c0c0c]">
-            THE ARCHITECT
+            {t('home.architect.title')}
           </h2>
           <div className="w-32 h-1 bg-[#0c0c0c] mx-auto mb-12"></div>
           <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto font-light">
-            {t('architect.intro')}
+            {t('home.architect.intro')}
           </p>
         </div>
 
@@ -37,11 +37,15 @@ function Architect() {
           <div className="lg:col-span-3 space-y-12">
             <div className="text-center p-8 bg-white shadow-lg">
               <div className="text-5xl font-light text-[#0c0c0c] mb-4">25+</div>
-              <div className="text-gray-600 uppercase tracking-wider text-sm">Years Experience</div>
+              <div className="text-gray-600 uppercase tracking-wider text-sm">
+                {t('home.architect.stats.experience')}
+              </div>
             </div>
             <div className="text-center p-8 bg-white shadow-lg">
               <div className="text-5xl font-light text-[#0c0c0c] mb-4">150+</div>
-              <div className="text-gray-600 uppercase tracking-wider text-sm">Projects</div>
+              <div className="text-gray-600 uppercase tracking-wider text-sm">
+                {t('home.architect.stats.projects')}
+              </div>
             </div>
           </div>
 
@@ -62,13 +66,13 @@ function Architect() {
           {/* Right Side - Text & CTA */}
           <div className="lg:col-span-3 space-y-8">
             <div className="text-xl text-gray-600 leading-relaxed">
-              {t('architect.description')}
+              {t('home.architect.description')}
             </div>
             <Link 
               to="/arquitecto" 
               className="inline-block w-full text-center border-2 border-[#0c0c0c] px-8 py-4 text-lg font-medium hover:bg-[#0c0c0c] hover:text-white transition-all duration-300"
             >
-              {t('architect.learnMore')}
+              {t('home.architect.cta')}
             </Link>
           </div>
         </div>

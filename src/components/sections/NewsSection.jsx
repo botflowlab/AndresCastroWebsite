@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 function NewsSection() {
+  const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(null);
 
   const videos = [
@@ -44,7 +46,7 @@ function NewsSection() {
         {/* Section Header */}
         <div className="text-center mb-20">
           <h2 className="text-6xl md:text-7xl font-light mb-8">
-            LATEST NEWS
+            {t('home.news.title')}
           </h2>
           <div className="w-32 h-1 bg-[#0c0c0c] mx-auto mb-12"></div>
         </div>
@@ -52,7 +54,7 @@ function NewsSection() {
         {/* Featured Videos */}
         <div className="mb-20">
           <h3 className="text-3xl font-light mb-12 text-center">
-            FEATURED VIDEOS
+            {t('home.news.videos.title')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {videos.map((video) => (
@@ -86,7 +88,7 @@ function NewsSection() {
         {/* News Images Grid */}
         <div>
           <h3 className="text-3xl font-light mb-12 text-center">
-            PRESS COVERAGE
+            {t('home.news.press.title')}
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {newsImages.map((image, index) => (
@@ -143,7 +145,7 @@ function NewsSection() {
             to="/noticias"
             className="inline-block border-2 border-[#0c0c0c] px-12 py-4 text-lg font-medium hover:bg-[#0c0c0c] hover:text-white transition-all duration-300"
           >
-            VIEW ALL NEWS
+            {t('home.news.cta')}
           </Link>
         </div>
       </div>

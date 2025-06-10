@@ -57,7 +57,7 @@ function ProjectsSection() {
         <div className="max-w-8xl mx-auto px-4">
           <div className="text-center mb-8">
             <h2 className="text-4xl sm:text-5xl md:text-6xl text-white font-bold mb-8 font-cormorant tracking-[.25em] uppercase">
-              {t('nav.projects')}
+              {t('home.projects.title')}
             </h2>
           </div>
           <div className="text-center text-red-400 mb-8">
@@ -81,7 +81,7 @@ function ProjectsSection() {
           <h2 
             className="text-4xl sm:text-5xl md:text-6xl text-white font-bold mb-8 font-cormorant tracking-[.25em] uppercase"
           >
-            {t('nav.projects')}
+            {t('home.projects.title')}
           </h2>
         </div>
         
@@ -110,7 +110,7 @@ function ProjectsSection() {
             onClick={() => navigate('/proyectos')}
             className="inline-block border-2 text-white border-white px-8 py-3 text-lg font-medium tracking-[.25em] uppercase transition-all duration-300 hover:bg-white hover:text-[#0c0c0c]"
           >
-            View All Projects
+            {t('home.projects.cta')}
           </button>
         </div>
       </div>
