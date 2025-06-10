@@ -16,6 +16,8 @@
 .dashboard-image {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
+  content-visibility: auto;
+  contain: layout style paint;
 }
 
 /* Line clamp utility for text truncation */
@@ -38,9 +40,38 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Optimize image loading */
+/* Optimize image loading and rendering */
 img {
   content-visibility: auto;
+  contain: layout style;
+}
+
+/* Performance optimizations for draggable elements */
+[draggable="true"] {
+  -webkit-user-drag: element;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Optimize animations */
+.transition-transform {
+  will-change: transform;
+}
+
+.transition-opacity {
+  will-change: opacity;
+}
+
+/* GPU acceleration for smooth animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Reduce motion for users who prefer it */
@@ -50,4 +81,51 @@ img {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  
+  [draggable="true"] {
+    will-change: auto;
+  }
+}
+
+/* Optimize grid layouts */
+.grid {
+  contain: layout style;
+}
+
+/* Optimize for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .group:hover > * {
+    opacity: 1 !important;
+  }
+  
+  .opacity-0 {
+    opacity: 0.7 !important;
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .dashboard-image {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* Container queries for responsive images */
+@container (max-width: 400px) {
+  .dashboard-image {
+    height: 3rem;
+  }
+}
+
+/* Optimize scrolling performance */
+.overflow-auto {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Optimize text rendering */
+.text-rendering-optimized {
+  text-rendering: optimizeSpeed;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
 }

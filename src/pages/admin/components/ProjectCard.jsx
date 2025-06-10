@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import DraggableImageGrid from './DraggableImageGrid';
 
-export default function ProjectCard({ 
+// Memoize the component to prevent unnecessary re-renders
+const ProjectCard = memo(function ProjectCard({ 
   project, 
   onEdit, 
   onDelete, 
@@ -12,60 +13,87 @@ export default function ProjectCard({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const handleImageReorder = (newImageOrder) => {
+  // Memoized handlers to prevent recreation on every render
+  const handleImageReorder = React.useCallback((newImageOrder) => {
     onReorderImages(project.id, newImageOrder);
-  };
+  }, [project.id, onReorderImages]);
 
-  const handleBlueprintReorder = (newBlueprintOrder) => {
+  const handleBlueprintReorder = React.useCallback((newBlueprintOrder) => {
     onReorderBlueprints(project.id, newBlueprintOrder);
-  };
+  }, [project.id, onReorderBlueprints]);
 
-  const handleDeleteImage = (index) => {
+  const handleDeleteImage = React.useCallback((index) => {
     onDeleteImage(project.id, index);
-  };
+  }, [project.id, onDeleteImage]);
 
-  const handleDeleteBlueprint = (index) => {
+  const handleDeleteBlueprint = React.useCallback((index) => {
     onDeleteBlueprint(project.id, index);
-  };
+  }, [project.id, onDeleteBlueprint]);
 
-  const totalImages = (project.images?.length || 0) + (project.blueprints?.length || 0);
+  const handleEdit = React.useCallback(() => {
+    onEdit(project);
+  }, [project, onEdit]);
+
+  const handleDelete = React.useCallback(() => {
+    onDelete(project.id);
+  }, [project.id, onDelete]);
+
+  const toggleExpanded = React.useCallback(() => {
+    setIsExpanded(prev => !prev);
+  }, []);
+
+  // Memoized calculations
+  const totalImages = React.useMemo(() => 
+    (project.images?.length || 0) + (project.blueprints?.length || 0), 
+    [project.images?.length, project.blueprints?.length]
+  );
+
+  const hasImages = React.useMemo(() => 
+    project.images && project.images.length > 0, 
+    [project.images]
+  );
+
+  const hasBlueprints = React.useMemo(() => 
+    project.blueprints && project.blueprints.length > 0, 
+    [project.blueprints]
+  );
 
   return (
-    <div className="border rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
+    <div className="border rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow duration-200 gpu-accelerated">
       <div className="flex justify-between items-start mb-6">
-        <div className="flex-1">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">{project.title}</h3>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-2xl font-bold text-gray-900 mb-2 truncate">{project.title}</h3>
           <p className="text-gray-600 mb-3 leading-relaxed line-clamp-2">{project.description}</p>
           <div className="flex flex-wrap gap-2 text-sm text-gray-500 mb-3">
-            <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
+            <span className="bg-gray-100 px-2 py-1 rounded-full text-xs flex-shrink-0">
               📁 {project.category}
             </span>
             {project.location && (
-              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
+              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs flex-shrink-0">
                 📍 {project.location}
               </span>
             )}
             {project.year && (
-              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
+              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs flex-shrink-0">
                 📅 {project.year}
               </span>
             )}
             {totalImages > 0 && (
-              <span className="bg-blue-100 px-2 py-1 rounded-full text-xs text-blue-700">
+              <span className="bg-blue-100 px-2 py-1 rounded-full text-xs text-blue-700 flex-shrink-0">
                 🖼️ {totalImages} files
               </span>
             )}
           </div>
         </div>
-        <div className="flex gap-2 ml-4">
+        <div className="flex gap-2 ml-4 flex-shrink-0">
           <button
-            onClick={() => onEdit(project)}
+            onClick={handleEdit}
             className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-200 font-medium text-sm"
           >
             Edit
           </button>
           <button
-            onClick={() => onDelete(project.id)}
+            onClick={handleDelete}
             className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors duration-200 font-medium text-sm"
           >
             Delete
@@ -73,12 +101,12 @@ export default function ProjectCard({
         </div>
       </div>
 
-      {/* Toggle button for images */}
+      {/* Optimized toggle button */}
       {totalImages > 0 && (
         <div className="mb-4">
           <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+            onClick={toggleExpanded}
+            className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors duration-150 p-2 -m-2 rounded"
           >
             <svg 
               className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} 
@@ -88,16 +116,18 @@ export default function ProjectCard({
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-            {isExpanded ? 'Hide' : 'Show'} Images & Files ({totalImages})
+            <span className="font-medium">
+              {isExpanded ? 'Hide' : 'Show'} Files ({totalImages})
+            </span>
           </button>
         </div>
       )}
       
-      {/* Collapsible image sections */}
+      {/* Conditionally rendered image sections with lazy loading */}
       {isExpanded && (
-        <div className="space-y-6">
-          {/* Project Images with Drag & Drop */}
-          {project.images && project.images.length > 0 && (
+        <div className="space-y-6" style={{ contentVisibility: 'auto' }}>
+          {/* Project Images with optimized rendering */}
+          {hasImages && (
             <DraggableImageGrid
               images={project.images}
               onReorder={handleImageReorder}
@@ -107,8 +137,8 @@ export default function ProjectCard({
             />
           )}
 
-          {/* Architectural Drawings with Drag & Drop */}
-          {project.blueprints && project.blueprints.length > 0 && (
+          {/* Architectural Drawings with optimized rendering */}
+          {hasBlueprints && (
             <DraggableImageGrid
               images={project.blueprints}
               onReorder={handleBlueprintReorder}
@@ -120,7 +150,7 @@ export default function ProjectCard({
         </div>
       )}
 
-      {/* Empty state */}
+      {/* Optimized empty state */}
       {totalImages === 0 && (
         <div className="text-center py-6 text-gray-500 bg-gray-50 rounded-lg">
           <svg className="w-8 h-8 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,4 +162,6 @@ export default function ProjectCard({
       )}
     </div>
   );
-}
+});
+
+export default ProjectCard;
