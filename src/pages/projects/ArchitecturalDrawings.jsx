@@ -37,7 +37,7 @@ export default function ArchitecturalDrawings({ project }) {
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
                       src={drawing}
-                      alt={`${t('projects.blueprints')} ${index + 1}`}
+                      alt={`${t('projects.details.blueprints')} ${index + 1}`}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     
@@ -76,7 +76,7 @@ export default function ArchitecturalDrawings({ project }) {
           
           <img
             src={selectedDrawing}
-            alt={t('projects.blueprints')}
+            alt={t('projects.details.blueprints')}
             className="max-h-[90vh] max-w-[90vw] object-contain"
           />
         </div>
