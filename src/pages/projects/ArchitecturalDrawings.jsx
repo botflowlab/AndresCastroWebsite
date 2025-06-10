@@ -20,7 +20,7 @@ export default function ArchitecturalDrawings({ project }) {
           {/* Bilingual Header */}
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-light mb-8 text-slate-900">
-              {t('projects.details.blueprints')}
+              {t('projects.blueprints')}
             </h2>
             <div className="w-24 h-1 bg-slate-900 mx-auto"></div>
           </div>
@@ -37,7 +37,7 @@ export default function ArchitecturalDrawings({ project }) {
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
                       src={drawing}
-                      alt={`${t('projects.details.blueprints')} ${index + 1}`}
+                      alt={`${t('projects.blueprints')} ${index + 1}`}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     
@@ -76,7 +76,7 @@ export default function ArchitecturalDrawings({ project }) {
           
           <img
             src={selectedDrawing}
-            alt={t('projects.details.blueprints')}
+            alt={t('projects.blueprints')}
             className="max-h-[90vh] max-w-[90vw] object-contain"
           />
         </div>
