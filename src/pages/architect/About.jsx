@@ -12,7 +12,7 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Image */}
           <div className="relative">
-            <div className="aspect-[9/16] overflow-hidden">
+            <div className="aspect-[9/14] overflow-hidden">
               <img
                 src="/images/home/personal.jpg"
                 alt="Andres Castro"
