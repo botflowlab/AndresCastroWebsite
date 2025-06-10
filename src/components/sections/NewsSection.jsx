@@ -22,8 +22,8 @@ function NewsSection() {
   ];
 
   const newsImages = [
-    '/images/news/1.jpg',
-    '/images/news/3.jpg',
+    '/images/home/1.jpg',
+    '/images/home/3.jpg',
     '/images/news/11.jpg',
     '/images/news/17.jpg'
   ];
