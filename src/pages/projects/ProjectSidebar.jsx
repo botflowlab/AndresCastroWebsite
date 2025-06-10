@@ -2,14 +2,20 @@ import { useTranslation } from 'react-i18next';
 
 export default function Sidebar({ onCategorySelect, selectedCategory }) {
   const { t } = useTranslation();
+  
   const categories = [
-    'casas',
-    'condominios',
-    'comercial',
-    'bancaria',
-    'oficinas',
-    'institucional',
+    { key: 'casas', labelEn: 'Houses', labelEs: 'Casas' },
+    { key: 'condominios', labelEn: 'Residential Condominiums', labelEs: 'Condominios Residenciales' },
+    { key: 'comercial', labelEn: 'Commercial Projects', labelEs: 'Proyectos Comerciales' },
+    { key: 'bancaria', labelEn: 'Banking Architecture', labelEs: 'Arquitectura Bancaria' },
+    { key: 'oficinas', labelEn: 'Offices', labelEs: 'Oficinas' },
+    { key: 'institucional', labelEn: 'Institutional', labelEs: 'Institucional' }
   ];
+
+  const getCategoryLabel = (category) => {
+    const currentLang = t('nav.home') === 'Home' ? 'en' : 'es'; // Simple language detection
+    return currentLang === 'en' ? category.labelEn : category.labelEs;
+  };
 
   return (
     <aside className="flex flex-col gap-4 text-lg text-gray-600 w-full">
@@ -24,13 +30,13 @@ export default function Sidebar({ onCategorySelect, selectedCategory }) {
       </button>
       {categories.map((cat) => (
         <button 
-          key={cat}
-          onClick={() => onCategorySelect(cat)}
+          key={cat.key}
+          onClick={() => onCategorySelect(cat.key)}
           className={`text-left transition-all text-xl font-light tracking-wide ${
-            selectedCategory === cat ? 'text-black' : 'hover:text-black'
+            selectedCategory === cat.key ? 'text-black' : 'hover:text-black'
           }`}
         >
-          {t(`projects.categories.${cat}`)}
+          {getCategoryLabel(cat)}
         </button>
       ))}
     </aside>
