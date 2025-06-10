@@ -24,38 +24,27 @@ export default function Trajectory() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category, index) => {
-            // Safely get the items array with fallback
-            const items = t(`architect.trajectory.categories.${category}.items`, { 
-              returnObjects: true, 
-              defaultValue: [] 
-            });
-            
-            // Ensure items is an array
-            const itemsArray = Array.isArray(items) ? items : [];
-            
-            return (
-              <div 
-                key={index}
-                className="p-8 border border-gray-200 rounded-lg hover:shadow-xl transition-all duration-300 bg-white"
-              >
-                <h3 className="text-3xl font-medium text-[#0c0c0c] mb-6 pb-4 border-b border-gray-200">
-                  {t(`architect.trajectory.categories.${category}.title`)}
-                </h3>
-                <ul className="space-y-4">
-                  {itemsArray.map((item, itemIndex) => (
-                    <li 
-                      key={itemIndex}
-                      className="text-xl text-gray-600 flex items-center"
-                    >
-                      <span className="w-2 h-2 bg-[#0c0c0c] rounded-full mr-3"></span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
+          {categories.map((category, index) => (
+            <div 
+              key={index}
+              className="p-8 border border-gray-200 rounded-lg hover:shadow-xl transition-all duration-300 bg-white"
+            >
+              <h3 className="text-3xl font-medium text-[#0c0c0c] mb-6 pb-4 border-b border-gray-200">
+                {t(`architect.trajectory.categories.${category}.title`)}
+              </h3>
+              <ul className="space-y-4">
+                {t(`architect.trajectory.categories.${category}.items`, { returnObjects: true }).map((item, itemIndex) => (
+                  <li 
+                    key={itemIndex}
+                    className="text-xl text-gray-600 flex items-center"
+                  >
+                    <span className="w-2 h-2 bg-[#0c0c0c] rounded-full mr-3"></span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
     </section>
