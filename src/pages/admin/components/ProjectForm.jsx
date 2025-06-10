@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function ProjectForm({ 
   mode, 
@@ -30,6 +30,20 @@ export default function ProjectForm({
     { value: 'institucional', label: 'Institucional' }
   ];
 
+  // Update form data when initialData changes (for editing mode)
+  useEffect(() => {
+    if (mode === 'edit' && initialData) {
+      setFormData({
+        title: initialData.title || '',
+        description: initialData.description || '',
+        category: initialData.category || 'casas',
+        location: initialData.location || '',
+        year: initialData.year || '',
+        client: initialData.client || '',
+      });
+    }
+  }, [mode, initialData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -41,16 +55,22 @@ export default function ProjectForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Trim all string values to remove extra spaces
+    const trimmedData = Object.entries(formData).reduce((acc, [key, value]) => {
+      acc[key] = typeof value === 'string' ? value.trim() : value;
+      return acc;
+    }, {});
+
     // When editing, only include fields that have been modified
     const submitData = mode === 'edit' 
-      ? Object.entries(formData).reduce((acc, [key, value]) => {
+      ? Object.entries(trimmedData).reduce((acc, [key, value]) => {
           // Only include non-empty values or values that differ from initialData
-          if (value !== '' && value !== initialData[key]) {
+          if (value !== '' && value !== (initialData[key] || '').trim()) {
             acc[key] = value;
           }
           return acc;
         }, {})
-      : formData;
+      : trimmedData;
 
     // Always include files if selected
     await onSubmit({
@@ -60,29 +80,57 @@ export default function ProjectForm({
       setUploadProgress
     });
 
-    // Clear selected files and reset the file inputs
-    setSelectedFiles([]);
-    setSelectedBlueprints([]);
-    setFileInputKey(prev => prev + 1);
-    setBlueprintInputKey(prev => prev + 1);
-    setUploadProgress(0);
+    // Clear selected files and reset the file input only if not editing
+    if (mode !== 'edit') {
+      setSelectedFiles([]);
+      setSelectedBlueprints([]);
+      setFileInputKey(prev => prev + 1);
+      setBlueprintInputKey(prev => prev + 1);
+      setUploadProgress(0);
+      
+      // Reset form data for create mode
+      setFormData({
+        title: '',
+        description: '',
+        category: 'casas',
+        location: '',
+        year: '',
+        client: '',
+      });
+    } else {
+      // In edit mode, just clear the file inputs
+      setSelectedFiles([]);
+      setSelectedBlueprints([]);
+      setFileInputKey(prev => prev + 1);
+      setBlueprintInputKey(prev => prev + 1);
+      setUploadProgress(0);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label className="block text-gray-700 text-sm font-bold mb-2">
-          Title
+          Project Title {mode === 'edit' && <span className="text-blue-600 font-normal">(Currently editing)</span>}
         </label>
         <input
           type="text"
           name="title"
           value={formData.title}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
+          className={`w-full px-3 py-2 border-2 rounded focus:outline-none transition-colors ${
+            mode === 'edit' 
+              ? 'border-blue-300 focus:border-blue-500 bg-blue-50' 
+              : 'border-gray-300 focus:border-black'
+          }`}
           required={mode !== 'edit'}
           placeholder="e.g., Casa Moderna en Escazú"
         />
+        {mode === 'edit' && (
+          <p className="text-sm text-blue-600 mt-1">
+            ✏️ Editing: {initialData.title}
+          </p>
+        )}
       </div>
 
       <div>
@@ -120,14 +168,12 @@ export default function ProjectForm({
             Year
           </label>
           <input
-            type="number"
+            type="text"
             name="year"
             value={formData.year}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
             placeholder="e.g., 2025"
-            min="1900"
-            max="2100"
           />
         </div>
       </div>
@@ -189,6 +235,11 @@ export default function ProjectForm({
             {selectedFiles.length} project images selected
           </div>
         )}
+        {mode === 'edit' && initialData.images && initialData.images.length > 0 && (
+          <div className="mt-2 text-sm text-blue-600">
+            Current project has {initialData.images.length} existing images
+          </div>
+        )}
       </div>
 
       {/* Blueprints Upload */}
@@ -212,13 +263,18 @@ export default function ProjectForm({
             {selectedBlueprints.length} architectural drawings selected
           </div>
         )}
+        {mode === 'edit' && initialData.blueprints && initialData.blueprints.length > 0 && (
+          <div className="mt-2 text-sm text-blue-600">
+            Current project has {initialData.blueprints.length} existing blueprints
+          </div>
+        )}
       </div>
 
       {uploadProgress > 0 && uploadProgress < 100 && (
         <div className="mt-2">
           <div className="w-full bg-gray-200 rounded-full h-2.5">
             <div
-              className="bg-black h-2.5 rounded-full"
+              className="bg-black h-2.5 rounded-full transition-all duration-300"
               style={{ width: `${uploadProgress}%` }}
             ></div>
           </div>
@@ -228,24 +284,59 @@ export default function ProjectForm({
         </div>
       )}
 
-      <div className="flex gap-4">
+      {/* Form Actions */}
+      <div className="flex gap-4 pt-4">
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors disabled:bg-gray-400"
+          className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all duration-300 ${
+            mode === 'edit'
+              ? 'bg-blue-600 hover:bg-blue-700 text-white'
+              : 'bg-black hover:bg-gray-800 text-white'
+          } disabled:bg-gray-400 disabled:cursor-not-allowed`}
         >
-          {loading ? 'Saving...' : mode === 'edit' ? 'Update Project' : 'Create Project'}
+          {loading 
+            ? (mode === 'edit' ? 'Updating...' : 'Creating...') 
+            : (mode === 'edit' ? 'Update Project' : 'Create Project')
+          }
         </button>
+        
         {mode === 'edit' && (
           <button
             type="button"
             onClick={onCancel}
-            className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition-colors"
+            className="bg-gray-500 text-white py-3 px-6 rounded-lg hover:bg-gray-600 transition-colors font-medium"
           >
             Cancel
           </button>
         )}
       </div>
+
+      {/* Edit Mode Info */}
+      {mode === 'edit' && (
+        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-blue-800">
+                Editing Mode
+              </h3>
+              <div className="mt-2 text-sm text-blue-700">
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Only modified fields will be updated</li>
+                  <li>New images will be added to existing ones</li>
+                  <li>Use the project management section below to reorder or delete existing images</li>
+                  <li>All text inputs will be automatically trimmed of extra spaces</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 }
