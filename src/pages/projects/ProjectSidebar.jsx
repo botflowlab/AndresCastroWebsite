@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 export default function Sidebar({ onCategorySelect, selectedCategory }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   
   const categories = [
     { key: 'casas', labelEn: 'Houses', labelEs: 'Casas' },
@@ -13,8 +13,8 @@ export default function Sidebar({ onCategorySelect, selectedCategory }) {
   ];
 
   const getCategoryLabel = (category) => {
-    const currentLang = t('nav.home') === 'Home' ? 'en' : 'es'; // Simple language detection
-    return currentLang === 'en' ? category.labelEn : category.labelEs;
+    // Use i18n.language directly to get the current language
+    return i18n.language === 'en' ? category.labelEn : category.labelEs;
   };
 
   return (
