@@ -10,7 +10,7 @@ export default function ProjectForm({
   const [formData, setFormData] = useState({
     title: initialData.title || '',
     description: initialData.description || '',
-    category: initialData.category || 'sustainable',
+    category: initialData.category || 'casas',
     location: initialData.location || '',
     year: initialData.year || '',
     client: initialData.client || '',
@@ -21,7 +21,14 @@ export default function ProjectForm({
   const [fileInputKey, setFileInputKey] = useState(0);
   const [blueprintInputKey, setBlueprintInputKey] = useState(0);
 
-  const categories = ['sustainable', 'outdoor', 'infrastructure', 'recreational'];
+  const categories = [
+    { value: 'casas', label: 'Casas' },
+    { value: 'condominios', label: 'Condominios Residenciales' },
+    { value: 'comercial', label: 'Proyectos Comerciales' },
+    { value: 'bancaria', label: 'Arquitectura Bancaria' },
+    { value: 'oficinas', label: 'Oficinas' },
+    { value: 'institucional', label: 'Institucional' }
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,6 +81,7 @@ export default function ProjectForm({
           onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
           required={mode !== 'edit'}
+          placeholder="e.g., Casa Moderna en Escazú"
         />
       </div>
 
@@ -88,6 +96,7 @@ export default function ProjectForm({
           className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
           rows="4"
           required={mode !== 'edit'}
+          placeholder="Describe the project, its features, and architectural approach..."
         />
       </div>
 
@@ -149,11 +158,14 @@ export default function ProjectForm({
           required={mode !== 'edit'}
         >
           {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+            <option key={cat.value} value={cat.value}>
+              {cat.label}
             </option>
           ))}
         </select>
+        <p className="text-sm text-gray-600 mt-1">
+          Select the category that best describes this project
+        </p>
       </div>
 
       {/* Project Images Upload */}

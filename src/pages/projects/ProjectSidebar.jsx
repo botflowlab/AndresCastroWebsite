@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next';
 export default function Sidebar({ onCategorySelect, selectedCategory }) {
   const { t } = useTranslation();
   const categories = [
-    'sustainable',
-    'outdoor',
-    'infrastructure',
-    'recreational',
+    'casas',
+    'condominios',
+    'comercial',
+    'bancaria',
+    'oficinas',
+    'institucional',
   ];
 
   return (
