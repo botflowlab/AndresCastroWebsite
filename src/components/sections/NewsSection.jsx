@@ -24,7 +24,7 @@ function NewsSection() {
   const newsImages = [
     '/images/home/1.jpg',
     '/images/home/3.jpg',
-    '/images/news/11.jpg',
+    '/images/home/11.jpg',
     '/images/news/17.jpg'
   ];
 
