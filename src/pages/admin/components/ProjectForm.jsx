@@ -8,12 +8,12 @@ export default function ProjectForm({
   loading 
 }) {
   const [formData, setFormData] = useState({
-    title: initialData.title || '',
-    description: initialData.description || '',
-    category: initialData.category || 'casas',
-    location: initialData.location || '',
-    year: initialData.year || '',
-    client: initialData.client || '',
+    title: '',
+    description: '',
+    category: 'casas',
+    location: '',
+    year: '',
+    client: '',
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedBlueprints, setSelectedBlueprints] = useState([]);
@@ -41,6 +41,16 @@ export default function ProjectForm({
         year: initialData.year || '',
         client: initialData.client || '',
       });
+    } else if (mode === 'create') {
+      // Reset form for create mode
+      setFormData({
+        title: '',
+        description: '',
+        category: 'casas',
+        location: '',
+        year: '',
+        client: '',
+      });
     }
   }, [mode, initialData]);
 
@@ -50,6 +60,29 @@ export default function ProjectForm({
       ...prev,
       [name]: value
     }));
+  };
+
+  const clearForm = () => {
+    // Clear all form data
+    setFormData({
+      title: '',
+      description: '',
+      category: 'casas',
+      location: '',
+      year: '',
+      client: '',
+    });
+    
+    // Clear file selections
+    setSelectedFiles([]);
+    setSelectedBlueprints([]);
+    
+    // Reset file input keys to force re-render
+    setFileInputKey(prev => prev + 1);
+    setBlueprintInputKey(prev => prev + 1);
+    
+    // Reset upload progress
+    setUploadProgress(0);
   };
 
   const handleSubmit = async (e) => {
@@ -72,38 +105,21 @@ export default function ProjectForm({
         }, {})
       : trimmedData;
 
-    // Always include files if selected
-    await onSubmit({
-      ...submitData,
-      files: selectedFiles,
-      blueprints: selectedBlueprints,
-      setUploadProgress
-    });
-
-    // Clear selected files and reset the file input only if not editing
-    if (mode !== 'edit') {
-      setSelectedFiles([]);
-      setSelectedBlueprints([]);
-      setFileInputKey(prev => prev + 1);
-      setBlueprintInputKey(prev => prev + 1);
-      setUploadProgress(0);
-      
-      // Reset form data for create mode
-      setFormData({
-        title: '',
-        description: '',
-        category: 'casas',
-        location: '',
-        year: '',
-        client: '',
+    try {
+      // Always include files if selected
+      await onSubmit({
+        ...submitData,
+        files: selectedFiles,
+        blueprints: selectedBlueprints,
+        setUploadProgress
       });
-    } else {
-      // In edit mode, just clear the file inputs
-      setSelectedFiles([]);
-      setSelectedBlueprints([]);
-      setFileInputKey(prev => prev + 1);
-      setBlueprintInputKey(prev => prev + 1);
-      setUploadProgress(0);
+
+      // Clear the form completely after successful submission
+      clearForm();
+      
+    } catch (error) {
+      // Don't clear form on error, let user see what they entered
+      console.error('Form submission error:', error);
     }
   };
 
@@ -126,7 +142,7 @@ export default function ProjectForm({
           required={mode !== 'edit'}
           placeholder="e.g., Casa Moderna en Escazú"
         />
-        {mode === 'edit' && (
+        {mode === 'edit' && initialData.title && (
           <p className="text-sm text-blue-600 mt-1">
             ✏️ Editing: {initialData.title}
           </p>
@@ -304,7 +320,10 @@ export default function ProjectForm({
         {mode === 'edit' && (
           <button
             type="button"
-            onClick={onCancel}
+            onClick={() => {
+              clearForm();
+              onCancel();
+            }}
             className="bg-gray-500 text-white py-3 px-6 rounded-lg hover:bg-gray-600 transition-colors font-medium"
           >
             Cancel
@@ -331,6 +350,7 @@ export default function ProjectForm({
                   <li>New images will be added to existing ones</li>
                   <li>Use the project management section below to reorder or delete existing images</li>
                   <li>All text inputs will be automatically trimmed of extra spaces</li>
+                  <li>Form will be cleared after successful submission</li>
                 </ul>
               </div>
             </div>
