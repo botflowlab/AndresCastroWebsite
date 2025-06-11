@@ -115,6 +115,48 @@ export default function Dashboard() {
       .replace(/(^-|-$)+/g, '');
   };
 
+  const generateUniqueSlug = async (title, excludeProjectId = null) => {
+    const baseSlug = generateSlug(title);
+    let slug = baseSlug;
+    let counter = 1;
+
+    while (true) {
+      // Check if slug exists in database
+      let query = supabase
+        .from('projects')
+        .select('id')
+        .eq('slug', slug);
+
+      // If we're updating a project, exclude it from the check
+      if (excludeProjectId) {
+        query = query.neq('id', excludeProjectId);
+      }
+
+      const { data, error } = await query;
+
+      if (error) {
+        console.error('Error checking slug uniqueness:', error);
+        // If there's an error checking, append timestamp to be safe
+        return `${baseSlug}-${Date.now()}`;
+      }
+
+      // If no existing project has this slug, we can use it
+      if (!data || data.length === 0) {
+        return slug;
+      }
+
+      // If slug exists, try with a counter
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+
+      // Safety check to prevent infinite loop
+      if (counter > 100) {
+        // Fallback to timestamp-based slug
+        return `${baseSlug}-${Date.now()}`;
+      }
+    }
+  };
+
   const deleteImagesFromR2 = async (imageUrls) => {
     if (!imageUrls?.length) return;
     
@@ -225,9 +267,9 @@ export default function Dashboard() {
           updateData.blueprints = [...(editingProject.blueprints || []), ...blueprintUrls];
         }
 
-        // If title was updated, update slug
+        // If title was updated, generate a unique slug
         if (sanitizedData.title && sanitizedData.title !== editingProject.title) {
-          updateData.slug = generateSlug(sanitizedData.title);
+          updateData.slug = await generateUniqueSlug(sanitizedData.title, editingProject.id);
         }
 
         if (Object.keys(updateData).length === 0) {
@@ -247,11 +289,14 @@ export default function Dashboard() {
           throw new Error('Title, description, and category are required');
         }
 
+        // Generate unique slug for new project
+        const uniqueSlug = await generateUniqueSlug(sanitizedData.title);
+
         const { error } = await supabase
           .from('projects')
           .insert([{
             ...sanitizedData,
-            slug: generateSlug(sanitizedData.title),
+            slug: uniqueSlug,
             images: imageUrls,
             blueprints: blueprintUrls,
             user_id: user.id
