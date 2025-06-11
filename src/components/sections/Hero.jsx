@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 function Hero() {
   const { t } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
 
   const images = [
     '/images/home/hero1.jpg',
@@ -14,13 +15,21 @@ function Hero() {
   ];
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    // Trigger entrance animation
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+
+    const imageTimer = setInterval(() => {
       setCurrentImageIndex((prevIndex) => 
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
     }, 7000);
 
-    return () => clearInterval(timer);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(imageTimer);
+    };
   }, []);
 
   return (
@@ -45,15 +54,30 @@ function Hero() {
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-3xl md:text-6xl font-bold text-white mb-6 opacity-100">
+          {/* Main Title with entrance animation */}
+          <h1 className={`text-3xl md:text-6xl font-bold text-white mb-6 leading-tight transition-all duration-1000 ease-out ${
+            isVisible 
+              ? 'opacity-100 transform translate-y-0' 
+              : 'opacity-0 transform translate-y-8'
+          }`}>
             {t('home.hero.title')}
           </h1>
-          <p className="text-xl md:text-2xl text-white opacity-0 animate-[fadeIn_1s_ease-in_0.5s_forwards] font-light mb-12">
+          
+          {/* Subtitle with delayed entrance */}
+          <p className={`text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto mb-12 transition-all duration-1000 ease-out delay-300 ${
+            isVisible 
+              ? 'opacity-100 transform translate-y-0' 
+              : 'opacity-0 transform translate-y-8'
+          }`}>
             {t('home.hero.subtitle')}
           </p>
 
-          {/* Dashboard Button */}
-          <div className="mb-8">
+          {/* Dashboard Button with delayed entrance */}
+          <div className={`mb-8 transition-all duration-1000 ease-out delay-500 ${
+            isVisible 
+              ? 'opacity-100 transform translate-y-0 scale-100' 
+              : 'opacity-0 transform translate-y-8 scale-95'
+          }`}>
             <Link
               to="/client-dashboard"
               className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg"
@@ -62,8 +86,12 @@ function Hero() {
             </Link>
           </div>
 
-          {/* Navigation Dots */}
-          <div className="flex justify-center gap-3 mt-8">
+          {/* Navigation Dots with delayed entrance */}
+          <div className={`flex justify-center gap-3 mt-8 transition-all duration-1000 ease-out delay-700 ${
+            isVisible 
+              ? 'opacity-100 transform translate-y-0' 
+              : 'opacity-0 transform translate-y-4'
+          }`}>
             {images.map((_, index) => (
               <button
                 key={index}

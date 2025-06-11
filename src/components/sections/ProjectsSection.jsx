@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
@@ -11,9 +11,35 @@ function ProjectsSection() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [imageErrors, setImageErrors] = useState(new Set());
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     fetchProjects();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   async function fetchProjects() {
@@ -71,7 +97,7 @@ function ProjectsSection() {
   // Show error state
   if (error) {
     return (
-      <section className="w-full py-12 bg-[#0c0c0c]">
+      <section ref={sectionRef} className="w-full py-12 bg-[#0c0c0c]">
         <div className="max-w-8xl mx-auto px-4">
           <div className="text-center mb-8">
             <h2 className="text-4xl sm:text-5xl md:text-6xl text-white font-bold mb-8 font-cormorant tracking-[.25em] uppercase">
@@ -93,26 +119,44 @@ function ProjectsSection() {
   }
 
   return (
-    <section className="w-full py-12 bg-[#0c0c0c]">
+    <section ref={sectionRef} className="w-full py-12 bg-[#0c0c0c]">
       <div className="max-w-8xl mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 
-            className="text-4xl sm:text-5xl md:text-6xl text-white font-bold mb-8 font-cormorant tracking-[.25em] uppercase"
-          >
+          <h2 className={`text-4xl sm:text-5xl md:text-6xl text-white font-bold mb-8 font-cormorant tracking-[.25em] uppercase transition-all duration-1000 ease-out ${
+            isVisible 
+              ? 'opacity-100 transform translate-y-0' 
+              : 'opacity-0 transform translate-y-12'
+          }`}>
             {t('home.projects.title')}
           </h2>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {loading ? (
-            // Loading placeholders
+            // Loading placeholders with staggered animation
             [...Array(4)].map((_, i) => (
-              <div key={i} className="relative w-full pb-[100%] bg-gray-800 animate-pulse rounded-lg" />
+              <div 
+                key={i} 
+                className={`relative w-full pb-[100%] bg-gray-800 animate-pulse rounded-lg transition-all duration-1000 ease-out ${
+                  isVisible 
+                    ? 'opacity-100 transform translate-y-0 scale-100' 
+                    : 'opacity-0 transform translate-y-8 scale-95'
+                }`}
+                style={{ transitionDelay: isVisible ? `${i * 100}ms` : '0ms' }}
+              />
             ))
           ) : (
-            // Project cards
+            // Project cards with staggered animation
             projects.map((project, index) => (
-              <div key={project.id} className="relative w-full pb-[100%] overflow-hidden">
+              <div 
+                key={project.id} 
+                className={`relative w-full pb-[100%] overflow-hidden transition-all duration-1000 ease-out ${
+                  isVisible 
+                    ? 'opacity-100 transform translate-y-0 scale-100' 
+                    : 'opacity-0 transform translate-y-8 scale-95'
+                }`}
+                style={{ transitionDelay: isVisible ? `${index * 150}ms` : '0ms' }}
+              >
                 {!imageErrors.has(project.id) ? (
                   <img 
                     src={getProjectImageUrl(project)} 
@@ -140,7 +184,12 @@ function ProjectsSection() {
         <div className="text-center">
           <button
             onClick={() => navigate('/proyectos')}
-            className="inline-block border-2 text-white border-white px-8 py-3 text-lg font-medium tracking-[.25em] uppercase transition-all duration-300 hover:bg-white hover:text-[#0c0c0c]"
+            className={`inline-block border-2 text-white border-white px-8 py-3 text-lg font-medium tracking-[.25em] uppercase transition-all duration-1000 ease-out hover:bg-white hover:text-[#0c0c0c] ${
+              isVisible 
+                ? 'opacity-100 transform translate-y-0 scale-100' 
+                : 'opacity-0 transform translate-y-8 scale-95'
+            }`}
+            style={{ transitionDelay: isVisible ? '600ms' : '0ms' }}
           >
             {t('home.projects.cta')}
           </button>
