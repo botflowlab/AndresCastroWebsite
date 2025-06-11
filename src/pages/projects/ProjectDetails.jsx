@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
+import { getOptimizedImageUrl, getThumbnailUrl } from '../../utils/r2Storage';
 import ArchitecturalDrawings from './ArchitecturalDrawings';
 
 export default function ProjectDetails({ project }) {
   const { t } = useTranslation();
   const [relatedProjects, setRelatedProjects] = useState([]);
+  const [imageErrors, setImageErrors] = useState(new Set());
 
   useEffect(() => {
     fetchRelatedProjects();
@@ -28,13 +30,31 @@ export default function ProjectDetails({ project }) {
     }
   };
 
-  // Get the first two images from the project
+  // Get the first two images from the project with optimization
   const sideBySideImages = project.images?.slice(0, 2) || [];
 
   // Function to truncate text
   const truncateText = (text, maxLength) => {
     if (text.length <= maxLength) return text;
     return text.slice(0, maxLength) + '...';
+  };
+
+  const handleImageError = (index) => {
+    setImageErrors(prev => new Set([...prev, index]));
+    console.warn('Failed to load side-by-side image at index:', index);
+  };
+
+  const getDetailImageUrl = (imageUrl) => {
+    return getOptimizedImageUrl(imageUrl, {
+      width: 800,
+      height: 1200,
+      quality: 90,
+      format: 'webp'
+    }) || imageUrl;
+  };
+
+  const getRelatedProjectImageUrl = (imageUrl) => {
+    return getThumbnailUrl(imageUrl) || imageUrl;
   };
 
   return (
@@ -66,12 +86,24 @@ export default function ProjectDetails({ project }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mt-16">
               {sideBySideImages.map((image, index) => (
                 <div key={index} className="relative aspect-[12/16] overflow-hidden">
-                  <img
-                    src={image}
-                    alt={`${project.title} detail ${index + 1}`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                  />
+                  {!imageErrors.has(index) ? (
+                    <img
+                      src={getDetailImageUrl(image)}
+                      alt={`${project.title} detail ${index + 1}`}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                      onError={() => handleImageError(index)}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-800">
+                      <div className="text-center text-white">
+                        <svg className="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <p className="text-sm">Image not available</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -98,9 +130,12 @@ export default function ProjectDetails({ project }) {
                 >
                   <div className="aspect-[7/9] overflow-hidden bg-gray-100 rounded-lg">
                     <img
-                      src={relatedProject.images?.[0] || '/images/placeholder.jpg'}
+                      src={getRelatedProjectImageUrl(relatedProject.images?.[0]) || '/images/placeholder.jpg'}
                       alt={relatedProject.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      onError={(e) => {
+                        e.target.src = '/images/placeholder.jpg';
+                      }}
                     />
                   </div>
                   <h3 className="mt-4 text-xl font-medium text-center px-4 whitespace-normal line-clamp-2">

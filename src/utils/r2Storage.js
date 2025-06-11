@@ -30,13 +30,46 @@ export const validateR2Config = () => {
 };
 
 /**
+ * Check if a URL is an R2 URL
+ * @param {string} url - The URL to check
+ * @returns {boolean} - Whether the URL is from R2
+ */
+export const isR2Url = (url) => {
+  if (!url || !R2_PUBLIC_URL) return false;
+  return url.includes(R2_PUBLIC_URL) || url.includes('.r2.cloudflarestorage.com');
+};
+
+/**
+ * Extract filename from URL (works for both R2 and other URLs)
+ * @param {string} url - The image URL
+ * @returns {string} - The filename
+ */
+export const extractFilename = (url) => {
+  if (!url) return '';
+  try {
+    return url.split('/').pop().split('?')[0];
+  } catch {
+    return '';
+  }
+};
+
+/**
  * Generate optimized image URL with Cloudflare Image Resizing
- * @param {string} fileName - The file name in R2
+ * @param {string} imageUrl - The full image URL or filename
  * @param {Object} options - Optimization options
  * @returns {string} - Optimized image URL
  */
-export const getOptimizedImageUrl = (fileName, options = {}) => {
-  if (!fileName) return '';
+export const getOptimizedImageUrl = (imageUrl, options = {}) => {
+  if (!imageUrl) return '';
+  
+  // If it's already a full R2 URL, extract the filename
+  let fileName = imageUrl;
+  if (isR2Url(imageUrl)) {
+    fileName = extractFilename(imageUrl);
+  } else if (imageUrl.startsWith('http')) {
+    // If it's a non-R2 URL, return as-is
+    return imageUrl;
+  }
   
   const {
     width = null,
@@ -50,7 +83,6 @@ export const getOptimizedImageUrl = (fileName, options = {}) => {
   let url = `${R2_PUBLIC_URL}/${fileName}`;
 
   // Add Cloudflare Image Resizing parameters if available
-  // Note: This requires Cloudflare Image Resizing to be enabled
   const params = new URLSearchParams();
   
   if (width) params.append('width', width.toString());
@@ -59,11 +91,8 @@ export const getOptimizedImageUrl = (fileName, options = {}) => {
   if (format !== 'auto') params.append('format', format);
   if (fit !== 'cover') params.append('fit', fit);
 
-  // If we have optimization parameters, use Cloudflare's image resizing
+  // If we have optimization parameters, add them as query params
   if (params.toString()) {
-    // This assumes you have Cloudflare Image Resizing enabled
-    // Format: https://imagedelivery.net/your-account-hash/image-id/variant-name
-    // For now, we'll just return the direct URL and add optimization later
     url += `?${params.toString()}`;
   }
 
@@ -152,13 +181,13 @@ export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = (
  */
 export const deleteFromR2 = async (imageUrl) => {
   try {
-    if (!imageUrl || !imageUrl.includes(R2_PUBLIC_URL)) {
+    if (!imageUrl || !isR2Url(imageUrl)) {
       console.warn('Invalid R2 URL for deletion:', imageUrl);
       return false;
     }
 
     // Extract filename from URL
-    const fileName = imageUrl.split('/').pop().split('?')[0]; // Remove query params
+    const fileName = extractFilename(imageUrl);
 
     const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/delete-from-r2`, {
       method: 'POST',
@@ -256,8 +285,7 @@ export const batchDeleteFromR2 = async (imageUrls) => {
 export const getThumbnailUrl = (imageUrl) => {
   if (!imageUrl) return '';
   
-  const fileName = imageUrl.split('/').pop().split('?')[0];
-  return getOptimizedImageUrl(fileName, {
+  return getOptimizedImageUrl(imageUrl, {
     width: 300,
     height: 200,
     quality: 70,
@@ -273,13 +301,11 @@ export const getThumbnailUrl = (imageUrl) => {
 export const getResponsiveImageUrls = (imageUrl) => {
   if (!imageUrl) return {};
   
-  const fileName = imageUrl.split('/').pop().split('?')[0];
-  
   return {
-    thumbnail: getOptimizedImageUrl(fileName, { width: 300, height: 200, quality: 70 }),
-    small: getOptimizedImageUrl(fileName, { width: 600, height: 400, quality: 80 }),
-    medium: getOptimizedImageUrl(fileName, { width: 1200, height: 800, quality: 85 }),
-    large: getOptimizedImageUrl(fileName, { width: 1920, height: 1280, quality: 90 }),
+    thumbnail: getOptimizedImageUrl(imageUrl, { width: 300, height: 200, quality: 70 }),
+    small: getOptimizedImageUrl(imageUrl, { width: 600, height: 400, quality: 80 }),
+    medium: getOptimizedImageUrl(imageUrl, { width: 1200, height: 800, quality: 85 }),
+    large: getOptimizedImageUrl(imageUrl, { width: 1920, height: 1280, quality: 90 }),
     original: imageUrl
   };
 };

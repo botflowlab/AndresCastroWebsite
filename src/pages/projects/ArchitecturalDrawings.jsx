@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getOptimizedImageUrl, getThumbnailUrl } from '../../utils/r2Storage';
 
 export default function ArchitecturalDrawings({ project }) {
   const { t } = useTranslation();
   const [selectedDrawing, setSelectedDrawing] = useState(null);
+  const [imageErrors, setImageErrors] = useState(new Set());
 
   // Get blueprints from the project
   const drawings = project?.blueprints || [];
@@ -12,6 +14,24 @@ export default function ArchitecturalDrawings({ project }) {
   if (!drawings || drawings.length === 0) {
     return null;
   }
+
+  const handleImageError = (index) => {
+    setImageErrors(prev => new Set([...prev, index]));
+    console.warn('Failed to load blueprint at index:', index);
+  };
+
+  const getDrawingThumbnailUrl = (imageUrl) => {
+    return getThumbnailUrl(imageUrl) || imageUrl;
+  };
+
+  const getDrawingFullUrl = (imageUrl) => {
+    return getOptimizedImageUrl(imageUrl, {
+      width: 1200,
+      height: 900,
+      quality: 95,
+      format: 'auto'
+    }) || imageUrl;
+  };
 
   return (
     <>
@@ -35,11 +55,23 @@ export default function ArchitecturalDrawings({ project }) {
               >
                 <div className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
                   <div className="aspect-[4/3] overflow-hidden">
-                    <img
-                      src={drawing}
-                      alt={`${t('projects.details.blueprints')} ${index + 1}`}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
+                    {!imageErrors.has(index) ? (
+                      <img
+                        src={getDrawingThumbnailUrl(drawing)}
+                        alt={`${t('projects.details.blueprints')} ${index + 1}`}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        onError={() => handleImageError(index)}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                        <div className="text-center text-gray-500">
+                          <svg className="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          <p className="text-sm">Blueprint not available</p>
+                        </div>
+                      </div>
+                    )}
                     
                     {/* Simple hover overlay */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
@@ -75,9 +107,12 @@ export default function ArchitecturalDrawings({ project }) {
           </button>
           
           <img
-            src={selectedDrawing}
+            src={getDrawingFullUrl(selectedDrawing)}
             alt={t('projects.details.blueprints')}
             className="max-h-[90vh] max-w-[90vw] object-contain"
+            onError={(e) => {
+              e.target.src = selectedDrawing; // Fallback to original URL
+            }}
           />
         </div>
       )}
