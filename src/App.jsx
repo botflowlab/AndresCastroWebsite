@@ -32,6 +32,8 @@ function App() {
           <Route path="/arquitecto" element={<Architect />} />
           <Route path="/noticias" element={<News />} />
           <Route path="/client-dashboard" element={<AuthPage />} />
+          <Route path="/admin" element={<AuthPage />} />
+          <Route path="/dashboard" element={<AuthPage />} />
         </Routes>
       </Layout>
     </Router>

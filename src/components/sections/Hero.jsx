@@ -52,16 +52,6 @@ function Hero() {
             {t('home.hero.subtitle')}
           </p>
 
-          {/* Temporary Dashboard Button */}
-          <div className="mb-8">
-            <Link
-              to="/client-dashboard"
-              className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              🚀 ADMIN DASHBOARD (TEMP)
-            </Link>
-          </div>
-
           {/* Navigation Dots */}
           <div className="flex justify-center gap-3 mt-8">
             {images.map((_, index) => (
