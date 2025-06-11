@@ -1,6 +1,6 @@
 /**
- * ULTRA-SIMPLE Cloudflare R2 Storage utilities
- * ONE FUNCTION TO RULE THEM ALL
+ * ULTRA-STABLE Cloudflare R2 Storage utilities
+ * Fixed caching and stability issues
  */
 
 // R2 configuration
@@ -8,54 +8,73 @@ const R2_PUBLIC_URL = import.meta.env.VITE_R2_PUBLIC_URL;
 
 console.log('🔧 R2 Config:', { R2_PUBLIC_URL });
 
+// Cache processed URLs to prevent re-processing
+const urlCache = new Map();
+
 /**
- * THE ONLY FUNCTION YOU NEED
+ * THE ONLY FUNCTION YOU NEED - NOW WITH CACHING
  * Converts any image reference to a working URL
  */
 export const getImageUrl = (imageUrl) => {
-  console.log('🖼️ Input:', imageUrl);
+  // Check cache first
+  if (urlCache.has(imageUrl)) {
+    const cachedUrl = urlCache.get(imageUrl);
+    console.log('💾 Cache hit:', imageUrl, '->', cachedUrl);
+    return cachedUrl;
+  }
+
+  console.log('🖼️ Processing:', imageUrl);
+  
+  let finalUrl;
   
   // No URL = placeholder
   if (!imageUrl) {
     console.log('❌ No URL, using placeholder');
-    return '/images/placeholder.jpg';
+    finalUrl = '/images/placeholder.jpg';
   }
-  
   // Already the correct public URL = use as-is
-  if (imageUrl.includes('pub-69ff11d6ad5b4c02b2fb48ab7c50735d.r2.dev')) {
-    console.log('✅ Correct public URL:', imageUrl);
-    return imageUrl;
+  else if (imageUrl.includes('pub-69ff11d6ad5b4c02b2fb48ab7c50735d.r2.dev')) {
+    console.log('✅ Correct public URL');
+    finalUrl = imageUrl;
   }
-  
   // Wrong R2 URL format = fix it
-  if (imageUrl.includes('.r2.cloudflarestorage.com')) {
+  else if (imageUrl.includes('.r2.cloudflarestorage.com')) {
     const fileName = imageUrl.split('/').pop();
-    const fixedUrl = `${R2_PUBLIC_URL}/${fileName}`;
-    console.log('🔧 Fixed R2 URL:', imageUrl, '->', fixedUrl);
-    return fixedUrl;
+    finalUrl = `${R2_PUBLIC_URL}/${fileName}`;
+    console.log('🔧 Fixed R2 URL:', fileName);
   }
-  
   // Full URL but not R2 = use as-is
-  if (imageUrl.startsWith('http')) {
-    console.log('🌐 External URL:', imageUrl);
-    return imageUrl;
+  else if (imageUrl.startsWith('http')) {
+    console.log('🌐 External URL');
+    finalUrl = imageUrl;
   }
-  
   // Local image = use as-is
-  if (imageUrl.startsWith('/')) {
-    console.log('📁 Local image:', imageUrl);
-    return imageUrl;
+  else if (imageUrl.startsWith('/')) {
+    console.log('📁 Local image');
+    finalUrl = imageUrl;
   }
-  
   // Must be a filename = build R2 URL
-  if (!R2_PUBLIC_URL) {
-    console.log('❌ No R2_PUBLIC_URL, using placeholder');
-    return '/images/placeholder.jpg';
+  else {
+    if (!R2_PUBLIC_URL) {
+      console.log('❌ No R2_PUBLIC_URL, using placeholder');
+      finalUrl = '/images/placeholder.jpg';
+    } else {
+      finalUrl = `${R2_PUBLIC_URL}/${imageUrl}`;
+      console.log('🔗 R2 URL from filename');
+    }
   }
+
+  // Cache the result
+  urlCache.set(imageUrl, finalUrl);
+  console.log('💾 Cached:', imageUrl, '->', finalUrl);
   
-  const finalUrl = `${R2_PUBLIC_URL}/${imageUrl}`;
-  console.log('🔗 R2 URL from filename:', finalUrl);
   return finalUrl;
+};
+
+// Clear cache function (for debugging)
+export const clearImageCache = () => {
+  urlCache.clear();
+  console.log('🗑️ Image cache cleared');
 };
 
 // Keep these for compatibility but they all use the same function
@@ -96,8 +115,9 @@ export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = (
     
     console.log('✅ Upload success:', result.url);
     
-    // Ensure we return the correct public URL format
-    return getImageUrl(result.url);
+    // Ensure we return the correct public URL format and cache it
+    const finalUrl = getImageUrl(result.url);
+    return finalUrl;
   } catch (error) {
     console.error('❌ Upload failed:', error);
     throw error;
@@ -127,6 +147,9 @@ export const deleteFromR2 = async (imageUrl) => {
     
     const fileName = imageUrl.split('/').pop().split('?')[0];
     console.log('🗑️ Deleting:', fileName);
+
+    // Remove from cache
+    urlCache.delete(imageUrl);
 
     const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/delete-from-r2`, {
       method: 'POST',

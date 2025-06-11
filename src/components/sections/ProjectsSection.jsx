@@ -21,7 +21,7 @@ function ProjectsSection() {
       setLoading(true);
       setError(null);
       
-      console.log('🔄 Fetching projects...');
+      console.log('🔄 ProjectsSection: Fetching projects...');
       
       // Test connection first
       const { data: testData, error: testError } = await supabase
@@ -45,10 +45,10 @@ function ProjectsSection() {
         throw new Error(`Failed to fetch projects: ${error.message}`);
       }
       
-      console.log('✅ Fetched projects:', data);
+      console.log('✅ ProjectsSection: Fetched projects:', data?.length || 0);
       setProjects(data || []);
     } catch (error) {
-      console.error('❌ Error fetching projects:', error);
+      console.error('❌ ProjectsSection: Error fetching projects:', error);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -57,7 +57,7 @@ function ProjectsSection() {
 
   const handleImageError = (projectId) => {
     setImageErrors(prev => new Set([...prev, projectId]));
-    console.warn('❌ Failed to load project image for project:', projectId);
+    console.warn('❌ ProjectsSection: Failed to load project image for project:', projectId);
   };
 
   const getProjectImageUrl = (project) => {
@@ -120,6 +120,7 @@ function ProjectsSection() {
                     className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 hover:scale-125"
                     onError={() => handleImageError(project.id)}
                     loading="lazy"
+                    crossOrigin="anonymous"
                   />
                 ) : (
                   <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800">
