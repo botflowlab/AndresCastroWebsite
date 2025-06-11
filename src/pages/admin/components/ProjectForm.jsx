@@ -283,7 +283,7 @@ export default function ProjectForm({
         )}
         {mode === 'edit' && initialData.images && initialData.images.length > 0 && (
           <div className="mt-2 text-sm text-blue-600">
-            Current project has {initialData.images.length} existing images (stored in R2)
+            Current project has {initialData.images.length} existing images
           </div>
         )}
       </div>
@@ -315,7 +315,7 @@ export default function ProjectForm({
         )}
         {mode === 'edit' && initialData.blueprints && initialData.blueprints.length > 0 && (
           <div className="mt-2 text-sm text-blue-600">
-            Current project has {initialData.blueprints.length} existing blueprints (stored in R2)
+            Current project has {initialData.blueprints.length} existing blueprints
           </div>
         )}
       </div>
@@ -329,7 +329,7 @@ export default function ProjectForm({
             ></div>
           </div>
           <p className="text-sm text-gray-600 mt-1">
-            Uploading to R2: {Math.round(uploadProgress)}%
+            Uploading: {Math.round(uploadProgress)}%
           </p>
         </div>
       )}
@@ -381,11 +381,8 @@ export default function ProjectForm({
               <div className="mt-2 text-sm text-blue-700">
                 <ul className="list-disc list-inside space-y-1">
                   <li>Only modified fields will be updated</li>
-                  <li>New images will be uploaded to R2 and added to existing ones</li>
+                  <li>New images will be added to existing ones</li>
                   <li>Use the project management section below to reorder or delete existing images</li>
-                  <li>All text inputs will be automatically trimmed of extra spaces</li>
-                  <li>Form will be cleared after successful submission</li>
-                  <li>Images are stored in Cloudflare R2 for optimal performance</li>
                 </ul>
               </div>
             </div>
@@ -407,9 +404,7 @@ export default function ProjectForm({
                 R2 Storage Ready
               </h3>
               <div className="mt-2 text-sm text-green-700">
-                <p>✅ Images will be uploaded to Cloudflare R2 for fast global delivery</p>
-                <p>✅ Automatic image optimization and compression</p>
-                <p>✅ CDN-powered performance worldwide</p>
+                <p>Images will be uploaded to Cloudflare R2 for fast global delivery</p>
               </div>
             </div>
           </div>
