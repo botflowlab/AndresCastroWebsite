@@ -8,9 +8,9 @@ export default function LogoIntro({ onComplete }) {
     // Animation sequence timing
     const timers = [
       setTimeout(() => setCurrentStep(1), 500),   // Logo appears
-      setTimeout(() => setCurrentStep(2), 1500),  // Text appears
-      setTimeout(() => setCurrentStep(3), 3000),  // Full reveal
-      setTimeout(() => handleComplete(), 4500)    // Auto complete
+      setTimeout(() => setCurrentStep(2), 1000),  // Text appears
+      setTimeout(() => setCurrentStep(3), 1200),  // Full reveal
+      setTimeout(() => handleComplete(), 1500)    // Auto complete
     ];
 
     return () => timers.forEach(timer => clearTimeout(timer));
