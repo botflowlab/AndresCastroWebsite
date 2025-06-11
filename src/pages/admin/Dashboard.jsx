@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../supabaseClient';
 import { validateFileUpload, sanitizeInput, createRateLimiter } from '../../utils/security';
+import { batchUploadToR2, batchDeleteFromR2, validateR2Config } from '../../utils/r2Storage';
 import ProjectForm from './components/ProjectForm';
 import ProjectList from './components/ProjectList';
 import StorageManager from './components/StorageManager';
@@ -18,7 +19,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('projects'); // New state for tabs
 
   useEffect(() => {
-    // Verify user authentication
+    // Verify user authentication and R2 configuration
     const checkAuth = async () => {
       try {
         const { data: { user }, error } = await supabase.auth.getUser();
@@ -26,6 +27,15 @@ export default function Dashboard() {
         
         if (!user) {
           throw new Error('User not authenticated');
+        }
+        
+        // Validate R2 configuration
+        try {
+          validateR2Config();
+          console.log('✅ R2 configuration validated');
+        } catch (r2Error) {
+          console.warn('⚠️ R2 configuration issue:', r2Error.message);
+          setError(`R2 Storage configuration issue: ${r2Error.message}`);
         }
         
         setUser(user);
@@ -102,30 +112,18 @@ export default function Dashboard() {
       .replace(/(^-|-$)+/g, '');
   };
 
-  const deleteImagesFromStorage = async (imageUrls) => {
+  const deleteImagesFromR2 = async (imageUrls) => {
     if (!imageUrls?.length) return;
     
-    const filesToDelete = imageUrls
-      .filter(url => url && typeof url === 'string')
-      .map(url => {
-        try {
-          return url.split('/').pop();
-        } catch {
-          return null;
-        }
-      })
-      .filter(Boolean);
-    
-    if (filesToDelete.length === 0) return;
-    
     try {
-      const { error } = await supabase.storage
-        .from('project-images')
-        .remove(filesToDelete);
-        
-      if (error) throw error;
+      const result = await batchDeleteFromR2(imageUrls);
+      console.log(`Deleted ${result.success} images, failed: ${result.failed}`);
+      
+      if (result.failed > 0) {
+        console.warn(`Failed to delete ${result.failed} images from R2`);
+      }
     } catch (error) {
-      console.error('Error deleting images from storage:', error);
+      console.error('Error deleting images from R2:', error);
       throw error;
     }
   };
@@ -138,45 +136,23 @@ export default function Dashboard() {
       throw new Error('Upload rate limit exceeded. Please wait before uploading more files.');
     }
 
-    const uploadedUrls = [];
-    const timestamp = Date.now();
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      
-      // Validate each file
+    // Validate each file
+    for (const file of files) {
       try {
         validateFileUpload(file);
       } catch (error) {
         throw new Error(`File ${file.name}: ${error.message}`);
       }
-
-      const fileExt = file.name.split('.').pop().toLowerCase();
-      const fileName = `${fileType}-${timestamp}-${i}-${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
-
-      try {
-        const { error: uploadError } = await supabase.storage
-          .from('project-images')
-          .upload(fileName, file, {
-            cacheControl: '3600',
-            upsert: false
-          });
-
-        if (uploadError) throw uploadError;
-
-        const { data: { publicUrl } } = supabase.storage
-          .from('project-images')
-          .getPublicUrl(fileName);
-
-        uploadedUrls.push(publicUrl);
-        setUploadProgress(((i + 1) / files.length) * 100);
-      } catch (error) {
-        console.error('Error uploading image:', error);
-        throw new Error(`Failed to upload ${file.name}: ${error.message}`);
-      }
     }
 
-    return uploadedUrls;
+    try {
+      // Upload to R2 using batch upload
+      const uploadedUrls = await batchUploadToR2(files, fileType, setUploadProgress);
+      return uploadedUrls;
+    } catch (error) {
+      console.error('Error uploading images to R2:', error);
+      throw new Error(`Failed to upload images: ${error.message}`);
+    }
   };
 
   const handleSubmit = async ({ title, description, category, location, year, client, files, blueprints, setUploadProgress }) => {
@@ -200,14 +176,18 @@ export default function Dashboard() {
       let imageUrls = [];
       let blueprintUrls = [];
 
-      // Upload project images
+      // Upload project images to R2
       if (files && files.length > 0) {
+        console.log('📤 Uploading project images to R2...');
         imageUrls = await uploadImages(files, setUploadProgress, 'project');
+        console.log('✅ Project images uploaded to R2:', imageUrls);
       }
 
-      // Upload blueprints
+      // Upload blueprints to R2
       if (blueprints && blueprints.length > 0) {
+        console.log('📤 Uploading blueprints to R2...');
         blueprintUrls = await uploadImages(blueprints, setUploadProgress, 'blueprint');
+        console.log('✅ Blueprints uploaded to R2:', blueprintUrls);
       }
 
       if (mode === 'edit' && editingProject) {
@@ -290,9 +270,9 @@ export default function Dashboard() {
         throw new Error('Unauthorized: You can only delete your own projects');
       }
 
-      // Delete images from storage first
-      await deleteImagesFromStorage(project.images);
-      await deleteImagesFromStorage(project.blueprints);
+      // Delete images from R2 first
+      await deleteImagesFromR2(project.images);
+      await deleteImagesFromR2(project.blueprints);
 
       // Delete project from database
       const { error } = await supabase
@@ -332,8 +312,8 @@ export default function Dashboard() {
       const imageToDelete = project.images[imageIndex];
       const updatedImages = project.images.filter((_, index) => index !== imageIndex);
 
-      // Delete image from storage first
-      await deleteImagesFromStorage([imageToDelete]);
+      // Delete image from R2 first
+      await deleteImagesFromR2([imageToDelete]);
 
       // Update project with remaining images
       const { error } = await supabase
@@ -372,8 +352,8 @@ export default function Dashboard() {
       const blueprintToDelete = project.blueprints[blueprintIndex];
       const updatedBlueprints = project.blueprints.filter((_, index) => index !== blueprintIndex);
 
-      // Delete blueprint from storage first
-      await deleteImagesFromStorage([blueprintToDelete]);
+      // Delete blueprint from R2 first
+      await deleteImagesFromR2([blueprintToDelete]);
 
       // Update project with remaining blueprints
       const { error } = await supabase
@@ -532,7 +512,7 @@ export default function Dashboard() {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
-              Storage Cleanup
+              R2 Storage Management
             </button>
           </nav>
         </div>

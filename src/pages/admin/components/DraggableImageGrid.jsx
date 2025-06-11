@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
+import { getThumbnailUrl } from '../../../utils/r2Storage';
 
 export default function DraggableImageGrid({ 
   images, 
@@ -18,19 +19,8 @@ export default function DraggableImageGrid({
   // Memoize optimized image URLs to prevent recalculation
   const optimizedImages = useMemo(() => {
     return images.map(originalUrl => {
-      if (originalUrl.includes('supabase')) {
-        try {
-          const url = new URL(originalUrl);
-          url.searchParams.set('width', '150');
-          url.searchParams.set('height', '96');
-          url.searchParams.set('quality', '50');
-          url.searchParams.set('format', 'webp');
-          return url.toString();
-        } catch {
-          return originalUrl;
-        }
-      }
-      return originalUrl;
+      // Use R2 thumbnail URL for better performance
+      return getThumbnailUrl(originalUrl) || originalUrl;
     });
   }, [images]);
 
@@ -201,7 +191,7 @@ export default function DraggableImageGrid({
       <div className="flex items-center justify-between mb-4">
         <h4 className="text-lg font-medium text-gray-800">{title}</h4>
         <div className="text-sm text-gray-500">
-          Drag to reorder • First image = cover
+          Drag to reorder • First image = cover • Stored in R2
         </div>
       </div>
       
@@ -243,6 +233,11 @@ export default function DraggableImageGrid({
                   COVER
                 </div>
               )}
+
+              {/* R2 Storage indicator */}
+              <div className="absolute top-0 right-0 bg-blue-600 text-white text-[8px] px-1 py-0.5 rounded-bl font-bold z-30 pointer-events-none">
+                R2
+              </div>
 
               {/* Optimized image container */}
               <div className="relative overflow-hidden rounded-md shadow-sm hover:shadow-md transition-shadow duration-150">
@@ -306,12 +301,12 @@ export default function DraggableImageGrid({
         })}
       </div>
 
-      {/* Minimal performance info */}
+      {/* Enhanced performance info */}
       <div className="mt-2 text-xs text-gray-400 flex items-center gap-1">
         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
-        Optimized • {images.length} items
+        R2 Optimized • {images.length} items • Auto-compressed thumbnails
       </div>
     </div>
   );
