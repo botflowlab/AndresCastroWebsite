@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
-import { normalizeImageUrl, testImageUrl } from '../../utils/r2Storage';
+import { getImageUrl } from '../../utils/r2Storage';
 
 function ProjectsSection() {
   const { t } = useTranslation();
@@ -21,13 +21,15 @@ function ProjectsSection() {
       setLoading(true);
       setError(null);
       
+      console.log('🔄 Fetching projects...');
+      
       // Test connection first
       const { data: testData, error: testError } = await supabase
         .from('projects')
         .select('count', { count: 'exact', head: true });
       
       if (testError) {
-        console.error('Connection test failed:', testError);
+        console.error('❌ Connection test failed:', testError);
         throw new Error(`Database connection failed: ${testError.message}`);
       }
 
@@ -39,21 +41,14 @@ function ProjectsSection() {
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching projects:', error);
+        console.error('❌ Error fetching projects:', error);
         throw new Error(`Failed to fetch projects: ${error.message}`);
       }
       
-      // Normalize image URLs for all projects
-      const projectsWithNormalizedUrls = data?.map(project => ({
-        ...project,
-        images: project.images?.map(url => normalizeImageUrl(url)) || [],
-        blueprints: project.blueprints?.map(url => normalizeImageUrl(url)) || []
-      })) || [];
-      
-      console.log('Fetched projects with normalized URLs:', projectsWithNormalizedUrls);
-      setProjects(projectsWithNormalizedUrls);
+      console.log('✅ Fetched projects:', data);
+      setProjects(data || []);
     } catch (error) {
-      console.error('Error fetching projects:', error);
+      console.error('❌ Error fetching projects:', error);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -62,7 +57,7 @@ function ProjectsSection() {
 
   const handleImageError = (projectId) => {
     setImageErrors(prev => new Set([...prev, projectId]));
-    console.warn('Failed to load project image for project:', projectId);
+    console.warn('❌ Failed to load project image for project:', projectId);
   };
 
   const getProjectImageUrl = (project) => {
@@ -70,8 +65,7 @@ function ProjectsSection() {
       return '/images/placeholder.jpg';
     }
     
-    // Return the first normalized image URL
-    return project.images[0];
+    return getImageUrl(project.images[0]);
   };
 
   // Show error state

@@ -1,64 +1,31 @@
 import React, { useState } from 'react';
-import { normalizeImageUrl, testImageUrl } from '../../utils/r2Storage';
+import { getImageUrl } from '../../utils/r2Storage';
 
 export default function ProjectCard({ title, image }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [finalImageUrl, setFinalImageUrl] = useState('');
 
-  // Function to get the correct image URL
-  const getImageUrl = (imageUrl) => {
-    if (!imageUrl) return '/images/placeholder.jpg';
-    
-    // Use the normalizeImageUrl function from r2Storage
-    return normalizeImageUrl(imageUrl);
-  };
-
-  React.useEffect(() => {
-    const setupImage = async () => {
-      if (!image) {
-        setFinalImageUrl('/images/placeholder.jpg');
-        return;
-      }
-
-      const normalizedUrl = getImageUrl(image);
-      console.log('ProjectCard - Original URL:', image);
-      console.log('ProjectCard - Normalized URL:', normalizedUrl);
-      
-      // Test if the image is accessible
-      const isAccessible = await testImageUrl(normalizedUrl);
-      
-      if (isAccessible) {
-        setFinalImageUrl(normalizedUrl);
-      } else {
-        console.warn('Image not accessible, using placeholder:', normalizedUrl);
-        setFinalImageUrl('/images/placeholder.jpg');
-        setImageError(true);
-      }
-    };
-
-    setupImage();
-  }, [image]);
+  // Get the final image URL using our simple function
+  const finalImageUrl = getImageUrl(image);
 
   const handleImageError = () => {
-    console.error('Failed to load image:', {
+    console.error('❌ Image failed to load:', {
       originalUrl: image,
       finalUrl: finalImageUrl,
       title: title
     });
     setImageError(true);
-    setFinalImageUrl('/images/placeholder.jpg');
   };
 
   const handleImageLoad = () => {
     setImageLoaded(true);
-    console.log('Successfully loaded image:', finalImageUrl);
+    console.log('✅ Image loaded successfully:', finalImageUrl);
   };
 
   return (
     <div className="w-full overflow-hidden">
       <div className="aspect-[7/9] overflow-hidden relative bg-gray-100">
-        {!imageError && finalImageUrl ? (
+        {!imageError ? (
           <img 
             src={finalImageUrl} 
             alt={title} 
@@ -77,13 +44,13 @@ export default function ProjectCard({ title, image }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <p className="text-sm font-medium">Image not available</p>
-              <p className="text-xs text-gray-400 mt-1">
-                Check R2 configuration
+              <p className="text-xs text-gray-400 mt-1 break-all">
+                URL: {finalImageUrl}
               </p>
             </div>
           </div>
         )}
-        {!imageLoaded && !imageError && finalImageUrl && (
+        {!imageLoaded && !imageError && (
           <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
             <div className="text-gray-400">Loading...</div>
           </div>

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { FiArrowLeft, FiArrowRight, FiMaximize } from 'react-icons/fi';
-import { getOptimizedImageUrl, getThumbnailUrl } from '../../utils/r2Storage';
+import { getImageUrl } from '../../utils/r2Storage';
 
 export default function ProjectHero({ project }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -40,20 +40,7 @@ export default function ProjectHero({ project }) {
 
   const handleImageError = (index) => {
     setImageErrors(prev => new Set([...prev, index]));
-    console.warn('Failed to load image at index:', index, project?.images?.[index]);
-  };
-
-  const getMainImageUrl = (imageUrl) => {
-    return getOptimizedImageUrl(imageUrl, {
-      width: 1920,
-      height: 1280,
-      quality: 90,
-      format: 'webp'
-    }) || imageUrl;
-  };
-
-  const getThumbnailImageUrl = (imageUrl) => {
-    return getThumbnailUrl(imageUrl) || imageUrl;
+    console.warn('❌ Failed to load image at index:', index, project?.images?.[index]);
   };
 
   if (!project?.images?.length) return null;
@@ -68,7 +55,7 @@ export default function ProjectHero({ project }) {
             <div className="absolute inset-0 bg-black rounded-lg overflow-hidden">
               {!imageErrors.has(currentImageIndex) ? (
                 <img
-                  src={getMainImageUrl(project.images[currentImageIndex])}
+                  src={getImageUrl(project.images[currentImageIndex])}
                   alt={`${project.title} - Image ${currentImageIndex + 1}`}
                   className="w-full h-full object-cover rounded-lg"
                   loading="eager"
@@ -92,7 +79,7 @@ export default function ProjectHero({ project }) {
             <div className="absolute inset-0 bg-black rounded-lg overflow-hidden">
               {!imageErrors.has(currentImageIndex) ? (
                 <img
-                  src={getMainImageUrl(project.images[currentImageIndex])}
+                  src={getImageUrl(project.images[currentImageIndex])}
                   alt={`${project.title} - Image ${currentImageIndex + 1}`}
                   className="w-full h-full object-cover rounded-lg"
                   loading="eager"
@@ -174,7 +161,7 @@ export default function ProjectHero({ project }) {
                   >
                     {!imageErrors.has(index) ? (
                       <img
-                        src={getThumbnailImageUrl(image)}
+                        src={getImageUrl(image)}
                         alt={`${project.title} - Thumbnail ${index + 1}`}
                         className="w-full h-full object-cover"
                         loading="lazy"
@@ -221,7 +208,7 @@ export default function ProjectHero({ project }) {
           <div className="relative w-full h-full flex items-center justify-center p-4">
             {!imageErrors.has(currentImageIndex) ? (
               <img
-                src={project.images[currentImageIndex]}
+                src={getImageUrl(project.images[currentImageIndex])}
                 alt={`${project.title} - Image ${currentImageIndex + 1}`}
                 className="max-h-full max-w-full object-contain"
                 onError={() => handleImageError(currentImageIndex)}
