@@ -1,84 +1,69 @@
 /**
- * SIMPLIFIED Cloudflare R2 Storage utilities
- * This is the most basic implementation possible
+ * ULTRA-SIMPLE Cloudflare R2 Storage utilities
+ * ONE FUNCTION TO RULE THEM ALL
  */
 
-// R2 configuration from environment variables
+// R2 configuration
 const R2_PUBLIC_URL = import.meta.env.VITE_R2_PUBLIC_URL;
-const R2_BUCKET_NAME = import.meta.env.VITE_R2_BUCKET_NAME;
 
-console.log('R2 Config:', { R2_PUBLIC_URL, R2_BUCKET_NAME });
-
-// Validate R2 configuration
-export const validateR2Config = () => {
-  if (!R2_PUBLIC_URL || R2_PUBLIC_URL === 'undefined') {
-    throw new Error('VITE_R2_PUBLIC_URL is not configured');
-  }
-  
-  if (!R2_BUCKET_NAME || R2_BUCKET_NAME === 'undefined') {
-    throw new Error('VITE_R2_BUCKET_NAME is not configured');
-  }
-  
-  if (!R2_PUBLIC_URL.startsWith('https://')) {
-    throw new Error('VITE_R2_PUBLIC_URL must start with https://');
-  }
-};
+console.log('🔧 R2 Config:', { R2_PUBLIC_URL });
 
 /**
- * SIMPLE: Convert any image URL to proper R2 URL
- * This is the ONLY function you need to worry about
+ * THE ONLY FUNCTION YOU NEED
+ * Converts any image reference to a working URL
  */
 export const getImageUrl = (imageUrl) => {
-  console.log('🖼️ Processing image URL:', imageUrl);
+  console.log('🖼️ Input:', imageUrl);
   
-  // If no URL, return placeholder
+  // No URL = placeholder
   if (!imageUrl) {
-    console.log('❌ No image URL provided, using placeholder');
+    console.log('❌ No URL, using placeholder');
     return '/images/placeholder.jpg';
   }
   
-  // If it's already a full HTTP URL, use it as-is
+  // Already a full URL = use as-is
   if (imageUrl.startsWith('http')) {
-    console.log('✅ Full URL detected:', imageUrl);
+    console.log('✅ Full URL:', imageUrl);
     return imageUrl;
   }
   
-  // If it's a local image (starts with /), use it as-is
+  // Local image = use as-is
   if (imageUrl.startsWith('/')) {
-    console.log('📁 Local image detected:', imageUrl);
+    console.log('📁 Local image:', imageUrl);
     return imageUrl;
   }
   
-  // Otherwise, assume it's a filename and construct R2 URL
-  const r2Url = `${R2_PUBLIC_URL}/${imageUrl}`;
-  console.log('🔗 Constructed R2 URL:', r2Url);
-  return r2Url;
+  // Must be a filename = build R2 URL
+  if (!R2_PUBLIC_URL) {
+    console.log('❌ No R2_PUBLIC_URL, using placeholder');
+    return '/images/placeholder.jpg';
+  }
+  
+  const finalUrl = `${R2_PUBLIC_URL}/${imageUrl}`;
+  console.log('🔗 R2 URL:', finalUrl);
+  return finalUrl;
 };
 
-/**
- * SIMPLE: Upload file to R2
- */
+// Keep these for compatibility but they all use the same function
+export const normalizeImageUrl = getImageUrl;
+export const getThumbnailUrl = getImageUrl;
+export const getOptimizedImageUrl = getImageUrl;
+
+// Upload function (simplified)
 export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = () => {}) => {
   try {
-    validateR2Config();
+    console.log('📤 Uploading:', file.name);
     
-    console.log('📤 Uploading file:', file.name);
-    
-    // Generate unique filename
     const timestamp = Date.now();
     const randomString = Math.random().toString(36).substr(2, 9);
     const fileExt = file.name.split('.').pop().toLowerCase();
     const fileName = `${fileType}-${timestamp}-${randomString}.${fileExt}`;
     
-    console.log('📝 Generated filename:', fileName);
-    
-    // Create FormData
     const formData = new FormData();
     formData.append('file', file);
     formData.append('fileName', fileName);
     formData.append('fileType', fileType);
 
-    // Upload via Supabase Edge Function
     const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/upload-to-r2`, {
       method: 'POST',
       headers: {
@@ -89,13 +74,13 @@ export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = (
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || `Upload failed with status ${response.status}`);
+      throw new Error(errorData.error || `Upload failed`);
     }
 
     const result = await response.json();
     setUploadProgress(100);
     
-    console.log('✅ Upload successful:', result.url);
+    console.log('✅ Upload success:', result.url);
     return result.url;
   } catch (error) {
     console.error('❌ Upload failed:', error);
@@ -103,16 +88,29 @@ export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = (
   }
 };
 
-/**
- * SIMPLE: Delete file from R2
- */
+// Batch upload
+export const batchUploadToR2 = async (files, fileType = 'image', setUploadProgress = () => {}) => {
+  const uploadedUrls = [];
+  
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const url = await uploadToR2(file, fileType, (progress) => {
+      const overallProgress = ((i + (progress / 100)) / files.length) * 100;
+      setUploadProgress(overallProgress);
+    });
+    uploadedUrls.push(url);
+  }
+  
+  return uploadedUrls;
+};
+
+// Delete function (simplified)
 export const deleteFromR2 = async (imageUrl) => {
   try {
     if (!imageUrl) return false;
-
-    // Extract filename from URL
+    
     const fileName = imageUrl.split('/').pop().split('?')[0];
-    console.log('🗑️ Deleting file:', fileName);
+    console.log('🗑️ Deleting:', fileName);
 
     const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/delete-from-r2`, {
       method: 'POST',
@@ -123,77 +121,33 @@ export const deleteFromR2 = async (imageUrl) => {
       body: JSON.stringify({ fileName })
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || `Delete failed with status ${response.status}`);
-    }
-
-    console.log('✅ Delete successful');
-    return true;
+    return response.ok;
   } catch (error) {
     console.error('❌ Delete failed:', error);
     return false;
   }
 };
 
-/**
- * SIMPLE: Batch upload multiple files
- */
-export const batchUploadToR2 = async (files, fileType = 'image', setUploadProgress = () => {}) => {
-  const uploadedUrls = [];
-  
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    
-    try {
-      const url = await uploadToR2(file, fileType, (progress) => {
-        const overallProgress = ((i + (progress / 100)) / files.length) * 100;
-        setUploadProgress(overallProgress);
-      });
-      
-      uploadedUrls.push(url);
-    } catch (error) {
-      console.error(`Failed to upload file ${file.name}:`, error);
-      throw new Error(`Failed to upload ${file.name}: ${error.message}`);
-    }
-  }
-  
-  return uploadedUrls;
-};
-
-/**
- * SIMPLE: Batch delete multiple files
- */
+// Batch delete
 export const batchDeleteFromR2 = async (imageUrls) => {
   let success = 0;
   let failed = 0;
   
   for (const url of imageUrls) {
-    try {
-      const result = await deleteFromR2(url);
-      if (result) {
-        success++;
-      } else {
-        failed++;
-      }
-    } catch (error) {
-      console.error('Failed to delete:', url, error);
-      failed++;
-    }
+    const result = await deleteFromR2(url);
+    if (result) success++;
+    else failed++;
   }
   
   return { success, failed };
 };
 
-// Legacy function names for compatibility
-export const normalizeImageUrl = getImageUrl;
-export const getThumbnailUrl = getImageUrl;
-export const getOptimizedImageUrl = (imageUrl) => getImageUrl(imageUrl);
-export const testImageUrl = async (imageUrl) => {
-  try {
-    const response = await fetch(imageUrl, { method: 'HEAD', mode: 'cors' });
-    return response.ok;
-  } catch {
-    return false;
+// Validation (simplified)
+export const validateR2Config = () => {
+  if (!R2_PUBLIC_URL || R2_PUBLIC_URL === 'undefined') {
+    throw new Error('VITE_R2_PUBLIC_URL is not configured');
+  }
+  if (!R2_PUBLIC_URL.startsWith('https://')) {
+    throw new Error('VITE_R2_PUBLIC_URL must start with https://');
   }
 };
