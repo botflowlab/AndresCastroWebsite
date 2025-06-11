@@ -8,7 +8,7 @@ export default function LemaArchitec() {
         <img
           src="/images/lemaARQUITEC.jpg"
           alt="Lema Arquitectura"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
         {/* Subtle overlay for better text readability if needed */}
         <div className="absolute inset-0 bg-black/10"></div>
