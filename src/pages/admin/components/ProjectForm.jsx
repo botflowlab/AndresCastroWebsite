@@ -399,14 +399,6 @@ export default function ProjectForm({
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
             </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-medium text-green-800">
-                R2 Storage Ready
-              </h3>
-              <div className="mt-2 text-sm text-green-700">
-                <p>Images will be uploaded to Cloudflare R2 for fast global delivery</p>
-              </div>
-            </div>
           </div>
         </div>
       )}
