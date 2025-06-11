@@ -9,12 +9,23 @@ const R2_BUCKET_NAME = import.meta.env.VITE_R2_BUCKET_NAME;
 
 // Validate R2 configuration
 export const validateR2Config = () => {
-  if (!R2_PUBLIC_URL || !R2_BUCKET_NAME) {
-    throw new Error('R2 configuration is incomplete. Please check your .env file.');
+  console.log('R2 Config Check:', {
+    R2_PUBLIC_URL: R2_PUBLIC_URL ? 'Set' : 'Missing',
+    R2_BUCKET_NAME: R2_BUCKET_NAME ? 'Set' : 'Missing',
+    actualUrl: R2_PUBLIC_URL,
+    actualBucket: R2_BUCKET_NAME
+  });
+
+  if (!R2_PUBLIC_URL || R2_PUBLIC_URL === 'undefined' || R2_PUBLIC_URL.trim() === '') {
+    throw new Error('VITE_R2_PUBLIC_URL is not configured. Please check your .env file and ensure VITE_R2_PUBLIC_URL is set.');
+  }
+  
+  if (!R2_BUCKET_NAME || R2_BUCKET_NAME === 'undefined' || R2_BUCKET_NAME.trim() === '') {
+    throw new Error('VITE_R2_BUCKET_NAME is not configured. Please check your .env file and ensure VITE_R2_BUCKET_NAME is set.');
   }
   
   if (!R2_PUBLIC_URL.startsWith('https://')) {
-    throw new Error('R2_PUBLIC_URL must start with https://');
+    throw new Error('VITE_R2_PUBLIC_URL must start with https://. Current value: ' + R2_PUBLIC_URL);
   }
 };
 
@@ -82,6 +93,7 @@ export const generateFileName = (file, prefix = 'image') => {
  */
 export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = () => {}) => {
   try {
+    // Validate configuration before attempting upload
     validateR2Config();
     
     // Generate unique filename
