@@ -7,6 +7,10 @@ import { Link } from 'react-router-dom';
 function Footer() {
   const { t } = useTranslation();
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="bg-[#0c0c0c] text-white py-16 px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
@@ -19,9 +23,37 @@ function Footer() {
         <div>
           <h3 className="text-xl mb-6">{t('footer.help')}</h3>
           <nav className="space-y-4">
-            <Link to="/proyectos" className="block hover:text-gray-300">{t('footer.featuredProjects')}</Link>
-            <Link to="/architect" className="block hover:text-gray-300">{t('footer.architect')}</Link>
-            <Link to="/publications" className="block hover:text-gray-300">{t('footer.publications')}</Link>
+            <Link 
+              to="/" 
+              onClick={scrollToTop}
+              className="block hover:text-gray-300 transition-colors"
+            >
+              {t('nav.home')}
+            </Link>
+            <Link 
+              to="/arquitecto" 
+              className="block hover:text-gray-300 transition-colors"
+            >
+              {t('nav.architect')}
+            </Link>
+            <Link 
+              to="/proyectos" 
+              className="block hover:text-gray-300 transition-colors"
+            >
+              {t('nav.projects')}
+            </Link>
+            <Link 
+              to="/noticias" 
+              className="block hover:text-gray-300 transition-colors"
+            >
+              {t('nav.publications')}
+            </Link>
+            <Link 
+              to="/contacto" 
+              className="block hover:text-gray-300 transition-colors"
+            >
+              {t('nav.contact')}
+            </Link>
           </nav>
         </div>
 
