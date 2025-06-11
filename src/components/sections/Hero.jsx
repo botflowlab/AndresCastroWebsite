@@ -56,16 +56,16 @@ function Hero() {
             className="absolute inset-0 bg-center bg-cover bg-no-repeat"
             style={{ backgroundImage: `url(${image})` }}
           >
-            {/* Image with extended blur-in animation */}
+            {/* Image with blur-in animation */}
             <img
               src={image}
               alt={`Hero background ${index + 1}`}
-              className={`absolute inset-0 w-full h-full object-cover transition-all duration-[4000ms] ease-out ${
+              className={`absolute inset-0 w-full h-full object-cover transition-all duration-2000 ease-out ${
                 currentImageIndex === index && imageLoaded
-                  ? 'opacity-100 blur-0 scale-100 brightness-100'
+                  ? 'opacity-100 blur-0 scale-100'
                   : currentImageIndex === index
-                  ? 'opacity-0 blur-[20px] scale-110 brightness-75'
-                  : 'opacity-0 blur-sm scale-100 brightness-100'
+                  ? 'opacity-0 blur-md scale-105'
+                  : 'opacity-0 blur-sm scale-100'
               }`}
               onLoad={handleImageLoad}
               loading={index === 0 ? 'eager' : 'lazy'}
@@ -79,7 +79,7 @@ function Hero() {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-7xl mx-auto text-center">
           {/* Main Title with entrance animation */}
-          <h1 className={`text-3xl md:text-6xl font-bold text-white mb-6 leading-tight transition-all duration-1500 ease-out ${
+          <h1 className={`text-3xl md:text-6xl font-bold text-white mb-6 leading-tight transition-all duration-1000 ease-out ${
             isVisible 
               ? 'opacity-100 transform translate-y-0' 
               : 'opacity-0 transform translate-y-8'
@@ -88,7 +88,7 @@ function Hero() {
           </h1>
           
           {/* Subtitle with delayed entrance */}
-          <p className={`text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto mb-12 transition-all duration-1500 ease-out delay-500 ${
+          <p className={`text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto mb-12 transition-all duration-1000 ease-out delay-300 ${
             isVisible 
               ? 'opacity-100 transform translate-y-0' 
               : 'opacity-0 transform translate-y-8'
@@ -97,7 +97,7 @@ function Hero() {
           </p>
 
           {/* Dashboard Button with delayed entrance */}
-          <div className={`mb-8 transition-all duration-1500 ease-out delay-700 ${
+          <div className={`mb-8 transition-all duration-1000 ease-out delay-500 ${
             isVisible 
               ? 'opacity-100 transform translate-y-0 scale-100' 
               : 'opacity-0 transform translate-y-8 scale-95'
@@ -111,7 +111,7 @@ function Hero() {
           </div>
 
           {/* Navigation Dots with delayed entrance */}
-          <div className={`flex justify-center gap-3 mt-8 transition-all duration-1500 ease-out delay-1000 ${
+          <div className={`flex justify-center gap-3 mt-8 transition-all duration-1000 ease-out delay-700 ${
             isVisible 
               ? 'opacity-100 transform translate-y-0' 
               : 'opacity-0 transform translate-y-4'
