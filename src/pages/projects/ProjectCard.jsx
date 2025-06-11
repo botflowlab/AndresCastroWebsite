@@ -4,7 +4,7 @@ export default function ProjectCard({ title, image }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  // Function to get the correct image URL with multiple fallback strategies
+  // Function to get the correct image URL with the proper R2 public URL
   const getImageUrl = (imageUrl) => {
     if (!imageUrl) return '/images/placeholder.jpg';
     
@@ -18,18 +18,12 @@ export default function ProjectCard({ title, image }) {
       return imageUrl;
     }
     
-    // If it's just a filename, try to construct R2 URL
-    const R2_PUBLIC_URL = import.meta.env.VITE_R2_PUBLIC_URL;
-    if (R2_PUBLIC_URL && R2_PUBLIC_URL !== 'undefined' && R2_PUBLIC_URL.trim() !== '') {
-      // Clean the URL - remove any trailing slashes
-      const cleanR2Url = R2_PUBLIC_URL.replace(/\/$/, '');
-      // Clean the filename - remove leading slashes
-      const cleanFilename = imageUrl.startsWith('/') ? imageUrl.substring(1) : imageUrl;
-      return `${cleanR2Url}/${cleanFilename}`;
-    }
+    // If it's just a filename, construct the proper R2 URL
+    const R2_PUBLIC_URL = 'https://pub-69ff11d6ad5b4c02b2fb48ab7c50735d.r2.dev';
     
-    // Fallback to local images
-    return imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`;
+    // Clean the filename - remove leading slashes
+    const cleanFilename = imageUrl.startsWith('/') ? imageUrl.substring(1) : imageUrl;
+    return `${R2_PUBLIC_URL}/${cleanFilename}`;
   };
 
   const imageUrl = getImageUrl(image);
@@ -39,7 +33,7 @@ export default function ProjectCard({ title, image }) {
     console.warn('Failed to load image:', {
       originalUrl: image,
       processedUrl: imageUrl,
-      R2_PUBLIC_URL: import.meta.env.VITE_R2_PUBLIC_URL
+      title: title
     });
   };
 
@@ -71,13 +65,10 @@ export default function ProjectCard({ title, image }) {
               </svg>
               <p className="text-sm font-medium">Image not available</p>
               <p className="text-xs text-gray-400 mt-1 break-all">
-                Original: {image}
-              </p>
-              <p className="text-xs text-gray-400 break-all">
-                Processed: {imageUrl}
+                URL: {imageUrl}
               </p>
               <p className="text-xs text-red-500 mt-2">
-                Check R2 bucket public access settings
+                Check R2 bucket configuration
               </p>
             </div>
           </div>
