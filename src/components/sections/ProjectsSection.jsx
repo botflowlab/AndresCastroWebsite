@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
-import { normalizeImageUrl, getThumbnailUrl } from '../../utils/r2Storage';
+import { normalizeImageUrl, testImageUrl } from '../../utils/r2Storage';
 
 function ProjectsSection() {
   const { t } = useTranslation();
@@ -50,6 +50,7 @@ function ProjectsSection() {
         blueprints: project.blueprints?.map(url => normalizeImageUrl(url)) || []
       })) || [];
       
+      console.log('Fetched projects with normalized URLs:', projectsWithNormalizedUrls);
       setProjects(projectsWithNormalizedUrls);
     } catch (error) {
       console.error('Error fetching projects:', error);
@@ -69,8 +70,8 @@ function ProjectsSection() {
       return '/images/placeholder.jpg';
     }
     
-    // Use thumbnail URL for better performance
-    return getThumbnailUrl(project.images[0]) || project.images[0];
+    // Return the first normalized image URL
+    return project.images[0];
   };
 
   // Show error state

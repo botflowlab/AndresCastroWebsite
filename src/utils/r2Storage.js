@@ -36,7 +36,7 @@ export const validateR2Config = () => {
  */
 export const isR2Url = (url) => {
   if (!url || !R2_PUBLIC_URL) return false;
-  return url.includes(R2_PUBLIC_URL) || url.includes('.r2.cloudflarestorage.com');
+  return url.includes(R2_PUBLIC_URL) || url.includes('.r2.dev') || url.includes('.r2.cloudflarestorage.com');
 };
 
 /**
@@ -61,8 +61,17 @@ export const extractFilename = (url) => {
 export const normalizeImageUrl = (imageUrl) => {
   if (!imageUrl) return '';
   
+  console.log('Normalizing URL:', imageUrl);
+  
   // If it's already a full R2 URL, return as-is
   if (isR2Url(imageUrl)) {
+    console.log('Already R2 URL:', imageUrl);
+    return imageUrl;
+  }
+  
+  // If it's a local/placeholder image, return as-is
+  if (imageUrl.startsWith('/images/') || imageUrl.startsWith('./images/')) {
+    console.log('Local image:', imageUrl);
     return imageUrl;
   }
   
@@ -76,15 +85,20 @@ export const normalizeImageUrl = (imageUrl) => {
   
   // If it's just a filename, construct the full R2 URL
   if (!fileName.startsWith('http')) {
-    return `${R2_PUBLIC_URL}/${fileName}`;
+    const normalizedUrl = `${R2_PUBLIC_URL}/${fileName}`;
+    console.log('Constructed R2 URL:', normalizedUrl);
+    return normalizedUrl;
   }
   
   // If it's some other URL format, try to extract filename and construct R2 URL
   const extractedFilename = extractFilename(imageUrl);
   if (extractedFilename) {
-    return `${R2_PUBLIC_URL}/${extractedFilename}`;
+    const normalizedUrl = `${R2_PUBLIC_URL}/${extractedFilename}`;
+    console.log('Extracted and constructed R2 URL:', normalizedUrl);
+    return normalizedUrl;
   }
   
+  console.log('Fallback to original:', imageUrl);
   return imageUrl; // Fallback to original
 };
 
@@ -100,7 +114,12 @@ export const getOptimizedImageUrl = (imageUrl, options = {}) => {
   // First normalize the URL to ensure it's a proper R2 URL
   const normalizedUrl = normalizeImageUrl(imageUrl);
   
-  // If normalization failed, return original
+  // If it's a local image, return as-is
+  if (normalizedUrl.startsWith('/images/') || normalizedUrl.startsWith('./images/')) {
+    return normalizedUrl;
+  }
+  
+  // If normalization failed or it's not an R2 URL, return original
   if (!normalizedUrl || !isR2Url(normalizedUrl)) {
     return imageUrl;
   }
@@ -113,24 +132,9 @@ export const getOptimizedImageUrl = (imageUrl, options = {}) => {
     fit = 'cover'
   } = options;
 
-  // Start with the normalized R2 URL
-  let url = normalizedUrl;
-
-  // Add Cloudflare Image Resizing parameters if available
-  const params = new URLSearchParams();
-  
-  if (width) params.append('width', width.toString());
-  if (height) params.append('height', height.toString());
-  if (quality !== 85) params.append('quality', quality.toString());
-  if (format !== 'auto') params.append('format', format);
-  if (fit !== 'cover') params.append('fit', fit);
-
-  // If we have optimization parameters, add them as query params
-  if (params.toString()) {
-    url += `?${params.toString()}`;
-  }
-
-  return url;
+  // For now, return the normalized URL without optimization
+  // Cloudflare Image Resizing requires additional setup
+  return normalizedUrl;
 };
 
 /**
@@ -192,7 +196,9 @@ export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = (
     setUploadProgress(100);
     
     // Ensure we return a properly formatted R2 URL
-    return normalizeImageUrl(result.url);
+    const uploadedUrl = normalizeImageUrl(result.url);
+    console.log('Upload successful:', uploadedUrl);
+    return uploadedUrl;
   } catch (error) {
     console.error('Error uploading to R2:', error);
     
@@ -320,17 +326,14 @@ export const batchDeleteFromR2 = async (imageUrls) => {
 /**
  * Get thumbnail URL for an image
  * @param {string} imageUrl - Original image URL
- * @returns {string} - Thumbnail URL
+ * @returns {string} - Thumbnail URL (same as original for now)
  */
 export const getThumbnailUrl = (imageUrl) => {
   if (!imageUrl) return '';
   
-  return getOptimizedImageUrl(imageUrl, {
-    width: 300,
-    height: 200,
-    quality: 70,
-    format: 'webp'
-  });
+  // For now, return the normalized URL
+  // In the future, this could use Cloudflare Image Resizing
+  return normalizeImageUrl(imageUrl);
 };
 
 /**
@@ -341,12 +344,14 @@ export const getThumbnailUrl = (imageUrl) => {
 export const getResponsiveImageUrls = (imageUrl) => {
   if (!imageUrl) return {};
   
+  const normalizedUrl = normalizeImageUrl(imageUrl);
+  
   return {
-    thumbnail: getOptimizedImageUrl(imageUrl, { width: 300, height: 200, quality: 70 }),
-    small: getOptimizedImageUrl(imageUrl, { width: 600, height: 400, quality: 80 }),
-    medium: getOptimizedImageUrl(imageUrl, { width: 1200, height: 800, quality: 85 }),
-    large: getOptimizedImageUrl(imageUrl, { width: 1920, height: 1280, quality: 90 }),
-    original: normalizeImageUrl(imageUrl)
+    thumbnail: normalizedUrl,
+    small: normalizedUrl,
+    medium: normalizedUrl,
+    large: normalizedUrl,
+    original: normalizedUrl
   };
 };
 
@@ -360,7 +365,14 @@ export const testImageUrl = async (imageUrl) => {
   
   try {
     const normalizedUrl = normalizeImageUrl(imageUrl);
-    const response = await fetch(normalizedUrl, { method: 'HEAD' });
+    console.log('Testing image URL:', normalizedUrl);
+    
+    const response = await fetch(normalizedUrl, { 
+      method: 'HEAD',
+      mode: 'cors'
+    });
+    
+    console.log('Image test result:', response.ok, response.status);
     return response.ok;
   } catch (error) {
     console.warn('Image URL test failed:', imageUrl, error);

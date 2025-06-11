@@ -1,53 +1,66 @@
 import React, { useState } from 'react';
+import { normalizeImageUrl, testImageUrl } from '../../utils/r2Storage';
 
 export default function ProjectCard({ title, image }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [finalImageUrl, setFinalImageUrl] = useState('');
 
-  // Function to get the correct image URL with the proper R2 public URL
+  // Function to get the correct image URL
   const getImageUrl = (imageUrl) => {
     if (!imageUrl) return '/images/placeholder.jpg';
     
-    // If it's already a full URL (starts with http), use it as-is
-    if (imageUrl.startsWith('http')) {
-      return imageUrl;
-    }
-    
-    // If it's a relative path, use it directly
-    if (imageUrl.startsWith('/')) {
-      return imageUrl;
-    }
-    
-    // If it's just a filename, construct the proper R2 URL
-    const R2_PUBLIC_URL = 'https://pub-69ff11d6ad5b4c02b2fb48ab7c50735d.r2.dev';
-    
-    // Clean the filename - remove leading slashes
-    const cleanFilename = imageUrl.startsWith('/') ? imageUrl.substring(1) : imageUrl;
-    return `${R2_PUBLIC_URL}/${cleanFilename}`;
+    // Use the normalizeImageUrl function from r2Storage
+    return normalizeImageUrl(imageUrl);
   };
 
-  const imageUrl = getImageUrl(image);
+  React.useEffect(() => {
+    const setupImage = async () => {
+      if (!image) {
+        setFinalImageUrl('/images/placeholder.jpg');
+        return;
+      }
+
+      const normalizedUrl = getImageUrl(image);
+      console.log('ProjectCard - Original URL:', image);
+      console.log('ProjectCard - Normalized URL:', normalizedUrl);
+      
+      // Test if the image is accessible
+      const isAccessible = await testImageUrl(normalizedUrl);
+      
+      if (isAccessible) {
+        setFinalImageUrl(normalizedUrl);
+      } else {
+        console.warn('Image not accessible, using placeholder:', normalizedUrl);
+        setFinalImageUrl('/images/placeholder.jpg');
+        setImageError(true);
+      }
+    };
+
+    setupImage();
+  }, [image]);
 
   const handleImageError = () => {
-    setImageError(true);
-    console.warn('Failed to load image:', {
+    console.error('Failed to load image:', {
       originalUrl: image,
-      processedUrl: imageUrl,
+      finalUrl: finalImageUrl,
       title: title
     });
+    setImageError(true);
+    setFinalImageUrl('/images/placeholder.jpg');
   };
 
   const handleImageLoad = () => {
     setImageLoaded(true);
-    console.log('Successfully loaded image:', imageUrl);
+    console.log('Successfully loaded image:', finalImageUrl);
   };
 
   return (
     <div className="w-full overflow-hidden">
       <div className="aspect-[7/9] overflow-hidden relative bg-gray-100">
-        {!imageError ? (
+        {!imageError && finalImageUrl ? (
           <img 
-            src={imageUrl} 
+            src={finalImageUrl} 
             alt={title} 
             className={`w-full h-full object-cover transition-transform duration-300 hover:scale-125 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
@@ -64,16 +77,13 @@ export default function ProjectCard({ title, image }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <p className="text-sm font-medium">Image not available</p>
-              <p className="text-xs text-gray-400 mt-1 break-all">
-                URL: {imageUrl}
-              </p>
-              <p className="text-xs text-red-500 mt-2">
-                Check R2 bucket configuration
+              <p className="text-xs text-gray-400 mt-1">
+                Check R2 configuration
               </p>
             </div>
           </div>
         )}
-        {!imageLoaded && !imageError && (
+        {!imageLoaded && !imageError && finalImageUrl && (
           <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
             <div className="text-gray-400">Loading...</div>
           </div>
