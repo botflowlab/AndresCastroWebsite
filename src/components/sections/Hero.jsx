@@ -6,7 +6,6 @@ function Hero() {
   const { t } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   const images = [
     '/images/home/hero1.jpg',
@@ -33,15 +32,6 @@ function Hero() {
     };
   }, []);
 
-  // Reset image loaded state when image changes
-  useEffect(() => {
-    setImageLoaded(false);
-  }, [currentImageIndex]);
-
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Images */}
@@ -56,20 +46,6 @@ function Hero() {
             className="absolute inset-0 bg-center bg-cover bg-no-repeat"
             style={{ backgroundImage: `url(${image})` }}
           >
-            {/* Image with blur-in animation */}
-            <img
-              src={image}
-              alt={`Hero background ${index + 1}`}
-              className={`absolute inset-0 w-full h-full object-cover transition-all duration-2000 ease-out ${
-                currentImageIndex === index && imageLoaded
-                  ? 'opacity-100 blur-0 scale-100'
-                  : currentImageIndex === index
-                  ? 'opacity-0 blur-md scale-105'
-                  : 'opacity-0 blur-sm scale-100'
-              }`}
-              onLoad={handleImageLoad}
-              loading={index === 0 ? 'eager' : 'lazy'}
-            />
             <div className="absolute inset-0 bg-black/30"></div>
           </div>
         </div>
