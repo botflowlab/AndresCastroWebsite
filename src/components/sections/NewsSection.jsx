@@ -1,36 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 function NewsSection() {
   const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '50px'
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
 
   const videos = [
     {
@@ -55,7 +29,7 @@ function NewsSection() {
   ];
 
   return (
-    <section ref={sectionRef} className="py-32 bg-white relative">
+    <section className="py-32 bg-white relative">
       {/* Background Pattern */}
       <div className="absolute inset-0">
         <div 
@@ -71,42 +45,25 @@ function NewsSection() {
       <div className="max-w-7xl mx-auto px-4 relative">
         {/* Section Header */}
         <div className="text-center mb-20">
-          <h2 className={`text-6xl md:text-7xl font-light mb-8 transition-all duration-1000 ease-out ${
-            isVisible 
-              ? 'opacity-100 transform translate-y-0' 
-              : 'opacity-0 transform translate-y-12'
-          }`}>
+          <h2 className="text-6xl md:text-7xl font-light mb-8">
             {t('home.news.title')}
           </h2>
-          <div className={`w-32 h-1 bg-[#0c0c0c] mx-auto mb-12 transition-all duration-1000 ease-out delay-200 ${
-            isVisible 
-              ? 'opacity-100 transform scale-x-100' 
-              : 'opacity-0 transform scale-x-0'
-          }`}></div>
+          <div className="w-32 h-1 bg-[#0c0c0c] mx-auto mb-12"></div>
         </div>
 
         {/* Featured Videos */}
         <div className="mb-20">
-          <h3 className={`text-3xl font-light mb-12 text-center transition-all duration-1000 ease-out delay-300 ${
-            isVisible 
-              ? 'opacity-100 transform translate-y-0' 
-              : 'opacity-0 transform translate-y-8'
-          }`}>
+          <h3 className="text-3xl font-light mb-12 text-center">
             {t('home.news.videos.title')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {videos.map((video, index) => (
+            {videos.map((video) => (
               <a
                 key={video.id}
                 href={video.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group block transition-all duration-1000 ease-out ${
-                  isVisible 
-                    ? 'opacity-100 transform translate-y-0 scale-100' 
-                    : 'opacity-0 transform translate-y-8 scale-95'
-                }`}
-                style={{ transitionDelay: isVisible ? `${400 + index * 150}ms` : '0ms' }}
+                className="group block"
               >
                 <div className="aspect-video overflow-hidden rounded-lg relative">
                   <img
@@ -131,11 +88,7 @@ function NewsSection() {
 
         {/* News Images Grid */}
         <div>
-          <h3 className={`text-3xl font-light mb-12 text-center transition-all duration-1000 ease-out delay-600 ${
-            isVisible 
-              ? 'opacity-100 transform translate-y-0' 
-              : 'opacity-0 transform translate-y-8'
-          }`}>
+          <h3 className="text-3xl font-light mb-12 text-center">
             {t('home.news.press.title')}
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -143,12 +96,7 @@ function NewsSection() {
               <div 
                 key={index}
                 onClick={() => setSelectedImage(image)}
-                className={`relative aspect-[3/4] overflow-hidden cursor-pointer group transition-all duration-1000 ease-out ${
-                  isVisible 
-                    ? 'opacity-100 transform translate-y-0 scale-100' 
-                    : 'opacity-0 transform translate-y-8 scale-95'
-                }`}
-                style={{ transitionDelay: isVisible ? `${700 + index * 100}ms` : '0ms' }}
+                className="relative aspect-[3/4] overflow-hidden cursor-pointer group"
               >
                 <img
                   src={image}
@@ -198,12 +146,7 @@ function NewsSection() {
         <div className="text-center mt-16">
           <Link
             to="/noticias"
-            className={`inline-block border-2 border-[#0c0c0c] px-12 py-4 text-lg font-medium hover:bg-[#0c0c0c] hover:text-white transition-all duration-1000 ease-out ${
-              isVisible 
-                ? 'opacity-100 transform translate-y-0 scale-100' 
-                : 'opacity-0 transform translate-y-8 scale-95'
-            }`}
-            style={{ transitionDelay: isVisible ? '1100ms' : '0ms' }}
+            className="inline-block border-2 border-[#0c0c0c] px-12 py-4 text-lg font-medium hover:bg-[#0c0c0c] hover:text-white transition-all duration-300"
           >
             {t('home.news.cta')}
           </Link>
