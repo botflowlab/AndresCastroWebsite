@@ -70,6 +70,7 @@ function NewsSection() {
                     src={video.thumbnail}
                     alt={video.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    crossOrigin="anonymous"
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
                     <div className="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -101,6 +102,7 @@ function NewsSection() {
                   src={image}
                   alt={`News coverage ${index + 1}`}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  crossOrigin="anonymous"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
                   <svg 
@@ -135,6 +137,7 @@ function NewsSection() {
               src={selectedImage}
               alt="Full size news coverage"
               className="max-h-[90vh] max-w-[90vw] object-contain"
+              crossOrigin="anonymous"
             />
           </div>
         )}

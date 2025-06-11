@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
-import { getThumbnailUrl } from '../../../utils/r2Storage';
+import { getImageUrl } from '../../../utils/r2Storage';
 
 export default function DraggableImageGrid({ 
   images, 
@@ -18,10 +18,7 @@ export default function DraggableImageGrid({
 
   // Memoize optimized image URLs to prevent recalculation
   const optimizedImages = useMemo(() => {
-    return images.map(originalUrl => {
-      // Use R2 thumbnail URL for better performance
-      return getThumbnailUrl(originalUrl) || originalUrl;
-    });
+    return images.map(originalUrl => getImageUrl(originalUrl));
   }, [images]);
 
   // Optimized image load handler
@@ -258,6 +255,7 @@ export default function DraggableImageGrid({
                   draggable={false}
                   loading="lazy"
                   decoding="async"
+                  crossOrigin="anonymous"
                   onLoad={() => handleImageLoad(index)}
                   onError={(e) => {
                     // Fallback to original URL

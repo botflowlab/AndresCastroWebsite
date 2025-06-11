@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
-import { getOptimizedImageUrl, getThumbnailUrl } from '../../utils/r2Storage';
+import { getImageUrl } from '../../utils/r2Storage';
 import ArchitecturalDrawings from './ArchitecturalDrawings';
 
 export default function ProjectDetails({ project }) {
@@ -30,7 +30,7 @@ export default function ProjectDetails({ project }) {
     }
   };
 
-  // Get the first two images from the project with optimization
+  // Get the first two images from the project
   const sideBySideImages = project.images?.slice(0, 2) || [];
 
   // Function to truncate text
@@ -41,20 +41,7 @@ export default function ProjectDetails({ project }) {
 
   const handleImageError = (index) => {
     setImageErrors(prev => new Set([...prev, index]));
-    console.warn('Failed to load side-by-side image at index:', index);
-  };
-
-  const getDetailImageUrl = (imageUrl) => {
-    return getOptimizedImageUrl(imageUrl, {
-      width: 800,
-      height: 1200,
-      quality: 90,
-      format: 'webp'
-    }) || imageUrl;
-  };
-
-  const getRelatedProjectImageUrl = (imageUrl) => {
-    return getThumbnailUrl(imageUrl) || imageUrl;
+    console.warn('❌ Failed to load side-by-side image at index:', index);
   };
 
   return (
@@ -88,11 +75,12 @@ export default function ProjectDetails({ project }) {
                 <div key={index} className="relative aspect-[12/16] overflow-hidden">
                   {!imageErrors.has(index) ? (
                     <img
-                      src={getDetailImageUrl(image)}
+                      src={getImageUrl(image)}
                       alt={`${project.title} detail ${index + 1}`}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                       loading="lazy"
                       onError={() => handleImageError(index)}
+                      crossOrigin="anonymous"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gray-800">
@@ -130,9 +118,10 @@ export default function ProjectDetails({ project }) {
                 >
                   <div className="aspect-[7/9] overflow-hidden bg-gray-100 rounded-lg">
                     <img
-                      src={getRelatedProjectImageUrl(relatedProject.images?.[0]) || '/images/placeholder.jpg'}
+                      src={getImageUrl(relatedProject.images?.[0]) || '/images/placeholder.jpg'}
                       alt={relatedProject.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      crossOrigin="anonymous"
                       onError={(e) => {
                         e.target.src = '/images/placeholder.jpg';
                       }}

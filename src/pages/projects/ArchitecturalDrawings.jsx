@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getOptimizedImageUrl, getThumbnailUrl } from '../../utils/r2Storage';
+import { getImageUrl } from '../../utils/r2Storage';
 
 export default function ArchitecturalDrawings({ project }) {
   const { t } = useTranslation();
@@ -17,20 +17,7 @@ export default function ArchitecturalDrawings({ project }) {
 
   const handleImageError = (index) => {
     setImageErrors(prev => new Set([...prev, index]));
-    console.warn('Failed to load blueprint at index:', index);
-  };
-
-  const getDrawingThumbnailUrl = (imageUrl) => {
-    return getThumbnailUrl(imageUrl) || imageUrl;
-  };
-
-  const getDrawingFullUrl = (imageUrl) => {
-    return getOptimizedImageUrl(imageUrl, {
-      width: 1200,
-      height: 900,
-      quality: 95,
-      format: 'auto'
-    }) || imageUrl;
+    console.warn('❌ Failed to load blueprint at index:', index);
   };
 
   return (
@@ -57,9 +44,10 @@ export default function ArchitecturalDrawings({ project }) {
                   <div className="aspect-[4/3] overflow-hidden">
                     {!imageErrors.has(index) ? (
                       <img
-                        src={getDrawingThumbnailUrl(drawing)}
+                        src={getImageUrl(drawing)}
                         alt={`${t('projects.details.blueprints')} ${index + 1}`}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        crossOrigin="anonymous"
                         onError={() => handleImageError(index)}
                       />
                     ) : (
@@ -107,9 +95,10 @@ export default function ArchitecturalDrawings({ project }) {
           </button>
           
           <img
-            src={getDrawingFullUrl(selectedDrawing)}
+            src={getImageUrl(selectedDrawing)}
             alt={t('projects.details.blueprints')}
             className="max-h-[90vh] max-w-[90vw] object-contain"
+            crossOrigin="anonymous"
             onError={(e) => {
               e.target.src = selectedDrawing; // Fallback to original URL
             }}
