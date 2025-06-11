@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
+import VimeoIntro from './components/VimeoIntro';
 import Home from './pages/Home.jsx';
 import Projects from './pages/projects/Projects.jsx';
 import ProjectDetailPage from './pages/projects/ProjectDetailPage.jsx';
@@ -20,6 +21,18 @@ function ScrollToTop() {
 }
 
 function App() {
+  const [showIntro, setShowIntro] = useState(true);
+
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+  };
+
+  // Show intro animation first
+  if (showIntro) {
+    return <VimeoIntro onComplete={handleIntroComplete} />;
+  }
+
+  // Show main application after intro
   return (
     <Router>
       <ScrollToTop />
