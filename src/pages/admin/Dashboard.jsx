@@ -17,6 +17,7 @@ export default function Dashboard() {
   const [mode, setMode] = useState('create');
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState('projects'); // New state for tabs
+  const [r2ConfigValid, setR2ConfigValid] = useState(false);
 
   useEffect(() => {
     // Verify user authentication and R2 configuration
@@ -32,10 +33,12 @@ export default function Dashboard() {
         // Validate R2 configuration
         try {
           validateR2Config();
+          setR2ConfigValid(true);
           console.log('✅ R2 configuration validated');
         } catch (r2Error) {
           console.warn('⚠️ R2 configuration issue:', r2Error.message);
-          setError(`R2 Storage configuration issue: ${r2Error.message}`);
+          setR2ConfigValid(false);
+          setError(`R2 Storage configuration issue: ${r2Error.message}. Please check your environment variables.`);
         }
         
         setUser(user);
@@ -129,6 +132,11 @@ export default function Dashboard() {
   };
 
   const uploadImages = async (files, setUploadProgress, fileType = 'image') => {
+    // Check R2 configuration before attempting upload
+    if (!r2ConfigValid) {
+      throw new Error('R2 Storage is not properly configured. Please check your environment variables and ensure R2 settings are correct.');
+    }
+
     // Rate limiting check
     try {
       uploadRateLimiter(user?.id || 'anonymous');
@@ -151,6 +159,12 @@ export default function Dashboard() {
       return uploadedUrls;
     } catch (error) {
       console.error('Error uploading images to R2:', error);
+      
+      // Provide more specific error messages
+      if (error.message.includes('R2 Storage configuration error') || error.message.includes('R2 configuration is incomplete')) {
+        throw new Error('R2 Storage configuration error. Please ensure the following environment variables are set in your Supabase Edge Functions:\n- R2_ACCOUNT_ID\n- R2_ACCESS_KEY_ID\n- R2_SECRET_ACCESS_KEY\n\nContact your administrator to configure these settings.');
+      }
+      
       throw new Error(`Failed to upload images: ${error.message}`);
     }
   };
@@ -490,6 +504,31 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8 mb-20">
+      {/* R2 Configuration Warning */}
+      {!r2ConfigValid && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-yellow-800">R2 Storage Configuration Required</h3>
+              <div className="mt-2 text-sm text-yellow-700">
+                <p>Image uploads are currently disabled. Please configure the following environment variables in your Supabase Edge Functions:</p>
+                <ul className="list-disc list-inside mt-2">
+                  <li>R2_ACCOUNT_ID</li>
+                  <li>R2_ACCESS_KEY_ID</li>
+                  <li>R2_SECRET_ACCESS_KEY</li>
+                </ul>
+                <p className="mt-2">Contact your administrator to set up these configurations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Tab Navigation */}
       <div className="bg-white rounded-xl shadow-lg">
         <div className="border-b border-gray-200">
@@ -532,6 +571,7 @@ export default function Dashboard() {
               onSubmit={handleSubmit}
               onCancel={resetForm}
               loading={loading}
+              r2ConfigValid={r2ConfigValid}
             />
 
             {error && (
@@ -543,7 +583,7 @@ export default function Dashboard() {
                     </svg>
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm text-red-800">{error}</p>
+                    <p className="text-sm text-red-800 whitespace-pre-line">{error}</p>
                   </div>
                 </div>
               </div>

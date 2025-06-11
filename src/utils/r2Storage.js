@@ -116,7 +116,13 @@ export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = (
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || 'Upload failed');
+      
+      // Provide more specific error messages based on the error type
+      if (errorData.error && errorData.error.includes('R2 configuration is incomplete')) {
+        throw new Error('R2 Storage is not properly configured. Please contact the administrator to set up the required R2 environment variables in Supabase Edge Functions.');
+      }
+      
+      throw new Error(errorData.error || `Upload failed with status ${response.status}`);
     }
 
     const result = await response.json();
@@ -125,6 +131,16 @@ export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = (
     return result.url;
   } catch (error) {
     console.error('Error uploading to R2:', error);
+    
+    // Provide user-friendly error messages
+    if (error.message.includes('R2 configuration is incomplete')) {
+      throw new Error('R2 Storage configuration error. Please ensure all R2 environment variables are set in your Supabase project settings under Edge Functions.');
+    }
+    
+    if (error.message.includes('Failed to fetch')) {
+      throw new Error('Network error occurred while uploading. Please check your internet connection and try again.');
+    }
+    
     throw error;
   }
 };
@@ -155,12 +171,24 @@ export const deleteFromR2 = async (imageUrl) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || 'Delete failed');
+      
+      // Provide more specific error messages
+      if (errorData.error && errorData.error.includes('R2 configuration is incomplete')) {
+        throw new Error('R2 Storage is not properly configured. Please contact the administrator to set up the required R2 environment variables in Supabase Edge Functions.');
+      }
+      
+      throw new Error(errorData.error || `Delete failed with status ${response.status}`);
     }
 
     return true;
   } catch (error) {
     console.error('Error deleting from R2:', error);
+    
+    // Provide user-friendly error messages
+    if (error.message.includes('R2 configuration is incomplete')) {
+      console.error('R2 Storage configuration error. Please ensure all R2 environment variables are set in your Supabase project settings under Edge Functions.');
+    }
+    
     return false;
   }
 };
