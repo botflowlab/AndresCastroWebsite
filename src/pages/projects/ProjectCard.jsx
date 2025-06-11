@@ -7,6 +7,7 @@ export default function ProjectCard({ title, image }) {
   const [finalUrl, setFinalUrl] = useState('');
   const [corsError, setCorsError] = useState(false);
   const mountedRef = useRef(true);
+  const imageRef = useRef(null);
 
   // Process URL once when component mounts or image prop changes
   useEffect(() => {
@@ -16,12 +17,19 @@ export default function ProjectCard({ title, image }) {
     setCorsError(false);
     
     const processedUrl = getImageUrl(image);
-    setFinalUrl(processedUrl);
+    
+    // Add cache-busting parameter to prevent browser cache issues
+    const urlWithCacheBuster = processedUrl.includes('?') 
+      ? `${processedUrl}&cb=${Date.now()}` 
+      : `${processedUrl}?cb=${Date.now()}`;
+    
+    setFinalUrl(urlWithCacheBuster);
     
     console.log('🎯 ProjectCard URL processed:', {
       title,
       original: image,
-      processed: processedUrl
+      processed: processedUrl,
+      withCacheBuster: urlWithCacheBuster
     });
 
     return () => {
@@ -29,12 +37,35 @@ export default function ProjectCard({ title, image }) {
     };
   }, [image, title]);
 
+  // Force reload image when component becomes visible again
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && imageRef.current && imageError) {
+        console.log('🔄 Page became visible, retrying image load for:', title);
+        setImageError(false);
+        setCorsError(false);
+        setImageLoaded(false);
+        
+        // Force reload the image
+        const newCacheBuster = `?cb=${Date.now()}`;
+        const baseUrl = finalUrl.split('?')[0];
+        const newUrl = `${baseUrl}${newCacheBuster}`;
+        setFinalUrl(newUrl);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [imageError, finalUrl, title]);
+
   // Test CORS by attempting a fetch request
   const testCorsAccess = async (url) => {
     try {
-      const response = await fetch(url, {
+      const baseUrl = url.split('?')[0]; // Remove cache buster for CORS test
+      const response = await fetch(baseUrl, {
         method: 'HEAD',
-        mode: 'cors'
+        mode: 'cors',
+        cache: 'no-cache' // Prevent cache issues
       });
       return response.ok;
     } catch (error) {
@@ -46,17 +77,17 @@ export default function ProjectCard({ title, image }) {
   const handleImageError = async (event) => {
     if (!mountedRef.current) return;
     
-    // Test if this is a CORS issue
-    const isCorsIssue = await testCorsAccess(finalUrl);
-    
     console.error('❌ ProjectCard image failed:', {
       title,
       original: image,
       processed: finalUrl,
       timestamp: new Date().toISOString(),
-      corsTest: isCorsIssue ? 'PASSED' : 'FAILED',
-      errorType: event?.target?.error || 'Unknown'
+      errorType: event?.target?.error || 'Unknown',
+      userAgent: navigator.userAgent.substring(0, 50)
     });
+    
+    // Test if this is a CORS issue
+    const isCorsIssue = await testCorsAccess(finalUrl);
     
     setImageError(true);
     if (!isCorsIssue) {
@@ -73,6 +104,19 @@ export default function ProjectCard({ title, image }) {
       url: finalUrl,
       timestamp: new Date().toISOString()
     });
+  };
+
+  // Retry function for manual retry
+  const retryImageLoad = () => {
+    console.log('🔄 Manual retry for:', title);
+    setImageError(false);
+    setCorsError(false);
+    setImageLoaded(false);
+    
+    // Generate new cache buster
+    const baseUrl = finalUrl.split('?')[0];
+    const newUrl = `${baseUrl}?cb=${Date.now()}&retry=1`;
+    setFinalUrl(newUrl);
   };
 
   // Don't render anything until we have a processed URL
@@ -94,6 +138,7 @@ export default function ProjectCard({ title, image }) {
       <div className="aspect-[7/9] overflow-hidden relative bg-gray-100">
         {!imageError ? (
           <img 
+            ref={imageRef}
             src={finalUrl} 
             alt={title} 
             className={`w-full h-full object-cover transition-all duration-500 hover:scale-125 ${
@@ -103,6 +148,8 @@ export default function ProjectCard({ title, image }) {
             onLoad={handleImageLoad}
             onError={handleImageError}
             crossOrigin="anonymous"
+            // Prevent browser caching issues
+            referrerPolicy="no-referrer"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-red-50 border-2 border-red-200">
@@ -116,15 +163,30 @@ export default function ProjectCard({ title, image }) {
               <p className="text-xs mt-1 opacity-75">
                 {corsError 
                   ? 'Configure R2 bucket CORS policy' 
-                  : 'Check console for details'
+                  : 'Navigation cache issue'
                 }
               </p>
+              
+              {/* Retry button */}
+              <button
+                onClick={retryImageLoad}
+                className="mt-2 px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
+              >
+                Retry
+              </button>
+              
               {corsError && (
                 <div className="mt-2 text-xs bg-red-100 p-2 rounded">
                   <p className="font-semibold">Fix Required:</p>
                   <p>Add CORS policy to R2 bucket</p>
                 </div>
               )}
+              
+              {/* Debug info */}
+              <div className="mt-2 text-xs bg-gray-100 p-2 rounded text-gray-600">
+                <p className="font-semibold">Debug:</p>
+                <p className="break-all">{finalUrl.substring(0, 50)}...</p>
+              </div>
             </div>
           </div>
         )}
