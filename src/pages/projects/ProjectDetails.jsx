@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
@@ -11,16 +11,34 @@ export default function ProjectDetails({ project }) {
   const [imageErrors, setImageErrors] = useState(new Map());
   const [imageLoaded, setImageLoaded] = useState(new Set());
   const [imageSrcs, setImageSrcs] = useState(new Map());
+  const [retryAttempts, setRetryAttempts] = useState(new Map());
+  const mountedRef = useRef(true);
 
   useEffect(() => {
+    mountedRef.current = true;
     fetchRelatedProjects();
-    // Initialize image sources
+    
+    // Initialize image sources with cache-busting for fresh navigation
     const sideBySideImages = project.images?.slice(0, 2) || [];
     const initialSrcs = new Map();
+    const navigationCacheBuster = `?nav=${Date.now()}`;
+    
     sideBySideImages.forEach((image, index) => {
-      initialSrcs.set(index, getImageUrl(image));
+      const baseUrl = getImageUrl(image);
+      const urlWithCacheBuster = `${baseUrl}${navigationCacheBuster}`;
+      initialSrcs.set(index, urlWithCacheBuster);
     });
+    
     setImageSrcs(initialSrcs);
+    
+    // Reset all states for fresh page load
+    setImageErrors(new Map());
+    setImageLoaded(new Set());
+    setRetryAttempts(new Map());
+
+    return () => {
+      mountedRef.current = false;
+    };
   }, [project.id, project.category, project.images]);
 
   const fetchRelatedProjects = async () => {
@@ -44,11 +62,11 @@ export default function ProjectDetails({ project }) {
     try {
       const response = await fetch(imageUrl, { 
         method: 'HEAD',
-        mode: 'cors'
+        mode: 'cors',
+        cache: 'no-cache'
       });
       return response.ok;
     } catch (error) {
-      // Check if it's a CORS error
       return error.name === 'TypeError' && error.message.includes('CORS');
     }
   };
@@ -63,12 +81,16 @@ export default function ProjectDetails({ project }) {
   };
 
   const handleImageError = async (index) => {
+    if (!mountedRef.current) return;
+    
     const originalUrl = sideBySideImages[index];
     const processedUrl = getImageUrl(originalUrl);
+    const currentAttempts = retryAttempts.get(index) || 0;
     
     console.error('❌ ProjectDetails image failed at index:', index, {
       originalUrl,
-      processedUrl
+      processedUrl,
+      attempt: currentAttempts + 1
     });
 
     // Test if it's a CORS issue
@@ -78,40 +100,99 @@ export default function ProjectDetails({ project }) {
       isCorsError,
       originalUrl,
       processedUrl,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      attempt: currentAttempts + 1
     }]]));
+
+    // Auto-retry up to 2 times with increasing delays
+    if (currentAttempts < 2) {
+      const delay = (currentAttempts + 1) * 1000; // 1s, 2s delays
+      console.log(`🔄 Auto-retrying image ${index} in ${delay}ms (attempt ${currentAttempts + 2}/3)`);
+      
+      setTimeout(() => {
+        if (mountedRef.current) {
+          autoRetryImageLoad(index);
+        }
+      }, delay);
+    }
   };
 
   const handleImageLoad = (index) => {
+    if (!mountedRef.current) return;
+    
     console.log('✅ ProjectDetails image loaded at index:', index);
     setImageLoaded(prev => new Set([...prev, index]));
+    
     // Clear any previous error for this image
     setImageErrors(prev => {
       const newErrors = new Map(prev);
       newErrors.delete(index);
       return newErrors;
     });
+    
+    // Reset retry attempts
+    setRetryAttempts(prev => {
+      const newAttempts = new Map(prev);
+      newAttempts.delete(index);
+      return newAttempts;
+    });
   };
 
-  const retryImageLoad = (index) => {
-    // Clear error state
+  const autoRetryImageLoad = (index) => {
+    if (!mountedRef.current) return;
+    
+    const currentAttempts = retryAttempts.get(index) || 0;
+    const newAttempts = currentAttempts + 1;
+    
+    console.log(`🔄 Auto-retry ${newAttempts} for image ${index}`);
+    
+    // Update retry attempts
+    setRetryAttempts(prev => new Map([...prev, [index, newAttempts]]));
+    
+    // Clear error and loaded states
     setImageErrors(prev => {
       const newErrors = new Map(prev);
       newErrors.delete(index);
       return newErrors;
     });
     
-    // Clear loaded state
     setImageLoaded(prev => {
       const newLoaded = new Set(prev);
       newLoaded.delete(index);
       return newLoaded;
     });
 
-    // Update image source with cache-busting parameter
+    // Update image source with new cache-busting parameter
     const originalUrl = sideBySideImages[index];
     const baseUrl = getImageUrl(originalUrl);
-    const cacheBustUrl = `${baseUrl}?retry=${Date.now()}`;
+    const cacheBustUrl = `${baseUrl}?retry=${newAttempts}&t=${Date.now()}`;
+    
+    setImageSrcs(prev => new Map([...prev, [index, cacheBustUrl]]));
+  };
+
+  const manualRetryImageLoad = (index) => {
+    console.log('🔄 Manual retry for image:', index);
+    
+    // Reset retry attempts for manual retry
+    setRetryAttempts(prev => new Map([...prev, [index, 0]]));
+    
+    // Clear error and loaded states
+    setImageErrors(prev => {
+      const newErrors = new Map(prev);
+      newErrors.delete(index);
+      return newErrors;
+    });
+    
+    setImageLoaded(prev => {
+      const newLoaded = new Set(prev);
+      newLoaded.delete(index);
+      return newLoaded;
+    });
+
+    // Update image source with manual retry cache-busting
+    const originalUrl = sideBySideImages[index];
+    const baseUrl = getImageUrl(originalUrl);
+    const cacheBustUrl = `${baseUrl}?manual=${Date.now()}`;
     
     setImageSrcs(prev => new Map([...prev, [index, cacheBustUrl]]));
   };
@@ -148,6 +229,7 @@ export default function ProjectDetails({ project }) {
                 const errorInfo = imageErrors.get(index);
                 const hasError = Boolean(errorInfo);
                 const isLoaded = imageLoaded.has(index);
+                const attempts = retryAttempts.get(index) || 0;
                 
                 return (
                   <div key={index} className="relative aspect-[12/16] overflow-hidden">
@@ -171,7 +253,12 @@ export default function ProjectDetails({ project }) {
                           <div className="absolute inset-0 bg-gray-700 flex items-center justify-center">
                             <div className="text-center text-white">
                               <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                              <p className="text-sm">Loading...</p>
+                              <p className="text-sm">Loading image...</p>
+                              {attempts > 0 && (
+                                <p className="text-xs text-gray-300 mt-1">
+                                  Retry attempt {attempts}
+                                </p>
+                              )}
                             </div>
                           </div>
                         )}
@@ -185,17 +272,20 @@ export default function ProjectDetails({ project }) {
                           <p className="text-lg font-semibold mb-2">
                             {errorInfo?.isCorsError ? 'CORS ERROR' : 'IMAGE FAILED'}
                           </p>
-                          <p className="text-sm text-gray-300 mb-4">
+                          <p className="text-sm text-gray-300 mb-2">
                             {errorInfo?.isCorsError 
                               ? 'Cross-origin request blocked'
                               : 'Image could not be loaded'
                             }
                           </p>
+                          <p className="text-xs text-gray-400 mb-4">
+                            Failed after {errorInfo?.attempt || 1} attempt{(errorInfo?.attempt || 1) > 1 ? 's' : ''}
+                          </p>
                           <button
-                            onClick={() => retryImageLoad(index)}
+                            onClick={() => manualRetryImageLoad(index)}
                             className="px-4 py-2 bg-white text-gray-800 rounded hover:bg-gray-200 transition-colors duration-200 text-sm font-medium"
                           >
-                            Retry
+                            Retry Now
                           </button>
                         </div>
                       </div>
