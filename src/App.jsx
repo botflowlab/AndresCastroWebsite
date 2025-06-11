@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
-import VimeoIntro from './components/VimeoIntro';
+import LogoIntro from './components/LogoIntro';
 import Home from './pages/Home.jsx';
 import Projects from './pages/projects/Projects.jsx';
 import ProjectDetailPage from './pages/projects/ProjectDetailPage.jsx';
@@ -29,7 +29,7 @@ function App() {
 
   // Show intro animation first
   if (showIntro) {
-    return <VimeoIntro onComplete={handleIntroComplete} />;
+    return <LogoIntro onComplete={handleIntroComplete} />;
   }
 
   // Show main application after intro
