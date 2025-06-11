@@ -28,13 +28,13 @@ export default function LogoIntro({ onComplete }) {
   };
 
   return (
-    <div className={`fixed inset-0 z-50 bg-gradient-to-br from-gray-900 via-black to-gray-800 flex items-center justify-center transition-all duration-800 ${
+    <div className={`fixed inset-0 z-50 bg-white flex items-center justify-center transition-all duration-800 ${
       fadeOut ? 'opacity-0 scale-110' : 'opacity-100 scale-100'
     }`}>
       {/* Skip Button */}
       <button
         onClick={handleSkip}
-        className="absolute top-6 right-6 md:top-8 md:right-8 z-60 bg-white/10 hover:bg-white/20 text-white px-4 py-2 md:px-6 md:py-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-white/40 text-sm md:text-base font-light tracking-wider"
+        className="absolute top-6 right-6 md:top-8 md:right-8 z-60 bg-black/10 hover:bg-black/20 text-black px-4 py-2 md:px-6 md:py-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-black/20 hover:border-black/40 text-sm md:text-base font-light tracking-wider"
       >
         SKIP
       </button>
@@ -60,8 +60,8 @@ export default function LogoIntro({ onComplete }) {
             />
             
             {/* Rotating Ring */}
-            <div className="absolute inset-0 border-2 border-amber-400/30 rounded-full animate-spin" style={{ animationDuration: '8s' }} />
-            <div className="absolute inset-2 border border-white/20 rounded-full animate-spin" style={{ animationDuration: '12s', animationDirection: 'reverse' }} />
+            <div className="absolute inset-0 border-2 border-amber-400/40 rounded-full animate-spin" style={{ animationDuration: '8s' }} />
+            <div className="absolute inset-2 border border-gray-400/30 rounded-full animate-spin" style={{ animationDuration: '12s', animationDirection: 'reverse' }} />
           </div>
         </div>
 
@@ -71,7 +71,7 @@ export default function LogoIntro({ onComplete }) {
             ? 'opacity-100 transform translate-y-0' 
             : 'opacity-0 transform translate-y-4'
         }`}>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-2 md:mb-4 tracking-wider">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-black mb-2 md:mb-4 tracking-wider">
             ANDRÉS CASTRO
           </h1>
         </div>
@@ -82,7 +82,7 @@ export default function LogoIntro({ onComplete }) {
             ? 'opacity-100 transform translate-y-0' 
             : 'opacity-0 transform translate-y-4'
         }`}>
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-light text-amber-400 mb-8 md:mb-12 tracking-[0.3em] uppercase">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-light text-amber-600 mb-8 md:mb-12 tracking-[0.3em] uppercase">
             ARQUITECTURA
           </h2>
         </div>
@@ -93,9 +93,9 @@ export default function LogoIntro({ onComplete }) {
             ? 'opacity-100 transform translate-y-0' 
             : 'opacity-0 transform translate-y-4'
         }`}>
-          <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
-          <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
-          <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+          <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
+          <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+          <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
         </div>
 
         {/* Tagline */}
@@ -104,7 +104,7 @@ export default function LogoIntro({ onComplete }) {
             ? 'opacity-100 transform translate-y-0' 
             : 'opacity-0 transform translate-y-4'
         }`}>
-          <p className="text-sm md:text-base text-white/70 font-light tracking-wide max-w-md mx-auto leading-relaxed">
+          <p className="text-sm md:text-base text-gray-600 font-light tracking-wide max-w-md mx-auto leading-relaxed">
             Diseño arquitectónico excepcional con más de 25 años de experiencia
           </p>
         </div>
@@ -116,7 +116,7 @@ export default function LogoIntro({ onComplete }) {
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
+            className="absolute w-1 h-1 bg-gray-400/30 rounded-full animate-pulse"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -127,14 +127,14 @@ export default function LogoIntro({ onComplete }) {
         ))}
         
         {/* Gradient Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-32 md:w-48 h-32 md:h-48 bg-amber-400/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-24 md:w-36 h-24 md:h-36 bg-blue-400/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/4 left-1/4 w-32 md:w-48 h-32 md:h-48 bg-amber-400/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-24 md:w-36 h-24 md:h-36 bg-gray-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 w-48 md:w-64 h-0.5 bg-white/10 rounded-full overflow-hidden">
+      <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 w-48 md:w-64 h-0.5 bg-gray-200 rounded-full overflow-hidden">
         <div 
-          className="h-full bg-gradient-to-r from-amber-400 to-yellow-300 rounded-full transition-all duration-100 ease-linear shadow-lg shadow-amber-400/50"
+          className="h-full bg-gradient-to-r from-amber-500 to-yellow-400 rounded-full transition-all duration-100 ease-linear shadow-lg shadow-amber-400/50"
           style={{
             width: '0%',
             animation: 'progress 4.5s linear forwards'
