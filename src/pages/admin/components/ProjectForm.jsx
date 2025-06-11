@@ -5,7 +5,8 @@ export default function ProjectForm({
   initialData = {}, 
   onSubmit, 
   onCancel, 
-  loading 
+  loading,
+  r2ConfigValid = true
 }) {
   const [formData, setFormData] = useState({
     title: '',
@@ -87,6 +88,12 @@ export default function ProjectForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check R2 configuration if files are selected
+    if ((selectedFiles.length > 0 || selectedBlueprints.length > 0) && !r2ConfigValid) {
+      alert('R2 Storage is not properly configured. Please configure R2 settings before uploading files.');
+      return;
+    }
     
     // Trim all string values to remove extra spaces
     const trimmedData = Object.entries(formData).reduce((acc, [key, value]) => {
@@ -230,10 +237,30 @@ export default function ProjectForm({
         </p>
       </div>
 
+      {/* R2 Storage Status */}
+      {!r2ConfigValid && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-yellow-800">R2 Storage Not Configured</h3>
+              <div className="mt-2 text-sm text-yellow-700">
+                <p>Image uploads are disabled. R2 Storage configuration is required for file uploads.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Project Images Upload */}
       <div>
         <label className="block text-gray-700 text-sm font-bold mb-2">
           Add Project Images
+          {!r2ConfigValid && <span className="text-yellow-600 ml-2">(Disabled - R2 not configured)</span>}
         </label>
         <p className="text-sm text-gray-600 mb-2">
           Upload photos, renderings, and visual representations of the project
@@ -243,8 +270,11 @@ export default function ProjectForm({
           type="file"
           accept="image/*"
           multiple
+          disabled={!r2ConfigValid}
           onChange={(e) => setSelectedFiles(Array.from(e.target.files))}
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
+          className={`w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black ${
+            !r2ConfigValid ? 'bg-gray-100 cursor-not-allowed' : ''
+          }`}
         />
         {selectedFiles.length > 0 && (
           <div className="mt-2 text-sm text-gray-600">
@@ -253,7 +283,7 @@ export default function ProjectForm({
         )}
         {mode === 'edit' && initialData.images && initialData.images.length > 0 && (
           <div className="mt-2 text-sm text-blue-600">
-            Current project has {initialData.images.length} existing images
+            Current project has {initialData.images.length} existing images (stored in R2)
           </div>
         )}
       </div>
@@ -262,6 +292,7 @@ export default function ProjectForm({
       <div>
         <label className="block text-gray-700 text-sm font-bold mb-2">
           Add Architectural Drawings
+          {!r2ConfigValid && <span className="text-yellow-600 ml-2">(Disabled - R2 not configured)</span>}
         </label>
         <p className="text-sm text-gray-600 mb-2">
           Upload technical drawings, floor plans, elevations, and blueprints
@@ -271,8 +302,11 @@ export default function ProjectForm({
           type="file"
           accept="image/*"
           multiple
+          disabled={!r2ConfigValid}
           onChange={(e) => setSelectedBlueprints(Array.from(e.target.files))}
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
+          className={`w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-black ${
+            !r2ConfigValid ? 'bg-gray-100 cursor-not-allowed' : ''
+          }`}
         />
         {selectedBlueprints.length > 0 && (
           <div className="mt-2 text-sm text-gray-600">
@@ -281,7 +315,7 @@ export default function ProjectForm({
         )}
         {mode === 'edit' && initialData.blueprints && initialData.blueprints.length > 0 && (
           <div className="mt-2 text-sm text-blue-600">
-            Current project has {initialData.blueprints.length} existing blueprints
+            Current project has {initialData.blueprints.length} existing blueprints (stored in R2)
           </div>
         )}
       </div>
@@ -295,7 +329,7 @@ export default function ProjectForm({
             ></div>
           </div>
           <p className="text-sm text-gray-600 mt-1">
-            Uploading: {Math.round(uploadProgress)}%
+            Uploading to R2: {Math.round(uploadProgress)}%
           </p>
         </div>
       )}
@@ -347,11 +381,35 @@ export default function ProjectForm({
               <div className="mt-2 text-sm text-blue-700">
                 <ul className="list-disc list-inside space-y-1">
                   <li>Only modified fields will be updated</li>
-                  <li>New images will be added to existing ones</li>
+                  <li>New images will be uploaded to R2 and added to existing ones</li>
                   <li>Use the project management section below to reorder or delete existing images</li>
                   <li>All text inputs will be automatically trimmed of extra spaces</li>
                   <li>Form will be cleared after successful submission</li>
+                  <li>Images are stored in Cloudflare R2 for optimal performance</li>
                 </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* R2 Storage Info */}
+      {r2ConfigValid && (
+        <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-green-800">
+                R2 Storage Ready
+              </h3>
+              <div className="mt-2 text-sm text-green-700">
+                <p>✅ Images will be uploaded to Cloudflare R2 for fast global delivery</p>
+                <p>✅ Automatic image optimization and compression</p>
+                <p>✅ CDN-powered performance worldwide</p>
               </div>
             </div>
           </div>

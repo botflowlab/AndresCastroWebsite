@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
+import { normalizeImageUrl, getThumbnailUrl } from '../../utils/r2Storage';
 
 function ProjectsSection() {
   const { t } = useTranslation();
@@ -9,6 +10,7 @@ function ProjectsSection() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [imageErrors, setImageErrors] = useState(new Set());
 
   useEffect(() => {
     fetchProjects();
@@ -41,7 +43,14 @@ function ProjectsSection() {
         throw new Error(`Failed to fetch projects: ${error.message}`);
       }
       
-      setProjects(data || []);
+      // Normalize image URLs for all projects
+      const projectsWithNormalizedUrls = data?.map(project => ({
+        ...project,
+        images: project.images?.map(url => normalizeImageUrl(url)) || [],
+        blueprints: project.blueprints?.map(url => normalizeImageUrl(url)) || []
+      })) || [];
+      
+      setProjects(projectsWithNormalizedUrls);
     } catch (error) {
       console.error('Error fetching projects:', error);
       setError(error.message);
@@ -49,6 +58,20 @@ function ProjectsSection() {
       setLoading(false);
     }
   }
+
+  const handleImageError = (projectId) => {
+    setImageErrors(prev => new Set([...prev, projectId]));
+    console.warn('Failed to load project image for project:', projectId);
+  };
+
+  const getProjectImageUrl = (project) => {
+    if (!project.images || project.images.length === 0) {
+      return '/images/placeholder.jpg';
+    }
+    
+    // Use thumbnail URL for better performance
+    return getThumbnailUrl(project.images[0]) || project.images[0];
+  };
 
   // Show error state
   if (error) {
@@ -95,11 +118,24 @@ function ProjectsSection() {
             // Project cards
             projects.map((project, index) => (
               <div key={project.id} className="relative w-full pb-[100%] overflow-hidden">
-                <img 
-                  src={project.images?.[0] || '/images/placeholder.jpg'} 
-                  alt={project.title}
-                  className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 hover:scale-125"
-                />
+                {!imageErrors.has(project.id) ? (
+                  <img 
+                    src={getProjectImageUrl(project)} 
+                    alt={project.title}
+                    className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 hover:scale-125"
+                    onError={() => handleImageError(project.id)}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800">
+                    <div className="text-center text-white">
+                      <svg className="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <p className="text-sm">Image not available</p>
+                    </div>
+                  </div>
+                )}
               </div>
             ))
           )}

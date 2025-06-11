@@ -54,6 +54,41 @@ export const extractFilename = (url) => {
 };
 
 /**
+ * Convert any image URL to proper R2 URL format
+ * @param {string} imageUrl - The image URL (could be filename or full URL)
+ * @returns {string} - Proper R2 URL
+ */
+export const normalizeImageUrl = (imageUrl) => {
+  if (!imageUrl) return '';
+  
+  // If it's already a full R2 URL, return as-is
+  if (isR2Url(imageUrl)) {
+    return imageUrl;
+  }
+  
+  // If it's a filename or relative path, construct R2 URL
+  let fileName = imageUrl;
+  
+  // Remove leading slash if present
+  if (fileName.startsWith('/')) {
+    fileName = fileName.substring(1);
+  }
+  
+  // If it's just a filename, construct the full R2 URL
+  if (!fileName.startsWith('http')) {
+    return `${R2_PUBLIC_URL}/${fileName}`;
+  }
+  
+  // If it's some other URL format, try to extract filename and construct R2 URL
+  const extractedFilename = extractFilename(imageUrl);
+  if (extractedFilename) {
+    return `${R2_PUBLIC_URL}/${extractedFilename}`;
+  }
+  
+  return imageUrl; // Fallback to original
+};
+
+/**
  * Generate optimized image URL with Cloudflare Image Resizing
  * @param {string} imageUrl - The full image URL or filename
  * @param {Object} options - Optimization options
@@ -62,12 +97,11 @@ export const extractFilename = (url) => {
 export const getOptimizedImageUrl = (imageUrl, options = {}) => {
   if (!imageUrl) return '';
   
-  // If it's already a full R2 URL, extract the filename
-  let fileName = imageUrl;
-  if (isR2Url(imageUrl)) {
-    fileName = extractFilename(imageUrl);
-  } else if (imageUrl.startsWith('http')) {
-    // If it's a non-R2 URL, return as-is
+  // First normalize the URL to ensure it's a proper R2 URL
+  const normalizedUrl = normalizeImageUrl(imageUrl);
+  
+  // If normalization failed, return original
+  if (!normalizedUrl || !isR2Url(normalizedUrl)) {
     return imageUrl;
   }
   
@@ -79,8 +113,8 @@ export const getOptimizedImageUrl = (imageUrl, options = {}) => {
     fit = 'cover'
   } = options;
 
-  // Base R2 URL
-  let url = `${R2_PUBLIC_URL}/${fileName}`;
+  // Start with the normalized R2 URL
+  let url = normalizedUrl;
 
   // Add Cloudflare Image Resizing parameters if available
   const params = new URLSearchParams();
@@ -157,7 +191,8 @@ export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = (
     const result = await response.json();
     setUploadProgress(100);
     
-    return result.url;
+    // Ensure we return a properly formatted R2 URL
+    return normalizeImageUrl(result.url);
   } catch (error) {
     console.error('Error uploading to R2:', error);
     
@@ -181,13 +216,18 @@ export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = (
  */
 export const deleteFromR2 = async (imageUrl) => {
   try {
-    if (!imageUrl || !isR2Url(imageUrl)) {
-      console.warn('Invalid R2 URL for deletion:', imageUrl);
+    if (!imageUrl) {
+      console.warn('No image URL provided for deletion');
       return false;
     }
 
-    // Extract filename from URL
+    // Extract filename from URL (works for both R2 URLs and filenames)
     const fileName = extractFilename(imageUrl);
+    
+    if (!fileName) {
+      console.warn('Could not extract filename from URL:', imageUrl);
+      return false;
+    }
 
     const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/delete-from-r2`, {
       method: 'POST',
@@ -306,6 +346,39 @@ export const getResponsiveImageUrls = (imageUrl) => {
     small: getOptimizedImageUrl(imageUrl, { width: 600, height: 400, quality: 80 }),
     medium: getOptimizedImageUrl(imageUrl, { width: 1200, height: 800, quality: 85 }),
     large: getOptimizedImageUrl(imageUrl, { width: 1920, height: 1280, quality: 90 }),
-    original: imageUrl
+    original: normalizeImageUrl(imageUrl)
   };
+};
+
+/**
+ * Test image URL accessibility
+ * @param {string} imageUrl - The image URL to test
+ * @returns {Promise<boolean>} - Whether the image is accessible
+ */
+export const testImageUrl = async (imageUrl) => {
+  if (!imageUrl) return false;
+  
+  try {
+    const normalizedUrl = normalizeImageUrl(imageUrl);
+    const response = await fetch(normalizedUrl, { method: 'HEAD' });
+    return response.ok;
+  } catch (error) {
+    console.warn('Image URL test failed:', imageUrl, error);
+    return false;
+  }
+};
+
+/**
+ * Get fallback image URL if primary fails
+ * @param {string} primaryUrl - Primary image URL
+ * @param {string} fallbackUrl - Fallback image URL
+ * @returns {Promise<string>} - Working image URL
+ */
+export const getWorkingImageUrl = async (primaryUrl, fallbackUrl = '/images/placeholder.jpg') => {
+  if (!primaryUrl) return fallbackUrl;
+  
+  const normalizedUrl = normalizeImageUrl(primaryUrl);
+  const isAccessible = await testImageUrl(normalizedUrl);
+  
+  return isAccessible ? normalizedUrl : fallbackUrl;
 };
