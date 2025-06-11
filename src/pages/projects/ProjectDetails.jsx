@@ -8,12 +8,20 @@ import ArchitecturalDrawings from './ArchitecturalDrawings';
 export default function ProjectDetails({ project }) {
   const { t } = useTranslation();
   const [relatedProjects, setRelatedProjects] = useState([]);
-  const [imageErrors, setImageErrors] = useState(new Set());
+  const [imageErrors, setImageErrors] = useState(new Map());
   const [imageLoaded, setImageLoaded] = useState(new Set());
+  const [imageSrcs, setImageSrcs] = useState(new Map());
 
   useEffect(() => {
     fetchRelatedProjects();
-  }, [project.id, project.category]);
+    // Initialize image sources
+    const sideBySideImages = project.images?.slice(0, 2) || [];
+    const initialSrcs = new Map();
+    sideBySideImages.forEach((image, index) => {
+      initialSrcs.set(index, getImageUrl(image));
+    });
+    setImageSrcs(initialSrcs);
+  }, [project.id, project.category, project.images]);
 
   const fetchRelatedProjects = async () => {
     try {
@@ -31,6 +39,20 @@ export default function ProjectDetails({ project }) {
     }
   };
 
+  // Helper function to test CORS access
+  const testCorsAccess = async (imageUrl) => {
+    try {
+      const response = await fetch(imageUrl, { 
+        method: 'HEAD',
+        mode: 'cors'
+      });
+      return response.ok;
+    } catch (error) {
+      // Check if it's a CORS error
+      return error.name === 'TypeError' && error.message.includes('CORS');
+    }
+  };
+
   // Get the first two images from the project
   const sideBySideImages = project.images?.slice(0, 2) || [];
 
@@ -40,17 +62,58 @@ export default function ProjectDetails({ project }) {
     return text.slice(0, maxLength) + '...';
   };
 
-  const handleImageError = (index) => {
+  const handleImageError = async (index) => {
+    const originalUrl = sideBySideImages[index];
+    const processedUrl = getImageUrl(originalUrl);
+    
     console.error('❌ ProjectDetails image failed at index:', index, {
-      originalUrl: sideBySideImages[index],
-      processedUrl: getImageUrl(sideBySideImages[index])
+      originalUrl,
+      processedUrl
     });
-    setImageErrors(prev => new Set([...prev, index]));
+
+    // Test if it's a CORS issue
+    const isCorsError = await testCorsAccess(processedUrl);
+    
+    setImageErrors(prev => new Map([...prev, [index, {
+      isCorsError,
+      originalUrl,
+      processedUrl,
+      timestamp: Date.now()
+    }]]));
   };
 
   const handleImageLoad = (index) => {
     console.log('✅ ProjectDetails image loaded at index:', index);
     setImageLoaded(prev => new Set([...prev, index]));
+    // Clear any previous error for this image
+    setImageErrors(prev => {
+      const newErrors = new Map(prev);
+      newErrors.delete(index);
+      return newErrors;
+    });
+  };
+
+  const retryImageLoad = (index) => {
+    // Clear error state
+    setImageErrors(prev => {
+      const newErrors = new Map(prev);
+      newErrors.delete(index);
+      return newErrors;
+    });
+    
+    // Clear loaded state
+    setImageLoaded(prev => {
+      const newLoaded = new Set(prev);
+      newLoaded.delete(index);
+      return newLoaded;
+    });
+
+    // Update image source with cache-busting parameter
+    const originalUrl = sideBySideImages[index];
+    const baseUrl = getImageUrl(originalUrl);
+    const cacheBustUrl = `${baseUrl}?retry=${Date.now()}`;
+    
+    setImageSrcs(prev => new Map([...prev, [index, cacheBustUrl]]));
   };
 
   return (
@@ -81,8 +144,9 @@ export default function ProjectDetails({ project }) {
           {sideBySideImages.length >= 2 && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mt-16">
               {sideBySideImages.map((image, index) => {
-                const imageUrl = getImageUrl(image);
-                const hasError = imageErrors.has(index);
+                const imageUrl = imageSrcs.get(index) || getImageUrl(image);
+                const errorInfo = imageErrors.get(index);
+                const hasError = Boolean(errorInfo);
                 const isLoaded = imageLoaded.has(index);
                 
                 return (
@@ -114,11 +178,25 @@ export default function ProjectDetails({ project }) {
                       </>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-800">
-                        <div className="text-center text-white">
-                          <svg className="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="text-center text-white p-4">
+                          <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
-                          <p className="text-sm">Image not available</p>
+                          <p className="text-lg font-semibold mb-2">
+                            {errorInfo?.isCorsError ? 'CORS ERROR' : 'IMAGE FAILED'}
+                          </p>
+                          <p className="text-sm text-gray-300 mb-4">
+                            {errorInfo?.isCorsError 
+                              ? 'Cross-origin request blocked'
+                              : 'Image could not be loaded'
+                            }
+                          </p>
+                          <button
+                            onClick={() => retryImageLoad(index)}
+                            className="px-4 py-2 bg-white text-gray-800 rounded hover:bg-gray-200 transition-colors duration-200 text-sm font-medium"
+                          >
+                            Retry
+                          </button>
                         </div>
                       </div>
                     )}
