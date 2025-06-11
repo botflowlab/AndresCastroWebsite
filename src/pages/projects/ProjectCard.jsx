@@ -5,6 +5,7 @@ export default function ProjectCard({ title, image }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [finalUrl, setFinalUrl] = useState('');
+  const [corsError, setCorsError] = useState(false);
   const mountedRef = useRef(true);
 
   // Process URL once when component mounts or image prop changes
@@ -12,6 +13,7 @@ export default function ProjectCard({ title, image }) {
     mountedRef.current = true;
     setImageLoaded(false);
     setImageError(false);
+    setCorsError(false);
     
     const processedUrl = getImageUrl(image);
     setFinalUrl(processedUrl);
@@ -27,16 +29,39 @@ export default function ProjectCard({ title, image }) {
     };
   }, [image, title]);
 
-  const handleImageError = () => {
+  // Test CORS by attempting a fetch request
+  const testCorsAccess = async (url) => {
+    try {
+      const response = await fetch(url, {
+        method: 'HEAD',
+        mode: 'cors'
+      });
+      return response.ok;
+    } catch (error) {
+      console.error('CORS test failed:', error);
+      return false;
+    }
+  };
+
+  const handleImageError = async (event) => {
     if (!mountedRef.current) return;
+    
+    // Test if this is a CORS issue
+    const isCorsIssue = await testCorsAccess(finalUrl);
     
     console.error('❌ ProjectCard image failed:', {
       title,
       original: image,
       processed: finalUrl,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      corsTest: isCorsIssue ? 'PASSED' : 'FAILED',
+      errorType: event?.target?.error || 'Unknown'
     });
+    
     setImageError(true);
+    if (!isCorsIssue) {
+      setCorsError(true);
+    }
   };
 
   const handleImageLoad = () => {
@@ -85,10 +110,21 @@ export default function ProjectCard({ title, image }) {
               <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
-              <p className="text-xs font-bold">IMAGE FAILED</p>
-              <p className="text-xs mt-1 opacity-75">
-                Check console for details
+              <p className="text-xs font-bold">
+                {corsError ? 'CORS ERROR' : 'IMAGE FAILED'}
               </p>
+              <p className="text-xs mt-1 opacity-75">
+                {corsError 
+                  ? 'Configure R2 bucket CORS policy' 
+                  : 'Check console for details'
+                }
+              </p>
+              {corsError && (
+                <div className="mt-2 text-xs bg-red-100 p-2 rounded">
+                  <p className="font-semibold">Fix Required:</p>
+                  <p>Add CORS policy to R2 bucket</p>
+                </div>
+              )}
             </div>
           </div>
         )}
