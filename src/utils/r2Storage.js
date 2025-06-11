@@ -21,9 +21,23 @@ export const getImageUrl = (imageUrl) => {
     return '/images/placeholder.jpg';
   }
   
-  // Already a full URL = use as-is
+  // Already the correct public URL = use as-is
+  if (imageUrl.includes('pub-69ff11d6ad5b4c02b2fb48ab7c50735d.r2.dev')) {
+    console.log('✅ Correct public URL:', imageUrl);
+    return imageUrl;
+  }
+  
+  // Wrong R2 URL format = fix it
+  if (imageUrl.includes('.r2.cloudflarestorage.com')) {
+    const fileName = imageUrl.split('/').pop();
+    const fixedUrl = `${R2_PUBLIC_URL}/${fileName}`;
+    console.log('🔧 Fixed R2 URL:', imageUrl, '->', fixedUrl);
+    return fixedUrl;
+  }
+  
+  // Full URL but not R2 = use as-is
   if (imageUrl.startsWith('http')) {
-    console.log('✅ Full URL:', imageUrl);
+    console.log('🌐 External URL:', imageUrl);
     return imageUrl;
   }
   
@@ -40,7 +54,7 @@ export const getImageUrl = (imageUrl) => {
   }
   
   const finalUrl = `${R2_PUBLIC_URL}/${imageUrl}`;
-  console.log('🔗 R2 URL:', finalUrl);
+  console.log('🔗 R2 URL from filename:', finalUrl);
   return finalUrl;
 };
 
@@ -81,7 +95,9 @@ export const uploadToR2 = async (file, fileType = 'image', setUploadProgress = (
     setUploadProgress(100);
     
     console.log('✅ Upload success:', result.url);
-    return result.url;
+    
+    // Ensure we return the correct public URL format
+    return getImageUrl(result.url);
   } catch (error) {
     console.error('❌ Upload failed:', error);
     throw error;

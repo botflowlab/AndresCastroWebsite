@@ -106,8 +106,10 @@ serve(async (req) => {
       throw new Error(`R2 upload failed: ${uploadResponse.status} ${errorText}`)
     }
 
-    // Return the public URL
-    const publicUrl = `https://${r2Config.bucketName}.${r2Config.accountId}.r2.cloudflarestorage.com/${fileName}`
+    // FIXED: Return the correct public URL format
+    const publicUrl = `https://pub-69ff11d6ad5b4c02b2fb48ab7c50735d.r2.dev/${fileName}`
+
+    console.log(`✅ Upload successful: ${fileName} -> ${publicUrl}`)
 
     return new Response(
       JSON.stringify({ 
