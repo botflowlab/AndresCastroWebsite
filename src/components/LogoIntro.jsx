@@ -10,7 +10,7 @@ export default function LogoIntro({ onComplete }) {
       setTimeout(() => setCurrentStep(1), 500),   // Logo appears
       setTimeout(() => setCurrentStep(2), 1000),  // Text appears
       setTimeout(() => setCurrentStep(3), 1200),  // Full reveal
-      setTimeout(() => handleComplete(), 1500)    // Auto complete
+      setTimeout(() => handleComplete(), 2500)    // Auto complete
     ];
 
     return () => timers.forEach(timer => clearTimeout(timer));
