@@ -7,7 +7,7 @@ function Architect() {
 
   return (
     <section className="relative py-32 overflow-hidden">
-      {/* Background Pattern */}
+      {/* Background Pattern 1*/}
       <div className="absolute inset-0 bg-[#f8f8f8]">
         <div 
           className="absolute inset-0 opacity-5"
