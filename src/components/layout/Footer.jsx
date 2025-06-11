@@ -89,13 +89,6 @@ function Footer() {
       <div className="max-w-7xl mx-auto mt-16 flex flex-col md:flex-row justify-between items-center">
         <div className="flex flex-col md:flex-row items-center gap-4">
           <p>{t('footer.rights')}</p>
-          {/* Subtle admin access link */}
-          <Link 
-            to="/client-dashboard" 
-            className="text-xs text-gray-500 hover:text-gray-300 transition-colors opacity-50 hover:opacity-100"
-          >
-            Admin
-          </Link>
         </div>
         <div className="flex gap-8 mt-4 md:mt-0">
           <Link to="/privacy" className="hover:text-gray-300">{t('footer.privacy')}</Link>
