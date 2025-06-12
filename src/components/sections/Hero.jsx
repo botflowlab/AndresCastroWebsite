@@ -61,14 +61,6 @@ function Hero() {
               : 'opacity-0 transform translate-y-12'
           }`}>
             <h1 className="relative">
-              {/* Background text for depth effect */}
-              <span 
-                className="absolute inset-0 text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-bold text-transparent bg-clip-text bg-gradient-to-r from-white/20 to-white/10 leading-none tracking-tight transform translate-x-1 translate-y-1"
-                aria-hidden="true"
-              >
-                {t('home.hero.title')}
-              </span>
-              
               {/* Main text with gradient and glow */}
               <span className="relative block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white leading-none tracking-tight drop-shadow-2xl">
                 {t('home.hero.title')}
