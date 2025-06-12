@@ -106,7 +106,7 @@ function Architect() {
             <div className={`transition-all duration-[2000ms] ease-out delay-700 ${
               animationStarted 
                 ? 'opacity-100 transform translate-y-0 scale-100' 
-                : 'opacity-50 transform translate-y-12 scale-95'
+                : 'opacity-0 transform translate-y-12 scale-95'
             }`}>
               <div className="aspect-square overflow-hidden relative">
                 <img
