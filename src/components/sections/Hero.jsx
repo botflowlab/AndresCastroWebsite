@@ -81,8 +81,10 @@ function Hero() {
               <span className="relative">
                 {t('home.hero.subtitle')}
               </span>
+            </p>
+            <p className="text-xl sm:text-2xl md:text-2xl lg:text-3xl text-white/95 font-light max-w-4xl mx-auto leading-relaxed tracking-wide">
               <span className="relative">
-                {t('home.hero.subsubtitle')}
+                  {t('home.hero.subsubtitle')}
               </span>
             </p>
           </div>
