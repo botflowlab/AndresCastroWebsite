@@ -32,6 +32,22 @@ function Hero() {
     };
   }, []);
 
+  // Safe function to get translation text
+  const getTranslationText = (key) => {
+    try {
+      const translation = t(key);
+      // If it's an object, try to get a string property or return a fallback
+      if (typeof translation === 'object' && translation !== null) {
+        // Try common properties that might contain the text
+        return translation.text || translation.value || translation.content || String(translation);
+      }
+      return translation;
+    } catch (error) {
+      console.warn(`Translation error for key "${key}":`, error);
+      return key; // Fallback to the key itself
+    }
+  };
+
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Images */}
@@ -63,7 +79,7 @@ function Hero() {
             <h1 className="relative">
               {/* Main text with gradient and glow */}
               <span className="relative block text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white leading-none tracking-tight drop-shadow-2xl">
-                {t('home.hero.title')}
+                {getTranslationText('home.hero.title')}
               </span>
               
               {/* Accent line */}
@@ -79,7 +95,7 @@ function Hero() {
           }`}>
             <p className="text-xl sm:text-2xl md:text-2xl lg:text-3xl text-white/95 font-light max-w-4xl mx-auto leading-relaxed tracking-wide">
               <span className="relative">
-                {t('home.hero.subtitle')}
+                {getTranslationText('home.hero.subtitle')}
               </span>
             </p>
           </div>
