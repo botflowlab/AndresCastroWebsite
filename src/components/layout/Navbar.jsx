@@ -40,7 +40,9 @@ function Navbar() {
       >
         <div className="px-6 sm:px-8 lg:px-10 flex justify-between items-center h-20">
           <div className="flex-shrink-0 flex items-center">
-            <img src="/images/andrescastrologohor.png" alt="Logo" className="h-12 md:h-16 object-contain" />
+            <Link to="/" className="block">
+              <img src="/images/andrescastrologohor.png" alt="Logo" className="h-12 md:h-16 object-contain" />
+            </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-8">
