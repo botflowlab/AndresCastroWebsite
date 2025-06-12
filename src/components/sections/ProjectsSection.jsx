@@ -257,7 +257,7 @@ function ProjectsSection() {
               <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
               
               {/* Button text */}
-              <span className="relative z-10  text-4xl group-hover:text-[#0c0c0c] transition-colors duration-500">
+              <span className="relative z-10 group-hover:text-[#0c0c0c] transition-colors duration-500">
                 {t('home.projects.cta')}
               </span>
               
