@@ -15,10 +15,10 @@ function Hero() {
   ];
 
   useEffect(() => {
-    // Trigger entrance animation
+    // Trigger entrance animation with longer delay
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 100);
+    }, 300);
 
     const imageTimer = setInterval(() => {
       setCurrentImageIndex((prevIndex) => 
@@ -54,8 +54,8 @@ function Hero() {
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-7xl mx-auto text-center">
-          {/* Main Title with stunning typography */}
-          <div className={`mb-8 transition-all duration-1500 ease-out ${
+          {/* Main Title with stunning typography - SLOWER */}
+          <div className={`mb-8 transition-all duration-[2500ms] ease-out ${
             isVisible 
               ? 'opacity-100 transform translate-y-0' 
               : 'opacity-0 transform translate-y-12'
@@ -71,8 +71,8 @@ function Hero() {
             </h1>
           </div>
           
-          {/* Subtitle with elegant styling */}
-          <div className={`mb-12 transition-all duration-1500 ease-out delay-300 ${
+          {/* Subtitle with elegant styling - SLOWER with longer delay */}
+          <div className={`mb-12 transition-all duration-[2500ms] ease-out delay-700 ${
             isVisible 
               ? 'opacity-100 transform translate-y-0' 
               : 'opacity-0 transform translate-y-8'
@@ -89,21 +89,21 @@ function Hero() {
             </p>
           </div>
 
-          {/* Dashboard Button with enhanced styling */}
-          <div className={`mb-12 transition-all duration-1500 ease-out delay-500 ${
+          {/* Dashboard Button with enhanced styling - SLOWER with longer delay */}
+          <div className={`mb-12 transition-all duration-[2000ms] ease-out delay-1200 ${
             isVisible 
               ? 'opacity-100 transform translate-y-0 scale-100' 
               : 'opacity-0 transform translate-y-8 scale-95'
           }`}>
             <Link
               to="/client-dashboard"
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent"
+              className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white transition-all duration-500 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent"
             >
               {/* Button background with gradient */}
-              <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-lg shadow-xl group-hover:shadow-2xl transition-all duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-lg shadow-xl group-hover:shadow-2xl transition-all duration-500"></div>
               
               {/* Button border glow */}
-              <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-red-600 rounded-lg opacity-0 group-hover:opacity-20 blur-sm transition-all duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-red-600 rounded-lg opacity-0 group-hover:opacity-20 blur-sm transition-all duration-500"></div>
               
               {/* Button content */}
               <span className="relative flex items-center space-x-2">
@@ -113,8 +113,8 @@ function Hero() {
             </Link>
           </div>
 
-          {/* Navigation Dots with enhanced design */}
-          <div className={`flex justify-center gap-4 transition-all duration-1500 ease-out delay-700 ${
+          {/* Navigation Dots with enhanced design - SLOWER with longest delay */}
+          <div className={`flex justify-center gap-4 transition-all duration-[2000ms] ease-out delay-1700 ${
             isVisible 
               ? 'opacity-100 transform translate-y-0' 
               : 'opacity-0 transform translate-y-4'
@@ -123,7 +123,7 @@ function Hero() {
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
-                className={`relative transition-all duration-300 group ${
+                className={`relative transition-all duration-500 group ${
                   currentImageIndex === index 
                     ? 'w-12 h-3' 
                     : 'w-3 h-3 hover:w-6'
@@ -131,14 +131,14 @@ function Hero() {
                 aria-label={`Go to slide ${index + 1}`}
               >
                 {/* Dot background */}
-                <div className={`absolute inset-0 rounded-full transition-all duration-300 ${
+                <div className={`absolute inset-0 rounded-full transition-all duration-500 ${
                   currentImageIndex === index
                     ? 'bg-white shadow-lg'
                     : 'bg-white/50 group-hover:bg-white/80'
                 }`}></div>
                 
                 {/* Dot glow effect */}
-                <div className={`absolute inset-0 rounded-full transition-all duration-300 ${
+                <div className={`absolute inset-0 rounded-full transition-all duration-500 ${
                   currentImageIndex === index
                     ? 'bg-white/30 blur-sm scale-150'
                     : 'bg-transparent group-hover:bg-white/20 group-hover:blur-sm group-hover:scale-125'
@@ -160,7 +160,7 @@ function Hero() {
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`
+              animationDuration: `${3 + Math.random() * 4}s`
             }}
           />
         ))}
@@ -172,8 +172,8 @@ function Hero() {
         <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-black/10 to-transparent"></div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-all duration-1500 ease-out delay-1000 ${
+      {/* Scroll indicator - SLOWER with longest delay */}
+      <div className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-all duration-[2000ms] ease-out delay-2200 ${
         isVisible 
           ? 'opacity-100 transform translate-y-0' 
           : 'opacity-0 transform translate-y-4'
