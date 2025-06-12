@@ -45,7 +45,7 @@ function NewsSection() {
       <div className="max-w-7xl mx-auto px-4 relative">
         {/* Section Header */}
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-7xl font-light mb-8">
+          <h2 className="text-4xl md:text-6xl font-light mb-8">
             {t('home.news.title')}
           </h2>
           <div className="w-32 h-1 bg-[#0c0c0c] mx-auto mb-12"></div>
