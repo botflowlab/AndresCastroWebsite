@@ -32,6 +32,22 @@ function Hero() {
     };
   }, []);
 
+  // Get subtitle as array or convert string to array
+  const getSubtitleLines = () => {
+    const subtitle = t('home.hero.subtitle');
+    if (Array.isArray(subtitle)) {
+      return subtitle;
+    }
+    // If it's a string with \n, split it
+    if (typeof subtitle === 'string' && subtitle.includes('\\n')) {
+      return subtitle.split('\\n');
+    }
+    // If it's a regular string, return as single item array
+    return [subtitle];
+  };
+
+  const subtitleLines = getSubtitleLines();
+
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Images */}
@@ -62,7 +78,7 @@ function Hero() {
           }`}>
             <h1 className="relative">
               {/* Main text with gradient and glow */}
-              <span className="relative block text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white leading-none tracking-tight drop-shadow-2xl">
+              <span className="relative block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white leading-none tracking-tight drop-shadow-2xl">
                 {t('home.hero.title')}
               </span>
               
@@ -71,21 +87,37 @@ function Hero() {
             </h1>
           </div>
           
-          {/* Subtitle with elegant styling */}
+          {/* Subtitle with elegant styling - now supports multiple lines */}
           <div className={`mb-12 transition-all duration-1500 ease-out delay-300 ${
             isVisible 
               ? 'opacity-100 transform translate-y-0' 
               : 'opacity-0 transform translate-y-8'
           }`}>
-            <p className="text-xl sm:text-2xl md:text-2xl lg:text-3xl text-white/95 font-light max-w-4xl mx-auto leading-relaxed tracking-wide">
-              <span className="relative">
-                {t('home.hero.subtitle')}
-              </span>
-            </p>
+            <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/95 font-light max-w-5xl mx-auto leading-relaxed tracking-wide space-y-2">
+              {subtitleLines.map((line, index) => (
+                <div 
+                  key={index}
+                  className={`relative transition-all duration-1000 ease-out ${
+                    isVisible 
+                      ? 'opacity-100 transform translate-y-0' 
+                      : 'opacity-0 transform translate-y-4'
+                  }`}
+                  style={{ 
+                    transitionDelay: `${300 + (index * 200)}ms` 
+                  }}
+                >
+                  <span className="relative">
+                    {line}
+                    {/* Subtle underline for each line */}
+                    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-16 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-60"></div>
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Dashboard Button with enhanced styling */}
-          <div className={`mb-12 transition-all duration-1500 ease-out delay-500 ${
+          <div className={`mb-12 transition-all duration-1500 ease-out delay-700 ${
             isVisible 
               ? 'opacity-100 transform translate-y-0 scale-100' 
               : 'opacity-0 transform translate-y-8 scale-95'
@@ -109,7 +141,7 @@ function Hero() {
           </div>
 
           {/* Navigation Dots with enhanced design */}
-          <div className={`flex justify-center gap-4 transition-all duration-1500 ease-out delay-700 ${
+          <div className={`flex justify-center gap-4 transition-all duration-1500 ease-out delay-900 ${
             isVisible 
               ? 'opacity-100 transform translate-y-0' 
               : 'opacity-0 transform translate-y-4'
