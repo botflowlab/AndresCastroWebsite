@@ -47,40 +47,6 @@ export default function LemaArchitec() {
         }`}></div>
       </div>
 
-      {/* Decorative floating elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Subtle floating particles that appear after main animation */}
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className={`absolute w-1 h-1 bg-gray-400/20 rounded-full transition-all duration-[3000ms] ease-out ${
-              animationStarted 
-                ? 'opacity-100 animate-pulse' 
-                : 'opacity-0'
-            }`}
-            style={{
-              left: `${15 + Math.random() * 70}%`,
-              top: `${20 + Math.random() * 60}%`,
-              animationDelay: `${1500 + Math.random() * 2000}ms`,
-              animationDuration: `${4000 + Math.random() * 2000}ms`
-            }}
-          />
-        ))}
-
-        {/* Corner accent lines that slide in */}
-        <div className={`absolute top-0 left-0 w-32 h-32 border-l-2 border-t-2 border-gray-300/30 transition-all duration-[1500ms] ease-out delay-1000 ${
-          animationStarted 
-            ? 'opacity-100 transform translate-x-0 translate-y-0' 
-            : 'opacity-0 transform -translate-x-4 -translate-y-4'
-        }`}></div>
-
-        <div className={`absolute bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-gray-300/30 transition-all duration-[1500ms] ease-out delay-1200 ${
-          animationStarted 
-            ? 'opacity-100 transform translate-x-0 translate-y-0' 
-            : 'opacity-0 transform translate-x-4 translate-y-4'
-        }`}></div>
-      </div>
-
       {/* Shimmer effect overlay */}
       <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 transition-all duration-[1500ms] ease-out delay-1500 ${
         animationStarted 
