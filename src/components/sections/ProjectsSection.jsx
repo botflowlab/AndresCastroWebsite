@@ -152,13 +152,6 @@ function ProjectsSection() {
             <h2 className="relative text-4xl sm:text-5xl md:text-6xl text-white font-bold mb-8 font-cormorant tracking-[.25em] uppercase">
               <span className="relative inline-block">
                 {t('home.projects.title')}
-                
-                {/* Glowing underline effect */}
-                <div className={`absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-transparent via-white to-transparent transition-all duration-[2000ms] ease-out delay-700 ${
-                  animationStarted 
-                    ? 'w-full opacity-100' 
-                    : 'w-0 opacity-0'
-                }`}></div>
               </span>
             </h2>
           </div>
