@@ -172,27 +172,6 @@ function Architect() {
           </div>
         </div>
       </div>
-
-      {/* Floating decorative elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Subtle floating particles */}
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={i}
-            className={`absolute w-2 h-2 bg-[#0c0c0c]/10 rounded-full transition-all duration-[3000ms] ease-out ${
-              animationStarted 
-                ? 'opacity-100 animate-pulse' 
-                : 'opacity-0'
-            }`}
-            style={{
-              left: `${20 + Math.random() * 60}%`,
-              top: `${20 + Math.random() * 60}%`,
-              animationDelay: `${2000 + Math.random() * 2000}ms`,
-              animationDuration: `${4000 + Math.random() * 2000}ms`
-            }}
-          />
-        ))}
-      </div>
     </section>
   );
 }
