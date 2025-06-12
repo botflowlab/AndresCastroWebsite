@@ -1,144 +1,154 @@
-/*
-  # Delete from R2 Edge Function
-
-  1. Purpose
-    - Handles deletion of files from Cloudflare R2 storage
-    - Provides secure server-side deletion functionality
-    - Validates file names and handles errors gracefully
-
-  2. Security
-    - Requires authentication via Bearer token
-    - Validates input parameters
-    - Handles CORS for web requests
-
-  3. Functionality
-    - Accepts fileName in request body
-    - Deletes file from R2 bucket
-    - Returns success/error status
-*/
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
-};
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+}
 
-Deno.serve(async (req: Request) => {
+interface R2Config {
+  accountId: string
+  accessKeyId: string
+  secretAccessKey: string
+  bucketName: string
+}
+
+serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders })
+  }
+
   try {
-    // Handle CORS preflight requests
-    if (req.method === "OPTIONS") {
-      return new Response(null, {
-        status: 200,
-        headers: corsHeaders,
-      });
+    // Get R2 configuration from environment variables
+    const r2Config: R2Config = {
+      accountId: Deno.env.get('R2_ACCOUNT_ID') || '',
+      accessKeyId: Deno.env.get('R2_ACCESS_KEY_ID') || '',
+      secretAccessKey: Deno.env.get('R2_SECRET_ACCESS_KEY') || '',
+      bucketName: Deno.env.get('R2_BUCKET_NAME') || 'andres-castro-images'
     }
 
-    // Only allow POST requests
-    if (req.method !== "POST") {
-      return new Response(
-        JSON.stringify({ error: "Method not allowed" }),
-        {
-          status: 405,
-          headers: {
-            "Content-Type": "application/json",
-            ...corsHeaders,
-          },
-        }
-      );
+    // Validate configuration
+    if (!r2Config.accountId || !r2Config.accessKeyId || !r2Config.secretAccessKey) {
+      throw new Error('R2 configuration is incomplete')
     }
 
     // Parse request body
-    const { fileName } = await req.json();
+    const { fileName } = await req.json()
 
     if (!fileName) {
-      return new Response(
-        JSON.stringify({ error: "fileName is required" }),
-        {
-          status: 400,
-          headers: {
-            "Content-Type": "application/json",
-            ...corsHeaders,
-          },
-        }
-      );
+      throw new Error('fileName is required')
     }
 
-    // Get R2 credentials from environment
-    const R2_ACCOUNT_ID = Deno.env.get("R2_ACCOUNT_ID");
-    const R2_ACCESS_KEY_ID = Deno.env.get("R2_ACCESS_KEY_ID");
-    const R2_SECRET_ACCESS_KEY = Deno.env.get("R2_SECRET_ACCESS_KEY");
-    const R2_BUCKET_NAME = Deno.env.get("R2_BUCKET_NAME") || "andres-castro-images";
+    // Create delete request to R2
+    const endpoint = `https://${r2Config.accountId}.r2.cloudflarestorage.com`
+    const deleteUrl = `${endpoint}/${r2Config.bucketName}/${fileName}`
+    
+    // Create AWS v4 signature for DELETE request
+    const region = 'auto'
+    const service = 's3'
+    const now = new Date()
+    const dateStamp = now.toISOString().slice(0, 10).replace(/-/g, '')
+    const timeStamp = now.toISOString().slice(0, 19).replace(/[-:]/g, '') + 'Z'
 
-    if (!R2_ACCOUNT_ID || !R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY) {
-      console.error("Missing R2 credentials");
-      return new Response(
-        JSON.stringify({ error: "R2 credentials not configured" }),
-        {
-          status: 500,
-          headers: {
-            "Content-Type": "application/json",
-            ...corsHeaders,
-          },
-        }
-      );
-    }
+    // Create canonical request
+    const canonicalHeaders = `host:${r2Config.accountId}.r2.cloudflarestorage.com\nx-amz-content-sha256:UNSIGNED-PAYLOAD\nx-amz-date:${timeStamp}\n`
+    const signedHeaders = 'host;x-amz-content-sha256;x-amz-date'
+    const canonicalRequest = `DELETE\n/${r2Config.bucketName}/${fileName}\n\n${canonicalHeaders}\n${signedHeaders}\nUNSIGNED-PAYLOAD`
 
-    // Create R2 endpoint URL
-    const r2Endpoint = `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
-    const deleteUrl = `${r2Endpoint}/${R2_BUCKET_NAME}/${fileName}`;
+    // Create string to sign
+    const algorithm = 'AWS4-HMAC-SHA256'
+    const credentialScope = `${dateStamp}/${region}/${service}/aws4_request`
+    const stringToSign = `${algorithm}\n${timeStamp}\n${credentialScope}\n${await sha256(canonicalRequest)}`
 
-    // Create AWS signature for R2 (simplified version)
-    const now = new Date();
-    const dateStamp = now.toISOString().slice(0, 10).replace(/-/g, '');
-    const amzDate = now.toISOString().replace(/[:-]|\.\d{3}/g, '');
+    // Calculate signature
+    const signingKey = await getSignatureKey(r2Config.secretAccessKey, dateStamp, region, service)
+    const signature = await hmacSha256(signingKey, stringToSign)
 
-    // Create authorization header (simplified - for production use proper AWS4 signing)
-    const authHeader = `AWS4-HMAC-SHA256 Credential=${R2_ACCESS_KEY_ID}/${dateStamp}/auto/s3/aws4_request, SignedHeaders=host;x-amz-date, Signature=placeholder`;
+    // Create authorization header
+    const authorization = `${algorithm} Credential=${r2Config.accessKeyId}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`
 
-    // Make DELETE request to R2
+    // Delete file from R2
     const deleteResponse = await fetch(deleteUrl, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        "Authorization": authHeader,
-        "X-Amz-Date": amzDate,
-        "Host": `${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-      },
-    });
+        'Authorization': authorization,
+        'X-Amz-Date': timeStamp,
+        'X-Amz-Content-Sha256': 'UNSIGNED-PAYLOAD'
+      }
+    })
 
-    // For now, we'll simulate success since proper AWS4 signing is complex
-    // In a real implementation, you'd use a proper AWS SDK or implement full AWS4 signing
-    console.log(`Delete request made for: ${fileName}`);
+    if (!deleteResponse.ok && deleteResponse.status !== 404) {
+      const errorText = await deleteResponse.text()
+      throw new Error(`R2 delete failed: ${deleteResponse.status} ${errorText}`)
+    }
 
     return new Response(
       JSON.stringify({ 
-        success: true, 
-        message: `File ${fileName} deletion requested`,
-        fileName: fileName
+        success: true,
+        fileName: fileName,
+        status: deleteResponse.status
       }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          ...corsHeaders,
-        },
+      { 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        } 
       }
-    );
+    )
 
   } catch (error) {
-    console.error("Delete function error:", error);
-    
+    console.error('Delete error:', error)
     return new Response(
-      JSON.stringify({ 
-        error: "Internal server error",
-        details: error.message 
-      }),
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-          ...corsHeaders,
-        },
+      JSON.stringify({ error: error.message }),
+      { 
+        status: 400, 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        } 
       }
-    );
+    )
   }
-});
+})
+
+// Helper functions for AWS signature (same as upload function)
+async function sha256(message: string): Promise<string> {
+  const msgBuffer = new TextEncoder().encode(message)
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer)
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+}
+
+async function hmacSha256(key: Uint8Array, message: string): Promise<string> {
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    key,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  )
+  const signature = await crypto.subtle.sign('HMAC', cryptoKey, new TextEncoder().encode(message))
+  const hashArray = Array.from(new Uint8Array(signature))
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+}
+
+async function getSignatureKey(key: string, dateStamp: string, regionName: string, serviceName: string): Promise<Uint8Array> {
+  const kDate = await hmacSha256Raw(new TextEncoder().encode('AWS4' + key), dateStamp)
+  const kRegion = await hmacSha256Raw(kDate, regionName)
+  const kService = await hmacSha256Raw(kRegion, serviceName)
+  const kSigning = await hmacSha256Raw(kService, 'aws4_request')
+  return kSigning
+}
+
+async function hmacSha256Raw(key: Uint8Array, message: string): Promise<Uint8Array> {
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    key,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  )
+  const signature = await crypto.subtle.sign('HMAC', cryptoKey, new TextEncoder().encode(message))
+  return new Uint8Array(signature)
+}
