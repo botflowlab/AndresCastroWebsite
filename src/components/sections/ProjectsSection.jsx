@@ -162,17 +162,6 @@ function ProjectsSection() {
               </span>
             </h2>
           </div>
-
-          {/* Subtitle with elegant fade-in */}
-          <div className={`transition-all duration-[2000ms] ease-out delay-500 ${
-            animationStarted 
-              ? 'opacity-100 transform translate-y-0' 
-              : 'opacity-0 transform translate-y-8'
-          }`}>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-              Discover our latest architectural masterpieces
-            </p>
-          </div>
         </div>
         
         {/* Projects Grid with staggered card animations */}
