@@ -32,9 +32,6 @@ function Hero() {
     };
   }, []);
 
-  // Split subtitle into two lines
-  const subtitleLines = t('home.hero.subtitle').split('\n');
-
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Images */}
@@ -74,21 +71,17 @@ function Hero() {
             </h1>
           </div>
           
-          {/* Subtitle with elegant styling - now split into two lines */}
+          {/* Subtitle with elegant styling */}
           <div className={`mb-12 transition-all duration-1500 ease-out delay-300 ${
             isVisible 
               ? 'opacity-100 transform translate-y-0' 
               : 'opacity-0 transform translate-y-8'
           }`}>
-            <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl text-white/95 font-light max-w-4xl mx-auto leading-relaxed tracking-wide space-y-2">
-              {subtitleLines.map((line, index) => (
-                <p key={index} className="relative">
-                  <span className="relative">
-                    {line}
-                  </span>
-                </p>
-              ))}
-            </div>
+            <p className="text-xl sm:text-2xl md:text-2xl lg:text-3xl text-white/95 font-light max-w-4xl mx-auto leading-relaxed tracking-wide">
+              <span className="relative">
+                {t('home.hero.subtitle')}
+              </span>
+            </p>
           </div>
 
           {/* Dashboard Button with enhanced styling */}
