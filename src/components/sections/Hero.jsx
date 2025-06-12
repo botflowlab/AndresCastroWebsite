@@ -62,7 +62,7 @@ function Hero() {
           }`}>
             <h1 className="relative">
               {/* Main text with gradient and glow */}
-              <span className="relative block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white leading-none tracking-tight drop-shadow-2xl">
+              <span className="relative block text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white leading-none tracking-tight drop-shadow-2xl">
                 {t('home.hero.title')}
               </span>
               
