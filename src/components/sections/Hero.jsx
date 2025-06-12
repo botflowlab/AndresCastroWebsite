@@ -149,28 +149,7 @@ function Hero() {
         </div>
       </div>
 
-      {/* Decorative elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 4}s`
-            }}
-          />
-        ))}
-        
-        {/* Gradient overlays for depth */}
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black/20 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/20 to-transparent"></div>
-        <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-black/10 to-transparent"></div>
-        <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-black/10 to-transparent"></div>
-      </div>
+
 
       {/* Scroll indicator - SLOWER with longest delay */}
       <div className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-all duration-[2000ms] ease-out delay-2200 ${
