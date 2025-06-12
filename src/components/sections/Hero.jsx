@@ -80,8 +80,6 @@ function Hero() {
             <p className="text-xl sm:text-2xl md:text-2xl lg:text-3xl text-white/95 font-light max-w-4xl mx-auto leading-relaxed tracking-wide">
               <span className="relative">
                 {t('home.hero.subtitle')}
-                {/* Subtle underline effect */}
-                <span className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></span>
               </span>
             </p>
           </div>
