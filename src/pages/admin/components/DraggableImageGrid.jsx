@@ -11,15 +11,16 @@ export default function DraggableImageGrid({
   const [draggedIndex, setDraggedIndex] = useState(null);
   const [dragOverIndex, setDragOverIndex] = useState(null);
   const [loadedImages, setLoadedImages] = useState(new Set());
+  const [imageErrors, setImageErrors] = useState(new Set());
   const dragCounter = useRef(0);
   const dragStartPos = useRef({ x: 0, y: 0 });
   const isDragging = useRef(false);
   const animationFrame = useRef(null);
 
-  // Memoize optimized image URLs to prevent recalculation
-  const optimizedImages = useMemo(() => {
-    return images.map(originalUrl => getImageUrl(originalUrl));
-  }, [images]);
+  // Process each image URL individually to ensure proper R2 URL conversion
+  const getProcessedImageUrl = useCallback((imageUrl) => {
+    return getImageUrl(imageUrl);
+  }, []);
 
   // Optimized image load handler
   const handleImageLoad = useCallback((index) => {
@@ -30,6 +31,17 @@ export default function DraggableImageGrid({
       return newSet;
     });
   }, []);
+
+  // Handle image errors
+  const handleImageError = useCallback((index) => {
+    console.error('❌ DraggableImageGrid: Image failed to load at index:', index, images[index]);
+    setImageErrors(prev => {
+      if (prev.has(index)) return prev;
+      const newSet = new Set(prev);
+      newSet.add(index);
+      return newSet;
+    });
+  }, [images]);
 
   // Optimized drag start with minimal DOM manipulation
   const handleDragStart = useCallback((e, index) => {
@@ -197,6 +209,10 @@ export default function DraggableImageGrid({
           const isBeingDragged = draggedIndex === index;
           const isDropTarget = dragOverIndex === index && draggedIndex !== index;
           const isLoaded = loadedImages.has(index);
+          const hasError = imageErrors.has(index);
+          
+          // Process the image URL for each render to ensure proper R2 conversion
+          const processedImageUrl = getProcessedImageUrl(imageUrl);
           
           return (
             <div
@@ -239,35 +255,44 @@ export default function DraggableImageGrid({
               {/* Optimized image container */}
               <div className="relative overflow-hidden rounded-md shadow-sm hover:shadow-md transition-shadow duration-150">
                 {/* Loading state with minimal animation */}
-                {!isLoaded && (
+                {!isLoaded && !hasError && (
                   <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
                     <div className="w-3 h-3 border border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
                   </div>
                 )}
 
+                {/* Error state */}
+                {hasError && (
+                  <div className="w-full h-16 flex items-center justify-center bg-red-50 border border-red-200">
+                    <div className="text-center text-red-600">
+                      <svg className="w-4 h-4 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z" />
+                      </svg>
+                      <p className="text-[8px]">Failed</p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Highly optimized image */}
-                <img
-                  src={optimizedImages[index]}
-                  alt={`${title} ${index + 1}`}
-                  className={`w-full h-16 object-cover transition-opacity duration-200 ${
-                    isLoaded ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  draggable={false}
-                  loading="lazy"
-                  decoding="async"
-                  crossOrigin="anonymous"
-                  onLoad={() => handleImageLoad(index)}
-                  onError={(e) => {
-                    // Fallback to original URL
-                    if (e.target.src !== imageUrl) {
-                      e.target.src = imageUrl;
-                    }
-                  }}
-                  style={{
-                    imageRendering: 'crisp-edges',
-                    contentVisibility: 'auto'
-                  }}
-                />
+                {!hasError && (
+                  <img
+                    src={processedImageUrl}
+                    alt={`${title} ${index + 1}`}
+                    className={`w-full h-16 object-cover transition-opacity duration-200 ${
+                      isLoaded ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    draggable={false}
+                    loading="lazy"
+                    decoding="async"
+                    crossOrigin="anonymous"
+                    onLoad={() => handleImageLoad(index)}
+                    onError={() => handleImageError(index)}
+                    style={{
+                      imageRendering: 'crisp-edges',
+                      contentVisibility: 'auto'
+                    }}
+                  />
+                )}
                 
                 {/* Minimal hover overlay */}
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-150 pointer-events-none" />
