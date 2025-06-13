@@ -83,6 +83,25 @@ export default function ProjectDetails({ project }) {
     return text.slice(0, maxLength) + '...';
   };
 
+  // Helper function to get the best preview image from a project
+  const getProjectPreviewImage = (projectImages) => {
+    if (!projectImages || projectImages.length === 0) {
+      return '/images/placeholder.jpg';
+    }
+
+    // Find the first non-video file for preview
+    const firstImage = projectImages.find(media => !isVideoFile(media));
+    
+    // If we found an image, use it
+    if (firstImage) {
+      return getImageUrl(firstImage);
+    }
+
+    // If all files are videos, we'll use a placeholder
+    // In a real app, you might want to generate video thumbnails
+    return '/images/placeholder.jpg';
+  };
+
   // Video control functions
   const getVideoState = (index) => {
     return videoStates.get(index) || { isPlaying: false, isMuted: true };
@@ -365,7 +384,7 @@ export default function ProjectDetails({ project }) {
       {/* Architectural Drawings Section */}
       <ArchitecturalDrawings project={project} />
 
-      {/* Related Projects Section */}
+      {/* Related Projects Section - FIXED */}
       {relatedProjects.length > 0 && (
         <section className="bg-white py-20 px-6 md:px-8">
           <div className="max-w-7xl mx-auto">
@@ -373,31 +392,46 @@ export default function ProjectDetails({ project }) {
               {t('projects.details.relatedProjects')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {relatedProjects.map((relatedProject) => (
-                <Link 
-                  key={relatedProject.id} 
-                  to={`/proyectos/${relatedProject.slug}`}
-                  className="group"
-                >
-                  <div className="aspect-[7/9] overflow-hidden bg-gray-100 rounded-lg">
-                    <img
-                      src={getImageUrl(relatedProject.images?.[0]) || '/images/placeholder.jpg'}
-                      alt={relatedProject.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      crossOrigin="anonymous"
-                      onError={(e) => {
-                        e.target.src = '/images/placeholder.jpg';
-                      }}
-                    />
-                  </div>
-                  <h3 className="mt-4 text-xl font-medium text-center px-4 whitespace-normal line-clamp-2">
-                    {truncateText(relatedProject.title, 50)}
-                  </h3>
-                  <p className="text-gray-600 text-center">
-                    {relatedProject.location}
-                  </p>
-                </Link>
-              ))}
+              {relatedProjects.map((relatedProject) => {
+                // Get the best preview image (first non-video file)
+                const previewImageUrl = getProjectPreviewImage(relatedProject.images);
+                
+                return (
+                  <Link 
+                    key={relatedProject.id} 
+                    to={`/proyectos/${relatedProject.slug}`}
+                    className="group"
+                  >
+                    <div className="aspect-[7/9] overflow-hidden bg-gray-100 rounded-lg">
+                      <img
+                        src={previewImageUrl}
+                        alt={relatedProject.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        crossOrigin="anonymous"
+                        onError={(e) => {
+                          // Fallback to placeholder if the preview image fails
+                          e.target.src = '/images/placeholder.jpg';
+                        }}
+                      />
+                      
+                      {/* Video indicator if the project has videos */}
+                      {relatedProject.images?.some(media => isVideoFile(media)) && (
+                        <div className="absolute top-2 right-2 bg-black/70 text-white p-1 rounded">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                    <h3 className="mt-4 text-xl font-medium text-center px-4 whitespace-normal line-clamp-2">
+                      {truncateText(relatedProject.title, 50)}
+                    </h3>
+                    <p className="text-gray-600 text-center">
+                      {relatedProject.location}
+                    </p>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>
