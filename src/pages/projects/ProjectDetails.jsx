@@ -13,12 +13,19 @@ export default function ProjectDetails({ project }) {
   const [imageSrcs, setImageSrcs] = useState(new Map());
   const [retryAttempts, setRetryAttempts] = useState(new Map());
   const [videoStates, setVideoStates] = useState(new Map());
+  const [relatedProjectsLoading, setRelatedProjectsLoading] = useState(true);
   const mountedRef = useRef(true);
   const videoRefs = useRef(new Map());
 
   useEffect(() => {
     mountedRef.current = true;
-    fetchRelatedProjects();
+    
+    // Reset all states when project changes
+    setImageErrors(new Map());
+    setImageLoaded(new Set());
+    setRetryAttempts(new Map());
+    setVideoStates(new Map());
+    setRelatedProjectsLoading(true);
     
     // Initialize media sources with cache-busting for fresh navigation
     const sideBySideMedia = project.images?.slice(0, 2) || [];
@@ -33,19 +40,20 @@ export default function ProjectDetails({ project }) {
     
     setImageSrcs(initialSrcs);
     
-    // Reset all states for fresh page load
-    setImageErrors(new Map());
-    setImageLoaded(new Set());
-    setRetryAttempts(new Map());
-    setVideoStates(new Map());
+    // Fetch related projects with a slight delay for smooth UX
+    setTimeout(() => {
+      fetchRelatedProjects();
+    }, 100);
 
     return () => {
       mountedRef.current = false;
     };
-  }, [project.id, project.category, project.images]);
+  }, [project.id, project.category]);
 
   const fetchRelatedProjects = async () => {
     try {
+      setRelatedProjectsLoading(true);
+      
       const { data, error } = await supabase
         .from('projects')
         .select('*')
@@ -54,9 +62,18 @@ export default function ProjectDetails({ project }) {
         .limit(3);
 
       if (error) throw error;
-      setRelatedProjects(data || []);
+      
+      // Simulate minimum loading time for smooth UX
+      setTimeout(() => {
+        if (mountedRef.current) {
+          setRelatedProjects(data || []);
+          setRelatedProjectsLoading(false);
+        }
+      }, 300);
+      
     } catch (error) {
       console.error('Error fetching related projects:', error);
+      setRelatedProjectsLoading(false);
     }
   };
 
@@ -98,7 +115,6 @@ export default function ProjectDetails({ project }) {
     }
 
     // If all files are videos, we'll use a placeholder
-    // In a real app, you might want to generate video thumbnails
     return '/images/placeholder.jpg';
   };
 
@@ -384,15 +400,31 @@ export default function ProjectDetails({ project }) {
       {/* Architectural Drawings Section */}
       <ArchitecturalDrawings project={project} />
 
-      {/* Related Projects Section - FIXED */}
-      {relatedProjects.length > 0 && (
-        <section className="bg-white py-20 px-6 md:px-8">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-light mb-12 text-center">
-              {t('projects.details.relatedProjects')}
-            </h2>
+      {/* Related Projects Section - ENHANCED WITH BEAUTIFUL LOADING */}
+      <section className="bg-white py-20 px-6 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-light mb-12 text-center">
+            {t('projects.details.relatedProjects')}
+          </h2>
+          
+          {relatedProjectsLoading ? (
+            /* Beautiful loading state for related projects */
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {relatedProjects.map((relatedProject) => {
+              {[...Array(3)].map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="aspect-[7/9] bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg mb-4">
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="w-8 h-8 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  </div>
+                  <div className="h-6 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                </div>
+              ))}
+            </div>
+          ) : relatedProjects.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {relatedProjects.map((relatedProject, index) => {
                 // Get the best preview image (first non-video file)
                 const previewImageUrl = getProjectPreviewImage(relatedProject.images);
                 
@@ -400,13 +432,14 @@ export default function ProjectDetails({ project }) {
                   <Link 
                     key={relatedProject.id} 
                     to={`/proyectos/${relatedProject.slug}`}
-                    className="group"
+                    className={`group transform transition-all duration-500 hover:-translate-y-2 hover:shadow-xl animate-fade-in-up`}
+                    style={{ animationDelay: `${index * 150}ms` }}
                   >
-                    <div className="aspect-[7/9] overflow-hidden bg-gray-100 rounded-lg">
+                    <div className="relative aspect-[7/9] overflow-hidden bg-gray-100 rounded-lg shadow-lg">
                       <img
                         src={previewImageUrl}
                         alt={relatedProject.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         crossOrigin="anonymous"
                         onError={(e) => {
                           // Fallback to placeholder if the preview image fails
@@ -416,26 +449,48 @@ export default function ProjectDetails({ project }) {
                       
                       {/* Video indicator if the project has videos */}
                       {relatedProject.images?.some(media => isVideoFile(media)) && (
-                        <div className="absolute top-2 right-2 bg-black/70 text-white p-1 rounded">
+                        <div className="absolute top-3 right-3 bg-black/80 text-white p-2 rounded-full backdrop-blur-sm">
                           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M8 5v14l11-7z"/>
                           </svg>
                         </div>
                       )}
+                      
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 rounded-full p-3">
+                          <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="mt-4 text-xl font-medium text-center px-4 whitespace-normal line-clamp-2">
-                      {truncateText(relatedProject.title, 50)}
-                    </h3>
-                    <p className="text-gray-600 text-center">
-                      {relatedProject.location}
-                    </p>
+                    
+                    <div className="mt-4 px-2">
+                      <h3 className="text-xl font-medium text-center whitespace-normal line-clamp-2 group-hover:text-gray-600 transition-colors duration-300">
+                        {truncateText(relatedProject.title, 50)}
+                      </h3>
+                      <p className="text-gray-600 text-center mt-1">
+                        {relatedProject.location}
+                      </p>
+                    </div>
                   </Link>
                 );
               })}
             </div>
-          </div>
-        </section>
-      )}
+          ) : (
+            /* No related projects state */
+            <div className="text-center py-12">
+              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <p className="text-gray-500">No related projects found in this category.</p>
+            </div>
+          )}
+        </div>
+      </section>
     </>
   );
 }
