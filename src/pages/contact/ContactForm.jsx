@@ -4,7 +4,7 @@ import emailjs from '@emailjs/browser';
 
 // EmailJS Configuration - Replace these with your actual values
 const EMAILJS_SERVICE_ID = 'service_sp3pxf8';
-const EMAILJS_TEMPLATE_ID = 'your_template_id_here';
+const EMAILJS_TEMPLATE_ID = 'template_f6dj10e';
 const EMAILJS_PUBLIC_KEY = 'your_public_key_here';
 
 export default function ContactForm() {
