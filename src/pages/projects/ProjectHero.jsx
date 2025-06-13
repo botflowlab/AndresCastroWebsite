@@ -271,7 +271,7 @@ export default function ProjectHero({ project }) {
                           <div className="relative w-full h-full">
                             <video
                               src={getImageUrl(media)}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-contain"
                               muted
                               playsInline
                               onError={() => handleImageError(index)}
