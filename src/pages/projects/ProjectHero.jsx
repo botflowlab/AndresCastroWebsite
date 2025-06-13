@@ -172,7 +172,7 @@ export default function ProjectHero({ project }) {
                       onLoadedData={() => updateVideoState(currentImageIndex, { isPlaying: true })}
                     />
                     {/* Enhanced Video Controls */}
-                    <div className="absolute bottom-4 left-4 right-4 flex items-center gap-3 bg-black/70 backdrop-blur-sm rounded-lg p-3">
+                    <div className="absolute bottom-4 left-4 right-4 flex items-center gap-3 bg-black/0 backdrop-blur-sm rounded-lg p-3">
                       <button
                         onClick={() => togglePlayPause(currentImageIndex)}
                         className="text-white p-2 hover:bg-white/20 rounded-full transition-colors"
