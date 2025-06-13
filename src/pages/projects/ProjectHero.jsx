@@ -179,15 +179,6 @@ export default function ProjectHero({ project }) {
                       >
                         {getVideoState(currentImageIndex).isPlaying ? <FiPause size={20} /> : <FiPlay size={20} />}
                       </button>
-                      <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.1"
-                        value={getVideoState(currentImageIndex).volume}
-                        onChange={(e) => handleVolumeChange(currentImageIndex, parseFloat(e.target.value))}
-                        className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-                      />
                     </div>
                   </div>
                 ) : (
