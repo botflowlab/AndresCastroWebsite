@@ -194,9 +194,6 @@ export default function ProjectHero({ project }) {
                         onChange={(e) => handleVolumeChange(currentImageIndex, parseFloat(e.target.value))}
                         className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
                       />
-                      <span className="text-white text-sm min-w-[3rem]">
-                        {Math.round(getVideoState(currentImageIndex).volume * 100)}%
-                      </span>
                     </div>
                   </div>
                 ) : (
