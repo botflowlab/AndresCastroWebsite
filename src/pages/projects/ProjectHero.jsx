@@ -179,12 +179,6 @@ export default function ProjectHero({ project }) {
                       >
                         {getVideoState(currentImageIndex).isPlaying ? <FiPause size={20} /> : <FiPlay size={20} />}
                       </button>
-                      <button
-                        onClick={() => toggleMute(currentImageIndex)}
-                        className="text-white p-2 hover:bg-white/20 rounded-full transition-colors"
-                      >
-                        {getVideoState(currentImageIndex).isMuted ? <FiVolumeX size={20} /> : <FiVolume2 size={20} />}
-                      </button>
                       <input
                         type="range"
                         min="0"
