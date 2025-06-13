@@ -163,7 +163,7 @@ export default function ProjectHero({ project }) {
                         if (el) videoRefs.current.set(currentImageIndex, el);
                       }}
                       src={getImageUrl(currentMedia)}
-                      className="w-full h-full object-cover rounded-lg"
+                      className="w-full h-full object-contain rounded-lg"
                       autoPlay
                       muted
                       loop
