@@ -246,19 +246,6 @@ export default function ContactForm() {
           ></textarea>
         </div>
 
-        <div className="flex items-start">
-          <input
-            type="checkbox"
-            id="privacyPolicy"
-            name="privacyPolicy"
-            checked={formData.privacyPolicy}
-            onChange={handleChange}
-            required
-            disabled={isSubmitting}
-            className="mt-1 h-4 w-4 text-black focus:ring-black border-gray-300 rounded disabled:opacity-50"
-          />
-        </div>
-
         <button
           type="submit"
           disabled={isSubmitting || !isConfigured}
