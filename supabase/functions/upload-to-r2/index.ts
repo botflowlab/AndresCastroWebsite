@@ -43,25 +43,17 @@ serve(async (req) => {
       throw new Error('File and fileName are required')
     }
 
-    // Enhanced validation for images AND videos
-    const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
-    const allowedVideoTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo']
-    const allowedTypes = [...allowedImageTypes, ...allowedVideoTypes]
-    
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
     if (!allowedTypes.includes(file.type)) {
-      throw new Error('Invalid file type. Only JPEG, PNG, WebP images and MP4, WebM, MOV, AVI videos are allowed.')
+      throw new Error('Invalid file type. Only JPEG, PNG, and WebP are allowed.')
     }
 
-    // Different size limits for images vs videos
-    const isVideo = allowedVideoTypes.includes(file.type)
-    const maxSize = isVideo ? 50 * 1024 * 1024 : 10 * 1024 * 1024 // 50MB for videos, 10MB for images
-    
+    // Validate file size (10MB limit)
+    const maxSize = 10 * 1024 * 1024
     if (file.size > maxSize) {
-      const sizeLabel = isVideo ? '50MB' : '10MB'
-      throw new Error(`File size too large. Maximum size is ${sizeLabel} for ${isVideo ? 'videos' : 'images'}.`)
+      throw new Error('File size too large. Maximum size is 10MB.')
     }
-
-    console.log(`📤 Uploading ${isVideo ? 'video' : 'image'}: ${fileName} (${file.size} bytes)`)
 
     // Convert file to ArrayBuffer
     const fileBuffer = await file.arrayBuffer()
@@ -114,7 +106,7 @@ serve(async (req) => {
       throw new Error(`R2 upload failed: ${uploadResponse.status} ${errorText}`)
     }
 
-    // Return the correct public URL format
+    // FIXED: Return the correct public URL format
     const publicUrl = `https://pub-69ff11d6ad5b4c02b2fb48ab7c50735d.r2.dev/${fileName}`
 
     console.log(`✅ Upload successful: ${fileName} -> ${publicUrl}`)
@@ -124,8 +116,7 @@ serve(async (req) => {
         url: publicUrl,
         fileName: fileName,
         fileType: fileType,
-        size: file.size,
-        isVideo: isVideo
+        size: file.size
       }),
       { 
         headers: { 

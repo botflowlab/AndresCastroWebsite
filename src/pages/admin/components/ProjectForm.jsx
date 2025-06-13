@@ -130,22 +130,6 @@ export default function ProjectForm({
     }
   };
 
-  // Count files by type for better user feedback
-  const getFileTypeCounts = (files) => {
-    const counts = { images: 0, videos: 0 };
-    files.forEach(file => {
-      if (file.type.startsWith('video/')) {
-        counts.videos++;
-      } else {
-        counts.images++;
-      }
-    });
-    return counts;
-  };
-
-  const selectedFilesCounts = getFileTypeCounts(selectedFiles);
-  const selectedBlueprintsCounts = getFileTypeCounts(selectedBlueprints);
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
@@ -265,26 +249,26 @@ export default function ProjectForm({
             <div className="ml-3">
               <h3 className="text-sm font-medium text-yellow-800">R2 Storage Not Configured</h3>
               <div className="mt-2 text-sm text-yellow-700">
-                <p>Media uploads are disabled. R2 Storage configuration is required for file uploads.</p>
+                <p>Image uploads are disabled. R2 Storage configuration is required for file uploads.</p>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Project Media Upload (Images & Videos) */}
+      {/* Project Images Upload */}
       <div>
         <label className="block text-gray-700 text-sm font-bold mb-2">
-          Add Project Media (Images & Videos)
+          Add Project Images
           {!r2ConfigValid && <span className="text-yellow-600 ml-2">(Disabled - R2 not configured)</span>}
         </label>
         <p className="text-sm text-gray-600 mb-2">
-          Upload photos, videos, renderings, and visual representations of the project
+          Upload photos, renderings, and visual representations of the project
         </p>
         <input
           key={fileInputKey}
           type="file"
-          accept="image/*,video/*"
+          accept="image/*"
           multiple
           disabled={!r2ConfigValid}
           onChange={(e) => setSelectedFiles(Array.from(e.target.files))}
@@ -294,17 +278,12 @@ export default function ProjectForm({
         />
         {selectedFiles.length > 0 && (
           <div className="mt-2 text-sm text-gray-600">
-            {selectedFilesCounts.images > 0 && (
-              <span className="mr-4">📸 {selectedFilesCounts.images} images</span>
-            )}
-            {selectedFilesCounts.videos > 0 && (
-              <span>🎥 {selectedFilesCounts.videos} videos</span>
-            )}
+            {selectedFiles.length} project images selected
           </div>
         )}
         {mode === 'edit' && initialData.images && initialData.images.length > 0 && (
           <div className="mt-2 text-sm text-blue-600">
-            Current project has {initialData.images.length} existing media files
+            Current project has {initialData.images.length} existing images
           </div>
         )}
       </div>
@@ -321,7 +300,7 @@ export default function ProjectForm({
         <input
           key={blueprintInputKey}
           type="file"
-          accept="image/*,video/*"
+          accept="image/*"
           multiple
           disabled={!r2ConfigValid}
           onChange={(e) => setSelectedBlueprints(Array.from(e.target.files))}
@@ -331,12 +310,7 @@ export default function ProjectForm({
         />
         {selectedBlueprints.length > 0 && (
           <div className="mt-2 text-sm text-gray-600">
-            {selectedBlueprintsCounts.images > 0 && (
-              <span className="mr-4">📐 {selectedBlueprintsCounts.images} drawings</span>
-            )}
-            {selectedBlueprintsCounts.videos > 0 && (
-              <span>🎬 {selectedBlueprintsCounts.videos} video presentations</span>
-            )}
+            {selectedBlueprints.length} architectural drawings selected
           </div>
         )}
         {mode === 'edit' && initialData.blueprints && initialData.blueprints.length > 0 && (
@@ -407,9 +381,8 @@ export default function ProjectForm({
               <div className="mt-2 text-sm text-blue-700">
                 <ul className="list-disc list-inside space-y-1">
                   <li>Only modified fields will be updated</li>
-                  <li>New media files will be added to existing ones</li>
-                  <li>You can upload both images and videos</li>
-                  <li>Use the project management section below to reorder or delete existing files</li>
+                  <li>New images will be added to existing ones</li>
+                  <li>Use the project management section below to reorder or delete existing images</li>
                 </ul>
               </div>
             </div>
