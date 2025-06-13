@@ -56,15 +56,22 @@ export const sanitizeInput = (input) => {
     .slice(0, 1000); // Limit length
 };
 
-// Validate file uploads with enhanced security
+// Validate file uploads with enhanced security (NOW WITH VIDEO SUPPORT)
 export const validateFileUpload = (file) => {
-  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-  const maxSize = 10 * 1024 * 1024; // 10MB
-  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+  const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+  const allowedVideoTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo'];
+  const allowedTypes = [...allowedImageTypes, ...allowedVideoTypes];
+  
+  const imageMaxSize = 10 * 1024 * 1024; // 10MB for images
+  const videoMaxSize = 50 * 1024 * 1024; // 50MB for videos
+  
+  const allowedImageExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+  const allowedVideoExtensions = ['.mp4', '.webm', '.mov', '.avi'];
+  const allowedExtensions = [...allowedImageExtensions, ...allowedVideoExtensions];
 
   // Check file type
   if (!allowedTypes.includes(file.type)) {
-    throw new Error('Invalid file type. Only JPEG, PNG, and WebP images are allowed.');
+    throw new Error('Invalid file type. Only JPEG, PNG, WebP images and MP4, WebM, MOV, AVI videos are allowed.');
   }
 
   // Check file extension
@@ -73,9 +80,13 @@ export const validateFileUpload = (file) => {
     throw new Error('Invalid file extension.');
   }
 
-  // Check file size
+  // Check file size based on type
+  const isVideo = allowedVideoTypes.includes(file.type);
+  const maxSize = isVideo ? videoMaxSize : imageMaxSize;
+  const sizeLabel = isVideo ? '50MB' : '10MB';
+  
   if (file.size > maxSize) {
-    throw new Error('File size too large. Maximum size is 10MB.');
+    throw new Error(`File size too large. Maximum size is ${sizeLabel} for ${isVideo ? 'videos' : 'images'}.`);
   }
 
   // Check for suspicious file names
@@ -127,7 +138,7 @@ export const getCSPHeaders = () => {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com",
       "font-src 'self' https://fonts.gstatic.com https://fonts.cdnfonts.com",
       "img-src 'self' data: https: blob:",
-      "media-src 'self' https:",
+      "media-src 'self' https: blob:",
       "connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co wss://*.supabase.in",
       "frame-src 'self' https://www.youtube.com",
       "object-src 'none'",
