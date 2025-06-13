@@ -8,6 +8,7 @@ export default function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchProjects();
@@ -16,19 +17,27 @@ export default function Projects() {
   async function fetchProjects() {
     try {
       setLoading(true);
+      setError(null);
+      
       let query = supabase.from('projects').select('*');
       
       if (selectedCategory) {
         query = query.eq('category', selectedCategory);
       }
 
-      const { data, error } = await query;
+      const { data, error } = await query.order('created_at', { ascending: false });
       
       if (error) throw error;
-      setProjects(data || []);
+      
+      // Simulate minimum loading time for smooth UX
+      setTimeout(() => {
+        setProjects(data || []);
+        setLoading(false);
+      }, 500);
+      
     } catch (error) {
       console.error('Error fetching projects:', error);
-    } finally {
+      setError(error.message);
       setLoading(false);
     }
   }
@@ -36,6 +45,10 @@ export default function Projects() {
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     setMenuOpen(false);
+  };
+
+  const handleRetry = () => {
+    fetchProjects();
   };
 
   return (
@@ -74,12 +87,24 @@ export default function Projects() {
           <div className="flex-1">
             <div className="max-w-5xl mx-auto px-6 mt-12">
               <main>
-                {loading ? (
-                  <div className="flex items-center justify-center h-64">
-                    <p className="text-2xl">Loading projects...</p>
+                {error ? (
+                  <div className="text-center py-20">
+                    <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <svg className="w-12 h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-light text-gray-800 mb-2">Failed to Load Projects</h3>
+                    <p className="text-gray-600 mb-6">{error}</p>
+                    <button
+                      onClick={handleRetry}
+                      className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors duration-300"
+                    >
+                      Try Again
+                    </button>
                   </div>
                 ) : (
-                  <ProjectGrid projects={projects} />
+                  <ProjectGrid projects={projects} loading={loading} />
                 )}
               </main>
             </div>
@@ -88,12 +113,24 @@ export default function Projects() {
 
         {/* Mobile Layout */}
         <div className="md:hidden px-4 mt-12">
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <p className="text-2xl">Loading projects...</p>
+          {error ? (
+            <div className="text-center py-20">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-medium text-gray-800 mb-2">Failed to Load</h3>
+              <p className="text-gray-600 mb-4 text-sm">{error}</p>
+              <button
+                onClick={handleRetry}
+                className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-300 text-sm"
+              >
+                Retry
+              </button>
             </div>
           ) : (
-            <ProjectGrid projects={projects} />
+            <ProjectGrid projects={projects} loading={loading} />
           )}
         </div>
       </div>
