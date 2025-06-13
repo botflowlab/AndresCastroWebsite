@@ -257,9 +257,6 @@ export default function ContactForm() {
             disabled={isSubmitting}
             className="mt-1 h-4 w-4 text-black focus:ring-black border-gray-300 rounded disabled:opacity-50"
           />
-          <label htmlFor="privacyPolicy" className="ml-3 text-sm text-gray-600">
-            {t('contact.form.fields.privacy')}
-          </label>
         </div>
 
         <button
