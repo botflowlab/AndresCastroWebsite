@@ -10,7 +10,7 @@ export default function Testimonials() {
       image: "https://images.pexels.com/photos/5490276/pexels-photo-5490276.jpeg"
     },
     {
-      key: 'carlos',
+      key: 'Representante FAST CASUAL SRL (COSI)',
       image: "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg"
     }
   ];
