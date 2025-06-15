@@ -7,7 +7,7 @@ export default function Testimonials() {
   const testimonials = [
     {
       key: '2',
-      image: "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg"
+      image: "/images/publications/cosilogo.png"
     }
   ];
 
