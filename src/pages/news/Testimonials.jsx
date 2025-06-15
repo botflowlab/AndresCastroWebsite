@@ -6,11 +6,11 @@ export default function Testimonials() {
   
   const testimonials = [
     {
-      key: 'maria',
+      key: '1',
       image: "https://images.pexels.com/photos/5490276/pexels-photo-5490276.jpeg"
     },
     {
-      key: 'Representante FAST CASUAL SRL (COSI)',
+      key: '2',
       image: "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg"
     }
   ];
