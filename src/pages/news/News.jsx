@@ -10,7 +10,7 @@ export default function News() {
     <div className="font-cormorant">
       <Hero />
       <Publications />
-      {/*<Testimonials />*/}
+      <Testimonials />
       <MediaCoverage />
       <ParallaxContact />
     </div>
