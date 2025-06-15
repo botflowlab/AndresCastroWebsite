@@ -25,7 +25,7 @@ export default function Testimonials() {
                 <img
                   src={testimonial.image}
                   alt={t(`publications.testimonials.items.${testimonial.key}.author`)}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover bg-white"
                 />
               </div>
               <blockquote className="text-2xl font-light mb-6 leading-relaxed">
