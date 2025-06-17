@@ -42,7 +42,7 @@ function Architect() {
               ? 'opacity-100 transform translate-y-0' 
               : 'opacity-0 transform translate-y-12'
           }`}>
-            <h2 className="text-6xl md:text-7xl lg:text-8xl font-light mb-8 text-[#0c0c0c]">
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-light mb-8 text-[#0c0c0c]">
               {t('home.architect.title')}
             </h2>
           </div>
