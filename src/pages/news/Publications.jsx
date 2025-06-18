@@ -6,6 +6,7 @@ export default function Publications() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [visibleImages, setVisibleImages] = useState(12);
   const [filter, setFilter] = useState('all');
+  const [isSingleColumn, setIsSingleColumn] = useState(false);
 
   // Complete list of all news images
   const allNewsImages = [
@@ -98,21 +99,26 @@ export default function Publications() {
 
   const displayedImages = filteredImages.slice(0, visibleImages);
 
-  // Set initial visible images based on screen size
+  // Check if we're in single column mode and set initial visible images
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    setVisibleImages(isMobile ? 4 : 12);
+    const checkLayout = () => {
+      const isSingleCol = window.innerWidth < 640; // sm breakpoint
+      setIsSingleColumn(isSingleCol);
+      setVisibleImages(isSingleCol ? 4 : 12);
+    };
+
+    checkLayout();
+    window.addEventListener('resize', checkLayout);
+    return () => window.removeEventListener('resize', checkLayout);
   }, []);
 
   const loadMore = () => {
-    const isMobile = window.innerWidth < 768;
-    const increment = isMobile ? 4 : 12;
+    const increment = isSingleColumn ? 4 : 12;
     setVisibleImages(prev => Math.min(prev + increment, filteredImages.length));
   };
 
   const showLess = () => {
-    const isMobile = window.innerWidth < 768;
-    const initial = isMobile ? 4 : 12;
+    const initial = isSingleColumn ? 4 : 12;
     setVisibleImages(initial);
     // Smooth scroll to top of gallery
     document.querySelector('.gallery-container')?.scrollIntoView({ 
@@ -123,9 +129,8 @@ export default function Publications() {
 
   // Reset visible images when filter changes
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    setVisibleImages(isMobile ? 4 : 12);
-  }, [filter]);
+    setVisibleImages(isSingleColumn ? 4 : 12);
+  }, [filter, isSingleColumn]);
 
   return (
     <section className="py-32 px-4 bg-white gallery-container">
@@ -222,7 +227,7 @@ export default function Publications() {
         </div>
 
         {/* Load More / Show Less Controls */}
-        {filteredImages.length > (window.innerWidth < 768 ? 4 : 12) && (
+        {filteredImages.length > (isSingleColumn ? 4 : 12) && (
           <div className="text-center mt-16">
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               {visibleImages < filteredImages.length && (
@@ -237,7 +242,7 @@ export default function Publications() {
                 </button>
               )}
               
-              {visibleImages > (window.innerWidth < 768 ? 4 : 12) && (
+              {visibleImages > (isSingleColumn ? 4 : 12) && (
                 <button
                   onClick={showLess}
                   className="bg-gray-100 text-gray-700 px-8 py-4 rounded-full hover:bg-gray-200 transition-all duration-300 font-medium flex items-center gap-2"
