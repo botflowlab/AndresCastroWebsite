@@ -89,7 +89,6 @@ export default function Publications() {
   // Categorize images for filtering
   const getImageCategory = (imagePath) => {
     if (imagePath.includes('BOOMERANG')) return 'boomerang';
-    if (imagePath.includes('FOTO SUB') || imagePath.includes('VED_COSI')) return 'special';
     return 'general';
   };
 
@@ -99,12 +98,22 @@ export default function Publications() {
 
   const displayedImages = filteredImages.slice(0, visibleImages);
 
+  // Set initial visible images based on screen size
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    setVisibleImages(isMobile ? 4 : 12);
+  }, []);
+
   const loadMore = () => {
-    setVisibleImages(prev => Math.min(prev + 12, filteredImages.length));
+    const isMobile = window.innerWidth < 768;
+    const increment = isMobile ? 4 : 12;
+    setVisibleImages(prev => Math.min(prev + increment, filteredImages.length));
   };
 
   const showLess = () => {
-    setVisibleImages(12);
+    const isMobile = window.innerWidth < 768;
+    const initial = isMobile ? 4 : 12;
+    setVisibleImages(initial);
     // Smooth scroll to top of gallery
     document.querySelector('.gallery-container')?.scrollIntoView({ 
       behavior: 'smooth', 
@@ -114,7 +123,8 @@ export default function Publications() {
 
   // Reset visible images when filter changes
   useEffect(() => {
-    setVisibleImages(12);
+    const isMobile = window.innerWidth < 768;
+    setVisibleImages(isMobile ? 4 : 12);
   }, [filter]);
 
   return (
@@ -130,7 +140,7 @@ export default function Publications() {
           </p>
         </div>
 
-        {/* Filter Buttons */}
+        {/* Filter Buttons - Only 3 filters */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           <button
             onClick={() => setFilter('all')}
@@ -162,16 +172,6 @@ export default function Publications() {
           >
             Serie Boomerang
           </button>
-          <button
-            onClick={() => setFilter('special')}
-            className={`px-6 py-3 rounded-full transition-all duration-300 font-medium ${
-              filter === 'special'
-                ? 'bg-black text-white shadow-lg'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            Ediciones Especiales
-          </button>
         </div>
 
         {/* Responsive Masonry Grid */}
@@ -198,15 +198,13 @@ export default function Publications() {
                   crossOrigin="anonymous"
                 />
                 
-                {/* Elegant hover overlay */}
+                {/* Elegant hover overlay - NO CATEGORY LETTERS */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="flex items-center justify-between">
                       <div className="text-white">
                         <p className="text-sm font-medium">
-                          {getImageCategory(image) === 'boomerang' ? 'Serie Boomerang' :
-                           getImageCategory(image) === 'special' ? 'Edición Especial' :
-                           'Publicación'}
+                          {getImageCategory(image) === 'boomerang' ? 'Serie Boomerang' : 'Publicación'}
                         </p>
                         <p className="text-xs opacity-75">#{index + 1}</p>
                       </div>
@@ -218,27 +216,13 @@ export default function Publications() {
                     </div>
                   </div>
                 </div>
-
-                {/* Category indicator */}
-                <div className="absolute top-3 left-3">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    getImageCategory(image) === 'boomerang' 
-                      ? 'bg-blue-500/80 text-white' 
-                      : getImageCategory(image) === 'special'
-                      ? 'bg-purple-500/80 text-white'
-                      : 'bg-gray-800/80 text-white'
-                  }`}>
-                    {getImageCategory(image) === 'boomerang' ? 'B' :
-                     getImageCategory(image) === 'special' ? 'E' : 'P'}
-                  </span>
-                </div>
               </div>
             );
           })}
         </div>
 
         {/* Load More / Show Less Controls */}
-        {filteredImages.length > 12 && (
+        {filteredImages.length > (window.innerWidth < 768 ? 4 : 12) && (
           <div className="text-center mt-16">
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               {visibleImages < filteredImages.length && (
@@ -253,7 +237,7 @@ export default function Publications() {
                 </button>
               )}
               
-              {visibleImages > 12 && (
+              {visibleImages > (window.innerWidth < 768 ? 4 : 12) && (
                 <button
                   onClick={showLess}
                   className="bg-gray-100 text-gray-700 px-8 py-4 rounded-full hover:bg-gray-200 transition-all duration-300 font-medium flex items-center gap-2"
@@ -273,8 +257,8 @@ export default function Publications() {
           </div>
         )}
 
-        {/* Statistics */}
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        {/* Statistics - Only 2 items */}
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8 text-center max-w-2xl mx-auto">
           <div className="p-6 bg-gray-50 rounded-lg">
             <div className="text-3xl font-light text-black mb-2">{allNewsImages.length}</div>
             <div className="text-sm text-gray-600 uppercase tracking-wider">Total Publicaciones</div>
@@ -282,14 +266,6 @@ export default function Publications() {
           <div className="p-6 bg-gray-50 rounded-lg">
             <div className="text-3xl font-light text-black mb-2">25+</div>
             <div className="text-sm text-gray-600 uppercase tracking-wider">Años de Trayectoria</div>
-          </div>
-          <div className="p-6 bg-gray-50 rounded-lg">
-            <div className="text-3xl font-light text-black mb-2">15+</div>
-            <div className="text-sm text-gray-600 uppercase tracking-wider">Medios Especializados</div>
-          </div>
-          <div className="p-6 bg-gray-50 rounded-lg">
-            <div className="text-3xl font-light text-black mb-2">50+</div>
-            <div className="text-sm text-gray-600 uppercase tracking-wider">Reconocimientos</div>
           </div>
         </div>
       </div>
@@ -397,7 +373,11 @@ export default function Publications() {
         .columns-4 > div:nth-child(3),
         .columns-5 > div:nth-child(3) { animation-delay: 200ms; }
         
-        /* Continue pattern for more items */
+        .columns-1 > div:nth-child(4),
+        .columns-2 > div:nth-child(4),
+        .columns-3 > div:nth-child(4),
+        .columns-4 > div:nth-child(4),
+        .columns-5 > div:nth-child(4) { animation-delay: 300ms; }
       `}</style>
     </section>
   );
