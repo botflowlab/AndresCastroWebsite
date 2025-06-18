@@ -64,10 +64,6 @@ function Footer() {
               <MdEmail className="text-2xl" />
               arquiteccr@gmail.com
             </a>
-            <a href="tel:+50622538380" className="flex items-center gap-3 hover:text-gray-300">
-              <MdPhone className="text-2xl" />
-              +506 22538380
-            </a>
             <a href="https://www.linkedin.com/in/arquitecto-andr%C3%A9s-castro-ruiz-238858339/" 
                target="_blank" 
                rel="noopener noreferrer" 
