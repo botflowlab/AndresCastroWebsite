@@ -141,7 +141,7 @@ export default function Publications() {
             {t('publications.press.title')}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            {t('publications.press.description')}
+            Una colección completa de publicaciones, artículos y reconocimientos en medios especializados de arquitectura y diseño.
           </p>
         </div>
 
@@ -155,7 +155,7 @@ export default function Publications() {
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
-            {t('publications.press.filters.all')} ({allNewsImages.length})
+            Todas ({allNewsImages.length})
           </button>
           <button
             onClick={() => setFilter('general')}
@@ -165,7 +165,7 @@ export default function Publications() {
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
-            {t('publications.press.filters.general')}
+            Publicaciones Generales
           </button>
           <button
             onClick={() => setFilter('boomerang')}
@@ -175,7 +175,7 @@ export default function Publications() {
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
-            {t('publications.press.filters.boomerang')}
+            Serie Boomerang
           </button>
         </div>
 
@@ -209,7 +209,7 @@ export default function Publications() {
                     <div className="flex items-center justify-between">
                       <div className="text-white">
                         <p className="text-sm font-medium">
-                          {getImageCategory(image) === 'boomerang' ? t('publications.press.filters.boomerang') : t('publications.press.filters.general')}
+                          {getImageCategory(image) === 'boomerang' ? 'Serie Boomerang' : 'Publicación'}
                         </p>
                         <p className="text-xs opacity-75">#{index + 1}</p>
                       </div>
@@ -235,7 +235,7 @@ export default function Publications() {
                   onClick={loadMore}
                   className="bg-black text-white px-8 py-4 rounded-full hover:bg-gray-800 transition-all duration-300 font-medium flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
-                  <span>{t('publications.press.loadMore')}</span>
+                  <span>Cargar más publicaciones</span>
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -250,13 +250,13 @@ export default function Publications() {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                   </svg>
-                  <span>{t('publications.press.showLess')}</span>
+                  <span>Mostrar menos</span>
                 </button>
               )}
             </div>
             
             <p className="text-gray-500 mt-4">
-              {t('publications.press.showing')} {displayedImages.length} {t('publications.press.of')} {filteredImages.length} {t('publications.press.publications')}
+              Mostrando {displayedImages.length} de {filteredImages.length} publicaciones
               {filter !== 'all' && ` (${filter})`}
             </p>
           </div>
@@ -266,11 +266,11 @@ export default function Publications() {
         <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8 text-center max-w-2xl mx-auto">
           <div className="p-6 bg-gray-50 rounded-lg">
             <div className="text-3xl font-light text-black mb-2">{allNewsImages.length}</div>
-            <div className="text-sm text-gray-600 uppercase tracking-wider">{t('publications.press.stats.total')}</div>
+            <div className="text-sm text-gray-600 uppercase tracking-wider">Total Publicaciones</div>
           </div>
           <div className="p-6 bg-gray-50 rounded-lg">
             <div className="text-3xl font-light text-black mb-2">25+</div>
-            <div className="text-sm text-gray-600 uppercase tracking-wider">{t('publications.press.stats.experience')}</div>
+            <div className="text-sm text-gray-600 uppercase tracking-wider">Años de Trayectoria</div>
           </div>
         </div>
       </div>
