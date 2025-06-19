@@ -36,7 +36,7 @@ function Navbar() {
       <nav 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform ${
           visible ? 'translate-y-0' : '-translate-y-full'
-        } ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-white/0 backdrop-blur-md shadow-sm'}`}
+        } ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-white/0 text-white backdrop-blur-md shadow-sm'}`}
       >
         <div className="px-6 sm:px-8 lg:px-10 flex justify-between items-center h-20">
           <div className="flex-shrink-0 flex items-center">
