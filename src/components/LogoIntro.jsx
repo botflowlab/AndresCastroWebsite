@@ -1,31 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function LogoIntro({ onComplete }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
-  const audioRef = useRef(null);
 
   useEffect(() => {
-    // Initialize and play audio
-    const initializeAudio = async () => {
-      if (audioRef.current) {
-        try {
-          audioRef.current.volume = 0.5; // Set to 50% volume
-          audioRef.current.loop = false; // Don't loop the intro music
-          
-          // Try to play the audio
-          await audioRef.current.play();
-          console.log('🎵 Background music started');
-        } catch (error) {
-          console.log('🔇 Audio autoplay blocked by browser:', error);
-          // Autoplay was blocked, which is normal in many browsers
-          // The audio will play when user interacts with the page
-        }
-      }
-    };
-
-    initializeAudio();
-
     // Animation sequence timing
     const timers = [
       setTimeout(() => setCurrentStep(1), 500),   // Logo appears
@@ -34,77 +13,26 @@ export default function LogoIntro({ onComplete }) {
       setTimeout(() => handleComplete(), 4000)    // Auto complete
     ];
 
-    return () => {
-      timers.forEach(timer => clearTimeout(timer));
-      // Stop audio when component unmounts
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      }
-    };
+    return () => timers.forEach(timer => clearTimeout(timer));
   }, []);
 
   const handleComplete = () => {
     setFadeOut(true);
-    
-    // Fade out audio
-    if (audioRef.current) {
-      const fadeOutInterval = setInterval(() => {
-        if (audioRef.current.volume > 0.1) {
-          audioRef.current.volume -= 0.1;
-        } else {
-          audioRef.current.pause();
-          clearInterval(fadeOutInterval);
-        }
-      }, 100);
-    }
-    
     setTimeout(() => {
       onComplete();
     }, 1200); // Increased duration for smoother exit
   };
 
   const handleSkip = () => {
-    // Stop audio immediately when skipping
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
     handleComplete();
   };
 
-  // Handle user interaction to enable audio (for browsers that block autoplay)
-  const handleUserInteraction = async () => {
-    if (audioRef.current && audioRef.current.paused) {
-      try {
-        await audioRef.current.play();
-        console.log('🎵 Audio started after user interaction');
-      } catch (error) {
-        console.log('🔇 Could not start audio:', error);
-      }
-    }
-  };
-
   return (
-    <div 
-      className={`fixed inset-0 z-50 bg-white flex items-center justify-center transition-all duration-1000 ease-in-out ${
-        fadeOut 
-          ? 'opacity-0 scale-95 transform translate-y-8' 
-          : 'opacity-100 scale-100 transform translate-y-0'
-      }`}
-      onClick={handleUserInteraction}
-      onTouchStart={handleUserInteraction}
-    >
-      {/* Background Audio */}
-      <audio
-        ref={audioRef}
-        preload="auto"
-        playsInline
-      >
-        <source src="/sound/0621.MP3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-
+    <div className={`fixed inset-0 z-50 bg-white flex items-center justify-center transition-all duration-1000 ease-in-out ${
+      fadeOut 
+        ? 'opacity-0 scale-95 transform translate-y-8' 
+        : 'opacity-100 scale-100 transform translate-y-0'
+    }`}>
       {/* Skip Button */}
       <button
         onClick={handleSkip}
@@ -115,12 +43,12 @@ export default function LogoIntro({ onComplete }) {
         SKIP
       </button>
 
-      {/* Audio Control Indicator */}
+      {/* Audio Indicator */}
       <div className={`absolute top-6 left-6 md:top-8 md:left-8 z-60 flex items-center gap-2 text-black/60 text-sm transition-all duration-500 ${
         fadeOut ? 'opacity-0 transform translate-x-[-16px]' : 'opacity-100 transform translate-x-0'
       }`}>
         <div className="w-2 h-2 bg-black/40 rounded-full animate-pulse"></div>
-        <span className="font-light">Audio</span>
+        <span className="font-light">♪ Audio</span>
       </div>
 
       {/* Main Content Container */}
