@@ -29,7 +29,7 @@ function App() {
     const initializeAudio = async () => {
       if (audioRef.current) {
         try {
-          audioRef.current.volume = 0.1; // Set to 50% volume
+          audioRef.current.volume = 0.05; // Set to 50% volume
           audioRef.current.loop = false; // Loop the background music
           
           // Try to play the audio
