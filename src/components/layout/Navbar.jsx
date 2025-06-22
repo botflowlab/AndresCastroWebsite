@@ -46,7 +46,7 @@ function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/" className="text-black-900 hover:text-white-600 px-3 py-2 text-lg font-medium">
               {t('nav.home')}
             </Link>
             <Link to="/arquitecto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
