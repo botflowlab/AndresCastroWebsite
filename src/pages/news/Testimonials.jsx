@@ -11,7 +11,7 @@ export default function Testimonials() {
     },
     {
       key: '1',
-      image: "/images/publications/cosilogo.png"
+      image: "/images/publications/houselogo.png"
     }
   ];
 
