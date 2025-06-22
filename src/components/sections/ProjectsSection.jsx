@@ -6,9 +6,6 @@ import { useInView } from 'react-intersection-observer';
 function ProjectsSection() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [imageErrors, setImageErrors] = useState(new Set());
-  const [imageLoaded, setImageLoaded] = useState(new Set());
-  const [retryAttempts, setRetryAttempts] = useState(new Map());
   const [animationStarted, setAnimationStarted] = useState(false);
 
   // Use intersection observer to trigger animations when section comes into view
@@ -16,12 +13,6 @@ function ProjectsSection() {
     threshold: 0.2,
     triggerOnce: true
   });
-
-  // Detect Safari
-  const isSafari = () => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    return userAgent.includes('safari') && !userAgent.includes('chrome') && !userAgent.includes('firefox');
-  };
 
   useEffect(() => {
     if (inView && !animationStarted) {
@@ -56,84 +47,6 @@ function ProjectsSection() {
       image: '/images/home/project4.jpg'
     }
   ];
-
-  const handleImageError = async (projectId) => {
-    console.error('❌ ProjectsSection: Image failed for project:', projectId, {
-      isSafari: isSafari(),
-      userAgent: navigator.userAgent.substring(0, 50)
-    });
-
-    const currentAttempts = retryAttempts.get(projectId) || 0;
-    
-    // For Safari, try auto-retry up to 2 times
-    if (isSafari() && currentAttempts < 2) {
-      console.log(`🔄 Safari auto-retry ${currentAttempts + 1}/2 for project:`, projectId);
-      
-      setTimeout(() => {
-        setRetryAttempts(prev => new Map([...prev, [projectId, currentAttempts + 1]]));
-        setImageErrors(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(projectId);
-          return newSet;
-        });
-        setImageLoaded(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(projectId);
-          return newSet;
-        });
-      }, 1000 * (currentAttempts + 1)); // 1s, 2s delays
-      
-      return;
-    }
-
-    setImageErrors(prev => new Set([...prev, projectId]));
-  };
-
-  const handleImageLoad = (projectId) => {
-    console.log('✅ ProjectsSection: Image loaded for project:', projectId);
-    setImageLoaded(prev => new Set([...prev, projectId]));
-    
-    // Clear any previous error for this project
-    setImageErrors(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(projectId);
-      return newSet;
-    });
-    
-    // Reset retry attempts
-    setRetryAttempts(prev => {
-      const newMap = new Map(prev);
-      newMap.delete(projectId);
-      return newMap;
-    });
-  };
-
-  const manualRetryImage = (projectId) => {
-    console.log('🔄 Manual retry for project:', projectId);
-    
-    setImageErrors(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(projectId);
-      return newSet;
-    });
-    
-    setImageLoaded(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(projectId);
-      return newSet;
-    });
-    
-    setRetryAttempts(prev => new Map([...prev, [projectId, 0]]));
-  };
-
-  const getProjectImageUrl = (project) => {
-    const attempts = retryAttempts.get(project.id) || 0;
-    // Add cache-busting for Safari
-    const cacheBuster = isSafari() 
-      ? `?safari=${Date.now()}&cb=${Math.random().toString(36).substr(2, 9)}&v=2`
-      : `?v=${Date.now()}`;
-    return `${project.image}${cacheBuster}`;
-  };
 
   return (
     <section ref={ref} className="w-full py-12 bg-[#0c0c0c] relative overflow-hidden">
@@ -170,9 +83,8 @@ function ProjectsSection() {
       </div>
 
       <div className="max-w-8xl mx-auto px-4 relative z-10">
-        {/* Section Header with dramatic entrance */}
+        {/* Section Header */}
         <div className="text-center mb-8">
-          {/* Main Title with staggered letter animation effect */}
           <div className={`transition-all duration-[2500ms] ease-out ${
             animationStarted 
               ? 'opacity-100 transform translate-y-0' 
@@ -186,123 +98,58 @@ function ProjectsSection() {
           </div>
         </div>
         
-        {/* Projects Grid with staggered card animations */}
+        {/* Projects Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {projects.map((project, index) => {
-            const hasError = imageErrors.has(project.id);
-            const isLoaded = imageLoaded.has(project.id);
-            const attempts = retryAttempts.get(project.id) || 0;
-            const imageUrl = getProjectImageUrl(project);
-            
-            return (
-              <div 
-                key={project.id} 
-                className={`group relative w-full pb-[100%] overflow-hidden rounded-lg transition-all duration-[1800ms] ease-out cursor-pointer ${
-                  animationStarted 
-                    ? 'opacity-100 transform translate-y-0 scale-100' 
-                    : 'opacity-0 transform translate-y-12 scale-90'
-                }`}
-                style={{ 
-                  transitionDelay: `${1000 + index * 250}ms`,
-                  willChange: 'transform, opacity'
-                }}
-                onClick={() => navigate('/proyectos')}
-              >
-                {/* Image container with enhanced Safari support */}
-                <div className="absolute inset-0 bg-gray-800 overflow-hidden">
-                  {!hasError ? (
-                    <img 
-                      src={imageUrl} 
-                      alt={project.title}
-                      className={`absolute top-0 left-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${
-                        isLoaded ? 'opacity-100' : 'opacity-0'
-                      }`}
-                      onError={() => handleImageError(project.id)}
-                      onLoad={() => handleImageLoad(project.id)}
-                      loading="lazy"
-                      crossOrigin="anonymous"
-                      // Safari-specific attributes
-                      referrerPolicy="no-referrer"
-                      decoding="async"
-                      // Force reload on Safari if needed
-                      key={`${project.id}-${attempts}`}
-                    />
-                  ) : (
-                    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800">
-                      <div className="text-center text-white p-4">
-                        <svg className="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <p className="text-sm font-bold mb-1">
-                          {isSafari() ? 'SAFARI CACHE ISSUE' : 'IMAGE FAILED'}
-                        </p>
-                        <p className="text-xs text-gray-300 mb-2">
-                          {isSafari() 
-                            ? `Retry ${attempts}/2 - Safari cache` 
-                            : 'Network or CORS issue'
-                          }
-                        </p>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            manualRetryImage(project.id);
-                          }}
-                          className="px-3 py-1 bg-white text-gray-800 rounded text-xs hover:bg-gray-200 transition-colors"
-                        >
-                          Retry
-                        </button>
-                        {isSafari() && (
-                          <div className="mt-2 text-xs bg-yellow-900/50 p-2 rounded">
-                            <p>Try refresh</p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
+          {projects.map((project, index) => (
+            <div 
+              key={project.id} 
+              className={`group relative w-full pb-[100%] overflow-hidden rounded-lg transition-all duration-[1800ms] ease-out cursor-pointer ${
+                animationStarted 
+                  ? 'opacity-100 transform translate-y-0 scale-100' 
+                  : 'opacity-0 transform translate-y-12 scale-90'
+              }`}
+              style={{ 
+                transitionDelay: `${1000 + index * 250}ms`,
+                willChange: 'transform, opacity'
+              }}
+              onClick={() => navigate('/proyectos')}
+            >
+              {/* Image container */}
+              <div className="absolute inset-0 bg-gray-800 overflow-hidden">
+                <img 
+                  src={project.image} 
+                  alt={project.title}
+                  className="absolute top-0 left-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
 
-                  {/* Loading state */}
-                  {!isLoaded && !hasError && (
-                    <div className="absolute inset-0 bg-gray-700 flex items-center justify-center">
-                      <div className="text-center text-white">
-                        <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                        <p className="text-sm">
-                          {attempts > 0 ? `Retry ${attempts}...` : 'Loading...'}
-                        </p>
-                        {isSafari() && (
-                          <p className="text-xs text-gray-300 mt-1">Safari</p>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
 
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-
-                  {/* Project title overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-all duration-500">
-                    <h3 className="text-white font-medium text-lg leading-tight">
-                      {project.title}
-                    </h3>
-                    <p className="text-white/80 text-sm mt-1">
-                      {project.location}
-                    </p>
-                  </div>
-
-                  {/* Hover border glow */}
-                  <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/30 transition-all duration-500 rounded-lg"></div>
+                {/* Project title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-all duration-500">
+                  <h3 className="text-white font-medium text-lg leading-tight">
+                    {project.title}
+                  </h3>
+                  <p className="text-white/80 text-sm mt-1">
+                    {project.location}
+                  </p>
                 </div>
 
-                {/* Corner accent lines */}
-                <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-white/0 group-hover:border-white/60 transition-all duration-500"></div>
-                <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-white/0 group-hover:border-white/60 transition-all duration-500"></div>
-                <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-white/0 group-hover:border-white/60 transition-all duration-500"></div>
-                <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-white/0 group-hover:border-white/60 transition-all duration-500"></div>
+                {/* Hover border glow */}
+                <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/30 transition-all duration-500 rounded-lg"></div>
               </div>
-            );
-          })}
+
+              {/* Corner accent lines */}
+              <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-white/0 group-hover:border-white/60 transition-all duration-500"></div>
+              <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-white/0 group-hover:border-white/60 transition-all duration-500"></div>
+              <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-white/0 group-hover:border-white/60 transition-all duration-500"></div>
+              <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-white/0 group-hover:border-white/60 transition-all duration-500"></div>
+            </div>
+          ))}
         </div>
 
-        {/* CTA Button with elegant entrance */}
+        {/* CTA Button */}
         <div className="text-center">
           <div className={`transition-all duration-[2000ms] ease-out delay-1800 ${
             animationStarted 
