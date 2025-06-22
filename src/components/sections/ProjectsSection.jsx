@@ -30,7 +30,7 @@ function ProjectsSection() {
     },
     {
       id: 'project2', 
-      title: 'Residencia Contemporánea',
+      title: '',
       location: 'Escazú, Costa Rica',
       image: '/images/home/project2.jpg'
     },
