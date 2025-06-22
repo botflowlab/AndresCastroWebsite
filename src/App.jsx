@@ -34,7 +34,7 @@ function App() {
       if (!audioInitialized && !globalAudio) {
         try {
           globalAudio = new Audio('/sound/0621.MP3');
-          globalAudio.volume = 0.05; // 50% volume
+          globalAudio.volume = 0.01; // 50% volume
           globalAudio.loop = false; // Play only once
           globalAudio.preload = 'auto';
           
