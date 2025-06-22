@@ -46,6 +46,7 @@ function Hero() {
             className="absolute inset-0 bg-center bg-cover bg-no-repeat"
             style={{ backgroundImage: `url(${image})` }}
           >
+            {/* Fixed overlay - consistent across all devices */}
             <div className="absolute inset-0 bg-black/40"></div>
           </div>
         </div>
