@@ -23,13 +23,13 @@ function ProjectsSection() {
   // Static project data using the 4 uploaded images
   const projects = [
     {
-      id: '',
+      id: 'project1',
       title: '',
       location: '',
       image: '/images/home/project1.jpg'
     },
     {
-      id: '', 
+      id: 'project2', 
       title: 'Residencia Contemporánea',
       location: 'Escazú, Costa Rica',
       image: '/images/home/project2.jpg'
