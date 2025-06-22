@@ -10,7 +10,7 @@ export default function Testimonials() {
       image: "/images/publications/cosilogo.png"
     },
     {
-      key: '2',
+      key: '1',
       image: "/images/publications/cosilogo.png"
     }
   ];
