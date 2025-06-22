@@ -5,31 +5,31 @@ export default function ProjectCard({ title, image }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [finalUrl, setFinalUrl] = useState('');
-  const [corsError, setCorsError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
   const mountedRef = useRef(true);
   const imageRef = useRef(null);
+
+  // Detect Safari
+  const isSafari = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return userAgent.includes('safari') && !userAgent.includes('chrome') && !userAgent.includes('firefox');
+  };
 
   // Process URL once when component mounts or image prop changes
   useEffect(() => {
     mountedRef.current = true;
     setImageLoaded(false);
     setImageError(false);
-    setCorsError(false);
+    setRetryCount(0);
     
     const processedUrl = getImageUrl(image);
-    
-    // Add cache-busting parameter to prevent browser cache issues
-    const urlWithCacheBuster = processedUrl.includes('?') 
-      ? `${processedUrl}&cb=${Date.now()}` 
-      : `${processedUrl}?cb=${Date.now()}`;
-    
-    setFinalUrl(urlWithCacheBuster);
+    setFinalUrl(processedUrl);
     
     console.log('🎯 ProjectCard URL processed:', {
       title,
       original: image,
       processed: processedUrl,
-      withCacheBuster: urlWithCacheBuster
+      isSafari: isSafari()
     });
 
     return () => {
@@ -37,43 +37,7 @@ export default function ProjectCard({ title, image }) {
     };
   }, [image, title]);
 
-  // Force reload image when component becomes visible again
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (!document.hidden && imageRef.current && imageError) {
-        console.log('🔄 Page became visible, retrying image load for:', title);
-        setImageError(false);
-        setCorsError(false);
-        setImageLoaded(false);
-        
-        // Force reload the image
-        const newCacheBuster = `?cb=${Date.now()}`;
-        const baseUrl = finalUrl.split('?')[0];
-        const newUrl = `${baseUrl}${newCacheBuster}`;
-        setFinalUrl(newUrl);
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, [imageError, finalUrl, title]);
-
-  // Test CORS by attempting a fetch request
-  const testCorsAccess = async (url) => {
-    try {
-      const baseUrl = url.split('?')[0]; // Remove cache buster for CORS test
-      const response = await fetch(baseUrl, {
-        method: 'HEAD',
-        mode: 'cors',
-        cache: 'no-cache' // Prevent cache issues
-      });
-      return response.ok;
-    } catch (error) {
-      console.error('CORS test failed:', error);
-      return false;
-    }
-  };
-
+  // Safari-specific retry mechanism
   const handleImageError = async (event) => {
     if (!mountedRef.current) return;
     
@@ -81,41 +45,56 @@ export default function ProjectCard({ title, image }) {
       title,
       original: image,
       processed: finalUrl,
-      timestamp: new Date().toISOString(),
-      errorType: event?.target?.error || 'Unknown',
-      userAgent: navigator.userAgent.substring(0, 50)
+      retryCount,
+      userAgent: navigator.userAgent.substring(0, 50),
+      errorType: event?.target?.error || 'Unknown'
     });
     
-    // Test if this is a CORS issue
-    const isCorsIssue = await testCorsAccess(finalUrl);
+    // For Safari, try multiple retry strategies
+    if (isSafari() && retryCount < 3) {
+      console.log(`🔄 Safari retry ${retryCount + 1}/3 for:`, title);
+      
+      setTimeout(() => {
+        if (mountedRef.current) {
+          setRetryCount(prev => prev + 1);
+          setImageError(false);
+          setImageLoaded(false);
+          
+          // Generate new URL with different cache-busting
+          const baseUrl = image;
+          const newUrl = getImageUrl(baseUrl);
+          setFinalUrl(newUrl);
+        }
+      }, 1000 * (retryCount + 1)); // Increasing delay: 1s, 2s, 3s
+      
+      return;
+    }
     
     setImageError(true);
-    if (!isCorsIssue) {
-      setCorsError(true);
-    }
   };
 
   const handleImageLoad = () => {
     if (!mountedRef.current) return;
     
     setImageLoaded(true);
+    setImageError(false);
     console.log('✅ ProjectCard image loaded:', {
       title,
       url: finalUrl,
-      timestamp: new Date().toISOString()
+      retryCount,
+      isSafari: isSafari()
     });
   };
 
-  // Retry function for manual retry
+  // Manual retry function
   const retryImageLoad = () => {
     console.log('🔄 Manual retry for:', title);
     setImageError(false);
-    setCorsError(false);
     setImageLoaded(false);
+    setRetryCount(0);
     
-    // Generate new cache buster
-    const baseUrl = finalUrl.split('?')[0];
-    const newUrl = `${baseUrl}?cb=${Date.now()}&retry=1`;
+    // Force new URL generation
+    const newUrl = getImageUrl(image);
     setFinalUrl(newUrl);
   };
 
@@ -148,8 +127,9 @@ export default function ProjectCard({ title, image }) {
             onLoad={handleImageLoad}
             onError={handleImageError}
             crossOrigin="anonymous"
-            // Prevent browser caching issues
+            // Safari-specific attributes
             referrerPolicy="no-referrer"
+            decoding="async"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-red-50 border-2 border-red-200">
@@ -158,12 +138,12 @@ export default function ProjectCard({ title, image }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 15.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
               <p className="text-xs font-bold">
-                {corsError ? 'CORS ERROR' : 'IMAGE FAILED'}
+                {isSafari() ? 'SAFARI CACHE ISSUE' : 'IMAGE FAILED'}
               </p>
               <p className="text-xs mt-1 opacity-75">
-                {corsError 
-                  ? 'Configure R2 bucket CORS policy' 
-                  : 'Navigation cache issue'
+                {isSafari() 
+                  ? `Retry ${retryCount}/3 - Safari cache` 
+                  : 'Network or CORS issue'
                 }
               </p>
               
@@ -175,18 +155,13 @@ export default function ProjectCard({ title, image }) {
                 Retry
               </button>
               
-              {corsError && (
-                <div className="mt-2 text-xs bg-red-100 p-2 rounded">
-                  <p className="font-semibold">Fix Required:</p>
-                  <p>Add CORS policy to R2 bucket</p>
+              {/* Safari-specific help */}
+              {isSafari() && (
+                <div className="mt-2 text-xs bg-yellow-100 p-2 rounded">
+                  <p className="font-semibold">Safari Issue:</p>
+                  <p>Try refreshing the page</p>
                 </div>
               )}
-              
-              {/* Debug info */}
-              <div className="mt-2 text-xs bg-gray-100 p-2 rounded text-gray-600">
-                <p className="font-semibold">Debug:</p>
-                <p className="break-all">{finalUrl.substring(0, 50)}...</p>
-              </div>
             </div>
           </div>
         )}
@@ -196,7 +171,12 @@ export default function ProjectCard({ title, image }) {
           <div className="absolute inset-0 bg-blue-50 flex items-center justify-center">
             <div className="text-center">
               <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-              <div className="text-blue-600 text-sm font-medium">Loading...</div>
+              <div className="text-blue-600 text-sm font-medium">
+                {retryCount > 0 ? `Retry ${retryCount}...` : 'Loading...'}
+              </div>
+              {isSafari() && (
+                <div className="text-xs text-blue-500 mt-1">Safari detected</div>
+              )}
             </div>
           </div>
         )}

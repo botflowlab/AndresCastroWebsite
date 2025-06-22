@@ -1,6 +1,6 @@
 /**
  * ULTRA-STABLE Cloudflare R2 Storage utilities
- * Fixed caching and stability issues
+ * Fixed Safari caching and CORS issues
  */
 
 // R2 configuration
@@ -11,18 +11,23 @@ console.log('🔧 R2 Config:', { R2_PUBLIC_URL });
 // Cache processed URLs to prevent re-processing
 const urlCache = new Map();
 
+// Detect Safari browser
+const isSafari = () => {
+  const userAgent = navigator.userAgent.toLowerCase();
+  return userAgent.includes('safari') && !userAgent.includes('chrome') && !userAgent.includes('firefox');
+};
+
+// Detect mobile Safari specifically
+const isMobileSafari = () => {
+  const userAgent = navigator.userAgent.toLowerCase();
+  return userAgent.includes('safari') && userAgent.includes('mobile') && !userAgent.includes('chrome');
+};
+
 /**
- * THE ONLY FUNCTION YOU NEED - NOW WITH CACHING
- * Converts any image reference to a working URL
+ * THE ONLY FUNCTION YOU NEED - NOW WITH SAFARI CACHE FIXES
+ * Converts any image reference to a working URL with Safari-specific fixes
  */
 export const getImageUrl = (imageUrl) => {
-  // Check cache first
-  if (urlCache.has(imageUrl)) {
-    const cachedUrl = urlCache.get(imageUrl);
-    console.log('💾 Cache hit:', imageUrl, '->', cachedUrl);
-    return cachedUrl;
-  }
-
   console.log('🖼️ Processing:', imageUrl);
   
   let finalUrl;
@@ -64,9 +69,29 @@ export const getImageUrl = (imageUrl) => {
     }
   }
 
-  // Cache the result
-  urlCache.set(imageUrl, finalUrl);
-  console.log('💾 Cached:', imageUrl, '->', finalUrl);
+  // Safari-specific fixes
+  if (isSafari() || isMobileSafari()) {
+    console.log('🍎 Safari detected, applying cache-busting fixes');
+    
+    // For Safari, always add cache-busting parameters
+    const separator = finalUrl.includes('?') ? '&' : '?';
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substr(2, 9);
+    
+    // Add multiple cache-busting parameters for Safari
+    finalUrl = `${finalUrl}${separator}safari=${timestamp}&cb=${random}&v=2`;
+    
+    // For mobile Safari, add additional parameters
+    if (isMobileSafari()) {
+      finalUrl = `${finalUrl}&mobile=1&ios=1`;
+    }
+    
+    console.log('🍎 Safari cache-busted URL:', finalUrl);
+  } else {
+    // For other browsers, use lighter cache-busting
+    const separator = finalUrl.includes('?') ? '&' : '?';
+    finalUrl = `${finalUrl}${separator}v=1`;
+  }
   
   return finalUrl;
 };
