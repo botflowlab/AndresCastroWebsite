@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FiArrowLeft, FiArrowRight, FiMaximize } from 'react-icons/fi';
 import { getImageUrl } from '../../utils/r2Storage';
 
@@ -7,6 +7,12 @@ export default function ProjectHero({ project }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageErrors, setImageErrors] = useState(new Set());
   const scrollContainerRef = useRef(null);
+
+  // Reset image index to 0 whenever project changes
+  useEffect(() => {
+    setCurrentImageIndex(0);
+    setImageErrors(new Set()); // Also clear any previous image errors
+  }, [project?.id]); // Reset when project ID changes
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => 
