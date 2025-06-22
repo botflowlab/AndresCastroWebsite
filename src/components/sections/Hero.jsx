@@ -15,6 +15,9 @@ function Hero() {
     '/images/home/hero4.jpg',
   ];
 
+  // Mobile-specific image (hero4)
+  const mobileImage = '/images/home/hero4.jpg';
+
   useEffect(() => {
     // Check if mobile
     const checkMobile = () => {
@@ -29,44 +32,38 @@ function Hero() {
       setIsVisible(true);
     }, 300);
 
-    const imageTimer = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 7000);
+    // Only start image carousel on desktop
+    let imageTimer;
+    if (!isMobile) {
+      imageTimer = setInterval(() => {
+        setCurrentImageIndex((prevIndex) => 
+          prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 7000);
+    }
 
     return () => {
       clearTimeout(timer);
-      clearInterval(imageTimer);
+      if (imageTimer) clearInterval(imageTimer);
       window.removeEventListener('resize', checkMobile);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Mobile-specific background handling */}
+      {/* Background Images */}
       {isMobile ? (
-        // Mobile: Single image container with proper transitions
+        // Mobile: Single static image (hero4)
         <div className="absolute inset-0">
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                currentImageIndex === index ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <div 
-                className="absolute inset-0 bg-center bg-cover bg-no-repeat"
-                style={{ backgroundImage: `url(${image})` }}
-              >
-                {/* Fixed overlay - consistent across all devices */}
-                <div className="absolute inset-0 bg-black/40"></div>
-              </div>
-            </div>
-          ))}
+          <div 
+            className="absolute inset-0 bg-center bg-cover bg-no-repeat"
+            style={{ backgroundImage: `url(${mobileImage})` }}
+          >
+            <div className="absolute inset-0 bg-black/40"></div>
+          </div>
         </div>
       ) : (
-        // Desktop: Original implementation
+        // Desktop: Image carousel
         <>
           {images.map((image, index) => (
             <div
@@ -79,7 +76,6 @@ function Hero() {
                 className="absolute inset-0 bg-center bg-cover bg-no-repeat"
                 style={{ backgroundImage: `url(${image})` }}
               >
-                {/* Fixed overlay - consistent across all devices */}
                 <div className="absolute inset-0 bg-black/40"></div>
               </div>
             </div>
@@ -149,39 +145,41 @@ function Hero() {
             </Link>
           </div>
 
-          {/* Navigation Dots with enhanced design - SLOWER with longest delay */}
-          <div className={`flex justify-center gap-4 transition-all duration-[2000ms] ease-out delay-1700 ${
-            isVisible 
-              ? 'opacity-100 transform translate-y-0' 
-              : 'opacity-0 transform translate-y-4'
-          }`}>
-            {images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`relative transition-all duration-500 group ${
-                  currentImageIndex === index 
-                    ? 'w-12 h-3' 
-                    : 'w-3 h-3 hover:w-6'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              >
-                {/* Dot background */}
-                <div className={`absolute inset-0 rounded-full transition-all duration-500 ${
-                  currentImageIndex === index
-                    ? 'bg-white shadow-lg'
-                    : 'bg-white/50 group-hover:bg-white/80'
-                }`}></div>
-                
-                {/* Dot glow effect */}
-                <div className={`absolute inset-0 rounded-full transition-all duration-500 ${
-                  currentImageIndex === index
-                    ? 'bg-white/30 blur-sm scale-150'
-                    : 'bg-transparent group-hover:bg-white/20 group-hover:blur-sm group-hover:scale-125'
-                }`}></div>
-              </button>
-            ))}
-          </div>
+          {/* Navigation Dots - Only show on desktop */}
+          {!isMobile && (
+            <div className={`flex justify-center gap-4 transition-all duration-[2000ms] ease-out delay-1700 ${
+              isVisible 
+                ? 'opacity-100 transform translate-y-0' 
+                : 'opacity-0 transform translate-y-4'
+            }`}>
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`relative transition-all duration-500 group ${
+                    currentImageIndex === index 
+                      ? 'w-12 h-3' 
+                      : 'w-3 h-3 hover:w-6'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                >
+                  {/* Dot background */}
+                  <div className={`absolute inset-0 rounded-full transition-all duration-500 ${
+                    currentImageIndex === index
+                      ? 'bg-white shadow-lg'
+                      : 'bg-white/50 group-hover:bg-white/80'
+                  }`}></div>
+                  
+                  {/* Dot glow effect */}
+                  <div className={`absolute inset-0 rounded-full transition-all duration-500 ${
+                    currentImageIndex === index
+                      ? 'bg-white/30 blur-sm scale-150'
+                      : 'bg-transparent group-hover:bg-white/20 group-hover:blur-sm group-hover:scale-125'
+                  }`}></div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
