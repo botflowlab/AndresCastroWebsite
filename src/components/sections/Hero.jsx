@@ -6,6 +6,7 @@ function Hero() {
   const { t } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const images = [
     '/images/home/hero1.jpg',
@@ -15,6 +16,14 @@ function Hero() {
   ];
 
   useEffect(() => {
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     // Trigger entrance animation with longer delay
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -29,28 +38,54 @@ function Hero() {
     return () => {
       clearTimeout(timer);
       clearInterval(imageTimer);
+      window.removeEventListener('resize', checkMobile);
     };
   }, []);
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Images */}
-      {images.map((image, index) => (
-        <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            currentImageIndex === index ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <div 
-            className="absolute inset-0 bg-center bg-cover bg-no-repeat"
-            style={{ backgroundImage: `url(${image})` }}
-          >
-            {/* Fixed overlay - consistent across all devices */}
-            <div className="absolute inset-0 bg-black/40"></div>
-          </div>
+      {/* Mobile-specific background handling */}
+      {isMobile ? (
+        // Mobile: Single image container with proper transitions
+        <div className="absolute inset-0">
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                currentImageIndex === index ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <div 
+                className="absolute inset-0 bg-center bg-cover bg-no-repeat"
+                style={{ backgroundImage: `url(${image})` }}
+              >
+                {/* Fixed overlay - consistent across all devices */}
+                <div className="absolute inset-0 bg-black/40"></div>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        // Desktop: Original implementation
+        <>
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                currentImageIndex === index ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <div 
+                className="absolute inset-0 bg-center bg-cover bg-no-repeat"
+                style={{ backgroundImage: `url(${image})` }}
+              >
+                {/* Fixed overlay - consistent across all devices */}
+                <div className="absolute inset-0 bg-black/40"></div>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
