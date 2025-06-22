@@ -42,8 +42,8 @@ function ProjectsSection() {
     },
     {
       id: 'project4',
-      title: 'Casa de Diseño',
-      location: 'Heredia, Costa Rica',
+      title: '',
+      location: '',
       image: '/images/home/project4.jpg'
     }
   ];
