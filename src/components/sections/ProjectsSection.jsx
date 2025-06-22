@@ -23,9 +23,9 @@ function ProjectsSection() {
   // Static project data using the 4 uploaded images
   const projects = [
     {
-      id: 'project1',
-      title: 'Casa Moderna',
-      location: 'San José, Costa Rica',
+      id: '',
+      title: '',
+      location: '',
       image: '/images/home/project1.jpg'
     },
     {
