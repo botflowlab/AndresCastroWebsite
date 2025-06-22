@@ -31,12 +31,12 @@ function ProjectsSection() {
     {
       id: 'project2', 
       title: '',
-      location: 'Escazú, Costa Rica',
+      location: '',
       image: '/images/home/project2.jpg'
     },
     {
       id: 'project3',
-      title: 'Villa Arquitectónica',
+      title: '',
       location: 'Santa Ana, Costa Rica', 
       image: '/images/home/project3.jpg'
     },
