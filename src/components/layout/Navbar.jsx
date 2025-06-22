@@ -46,25 +46,25 @@ function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/" className="text-black-900 hover:text-white-600 px-3 py-2 text-lg font-medium">
               {t('nav.home')}
             </Link>
-            <Link to="/arquitecto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/arquitecto" className="text-black-900 hover:text-white-600 px-3 py-2 text-lg font-medium">
               {t('nav.architect')}
             </Link>
-            <Link to="/proyectos" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/proyectos" className="text-black-900 hover:text-white-600 px-3 py-2 text-lg font-medium">
               {t('nav.projects')}
             </Link>
-            <Link to="/noticias" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/noticias" className="text-black-900 hover:text-white-600 px-3 py-2 text-lg font-medium">
               {t('nav.publications')}
             </Link>
-            <Link to="/contacto" className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium">
+            <Link to="/contacto" className="text-black-900 hover:text-white-600 px-3 py-2 text-lg font-medium">
               {t('nav.contact')}
             </Link>
             
             <button
               onClick={toggleLanguage}
-              className="text-black-900 hover:text-gray-600 px-3 py-2 text-lg font-medium flex items-center"
+              className="text-black-900 hover:text-white-600 px-3 py-2 text-lg font-medium flex items-center"
             >
               {i18n.language === 'en' ? 'ES' : 'EN'}
             </button>
