@@ -316,7 +316,7 @@ function ProjectsSection() {
                           </button>
                           {isSafari() && (
                             <div className="mt-2 text-xs bg-yellow-900/50 p-2 rounded">
-                              <p>Safari detected - try refresh</p>
+                              <p>Try refresh</p>
                             </div>
                           )}
                         </div>
