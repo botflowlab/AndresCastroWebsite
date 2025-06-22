@@ -10,6 +10,10 @@ import Architect from './pages/architect/Architect.jsx';
 import News from './pages/news/News.jsx';
 import AuthPage from './pages/auth/AuthPage.jsx';
 
+// Global audio instance to persist across all navigation
+let globalAudio = null;
+let audioInitialized = false;
+
 function ScrollToTop() {
   const location = useLocation();
   
@@ -22,44 +26,51 @@ function ScrollToTop() {
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
-  const audioRef = useRef(null);
 
-  // Initialize audio when App component mounts
+  // Initialize audio ONCE when App component first mounts
   useEffect(() => {
-    const initializeAudio = async () => {
-      if (audioRef.current) {
+    const initializeGlobalAudio = async () => {
+      // Only initialize audio once per session
+      if (!audioInitialized && !globalAudio) {
         try {
-          audioRef.current.volume = 0.05; // Set to 50% volume
-          audioRef.current.loop = false; // Loop the background music
+          globalAudio = new Audio('/sound/0621.MP3');
+          globalAudio.volume = 0.5; // 50% volume
+          globalAudio.loop = false; // Play only once
+          globalAudio.preload = 'auto';
           
-          // Try to play the audio
-          await audioRef.current.play();
-          console.log('🎵 Background music started');
+          // Try to play the audio immediately
+          await globalAudio.play();
+          console.log('🎵 Background music started (will play once)');
+          audioInitialized = true;
         } catch (error) {
           console.log('🔇 Audio autoplay blocked by browser:', error);
-          // Autoplay was blocked, which is normal in many browsers
-          // The audio will play when user interacts with the page
+          // Audio will start on first user interaction
         }
       }
     };
 
-    initializeAudio();
+    initializeGlobalAudio();
 
-    // Cleanup function
+    // Cleanup only when the entire app unmounts (page refresh/close)
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      }
+      // Don't cleanup on navigation, only on actual page unload
+      window.addEventListener('beforeunload', () => {
+        if (globalAudio) {
+          globalAudio.pause();
+          globalAudio = null;
+          audioInitialized = false;
+        }
+      });
     };
-  }, []);
+  }, []); // Empty dependency array - only run once
 
   // Handle user interaction to enable audio (for browsers that block autoplay)
   const handleUserInteraction = async () => {
-    if (audioRef.current && audioRef.current.paused) {
+    if (globalAudio && globalAudio.paused && !audioInitialized) {
       try {
-        await audioRef.current.play();
-        console.log('🎵 Audio started after user interaction');
+        await globalAudio.play();
+        console.log('🎵 Audio started after user interaction (will play once)');
+        audioInitialized = true;
       } catch (error) {
         console.log('🔇 Could not start audio:', error);
       }
@@ -74,16 +85,6 @@ function App() {
   if (showIntro) {
     return (
       <div onClick={handleUserInteraction} onTouchStart={handleUserInteraction}>
-        {/* Background Audio - Available throughout entire app */}
-        <audio
-          ref={audioRef}
-          preload="auto"
-          playsInline
-        >
-          <source src="/sound/0621.MP3" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-
         <LogoIntro onComplete={handleIntroComplete} />
       </div>
     );
@@ -92,16 +93,6 @@ function App() {
   // Show main application after intro
   return (
     <div onClick={handleUserInteraction} onTouchStart={handleUserInteraction}>
-      {/* Background Audio - Available throughout entire app */}
-      <audio
-        ref={audioRef}
-        preload="auto"
-        playsInline
-      >
-        <source src="/sound/0621.MP3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-
       <Router>
         <ScrollToTop />
         <Layout>
