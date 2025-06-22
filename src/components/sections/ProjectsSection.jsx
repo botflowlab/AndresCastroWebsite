@@ -37,7 +37,7 @@ function ProjectsSection() {
     {
       id: 'project3',
       title: '',
-      location: 'Santa Ana, Costa Rica', 
+      location: '', 
       image: '/images/home/project3.jpg'
     },
     {
