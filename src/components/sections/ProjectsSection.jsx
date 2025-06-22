@@ -29,7 +29,7 @@ function ProjectsSection() {
     }
   }, [inView, animationStarted]);
 
-  // Static project data using the 4 specific images
+  // Static project data using the 4 uploaded images
   const projects = [
     {
       id: 'project1',
@@ -128,7 +128,10 @@ function ProjectsSection() {
 
   const getProjectImageUrl = (project) => {
     const attempts = retryAttempts.get(project.id) || 0;
-    const cacheBuster = attempts > 0 ? `?retry=${attempts}&t=${Date.now()}` : `?v=${Date.now()}`;
+    // Add cache-busting for Safari
+    const cacheBuster = isSafari() 
+      ? `?safari=${Date.now()}&cb=${Math.random().toString(36).substr(2, 9)}&v=2`
+      : `?v=${Date.now()}`;
     return `${project.image}${cacheBuster}`;
   };
 
