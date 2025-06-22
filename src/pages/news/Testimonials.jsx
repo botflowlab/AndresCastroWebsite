@@ -8,6 +8,10 @@ export default function Testimonials() {
     {
       key: '2',
       image: "/images/publications/cosilogo.png"
+    },
+    {
+      key: '2',
+      image: "/images/publications/cosilogo.png"
     }
   ];
 
