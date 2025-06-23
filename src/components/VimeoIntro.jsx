@@ -9,7 +9,7 @@ export default function VimeoIntro({ onComplete }) {
     // Auto-complete after 10 seconds if user doesn't skip
     const autoCompleteTimer = setTimeout(() => {
       handleComplete();
-    }, 10000);
+    }, 12000);
 
     return () => clearTimeout(autoCompleteTimer);
   }, []);
