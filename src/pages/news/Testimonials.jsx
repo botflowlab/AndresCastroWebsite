@@ -7,15 +7,15 @@ export default function Testimonials() {
   const testimonials = [
     {
       key: '1',
-      image: "/images/publications/houselogo.png"
+      image: "/images/andrescastrologosolo.png"
     },
     {
       key: '2',
-      image: "/images/publications/cosilogo.png"
+      image: "/images/andrescastrologosolo.png"
     },
     {
       key: '3',
-      image: "/images/publications/cosilogo.png" // You can change this image path in the JSON
+      image: "/images/andrescastrologosolo.png" // You can change this image path in the JSON
     }
   ];
 
