@@ -194,7 +194,7 @@ export default function VimeoIntro({ onComplete }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 14.142M9 9v6l4-3-4-3z" />
               </svg>
             </div>
-            <p className="text-lg font-medium mb-2">Click to enable audio</p>
+            <p className="text-lg font-medium mb-1">Click to enable audio</p>
           </div>
         </div>
       )}
