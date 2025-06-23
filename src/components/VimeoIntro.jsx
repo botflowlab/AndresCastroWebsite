@@ -5,19 +5,25 @@ export default function VimeoIntro({ onComplete }) {
   const [showVideo, setShowVideo] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
   const audioRef = useRef(null);
   const iframeRef = useRef(null);
 
   useEffect(() => {
-    // Auto-complete after 30 seconds if user doesn't skip
+    // Auto-complete after 11 seconds if user doesn't skip
     const autoCompleteTimer = setTimeout(() => {
       handleComplete();
     }, 11000);
 
-    // Start video and audio after 1.5 seconds
+    // Start video after 1.5 seconds (but not audio automatically)
     const startTimer = setTimeout(() => {
-      startVideoAndAudio();
+      startVideo();
     }, 1500);
+
+    // Preload audio
+    audioRef.current = new Audio('/sound/introaudio2.MP3');
+    audioRef.current.volume = 0.3; // Set volume to 30%
+    audioRef.current.preload = 'auto';
 
     return () => {
       clearTimeout(autoCompleteTimer);
@@ -30,34 +36,29 @@ export default function VimeoIntro({ onComplete }) {
     };
   }, []);
 
-  const startVideoAndAudio = async () => {
-    try {
-      // Start the audio
-      if (!audioStarted) {
-        audioRef.current = new Audio('/sound/introaudio2.MP3');
-        audioRef.current.volume = 0.1; // Set volume to 30%
-        
-        // Try to play audio
-        const audioPlayPromise = audioRef.current.play();
-        if (audioPlayPromise !== undefined) {
-          audioPlayPromise
-            .then(() => {
-              console.log('🔊 Audio started successfully');
-              setAudioStarted(true);
-            })
-            .catch(error => {
-              console.warn('⚠️ Audio autoplay blocked:', error);
-              // Audio will start when user interacts with the page
-            });
-        }
-      }
+  const startVideo = () => {
+    // The Vimeo iframe should start automatically due to autoplay=1 parameter
+    setIsLoading(false);
+  };
 
-      // The Vimeo iframe should start automatically due to autoplay=1 parameter
-      setIsLoading(false);
-      
+  const toggleAudio = async () => {
+    if (!audioRef.current) return;
+
+    try {
+      if (audioPlaying) {
+        // Pause audio
+        audioRef.current.pause();
+        setAudioPlaying(false);
+        console.log('🔇 Audio paused');
+      } else {
+        // Play audio
+        await audioRef.current.play();
+        setAudioPlaying(true);
+        setAudioStarted(true);
+        console.log('🔊 Audio started');
+      }
     } catch (error) {
-      console.error('Error starting video and audio:', error);
-      setIsLoading(false);
+      console.warn('⚠️ Audio control error:', error);
     }
   };
 
@@ -79,20 +80,6 @@ export default function VimeoIntro({ onComplete }) {
     handleComplete();
   };
 
-  // Handle user interaction to start audio if it was blocked
-  const handleUserInteraction = () => {
-    if (!audioStarted && audioRef.current) {
-      audioRef.current.play()
-        .then(() => {
-          console.log('🔊 Audio started after user interaction');
-          setAudioStarted(true);
-        })
-        .catch(error => {
-          console.warn('⚠️ Audio still blocked:', error);
-        });
-    }
-  };
-
   if (!showVideo) return null;
 
   return (
@@ -100,9 +87,28 @@ export default function VimeoIntro({ onComplete }) {
       className={`fixed inset-0 z-50 bg-white flex items-center justify-center transition-opacity duration-1000 ${
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
-      onClick={handleUserInteraction}
     >
-      {/* Skip Button - Always Visible */}
+      {/* Audio Control Button - Top Left */}
+      <button
+        onClick={toggleAudio}
+        className="absolute top-8 left-8 z-60 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-white/40"
+        style={{ zIndex: 9999 }}
+        title={audioPlaying ? 'Pause Audio' : 'Play Audio'}
+      >
+        {audioPlaying ? (
+          // Pause icon
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+          </svg>
+        ) : (
+          // Play icon
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        )}
+      </button>
+
+      {/* Skip Button - Top Right */}
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -113,16 +119,6 @@ export default function VimeoIntro({ onComplete }) {
       >
         Skip Intro
       </button>
-
-      {/* Audio Status Indicator */}
-      <div className="absolute top-8 left-8 z-60 flex items-center gap-2 text-white/80 text-sm">
-        <div className={`w-2 h-2 rounded-full animate-pulse ${
-          audioStarted ? 'bg-green-500' : 'bg-yellow-500'
-        }`}></div>
-        <span className="font-light">
-          {audioStarted ? '🔊 Audio Playing' : '🔇 Click to enable audio'}
-        </span>
-      </div>
 
       {/* Loading indicator */}
       {isLoading && (
