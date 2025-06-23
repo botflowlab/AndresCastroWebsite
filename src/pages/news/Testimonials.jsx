@@ -7,11 +7,11 @@ export default function Testimonials() {
   const testimonials = [
     {
       key: '1',
-      image: "/images/publications/houselogo.png"
+      image: "/images/andrescastrologosolo.png"
     },
     {
       key: '2',
-      image: "/images/publications/cosilogo.png"
+      image: "/images/andrescastrologosolo.png"
     },
     {
       key: '3',
