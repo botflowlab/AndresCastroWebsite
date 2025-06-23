@@ -6,10 +6,10 @@ export default function VimeoIntro({ onComplete }) {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Auto-complete after 10 seconds if user doesn't skip
+    // Auto-complete after 30 seconds if user doesn't skip
     const autoCompleteTimer = setTimeout(() => {
       handleComplete();
-    }, 10000);
+    }, 30000);
 
     return () => clearTimeout(autoCompleteTimer);
   }, []);
@@ -53,7 +53,7 @@ export default function VimeoIntro({ onComplete }) {
       {/* Vimeo Video */}
       <div className="w-full h-full relative">
         <iframe
-          src="https://player.vimeo.com/video/1092562524?autoplay=1&muted=1&loop=0&background=0&controls=0"
+          src="https://player.vimeo.com/video/1095705289?autoplay=1&muted=0&loop=0&background=0&controls=0"
           className="w-full h-full object-cover"
           frameBorder="0"
           allow="autoplay; fullscreen; picture-in-picture"
@@ -75,7 +75,7 @@ export default function VimeoIntro({ onComplete }) {
           className="h-full bg-white rounded-full transition-all duration-100 ease-linear"
           style={{
             width: '0%',
-            animation: 'progress 10s linear forwards'
+            animation: 'progress 30s linear forwards'
           }}
         />
       </div>
