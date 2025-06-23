@@ -7,7 +7,7 @@ export default function Sidebar({ onCategorySelect, selectedCategory }) {
     { key: 'casas', labelEn: 'Houses', labelEs: 'Casas' },
     { key: 'condominios', labelEn: 'Residential Condominiums', labelEs: 'Condominios Residenciales' },
     { key: 'comercial', labelEn: 'Commercial Projects', labelEs: 'Proyectos Comerciales' },
-    { key: 'bancaria', labelEn: 'Banking Architecture', labelEs: 'Arquitectura Bancaria' },
+    { key: 'drawings', labelEn: 'Banking Architecture', labelEs: 'Arquitectura Bancaria' },
     { key: 'oficinas', labelEn: 'Offices', labelEs: 'Oficinas' },
     { key: 'institucional', labelEn: 'Institutional', labelEs: 'Institucional' }
   ];
