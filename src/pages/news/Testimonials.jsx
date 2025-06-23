@@ -6,12 +6,16 @@ export default function Testimonials() {
   
   const testimonials = [
     {
+      key: '1',
+      image: "/images/publications/houselogo.png"
+    },
+    {
       key: '2',
       image: "/images/publications/cosilogo.png"
     },
     {
-      key: '1',
-      image: "/images/publications/houselogo.png"
+      key: '3',
+      image: "/images/publications/cosilogo.png" // You can change this image path in the JSON
     }
   ];
 
@@ -22,7 +26,7 @@ export default function Testimonials() {
           {t('publications.testimonials.title')}
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {testimonials.map((testimonial, index) => (
             <div key={index} className="flex flex-col items-center text-center">
               <div className="w-24 h-24 rounded-full overflow-hidden mb-6">
@@ -32,14 +36,14 @@ export default function Testimonials() {
                   className="w-full h-full object-contain bg-white"
                 />
               </div>
-              <blockquote className="text-2xl font-light mb-6 leading-relaxed">
+              <blockquote className="text-xl font-light mb-6 leading-relaxed">
                 "{t(`publications.testimonials.items.${testimonial.key}.quote`)}"
               </blockquote>
               <cite className="not-italic">
-                <div className="text-xl font-medium">
+                <div className="text-lg font-medium">
                   {t(`publications.testimonials.items.${testimonial.key}.author`)}
                 </div>
-                <div className="text-gray-400">
+                <div className="text-gray-400 text-sm">
                   {t(`publications.testimonials.items.${testimonial.key}.role`)}
                 </div>
               </cite>
