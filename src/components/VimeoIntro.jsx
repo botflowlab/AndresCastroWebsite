@@ -185,20 +185,6 @@ export default function VimeoIntro({ onComplete }) {
         Skip Intro
       </button>
 
-      {/* User Interaction Prompt */}
-      {!userInteracted && playerReady && (
-        <div className="absolute bottom-0 pb-8 flex items-center justify-center z-50 bg-black/20">
-          <div className="text-center text-white bg-black/60 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-            <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 14.142M9 9v6l4-3-4-3z" />
-              </svg>
-            </div>
-            <p className="text-lg font-medium mb-1">Click to enable audio</p>
-          </div>
-        </div>
-      )}
-
       {/* Loading overlay */}
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-black z-40">
