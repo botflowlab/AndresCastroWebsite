@@ -6,10 +6,10 @@ export default function VimeoIntro({ onComplete }) {
   const [fadeOut, setFadeOut] = useState(false);
   const [audioMuted, setAudioMuted] = useState(true);
   const [audioReady, setAudioReady] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
   const [videoStarted, setVideoStarted] = useState(false);
   const audioRef = useRef(null);
   const iframeRef = useRef(null);
-  const audioStartTimeoutRef = useRef(null);
 
   useEffect(() => {
     // Auto-complete after 11 seconds if user doesn't skip
@@ -22,9 +22,6 @@ export default function VimeoIntro({ onComplete }) {
 
     return () => {
       clearTimeout(autoCompleteTimer);
-      if (audioStartTimeoutRef.current) {
-        clearTimeout(audioStartTimeoutRef.current);
-      }
       // Clean up audio
       if (audioRef.current) {
         audioRef.current.pause();
@@ -61,6 +58,15 @@ export default function VimeoIntro({ onComplete }) {
 
       audioRef.current.addEventListener('ended', () => {
         console.log('🎵 Audio playback ended');
+        setAudioPlaying(false);
+      });
+
+      audioRef.current.addEventListener('play', () => {
+        setAudioPlaying(true);
+      });
+
+      audioRef.current.addEventListener('pause', () => {
+        setAudioPlaying(false);
       });
 
       // Load the audio
@@ -73,66 +79,35 @@ export default function VimeoIntro({ onComplete }) {
     }
   };
 
-  // Start audio 1.5 seconds after video starts
-  const startAudioWithDelay = () => {
-    if (!audioRef.current || !audioReady) return;
-
-    console.log('📹 Video started, scheduling audio to start in 1.5 seconds');
-    
-    audioStartTimeoutRef.current = setTimeout(async () => {
-      try {
-        // Reset audio to beginning
-        audioRef.current.currentTime = 0;
-        
-        // Start playing the MP3 (muted initially)
-        await audioRef.current.play();
-        console.log('🎵 MP3 audio started playing (muted) at 1.5s delay');
-        
-      } catch (error) {
-        console.warn('⚠️ MP3 audio autoplay failed:', error);
-      }
-    }, 1500); // 1.5 second delay
-  };
-
   // Handle video load (when iframe loads)
   const handleVideoLoad = () => {
     console.log('📹 Vimeo iframe loaded');
     setVideoStarted(true);
-    
-    // Start audio with delay when video loads
-    if (audioReady) {
-      startAudioWithDelay();
-    }
   };
 
-  // Start audio when both video and audio are ready
-  useEffect(() => {
-    if (videoStarted && audioReady && !isLoading) {
-      startAudioWithDelay();
-    }
-  }, [videoStarted, audioReady, isLoading]);
-
   const toggleAudioMute = async () => {
-    if (!audioRef.current) return;
+    if (!audioRef.current || !audioReady) return;
 
-    // If audio hasn't started yet, start it first
-    if (audioRef.current.paused) {
+    if (!audioPlaying) {
+      // First click: Start playing the audio (unmuted)
       try {
-        audioRef.current.currentTime = 0;
+        audioRef.current.currentTime = 0; // Start from beginning
+        audioRef.current.muted = false; // Unmute
         await audioRef.current.play();
-        console.log('🎵 MP3 audio started manually');
+        setAudioMuted(false);
+        console.log('🎵 MP3 audio started playing (unmuted)');
       } catch (error) {
         console.warn('⚠️ Could not start MP3 audio:', error);
         return;
       }
+    } else {
+      // Subsequent clicks: Toggle mute state
+      const newMutedState = !audioMuted;
+      audioRef.current.muted = newMutedState;
+      setAudioMuted(newMutedState);
+      
+      console.log(newMutedState ? '🔇 MP3 audio muted' : '🔊 MP3 audio unmuted');
     }
-
-    // Toggle mute state of MP3 only
-    const newMutedState = !audioMuted;
-    audioRef.current.muted = newMutedState;
-    setAudioMuted(newMutedState);
-    
-    console.log(newMutedState ? '🔇 MP3 audio muted' : '🔊 MP3 audio unmuted');
   };
 
   const handleComplete = () => {
@@ -140,11 +115,6 @@ export default function VimeoIntro({ onComplete }) {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current = null;
-    }
-    
-    // Clear timeout
-    if (audioStartTimeoutRef.current) {
-      clearTimeout(audioStartTimeoutRef.current);
     }
     
     setFadeOut(true);
@@ -174,11 +144,24 @@ export default function VimeoIntro({ onComplete }) {
           !audioReady ? 'opacity-50 cursor-not-allowed' : ''
         }`}
         style={{ zIndex: 9999 }}
-        title={audioReady ? (audioMuted ? 'Unmute Background Music' : 'Mute Background Music') : 'Audio Loading...'}
+        title={
+          !audioReady 
+            ? 'Audio Loading...' 
+            : !audioPlaying 
+              ? 'Play Background Music' 
+              : audioMuted 
+                ? 'Unmute Background Music' 
+                : 'Mute Background Music'
+        }
       >
         {!audioReady ? (
           // Loading icon
           <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        ) : !audioPlaying ? (
+          // Play icon (when audio hasn't started)
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
         ) : audioMuted ? (
           // Muted icon
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -211,7 +194,12 @@ export default function VimeoIntro({ onComplete }) {
         </div>
         {audioReady && (
           <div className="bg-black/50 px-2 py-1 rounded mt-1">
-            {audioMuted ? '🔇 Music Muted' : '🔊 Music Playing'}
+            {!audioPlaying 
+              ? '⏸️ Music Stopped' 
+              : audioMuted 
+                ? '🔇 Music Muted' 
+                : '🔊 Music Playing'
+            }
           </div>
         )}
       </div>
