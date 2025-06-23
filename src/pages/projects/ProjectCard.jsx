@@ -175,7 +175,7 @@ export default function ProjectCard({ title, image }) {
                 {retryCount > 0 ? `Retry ${retryCount}...` : 'Loading...'}
               </div>
               {isSafari() && (
-                <div className="text-xs text-blue-500 mt-1">Safari detected</div>
+                <div className="text-xs text-blue-500 mt-1"></div>
               )}
             </div>
           </div>
