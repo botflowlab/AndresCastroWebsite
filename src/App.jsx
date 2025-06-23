@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
-import YouTubeIntro from './components/YouTubeIntro';
+import VimeoIntro from './components/VimeoIntro';
 import LogoIntro from './components/LogoIntro'; // Keep as backup
 import Home from './pages/Home.jsx';
 import Projects from './pages/projects/Projects.jsx';
@@ -32,7 +32,7 @@ function App() {
   if (showIntro) {
     return (
       <div>
-        <YouTubeIntro onComplete={handleIntroComplete} />
+        <VimeoIntro onComplete={handleIntroComplete} />
       </div>
     );
   }
