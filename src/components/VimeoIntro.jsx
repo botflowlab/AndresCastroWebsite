@@ -9,7 +9,7 @@ export default function VimeoIntro({ onComplete }) {
     // Auto-complete after 30 seconds if user doesn't skip
     const autoCompleteTimer = setTimeout(() => {
       handleComplete();
-    }, 10000);
+    }, 30000);
 
     return () => clearTimeout(autoCompleteTimer);
   }, []);
@@ -32,12 +32,15 @@ export default function VimeoIntro({ onComplete }) {
     <div className={`fixed inset-0 z-50 bg-black flex items-center justify-center transition-opacity duration-1000 ${
       fadeOut ? 'opacity-0' : 'opacity-100'
     }`}>
-      {/* Skip Button */}
+      {/* Skip Button - Always visible with enhanced styling */}
       <button
         onClick={handleSkip}
-        className="absolute top-8 right-8 z-60 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-white/40"
+        className={`absolute top-6 right-6 md:top-8 md:right-8 z-60 bg-black/60 hover:bg-black/80 text-white px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/30 hover:border-white/60 text-sm md:text-base font-medium tracking-wider shadow-lg hover:shadow-xl transform hover:scale-105 ${
+          fadeOut ? 'opacity-0 transform translate-x-4' : 'opacity-100 transform translate-x-0'
+        }`}
+        style={{ zIndex: 9999 }}
       >
-        Skip Intro
+        SKIP INTRO
       </button>
 
       {/* Loading indicator */}
@@ -50,10 +53,10 @@ export default function VimeoIntro({ onComplete }) {
         </div>
       )}
 
-      {/* Vimeo Video */}
+      {/* Vimeo Video with 5% audio volume */}
       <div className="w-full h-full relative">
         <iframe
-          src="https://player.vimeo.com/video/1095705289?autoplay=1&muted=0&loop=0&background=0&controls=0"
+          src="https://player.vimeo.com/video/1095705289?autoplay=1&muted=0&loop=0&background=0&controls=0&volume=0.05"
           className="w-full h-full object-cover"
           frameBorder="0"
           allow="autoplay; fullscreen; picture-in-picture"
@@ -75,7 +78,7 @@ export default function VimeoIntro({ onComplete }) {
           className="h-full bg-white rounded-full transition-all duration-100 ease-linear"
           style={{
             width: '0%',
-            animation: 'progress 10s linear forwards'
+            animation: 'progress 30s linear forwards'
           }}
         />
       </div>
