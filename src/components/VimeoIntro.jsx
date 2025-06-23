@@ -45,15 +45,10 @@ export default function VimeoIntro({ onComplete }) {
         return;
       }
 
-      // Calculate video dimensions for mobile centering
-      const isMobile = window.innerWidth < 768;
-      const videoWidth = isMobile ? Math.min(window.innerWidth * 0.9, 400) : window.innerWidth;
-      const videoHeight = isMobile ? (videoWidth * 9) / 16 : window.innerHeight; // 16:9 aspect ratio for mobile
-
       playerRef.current = new window.Vimeo.Player(container, {
         id: 1095705289,
-        width: videoWidth,
-        height: videoHeight,
+        width: '100%',
+        height: '100%',
         autoplay: true,
         muted: true, // Start muted
         loop: false,
@@ -140,11 +135,7 @@ export default function VimeoIntro({ onComplete }) {
       onClick={handleContainerClick}
       className={`fixed inset-0 z-50 transition-opacity duration-1000 cursor-pointer ${
         fadeOut ? 'opacity-0' : 'opacity-100'
-      } 
-      /* Mobile: white background, desktop: black background */
-      md:bg-black bg-white
-      /* Mobile: flex center, desktop: full coverage */
-      md:block flex items-center justify-center`}
+      } bg-black flex items-center justify-center`}
       style={{ width: '100vw', height: '100vh' }}
     >
       {/* Audio Control Button - Top Left */}
@@ -196,54 +187,55 @@ export default function VimeoIntro({ onComplete }) {
 
       {/* Loading overlay */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white md:bg-black z-40">
-          <div className="text-center text-black md:text-white">
-            <div className="w-12 h-12 border-2 border-black md:border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <div className="absolute inset-0 flex items-center justify-center bg-black z-40">
+          <div className="text-center text-white">
+            <div className="w-12 h-12 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-lg font-light">Andrés Castro Arquitectura</p>
           </div>
         </div>
       )}
 
-      {/* Vimeo Video Container - Responsive sizing */}
-      <div 
-        className={`
-          /* Mobile: centered container with max width */
-          md:absolute md:inset-0 
-          w-full max-w-sm md:max-w-none
-          /* Mobile: auto height to maintain aspect ratio */
-          h-auto md:h-full
-          /* Mobile: add some padding */
-          px-4 md:px-0
-        `}
-        style={{ 
-          /* Desktop: full coverage */
-          width: window.innerWidth >= 768 ? '100%' : 'auto', 
-          height: window.innerWidth >= 768 ? '100%' : 'auto',
-          position: window.innerWidth >= 768 ? 'absolute' : 'relative',
-          top: window.innerWidth >= 768 ? 0 : 'auto',
-          left: window.innerWidth >= 768 ? 0 : 'auto'
-        }}
-      >
+      {/* User Interaction Prompt - Positioned at bottom */}
+      {!userInteracted && playerReady && !isLoading && (
+        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-50">
+          <div className="text-center text-white bg-black/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 14.142M9 9v6l4-3-4-3z" />
+              </svg>
+            </div>
+            <p className="text-lg font-medium mb-2">Click anywhere to enable audio</p>
+            <p className="text-sm text-white/70">Experience the full intro with sound</p>
+          </div>
+        </div>
+      )}
+
+      {/* Vimeo Video Container - Centered with 16:9 aspect ratio */}
+      <div className="w-full h-full flex items-center justify-center">
         <div 
-          id="vimeo-player"
-          className="w-full h-full rounded-lg md:rounded-none overflow-hidden shadow-lg md:shadow-none"
+          className="w-full max-w-none"
           style={{ 
-            /* Mobile: responsive with aspect ratio */
-            width: '100%', 
-            height: window.innerWidth < 768 ? 'auto' : '100%',
-            aspectRatio: window.innerWidth < 768 ? '16/9' : 'auto',
-            position: window.innerWidth >= 768 ? 'absolute' : 'relative',
-            top: window.innerWidth >= 768 ? 0 : 'auto',
-            left: window.innerWidth >= 768 ? 0 : 'auto'
+            aspectRatio: '16/9',
+            maxHeight: '100vh',
+            maxWidth: '100vw'
           }}
-        />
+        >
+          <div 
+            id="vimeo-player"
+            className="w-full h-full"
+            style={{ 
+              width: '100%', 
+              height: '100%'
+            }}
+          />
+        </div>
       </div>
 
       {/* Progress bar */}
       {!isLoading && (
-        <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 w-48 md:w-64 h-1 bg-black/20 md:bg-white/20 rounded-full overflow-hidden z-[60]">
+        <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 w-48 md:w-64 h-1 bg-white/20 rounded-full overflow-hidden z-[60]">
           <div 
-            className="h-full bg-black md:bg-white rounded-full transition-all duration-100 ease-linear"
+            className="h-full bg-white rounded-full transition-all duration-100 ease-linear"
             style={{
               width: '0%',
               animation: 'progress 12s linear forwards'
@@ -266,15 +258,6 @@ export default function VimeoIntro({ onComplete }) {
           left: 0 !important;
           width: 100% !important;
           height: 100% !important;
-          border-radius: inherit;
-        }
-        
-        /* Mobile specific styles */
-        @media (max-width: 767px) {
-          #vimeo-player iframe {
-            position: relative !important;
-            border-radius: 0.5rem;
-          }
         }
       `}</style>
     </div>
