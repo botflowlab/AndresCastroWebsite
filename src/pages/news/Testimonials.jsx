@@ -61,7 +61,7 @@ export default function Testimonials() {
                     <img
                       src={testimonial.image}
                       alt={t(`publications.testimonials.items.${testimonial.key}.author`)}
-                      className="w-full h-full object-contain filter brightness-0 invert"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                 </div>
