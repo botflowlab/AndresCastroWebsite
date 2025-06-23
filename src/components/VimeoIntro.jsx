@@ -6,7 +6,7 @@ export default function VimeoIntro({ onComplete }) {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Auto-complete after 30 seconds if user doesn't skip
+    // Auto-complete after 10 seconds if user doesn't skip
     const autoCompleteTimer = setTimeout(() => {
       handleComplete();
     }, 10000);
@@ -53,15 +53,24 @@ export default function VimeoIntro({ onComplete }) {
         </div>
       )}
 
-      {/* Vimeo Video with 5% audio volume */}
+      {/* Vimeo Video with proper audio settings */}
       <div className="w-full h-full relative">
         <iframe
-          src="https://player.vimeo.com/video/1095705289?autoplay=1&muted=0&loop=0&background=0&controls=0&volume=0.05"
+          src="https://player.vimeo.com/video/1095705289?autoplay=1&muted=0&loop=0&background=0&controls=0"
           className="w-full h-full object-cover"
           frameBorder="0"
           allow="autoplay; fullscreen; picture-in-picture"
           allowFullScreen
-          onLoad={() => setIsLoading(false)}
+          onLoad={() => {
+            setIsLoading(false);
+            // Set volume via postMessage API after iframe loads
+            setTimeout(() => {
+              const iframe = document.querySelector('iframe');
+              if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage('{"method":"setVolume","value":0.05}', '*');
+              }
+            }, 1000);
+          }}
           style={{
             position: 'absolute',
             top: 0,
