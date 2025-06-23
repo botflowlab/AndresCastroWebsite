@@ -207,7 +207,6 @@ export default function VimeoIntro({ onComplete }) {
               </svg>
             </div>
             <p className="text-lg font-medium mb-2">Click to enable audio</p>
-            <p className="text-sm text-white/70">Experience the full intro with sound</p>
           </div>
         </div>
       )}
