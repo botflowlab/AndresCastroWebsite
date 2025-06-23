@@ -33,7 +33,7 @@ export default function Testimonials() {
       <div className="max-w-8xl mx-auto relative z-10">
         {/* Enhanced Header */}
         <div className="text-center mb-20">
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-light mb-8 tracking-wider leading-tight">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-light mb-8 tracking-wider leading-tight">
             {t('publications.testimonials.title')}
           </h2>
         </div>
