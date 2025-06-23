@@ -187,7 +187,7 @@ export default function VimeoIntro({ onComplete }) {
 
       {/* User Interaction Prompt */}
       {!userInteracted && playerReady && (
-        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center z-50 bg-black/20">
+        <div className="absolute bottom-0 flex items-center justify-center z-50 bg-black/20">
           <div className="text-center text-white bg-black/60 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
             <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
