@@ -203,7 +203,7 @@ export default function VimeoIntro({ onComplete }) {
         </div>
       )}
 
-      {/* Loading indicator */}
+      {/* Loading overlay */}
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-black z-40">
           <div className="text-center text-white">
@@ -214,15 +214,13 @@ export default function VimeoIntro({ onComplete }) {
         </div>
       )}
 
-      {/* Vimeo Video Container */}
-      {!isLoading && (
-        <div className="w-full h-full relative">
-          <div 
-            id="vimeo-player"
-            className="w-full h-full"
-          />
-        </div>
-      )}
+      {/* Vimeo Video Container - Always present in DOM */}
+      <div className="w-full h-full relative">
+        <div 
+          id="vimeo-player"
+          className="w-full h-full"
+        />
+      </div>
 
       {/* Progress bar */}
       {!isLoading && (
