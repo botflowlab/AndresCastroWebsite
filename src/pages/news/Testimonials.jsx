@@ -37,9 +37,6 @@ export default function Testimonials() {
             {t('publications.testimonials.title')}
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-transparent via-white to-transparent mx-auto mb-8"></div>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto font-light leading-relaxed">
-            What our clients say about working with us
-          </p>
         </div>
         
         {/* Enhanced Testimonials Grid */}
