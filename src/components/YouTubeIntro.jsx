@@ -48,7 +48,7 @@ export default function YouTubeIntro({ onComplete }) {
       playerRef.current = new window.YT.Player('youtube-player', {
         height: '100%',
         width: '100%',
-        videoId: 'dQw4w9WgXcQ', // Replace with your actual YouTube video ID
+        videoId: 'QLJ258GjV1g', // Replace with your actual YouTube video ID
         playerVars: {
           autoplay: 1,
           controls: 0,
