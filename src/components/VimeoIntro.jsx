@@ -195,21 +195,6 @@ export default function VimeoIntro({ onComplete }) {
         </div>
       )}
 
-      {/* User Interaction Prompt - Positioned at bottom */}
-      {!userInteracted && playerReady && !isLoading && (
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-50">
-          <div className="text-center text-white bg-black/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 14.142M9 9v6l4-3-4-3z" />
-              </svg>
-            </div>
-            <p className="text-lg font-medium mb-2">Click anywhere to enable audio</p>
-            <p className="text-sm text-white/70">Experience the full intro with sound</p>
-          </div>
-        </div>
-      )}
-
       {/* Vimeo Video Container - Centered with 16:9 aspect ratio */}
       <div className="w-full h-full flex items-center justify-center">
         <div 
