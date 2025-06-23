@@ -4,7 +4,9 @@ export default function VimeoIntro({ onComplete }) {
   const [isLoading, setIsLoading] = useState(true);
   const [showVideo, setShowVideo] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
-  const [audioMuted, setAudioMuted] = useState(true); // Start muted
+  const [audioMuted, setAudioMuted] = useState(true);
+  const [audioReady, setAudioReady] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
   const audioRef = useRef(null);
   const iframeRef = useRef(null);
 
@@ -14,20 +16,24 @@ export default function VimeoIntro({ onComplete }) {
       handleComplete();
     }, 11000);
 
-    // Start video and audio after 1.5 seconds
-    const startTimer = setTimeout(() => {
-      startVideoAndAudio();
-    }, 1500);
+    // Initialize audio
+    initializeAudio();
 
-    // Setup audio
-    audioRef.current = new Audio('/sound/introaudio2.MP3');
-    audioRef.current.volume = 0.1; // Set volume to 30%
-    audioRef.current.muted = true; // Start muted but playing
-    audioRef.current.preload = 'auto';
+    // Add global click listener to detect user interaction
+    const handleGlobalClick = () => {
+      if (!userInteracted) {
+        setUserInteracted(true);
+        console.log('🎯 User interaction detected');
+      }
+    };
+
+    document.addEventListener('click', handleGlobalClick);
+    document.addEventListener('touchstart', handleGlobalClick);
 
     return () => {
       clearTimeout(autoCompleteTimer);
-      clearTimeout(startTimer);
+      document.removeEventListener('click', handleGlobalClick);
+      document.removeEventListener('touchstart', handleGlobalClick);
       // Clean up audio
       if (audioRef.current) {
         audioRef.current.pause();
@@ -36,22 +42,77 @@ export default function VimeoIntro({ onComplete }) {
     };
   }, []);
 
-  const startVideoAndAudio = async () => {
-    setIsLoading(false);
-    
-    // Start audio muted in background to stay synchronized
-    if (audioRef.current) {
-      try {
-        await audioRef.current.play();
-        console.log('🎵 Audio started (muted) in background for sync');
-      } catch (error) {
-        console.warn('⚠️ Audio autoplay failed:', error);
-      }
+  const initializeAudio = async () => {
+    try {
+      // Create audio element
+      audioRef.current = new Audio('/sound/introaudio2.MP3');
+      audioRef.current.volume = 0.15; // 15% volume
+      audioRef.current.muted = true; // Start muted
+      audioRef.current.preload = 'auto';
+      audioRef.current.loop = false;
+
+      // Audio event listeners
+      audioRef.current.addEventListener('canplaythrough', () => {
+        console.log('🎵 Audio ready to play');
+        setAudioReady(true);
+        setIsLoading(false);
+      });
+
+      audioRef.current.addEventListener('error', (e) => {
+        console.error('❌ Audio error:', e);
+        setAudioReady(false);
+        setIsLoading(false);
+      });
+
+      audioRef.current.addEventListener('loadstart', () => {
+        console.log('🎵 Audio loading started');
+      });
+
+      // Load the audio
+      audioRef.current.load();
+
+    } catch (error) {
+      console.error('❌ Audio initialization failed:', error);
+      setAudioReady(false);
+      setIsLoading(false);
     }
   };
 
-  const toggleAudioMute = () => {
+  // Start audio when user interacts and audio is ready
+  useEffect(() => {
+    if (userInteracted && audioReady && audioRef.current && !isLoading) {
+      startAudioPlayback();
+    }
+  }, [userInteracted, audioReady, isLoading]);
+
+  const startAudioPlayback = async () => {
     if (!audioRef.current) return;
+
+    try {
+      // Reset audio to beginning
+      audioRef.current.currentTime = 0;
+      
+      // Start playing (muted initially)
+      await audioRef.current.play();
+      console.log('🎵 Audio started playing (muted)');
+      
+    } catch (error) {
+      console.warn('⚠️ Audio autoplay failed:', error);
+    }
+  };
+
+  const toggleAudioMute = async () => {
+    if (!audioRef.current) return;
+
+    // If audio hasn't started yet, start it first
+    if (audioRef.current.paused) {
+      try {
+        await audioRef.current.play();
+      } catch (error) {
+        console.warn('⚠️ Could not start audio:', error);
+        return;
+      }
+    }
 
     const newMutedState = !audioMuted;
     audioRef.current.muted = newMutedState;
@@ -89,11 +150,17 @@ export default function VimeoIntro({ onComplete }) {
       {/* Audio Control Button - Top Left */}
       <button
         onClick={toggleAudioMute}
-        className="absolute top-8 left-8 z-60 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-white/40"
+        disabled={!audioReady}
+        className={`absolute top-8 left-8 z-60 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-white/40 ${
+          !audioReady ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
         style={{ zIndex: 9999 }}
-        title={audioMuted ? 'Unmute Audio' : 'Mute Audio'}
+        title={audioReady ? (audioMuted ? 'Unmute Audio' : 'Mute Audio') : 'Audio Loading...'}
       >
-        {audioMuted ? (
+        {!audioReady ? (
+          // Loading icon
+          <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        ) : audioMuted ? (
           // Muted icon
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
             <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
@@ -118,48 +185,60 @@ export default function VimeoIntro({ onComplete }) {
         Skip Intro
       </button>
 
+      {/* Audio Status Indicator - Top Left Corner */}
+      {!userInteracted && audioReady && (
+        <div className="absolute top-20 left-8 z-60 bg-yellow-500/90 text-black px-3 py-1 rounded-full text-xs font-medium">
+          Click audio button to enable sound
+        </div>
+      )}
+
       {/* Loading indicator */}
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-white z-40">
-          <div className="text-center text-white">
-            <div className="w-12 h-12 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-lg text-black font-light">Andrés Castro Arquitectura</p>
+          <div className="text-center">
+            <div className="w-12 h-12 border-2 border-gray-400 border-t-gray-800 rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-lg text-black font-light">Loading Andrés Castro Arquitectura</p>
+            <p className="text-sm text-gray-600 mt-2">Preparing audio and video...</p>
           </div>
         </div>
       )}
 
       {/* Vimeo Video */}
-      <div className="w-full h-full relative">
-        <iframe
-          ref={iframeRef}
-          src="https://player.vimeo.com/video/1095705289?autoplay=1&muted=0&loop=0&background=0&controls=0"
-          className="w-full h-full object-cover"
-          frameBorder="0"
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowFullScreen
-          onLoad={() => {
-            console.log('📹 Vimeo iframe loaded');
-          }}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%'
-          }}
-        />
-      </div>
+      {!isLoading && (
+        <div className="w-full h-full relative">
+          <iframe
+            ref={iframeRef}
+            src="https://player.vimeo.com/video/1095705289?autoplay=1&muted=0&loop=0&background=0&controls=0"
+            className="w-full h-full object-cover"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+            onLoad={() => {
+              console.log('📹 Vimeo iframe loaded');
+            }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%'
+            }}
+          />
+        </div>
+      )}
 
       {/* Progress bar */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-64 h-1 bg-white/20 rounded-full overflow-hidden">
-        <div 
-          className="h-full bg-white rounded-full transition-all duration-100 ease-linear"
-          style={{
-            width: '0%',
-            animation: 'progress 11s linear forwards'
-          }}
-        />
-      </div>
+      {!isLoading && (
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-64 h-1 bg-white/20 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-white rounded-full transition-all duration-100 ease-linear"
+            style={{
+              width: '0%',
+              animation: 'progress 11s linear forwards'
+            }}
+          />
+        </div>
+      )}
 
       {/* CSS Animation */}
       <style jsx>{`
