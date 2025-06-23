@@ -26,7 +26,7 @@ export default function ProjectForm({
     { value: 'casas', label: 'Casas' },
     { value: 'condominios', label: 'Condominios Residenciales' },
     { value: 'comercial', label: 'Proyectos Comerciales' },
-    { value: 'bocetos', label: 'Arquitectura Bancaria' },
+    { value: 'bocetos', label: 'Bocetos' },
     { value: 'oficinas', label: 'Oficinas' },
     { value: 'institucional', label: 'Institucional' }
   ];
