@@ -24,7 +24,7 @@ export default function VimeoIntro({ onComplete }) {
     // Auto-complete after 11 seconds
     const autoCompleteTimer = setTimeout(() => {
       handleComplete();
-    }, 11000);
+    }, 12000);
 
     return () => {
       clearTimeout(autoCompleteTimer);
