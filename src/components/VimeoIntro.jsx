@@ -38,15 +38,23 @@ export default function VimeoIntro({ onComplete }) {
     if (!window.Vimeo) return;
 
     try {
-      playerRef.current = new window.Vimeo.Player('vimeo-player', {
+      // Get the container element
+      const container = document.getElementById('vimeo-player');
+      if (!container) {
+        console.error('❌ Vimeo container not found');
+        return;
+      }
+
+      playerRef.current = new window.Vimeo.Player(container, {
         id: 1095705289,
-        width: '100%',
-        height: '100%',
+        width: window.innerWidth,
+        height: window.innerHeight,
         autoplay: true,
         muted: true, // Start muted
         loop: false,
         controls: false,
-        background: false
+        background: false,
+        responsive: true
       });
 
       playerRef.current.ready().then(() => {
@@ -125,9 +133,10 @@ export default function VimeoIntro({ onComplete }) {
     <div 
       ref={containerRef}
       onClick={handleContainerClick}
-      className={`fixed inset-0 z-50 bg-black flex items-center justify-center transition-opacity duration-1000 cursor-pointer ${
+      className={`fixed inset-0 z-50 bg-black transition-opacity duration-1000 cursor-pointer ${
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
+      style={{ width: '100vw', height: '100vh' }}
     >
       {/* Audio Control Button - Top Left */}
       <button
@@ -136,7 +145,7 @@ export default function VimeoIntro({ onComplete }) {
           toggleVideoAudio();
         }}
         disabled={!playerReady}
-        className={`absolute top-8 left-8 z-60 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-white/40 ${
+        className={`absolute top-8 left-8 z-[60] bg-black/60 hover:bg-black/80 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-white/40 ${
           !playerReady ? 'opacity-50 cursor-not-allowed' : ''
         }`}
         style={{ zIndex: 9999 }}
@@ -170,14 +179,14 @@ export default function VimeoIntro({ onComplete }) {
           e.stopPropagation();
           handleSkip();
         }}
-        className="absolute top-8 right-8 z-60 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-white/40 font-medium"
+        className="absolute top-8 right-8 z-[60] bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/20 hover:border-white/40 font-medium"
         style={{ zIndex: 9999 }}
       >
         Skip Intro
       </button>
 
       {/* Audio Status Indicator */}
-      <div className="absolute top-20 left-8 z-60 text-white text-xs">
+      <div className="absolute top-20 left-8 z-[60] text-white text-xs">
         <div className={`bg-black/50 px-2 py-1 rounded ${playerReady ? 'text-green-300' : 'text-yellow-300'}`}>
           {playerReady ? '🎬 Video Ready' : '⏳ Loading Video...'}
         </div>
@@ -214,17 +223,33 @@ export default function VimeoIntro({ onComplete }) {
         </div>
       )}
 
-      {/* Vimeo Video Container - Always present in DOM */}
-      <div className="w-full h-full relative">
+      {/* Vimeo Video Container - Fixed sizing */}
+      <div 
+        className="absolute inset-0 w-full h-full"
+        style={{ 
+          width: '100%', 
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0
+        }}
+      >
         <div 
           id="vimeo-player"
           className="w-full h-full"
+          style={{ 
+            width: '100%', 
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 0
+          }}
         />
       </div>
 
       {/* Progress bar */}
       {!isLoading && (
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-64 h-1 bg-white/20 rounded-full overflow-hidden">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-64 h-1 bg-white/20 rounded-full overflow-hidden z-[60]">
           <div 
             className="h-full bg-white rounded-full transition-all duration-100 ease-linear"
             style={{
@@ -240,6 +265,15 @@ export default function VimeoIntro({ onComplete }) {
         @keyframes progress {
           from { width: 0%; }
           to { width: 100%; }
+        }
+        
+        /* Ensure Vimeo iframe fills container */
+        #vimeo-player iframe {
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
         }
       `}</style>
     </div>
