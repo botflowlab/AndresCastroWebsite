@@ -16,7 +16,7 @@ function Hero() {
   ];
 
   // Mobile-specific image (hero4)
-  const mobileImage = '/images/home/mobilehero.jpg';
+  const mobileImage = '/images/home/mobilehero.jpeg';
 
   useEffect(() => {
     // Check if mobile
