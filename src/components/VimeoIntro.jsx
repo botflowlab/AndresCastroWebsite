@@ -185,13 +185,6 @@ export default function VimeoIntro({ onComplete }) {
         Skip Intro
       </button>
 
-      {/* Audio Status Indicator */}
-      <div className="absolute top-20 left-8 z-[60] text-white text-xs">
-        <div className={`bg-black/50 px-2 py-1 rounded ${playerReady ? 'text-green-300' : 'text-yellow-300'}`}>
-          {playerReady ? '🎬 Video Ready' : '⏳ Loading Video...'}
-        </div>
-      </div>
-
       {/* User Interaction Prompt */}
       {!userInteracted && playerReady && (
         <div className="absolute inset-0 flex items-bottom justify-center z-50 bg-black/20">
