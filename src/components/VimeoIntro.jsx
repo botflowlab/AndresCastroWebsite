@@ -89,7 +89,7 @@ export default function VimeoIntro({ onComplete }) {
       if (videoMuted) {
         // Unmute the video
         await playerRef.current.setMuted(false);
-        await playerRef.current.setVolume(0.3); // Set to 30% volume
+        await playerRef.current.setVolume(0.1); // Set to 30% volume
         setVideoMuted(false);
         setUserInteracted(true);
         console.log('🔊 Vimeo video unmuted');
