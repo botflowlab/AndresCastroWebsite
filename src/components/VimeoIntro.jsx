@@ -129,7 +129,7 @@ export default function VimeoIntro({ onComplete }) {
         <div className="absolute inset-0 flex items-center justify-center bg-white z-40">
           <div className="text-center text-white">
             <div className="w-12 h-12 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-lg font-light">Andrés Castro Arquitectura</p>
+            <p className="text-lg text-black font-light">Andrés Castro Arquitectura</p>
             <p className="text-sm text-white/70 mt-2"></p>
           </div>
         </div>
