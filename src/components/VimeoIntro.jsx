@@ -35,7 +35,7 @@ export default function VimeoIntro({ onComplete }) {
       // Start the audio
       if (!audioStarted) {
         audioRef.current = new Audio('/sound/introaudio2.MP3');
-        audioRef.current.volume = 0.05; // Set volume to 30%
+        audioRef.current.volume = 0.1; // Set volume to 30%
         
         // Try to play audio
         const audioPlayPromise = audioRef.current.play();
