@@ -21,7 +21,7 @@ export default function VimeoIntro({ onComplete }) {
 
     // Setup audio
     audioRef.current = new Audio('/sound/introaudio2.MP3');
-    audioRef.current.volume = 0.3; // Set volume to 30%
+    audioRef.current.volume = 0.1; // Set volume to 30%
     audioRef.current.muted = true; // Start muted but playing
     audioRef.current.preload = 'auto';
 
