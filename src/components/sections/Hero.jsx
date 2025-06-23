@@ -121,30 +121,6 @@ function Hero() {
             </p>
           </div>
 
-          {/* Dashboard Button with enhanced styling - SLOWER with longer delay */}
-          <div className={`mb-12 transition-all duration-[2000ms] ease-out delay-1200 ${
-            isVisible 
-              ? 'opacity-100 transform translate-y-0 scale-100' 
-              : 'opacity-0 transform translate-y-8 scale-95'
-          }`}>
-            <Link
-              to="/client-dashboard"
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white transition-all duration-500 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent"
-            >
-              {/* Button background with gradient */}
-              <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-lg shadow-xl group-hover:shadow-2xl transition-all duration-500"></div>
-              
-              {/* Button border glow */}
-              <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-red-600 rounded-lg opacity-0 group-hover:opacity-20 blur-sm transition-all duration-500"></div>
-              
-              {/* Button content */}
-              <span className="relative flex items-center space-x-2">
-                <span>🚀</span>
-                <span className="tracking-wider">ADMIN DASHBOARD</span>
-              </span>
-            </Link>
-          </div>
-
           {/* Navigation Dots - Only show on desktop */}
           {!isMobile && (
             <div className={`flex justify-center gap-4 transition-all duration-[2000ms] ease-out delay-1700 ${
