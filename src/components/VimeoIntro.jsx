@@ -78,7 +78,7 @@ export default function VimeoIntro({ onComplete }) {
           className="h-full bg-white rounded-full transition-all duration-100 ease-linear"
           style={{
             width: '0%',
-            animation: 'progress 30s linear forwards'
+            animation: 'progress 10s linear forwards'
           }}
         />
       </div>
