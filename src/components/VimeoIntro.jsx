@@ -97,7 +97,7 @@ export default function VimeoIntro({ onComplete }) {
 
   return (
     <div 
-      className={`fixed inset-0 z-50 bg-black flex items-center justify-center transition-opacity duration-1000 ${
+      className={`fixed inset-0 z-50 bg-white flex items-center justify-center transition-opacity duration-1000 ${
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
       onClick={handleUserInteraction}
