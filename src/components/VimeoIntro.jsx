@@ -135,7 +135,7 @@ export default function VimeoIntro({ onComplete }) {
       onClick={handleContainerClick}
       className={`fixed inset-0 z-50 transition-opacity duration-1000 cursor-pointer ${
         fadeOut ? 'opacity-0' : 'opacity-100'
-      } bg-black flex items-center justify-center`}
+      } bg-white flex items-center justify-center`}
       style={{ width: '100vw', height: '100vh' }}
     >
       {/* Audio Control Button - Top Left */}
