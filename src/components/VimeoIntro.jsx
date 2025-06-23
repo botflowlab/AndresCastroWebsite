@@ -190,11 +190,6 @@ export default function VimeoIntro({ onComplete }) {
         <div className={`bg-black/50 px-2 py-1 rounded ${playerReady ? 'text-green-300' : 'text-yellow-300'}`}>
           {playerReady ? '🎬 Video Ready' : '⏳ Loading Video...'}
         </div>
-        {playerReady && (
-          <div className="bg-black/50 px-2 py-1 rounded mt-1">
-            {videoMuted ? '🔇 Video Muted' : '🔊 Video Audio Playing'}
-          </div>
-        )}
       </div>
 
       {/* User Interaction Prompt */}
