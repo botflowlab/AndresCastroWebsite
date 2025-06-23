@@ -12,7 +12,7 @@ export default function VimeoIntro({ onComplete }) {
     // Auto-complete after 30 seconds if user doesn't skip
     const autoCompleteTimer = setTimeout(() => {
       handleComplete();
-    }, 30000);
+    }, 12000);
 
     // Start video and audio after 1.5 seconds
     const startTimer = setTimeout(() => {
