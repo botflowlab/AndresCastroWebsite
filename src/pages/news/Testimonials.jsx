@@ -29,7 +29,7 @@ export default function Testimonials() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {testimonials.map((testimonial, index) => (
             <div key={index} className="flex flex-col items-center text-center">
-              <div className="w-24 h-24 rounded-full overflow-hidden mb-6">
+              <div className="w-24 h-24 overflow-hidden mb-6">
                 <img
                   src={testimonial.image}
                   alt={t(`publications.testimonials.items.${testimonial.key}.author`)}
