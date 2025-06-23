@@ -1,0 +1,301 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "architect": "Arquitecto",
+    "projects": "Proyectos",
+    "publications": "Publicaciones",
+    "contact": "Contacto"
+  },
+  "home": {
+    "hero": {
+      "title": "ANDRÉS CASTRO ARQUITECTURA",
+      "subtitle": "Arquitectura Bioclimática Sostenible",
+      "subsubtitle": "Diseño de Atmósfera Para los Sentidos"
+    },
+    "architect": {
+      "title": "EL ARQUITECTO",
+      "intro": "Con más de dos décadas de experiencia en arquitectura sostenible, Andrés Castro se ha establecido como una figura líder en diseño ecológico y bioclimático en toda Costa Rica.",
+      "description": "Como pionero en arquitectura sostenible, Andrés ha liderado numerosos proyectos innovadores que combinan perfectamente la conciencia ambiental con un diseño impresionante. Su trabajo ha ganado reconocimiento internacional y ha establecido nuevos estándares para la arquitectura sostenible en Centroamérica.",
+      "stats": {
+        "experience": "Años de Experiencia",
+        "projects": "Proyectos Completados"
+      },
+      "cta": "Saber Más"
+    },
+    "projects": {
+      "title": "PROYECTOS",
+      "cta": "Ver Todos los Proyectos"
+    },
+    "news": {
+      "title": "PUBLICACIONES",
+      "videos": {
+        "title": "Videos Destacados"
+      },
+      "press": {
+        "title": "Cobertura de Prensa"
+      },
+      "cta": "Ver Todas las Publicaciones"
+    },
+    "contact": {
+      "title": "¿EN QUÉ TE PUEDO AYUDAR?",
+      "subtitle": "Contáctame",
+      "cta": "Contáctanos"
+    }
+  },
+  "architect": {
+    "hero": {
+      "title": "CONOCE A ANDRÉS CASTRO",
+      "subtitle": "El arquitecto con más de 25 años de experiencia"
+    },
+    "about": {
+      "subtitle": "EL ARQUITECTO",
+      "name": "ANDRÉS CASTRO",
+      "intro": "Con más de dos décadas de experiencia en arquitectura sostenible, Andrés Castro se ha consolidado como una figura destacada en el diseño ecológico y bioclimático en Costa Rica.",
+      "description1": "Como pionero en arquitectura sustentable, Andrés ha liderado numerosos proyectos innovadores que combinan de forma impecable la conciencia ambiental con un diseño excepcional. Su trabajo ha sido reconocido internacionalmente y ha establecido nuevos estándares para la arquitectura sostenible en Centroamérica.",
+      "description2": "Con un profundo conocimiento de las prácticas sostenibles y soluciones de diseño innovadoras, Andrés lidera un equipo comprometido con la creación de espacios que armonicen con su entorno y cumplan con los más altos estándares de excelencia arquitectónica.",
+      "stats": {
+        "experience": "Años Experiencia",
+        "projects": "Proyectos",
+        "awards": "Premios",
+        "publications": "Publicaciones"
+      },
+      "cta": "PONTE EN CONTACTO"
+    },
+    "experience": {
+      "title": "FORMACIÓN ACADÉMICA",
+      "items": {
+        "masterClass": {
+          "type": "Diploma",
+          "title": "Glenn Murcutt Master Class",
+          "institution": "Architecture Foundation Australia, Sydney"
+        },
+        "senses": {
+          "type": "Diploma",
+          "title": "Arquitectura para los Sentidos",
+          "institution": "Dublin, Irlanda"
+        },
+        "master": {
+          "type": "Maestría",
+          "title": "Maestría en Arquitectura Tropical",
+          "institution": "Universidad de Costa Rica (UCR)"
+        },
+        "licentiate": {
+          "type": "Licenciatura",
+          "title": "Arquitectura",
+          "institution": "Universidad Autónoma de Centroamérica (UACA)"
+        },
+        "bachelor": {
+          "type": "Bachillerato",
+          "title": "Arquitectura",
+          "institution": "Universidad Autónoma de Centroamérica (UACA)"
+        }
+      }
+    },
+    "awards": {
+      "title": "PREMIOS",
+      "items": {
+        "national": {
+          "title": "Candidato al Premio Nacional de Arquitectura",
+          "event": "Bienal Arquitectura Verde",
+          "description": "Mejor integración con el paisaje natural existente"
+        },
+        "honor": {
+          "title": "Primera Mención de Honor",
+          "event": "3ra Bienal de Arquitectura Veritas",
+          "description": "Escuela de Bahía Ballena"
+        },
+        "first": {
+          "title": "Primer Lugar",
+          "event": "Concurso Holcim & Fundación de Parques Nacionales",
+          "description": "Construcción en armonía con el medio ambiente (Escuela de Bahía Ballena)"
+        }
+      },
+      "quote": "La forma y la función siguen al confort"
+    },
+    "trajectory": {
+      "title": "TRAYECTORIA ARQUITECTÓNICA",
+      "categories": {
+        "houses": {
+          "title": "Diseño de casa de habitación",
+          "items": [
+            "Lujo",
+            "Medio lujo",
+            "Playa",
+            "Montaña",
+            "Condominios"
+          ]
+        },
+        "condos": {
+          "title": "Condominios Residenciales",
+          "items": [
+            "Horizontales",
+            "Verticales",
+            "Mixtos"
+          ]
+        },
+        "commercial": {
+          "title": "Proyectos Comerciales",
+          "items": [
+            "Franquicias internacionales (COSÍ, LOCATEL)",
+            "Tiendas",
+            "Farmacias",
+            "Restaurantes"
+          ]
+        },
+        "banking": {
+          "title": "Arquitectura Bancaria",
+          "items": [
+            "Sucursales bancarias",
+            "Remodelaciones",
+            "Bóvedas",
+            "Cajeros automáticos",
+            "Oficinas"
+          ]
+        },
+        "offices": {
+          "title": "Oficinas",
+          "items": [
+            "Bufetes",
+            "Call centers",
+            "Empresas públicas",
+            "Empresas privadas"
+          ]
+        },
+        "institutional": {
+          "title": "Institucional",
+          "items": [
+            "Escuela Pública de Bahía Ballena (premiada)",
+            "Centro Educativo 'Mi Patria' (proyecto futuro)"
+          ]
+        }
+      }
+    },
+    "contact": {
+      "title": "¿EN QUÉ TE PUEDO AYUDAR?",
+      "subtitle": "Contáctame",
+      "cta": "CONTÁCTANOS"
+    }
+  },
+  "projects": {
+    "categories": {
+      "casas": "Casas",
+      "condominios": "Condominios Residenciales",
+      "comercial": "Proyectos Comerciales",
+      "bancaria": "Arquitectura Bancaria",
+      "oficinas": "Oficinas",
+      "institucional": "Institucional"
+    },
+    "details": {
+      "blueprints": "Planos Arquitectónicos",
+      "relatedProjects": "Proyectos Relacionados"
+    },
+    "relatedProjects": "Proyectos Relacionados"
+  },
+  "publications": {
+    "hero": {
+      "title": "PUBLICACIONES & PRENSA",
+      "subtitle": "Cobertura mediática y publicaciones"
+    },
+    "press": {
+      "title": "PUBLICACIONES Y PRENSA",
+      "description": "Una colección completa de publicaciones, artículos y reconocimientos en medios especializados de arquitectura y diseño.",
+      "filters": {
+        "all": "Todas",
+        "general": "Publicaciones Generales",
+        "boomerang": "Serie Boomerang"
+      },
+      "loadMore": "Cargar más publicaciones",
+      "showLess": "Mostrar menos",
+      "showing": "Mostrando",
+      "of": "de",
+      "publications": "publicaciones",
+      "stats": {
+        "total": "Total Publicaciones",
+        "experience": "Años de Trayectoria"
+      }
+    },
+    "videos": {
+      "title": "VIDEOS DESTACADOS"
+    },
+    "testimonials": {
+      "title": "TESTIMONIOS",
+      "items": {
+        "2": {
+          "quote": "Andrés fue ficha fundamental para lograr incorporar las ideas de la casa matriz y tropicalizarlas con éxito en los Restaurantes en Costa Rica.",
+          "author": "Gonazlo Soffia",
+          "role": "Representante FAST CASUAL SRL (COSI)"
+        },
+        "1": {
+          "quote": "Construir nuestra casa con Andrés fue una experiencia increíble. Nos guió en cada paso del camino... Entendió perfectamente nuestra visión y la hizo realidad. El resultado final superó todas nuestras expectativas, y estamos muy agradecidos por su dedicación y trabajo duro. Mudarnos a nuestra nueva casa ha sido una experiencia increíble.",
+          "author": "Casa ORBA",
+          "role": "Propietarios de Casa ORBA"
+        },
+        "3": {
+          "quote": "Andrés logró con increíble creatividad y conocimiento, diseñar una casa estéticamente hermosa y funcional, más importante aún, nos ayudó a construir un hogar lleno de sensaciones visuales, físicas y hasta espirituales, logrando fusionar nuestros sueños, con la armonía de la naturaleza que rodea nuestra hogar.",
+          "author": "Casa ORBA",
+          "role": "Propietarios de Casa ORBA"
+        }
+      }
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "PONTE EN CONTACTO",
+      "subtitle": "¡Contruyamos tu sueño juntos!"
+    },
+    "form": {
+      "title": "Ponte en Contacto",
+      "fields": {
+        "firstName": {
+          "label": "Nombre",
+          "placeholder": "Ingresa tu nombre"
+        },
+        "lastName": {
+          "label": "Apellido",
+          "placeholder": "Ingresa tu apellido"
+        },
+        "email": {
+          "label": "Correo Electrónico",
+          "placeholder": "Ingresa tu correo"
+        },
+        "phone": {
+          "label": "Número de Teléfono",
+          "placeholder": "Ingresa tu teléfono"
+        },
+        "message": {
+          "label": "Mensaje",
+          "placeholder": "Cuéntanos sobre tu proyecto..."
+        },
+        "privacy": "Acepto la política de privacidad y términos de servicio"
+      },
+      "submit": "Enviar Mensaje"
+    },
+    "info": {
+      "tagline": "Arquitectura Sostenible & Diseño Bioclimático",
+      "contact": {
+        "email": "Correo",
+        "phone": "Teléfono",
+        "location": "Ubicación"
+      },
+      "location": {
+        "city": "San José, Costa Rica"
+      },
+      "hours": {
+        "title": "Horario de Oficina",
+        "weekdays": "Lunes - Viernes: 8:00 AM - 6:00 PM",
+        "saturday": "Sábado: 9:00 AM - 2:00 PM"
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Diseño y Consultoría en Arquitectura Bioclimatica Sostenible.",
+    "help": "Enlaces",
+    "featuredProjects": "Proyectos Destacados",
+    "architect": "El Arquitecto",
+    "publications": "Publicaciones",
+    "contact": "Contacto",
+    "rights": "© 2025 Andrés Castro. Todos los derechos reservados.",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio"
+  }
+}
