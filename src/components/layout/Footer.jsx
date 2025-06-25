@@ -81,6 +81,12 @@ function Footer() {
           </div>
         </div>
       </div>
+
+      <div className="max-w-7xl mx-auto mt-16 flex flex-col md:flex-row justify-between items-center">
+        <div className="flex flex-col md:flex-row items-center gap-4">
+          <p>{t('footer.rights')}</p>
+        </div>
+      </div>
     </footer>
   );
 }
