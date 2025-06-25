@@ -71,7 +71,7 @@ function Footer() {
               <FaLinkedin className="text-2xl" />
               LINKEDIN
             </a>
-            <a href="https://www.instagram.com/arq_andres_castro?igsh=bGRua3dpY2VhcWxx&utm_source=qr" 
+            <a href="https://www.instagram.com/andrescastroarquitectura.cr?igsh=MXkwdHplN3F4NmtieA%3D%3D&utm_source=qr" 
                target="_blank" 
                rel="noopener noreferrer" 
                className="flex items-center gap-3 hover:text-gray-300">
