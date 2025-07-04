@@ -63,7 +63,7 @@ export default function AgentInfo() {
       {/* Social Links */}
       <div className="flex justify-center gap-6">
         <a 
-          href="https://www.instagram.com/arq_andres_castro" 
+          href="https://www.instagram.com/andrescastroarquitectura.cr?igsh=MXkwdHplN3F4NmtieA%3D%3D&utm_source=qr" 
           target="_blank" 
           rel="noopener noreferrer"
           className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-[#0c0c0c] hover:bg-gray-200 transition-colors"
