@@ -45,7 +45,7 @@ export default function AgentInfo() {
           </div>
           <div>
             <p className="text-sm text-gray-600">{t('contact.info.contact.phone')}</p>
-            <p className="text-lg">+506 2253 8380</p>
+            <p className="text-lg">+506 8848 7779</p>
           </div>
         </a>
         
