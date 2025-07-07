@@ -79,7 +79,7 @@ export default function AgentInfo() {
           <FaLinkedin className="text-2xl" />
         </a>
         <a 
-          href="https://wa.me/50622538380" 
+          href="https://wa.me/50688487779" 
           target="_blank" 
           rel="noopener noreferrer"
           className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-[#0c0c0c] hover:bg-gray-200 transition-colors"
