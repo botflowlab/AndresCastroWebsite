@@ -204,7 +204,7 @@ function NewsSection() {
           </div>
 
         {/* News Images Grid Section */}
-        <div>
+        <div className="mt-20">
           {/* Press Title */}
           <div className={`transition-all duration-[1800ms] ease-out delay-1200 ${
             animationStarted 
