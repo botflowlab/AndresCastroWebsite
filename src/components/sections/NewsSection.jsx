@@ -177,7 +177,7 @@ function NewsSection() {
                 : 'opacity-0 transform translate-y-8 scale-95'
             }`}>
               <a
-                href="https://www.youtube.com/watch?v=RMvMYYRDpKM&ab_channel=OierLauzirika"
+                href="https://youtube.com/playlist?list=PLbBptUcSJjm1DwGjQRbtAcver9aZPk27w&si=a-VRjU5-4RiC7cuX"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative inline-flex items-center gap-3 border-2 border-red-600 bg-red-600 text-white px-8 py-4 text-lg font-medium transition-all duration-500 overflow-hidden hover:bg-red-700 hover:border-red-700 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
