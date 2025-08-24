@@ -169,6 +169,39 @@ function NewsSection() {
             ))}
           </div>
         </div>
+          {/* YouTube Playlist Button */}
+          <div className="text-center mt-12">
+            <div className={`transition-all duration-[1800ms] ease-out delay-1500 ${
+              animationStarted 
+                ? 'opacity-100 transform translate-y-0 scale-100' 
+                : 'opacity-0 transform translate-y-8 scale-95'
+            }`}>
+              <a
+                href="https://www.youtube.com/watch?v=RMvMYYRDpKM&ab_channel=OierLauzirika"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center gap-3 border-2 border-red-600 bg-red-600 text-white px-8 py-4 text-lg font-medium transition-all duration-500 overflow-hidden hover:bg-red-700 hover:border-red-700 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
+                {/* YouTube icon */}
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                
+                {/* Button text */}
+                <span className="relative z-10">
+                  {t('home.news.videos.playlist', 'Ver Playlist Completa')}
+                </span>
+                
+                {/* Arrow indicator */}
+                <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+                
+                {/* Button glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
+              </a>
+            </div>
+          </div>
 
         {/* News Images Grid Section */}
         <div>
