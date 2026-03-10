@@ -105,7 +105,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const recipientEmail = "nunezdilanv@gmail.com";
+    const recipientEmail = "caricaco007@hotmail.com";
     const subject = `New Contact: ${firstName} ${lastName} - Andres Castro Architecture`;
     const htmlBody = buildEmailHtml({ firstName, lastName, email, phone, message });
 
