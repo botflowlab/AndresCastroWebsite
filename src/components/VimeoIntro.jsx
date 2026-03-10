@@ -11,23 +11,31 @@ export default function VimeoIntro({ onComplete }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    // Load Vimeo Player API
     if (!window.Vimeo) {
       const script = document.createElement('script');
       script.src = 'https://player.vimeo.com/api/player.js';
       script.onload = initializePlayer;
+      script.onerror = () => {
+        handleComplete();
+      };
       document.head.appendChild(script);
     } else {
       initializePlayer();
     }
 
-    // Auto-complete after 11 seconds
     const autoCompleteTimer = setTimeout(() => {
       handleComplete();
     }, 12000);
 
+    const fallbackTimer = setTimeout(() => {
+      if (isLoading) {
+        handleComplete();
+      }
+    }, 5000);
+
     return () => {
       clearTimeout(autoCompleteTimer);
+      clearTimeout(fallbackTimer);
       if (playerRef.current) {
         playerRef.current.destroy();
       }
@@ -71,14 +79,12 @@ export default function VimeoIntro({ onComplete }) {
         handleComplete();
       });
 
-      playerRef.current.on('error', (error) => {
-        console.error('❌ Vimeo player error:', error);
-        setIsLoading(false);
+      playerRef.current.on('error', () => {
+        handleComplete();
       });
 
     } catch (error) {
-      console.error('❌ Vimeo player initialization failed:', error);
-      setIsLoading(false);
+      handleComplete();
     }
   };
 
