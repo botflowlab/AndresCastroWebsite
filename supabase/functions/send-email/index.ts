@@ -7,33 +7,8 @@ const corsHeaders = {
     "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
-function buildRawEmail({
-  to,
-  from,
-  subject,
-  htmlBody,
-}: {
-  to: string;
-  from: string;
-  subject: string;
-  htmlBody: string;
-}): string {
-  const messageParts = [
-    `To: ${to}`,
-    `From: ${from}`,
-    `Subject: ${subject}`,
-    "MIME-Version: 1.0",
-    'Content-Type: text/html; charset="UTF-8"',
-    "",
-    htmlBody,
-  ];
-  const message = messageParts.join("\r\n");
-  const encoded = btoa(message)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
-  return encoded;
-}
+const GMAIL_SEND_ACTION_ID =
+  "conn_mod_def::GGXAjWkZO8U::uMc1LQIHTTKzeMm3rLL5gQ";
 
 function buildEmailHtml({
   firstName,
@@ -48,13 +23,9 @@ function buildEmailHtml({
   phone: string;
   message: string;
 }): string {
-  return `
-<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<head><meta charset="UTF-8"></head>
 <body style="margin:0;padding:0;background-color:#f4f4f5;font-family:'Helvetica Neue',Arial,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f5;padding:40px 20px;">
     <tr>
@@ -84,7 +55,7 @@ function buildEmailHtml({
                 <tr>
                   <td style="padding:12px 0;border-bottom:1px solid #f0f0f0;">
                     <span style="display:block;font-size:12px;color:#71717a;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Phone</span>
-                    <span style="display:block;font-size:16px;color:#18181b;font-weight:500;">${phone}</span>
+                    <span style="display:block;font-size:16px;color:#18181b;font-weight:500;">${phone || "Not provided"}</span>
                   </td>
                 </tr>
                 <tr>
@@ -135,41 +106,40 @@ Deno.serve(async (req: Request) => {
     }
 
     const recipientEmail = "nunezdilanv@gmail.com";
-
+    const subject = `New Contact: ${firstName} ${lastName} - Andres Castro Architecture`;
     const htmlBody = buildEmailHtml({ firstName, lastName, email, phone, message });
-    const raw = buildRawEmail({
-      to: recipientEmail,
-      from: "me",
-      subject: `New Contact: ${firstName} ${lastName} - Andres Castro Architecture`,
-      htmlBody,
-    });
 
     const response = await fetch(
-      "https://api.picaos.com/v1/passthrough/gmail/v1/users/me/messages/send",
+      "https://api.picaos.com/v1/passthrough/gmail/send-email",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-pica-secret": PICA_SECRET,
           "x-pica-connection-key": PICA_CONNECTION_KEY,
+          "x-pica-action-id": GMAIL_SEND_ACTION_ID,
         },
-        body: JSON.stringify({ raw }),
+        body: JSON.stringify({
+          to: recipientEmail,
+          subject,
+          body: htmlBody,
+          isHtml: true,
+          connectionKey: PICA_CONNECTION_KEY,
+        }),
       }
     );
 
     if (!response.ok) {
       const errorData = await response.text();
-      console.error("Pica API error:", errorData);
+      console.error("Pica API error:", response.status, errorData);
       return new Response(
         JSON.stringify({ error: "Failed to send email" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    const result = await response.json();
-
     return new Response(
-      JSON.stringify({ success: true, messageId: result.id }),
+      JSON.stringify({ success: true }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
