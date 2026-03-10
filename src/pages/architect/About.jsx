@@ -16,7 +16,7 @@ export default function About() {
             <div className="relative mb-8">
               <div className="aspect-[9/14] overflow-hidden rounded-lg shadow-2xl">
                 <img
-                  src="/images/theArchitect/about2.jpg"
+                  src="/images/theArchitect/about2.webp"
                   alt="Andres Castro"
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 />
