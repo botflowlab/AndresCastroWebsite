@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import emailjs from '@emailjs/browser';
 
-// EmailJS Configuration - Replace these with your actual values
-const EMAILJS_SERVICE_ID = 'service_sp3pxf8';
-const EMAILJS_TEMPLATE_ID = 'template_f6dj10e';
-const EMAILJS_PUBLIC_KEY = 'JY1Oscxgx2Wfc7xsB';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export default function ContactForm() {
   const { t, i18n } = useTranslation();
@@ -18,12 +15,7 @@ export default function ContactForm() {
     privacyPolicy: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', or null
-
-  // Check if EmailJS is configured
-  const isConfigured = EMAILJS_SERVICE_ID !== 'your_service_id_here' && 
-                      EMAILJS_TEMPLATE_ID !== 'your_template_id_here' && 
-                      EMAILJS_PUBLIC_KEY !== 'your_public_key_here';
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -35,37 +27,30 @@ export default function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!isConfigured) {
-      alert('EmailJS is not configured yet. Please check the setup instructions.');
-      return;
-    }
-
     setIsSubmitting(true);
     setSubmitStatus(null);
 
     try {
-      // Prepare template parameters for EmailJS
-      const templateParams = {
-        from_name: `${formData.firstName} ${formData.lastName}`,
-        from_email: formData.email,
-        phone: formData.phone,
-        message: formData.message,
-        to_email: 'caricaco007@hotmail.com'
-      };
+      const response = await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+        }),
+      });
 
-      // Send email using EmailJS
-      const response = await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
-      );
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
 
-      console.log('Email sent successfully:', response);
       setSubmitStatus('success');
-      
-      // Reset form after successful submission
       setFormData({
         firstName: '',
         lastName: '',
@@ -74,7 +59,6 @@ export default function ContactForm() {
         message: '',
         privacyPolicy: false
       });
-
     } catch (error) {
       console.error('Email sending failed:', error);
       setSubmitStatus('error');
@@ -86,27 +70,7 @@ export default function ContactForm() {
   return (
     <div>
       <h2 className="text-4xl font-light mb-8">{t('contact.form.title')}</h2>
-      
-      {/* Configuration Warning */}
-      {!isConfigured && (
-        <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-medium text-yellow-800">EmailJS Configuration Required</h3>
-              <div className="mt-2 text-sm text-yellow-700">
-                <p>Please configure EmailJS to enable the contact form. Check the console for setup instructions.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
-      {/* Success Message */}
       {submitStatus === 'success' && (
         <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
           <div className="flex">
@@ -117,12 +81,12 @@ export default function ContactForm() {
             </div>
             <div className="ml-3">
               <h3 className="text-sm font-medium text-green-800">
-                {i18n.language === 'es' ? '¡Mensaje enviado!' : 'Message sent!'}
+                {i18n.language === 'es' ? '!Mensaje enviado!' : 'Message sent!'}
               </h3>
               <div className="mt-2 text-sm text-green-700">
                 <p>
-                  {i18n.language === 'es' 
-                    ? 'Gracias por contactarnos. Responderemos pronto.' 
+                  {i18n.language === 'es'
+                    ? 'Gracias por contactarnos. Responderemos pronto.'
                     : 'Thank you for contacting us. We will respond soon.'
                   }
                 </p>
@@ -132,7 +96,6 @@ export default function ContactForm() {
         </div>
       )}
 
-      {/* Error Message */}
       {submitStatus === 'error' && (
         <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
           <div className="flex">
@@ -147,8 +110,8 @@ export default function ContactForm() {
               </h3>
               <div className="mt-2 text-sm text-red-700">
                 <p>
-                  {i18n.language === 'es' 
-                    ? 'Hubo un problema al enviar el mensaje. Por favor, inténtalo de nuevo.' 
+                  {i18n.language === 'es'
+                    ? 'Hubo un problema al enviar el mensaje. Por favor, intentalo de nuevo.'
                     : 'There was a problem sending the message. Please try again.'
                   }
                 </p>
@@ -157,7 +120,7 @@ export default function ContactForm() {
           </div>
         </div>
       )}
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -248,7 +211,7 @@ export default function ContactForm() {
 
         <button
           type="submit"
-          disabled={isSubmitting || !isConfigured}
+          disabled={isSubmitting}
           className="w-full bg-[#0c0c0c] text-white py-4 px-8 rounded-lg hover:bg-black/80 transition-colors duration-300 text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {isSubmitting ? (
