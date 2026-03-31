@@ -11,14 +11,78 @@ export default function VimeoIntro({ onComplete }) {
   const playerRef = useRef(null);
   const containerRef = useRef(null);
   const completedRef = useRef(false);
+  const playerLoadedRef = useRef(false);
+
+  const handleCompleteStable = useRef(null);
+
+  handleCompleteStable.current = () => {
+    if (completedRef.current) return;
+    completedRef.current = true;
+
+    if (playerRef.current) {
+      playerRef.current.destroy();
+      playerRef.current = null;
+    }
+
+    setFadeOut(true);
+    setTimeout(() => {
+      setShowVideo(false);
+      onComplete();
+    }, 1000);
+  };
 
   useEffect(() => {
+    const initializePlayer = () => {
+      if (!window.Vimeo) return;
+
+      try {
+        const container = document.getElementById('vimeo-player');
+        if (!container) return;
+
+        playerRef.current = new window.Vimeo.Player(container, {
+          id: 1095705289,
+          width: '100%',
+          height: '100%',
+          autoplay: true,
+          muted: true,
+          loop: false,
+          controls: false,
+          background: false,
+          responsive: true
+        });
+
+        playerRef.current.ready().then(() => {
+          playerLoadedRef.current = true;
+          setPlayerReady(true);
+          setIsLoading(false);
+          playerRef.current.play();
+        });
+
+        playerRef.current.on('timeupdate', (data) => {
+          if (data.duration > 0) {
+            setProgress((data.seconds / data.duration) * 100);
+          }
+        });
+
+        playerRef.current.on('ended', () => {
+          handleCompleteStable.current();
+        });
+
+        playerRef.current.on('error', () => {
+          handleCompleteStable.current();
+        });
+
+      } catch (error) {
+        handleCompleteStable.current();
+      }
+    };
+
     if (!window.Vimeo) {
       const script = document.createElement('script');
       script.src = 'https://player.vimeo.com/api/player.js';
       script.onload = initializePlayer;
       script.onerror = () => {
-        handleComplete();
+        handleCompleteStable.current();
       };
       document.head.appendChild(script);
     } else {
@@ -26,10 +90,10 @@ export default function VimeoIntro({ onComplete }) {
     }
 
     const fallbackTimer = setTimeout(() => {
-      if (isLoading) {
-        handleComplete();
+      if (!playerLoadedRef.current) {
+        handleCompleteStable.current();
       }
-    }, 8000);
+    }, 10000);
 
     return () => {
       clearTimeout(fallbackTimer);
@@ -38,54 +102,6 @@ export default function VimeoIntro({ onComplete }) {
       }
     };
   }, []);
-
-  const initializePlayer = () => {
-    if (!window.Vimeo) return;
-
-    try {
-      // Get the container element
-      const container = document.getElementById('vimeo-player');
-      if (!container) {
-        console.error('❌ Vimeo container not found');
-        return;
-      }
-
-      playerRef.current = new window.Vimeo.Player(container, {
-        id: 1095705289,
-        width: '100%',
-        height: '100%',
-        autoplay: true,
-        muted: true, // Start muted
-        loop: false,
-        controls: false,
-        background: false,
-        responsive: true
-      });
-
-      playerRef.current.ready().then(() => {
-        setPlayerReady(true);
-        setIsLoading(false);
-        playerRef.current.play();
-      });
-
-      playerRef.current.on('timeupdate', (data) => {
-        if (data.duration > 0) {
-          setProgress((data.seconds / data.duration) * 100);
-        }
-      });
-
-      playerRef.current.on('ended', () => {
-        handleComplete();
-      });
-
-      playerRef.current.on('error', () => {
-        handleComplete();
-      });
-
-    } catch (error) {
-      handleComplete();
-    }
-  };
 
   const toggleVideoAudio = async () => {
     if (!playerRef.current || !playerReady) return;
@@ -109,24 +125,8 @@ export default function VimeoIntro({ onComplete }) {
     }
   };
 
-  const handleComplete = () => {
-    if (completedRef.current) return;
-    completedRef.current = true;
-
-    if (playerRef.current) {
-      playerRef.current.destroy();
-      playerRef.current = null;
-    }
-
-    setFadeOut(true);
-    setTimeout(() => {
-      setShowVideo(false);
-      onComplete();
-    }, 1000);
-  };
-
   const handleSkip = () => {
-    handleComplete();
+    handleCompleteStable.current();
   };
 
   const handleContainerClick = () => {
