@@ -7,8 +7,10 @@ export default function VimeoIntro({ onComplete }) {
   const [videoMuted, setVideoMuted] = useState(true);
   const [playerReady, setPlayerReady] = useState(false);
   const [userInteracted, setUserInteracted] = useState(false);
+  const [progress, setProgress] = useState(0);
   const playerRef = useRef(null);
   const containerRef = useRef(null);
+  const completedRef = useRef(false);
 
   useEffect(() => {
     if (!window.Vimeo) {
@@ -23,18 +25,13 @@ export default function VimeoIntro({ onComplete }) {
       initializePlayer();
     }
 
-    const autoCompleteTimer = setTimeout(() => {
-      handleComplete();
-    }, 12000);
-
     const fallbackTimer = setTimeout(() => {
       if (isLoading) {
         handleComplete();
       }
-    }, 5000);
+    }, 8000);
 
     return () => {
-      clearTimeout(autoCompleteTimer);
       clearTimeout(fallbackTimer);
       if (playerRef.current) {
         playerRef.current.destroy();
@@ -66,16 +63,18 @@ export default function VimeoIntro({ onComplete }) {
       });
 
       playerRef.current.ready().then(() => {
-        console.log('🎬 Vimeo player ready');
         setPlayerReady(true);
         setIsLoading(false);
-        
-        // Start playing
         playerRef.current.play();
       });
 
+      playerRef.current.on('timeupdate', (data) => {
+        if (data.duration > 0) {
+          setProgress((data.seconds / data.duration) * 100);
+        }
+      });
+
       playerRef.current.on('ended', () => {
-        console.log('🏁 Vimeo video ended');
         handleComplete();
       });
 
@@ -111,11 +110,14 @@ export default function VimeoIntro({ onComplete }) {
   };
 
   const handleComplete = () => {
+    if (completedRef.current) return;
+    completedRef.current = true;
+
     if (playerRef.current) {
       playerRef.current.destroy();
       playerRef.current = null;
     }
-    
+
     setFadeOut(true);
     setTimeout(() => {
       setShowVideo(false);
@@ -225,24 +227,14 @@ export default function VimeoIntro({ onComplete }) {
       {/* Progress bar */}
       {!isLoading && (
         <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 w-48 md:w-64 h-1 bg-white/20 rounded-full overflow-hidden z-[60]">
-          <div 
-            className="h-full bg-white rounded-full transition-all duration-100 ease-linear"
-            style={{
-              width: '0%',
-              animation: 'progress 12s linear forwards'
-            }}
+          <div
+            className="h-full bg-white rounded-full transition-all duration-300 ease-linear"
+            style={{ width: `${progress}%` }}
           />
         </div>
       )}
 
-      {/* CSS Animation */}
       <style jsx>{`
-        @keyframes progress {
-          from { width: 0%; }
-          to { width: 100%; }
-        }
-        
-        /* Ensure Vimeo iframe fills container properly */
         #vimeo-player iframe {
           position: absolute !important;
           top: 0 !important;
