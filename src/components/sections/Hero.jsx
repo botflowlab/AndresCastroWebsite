@@ -19,10 +19,10 @@ function Hero() {
   const contentRef = useRef(null);
 
   const images = [
-    '/images/home/hero1.jpg',
-    '/images/home/hero2.jpg',
-    '/images/home/hero3.jpg',
-    '/images/home/hero4.jpg',
+    '/images/home/hero1.webp',
+    '/images/home/hero2.webp',
+    '/images/home/hero3.webp',
+    '/images/home/hero4.webp',
   ];
 
   // Mobile-specific image (hero4)
