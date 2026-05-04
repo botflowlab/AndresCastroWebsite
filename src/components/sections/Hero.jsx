@@ -78,7 +78,7 @@ function Hero() {
       // Overlay opacity
       gsap.fromTo(
         overlayRef.current,
-        { opacity: 0.6 },
+        { opacity: 0.3 },
         {
           opacity: 0.8,
           ease: 'none',
