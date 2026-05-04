@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { ReactLenis, useLenis } from '@studio-freight/react-lenis'; // Added Lenis imports
+
 import Layout from './components/Layout';
 import VimeoIntro from './components/VimeoIntro';
-import LogoIntro from './components/LogoIntro'; // Keep as backup
+import LogoIntro from './components/LogoIntro'; 
 import Home from './pages/Home.jsx';
 import Projects from './pages/projects/Projects.jsx';
 import ProjectDetailPage from './pages/projects/ProjectDetailPage.jsx';
@@ -11,12 +13,20 @@ import Architect from './pages/architect/Architect.jsx';
 import News from './pages/news/News.jsx';
 import AuthPage from './pages/auth/AuthPage.jsx';
 
+// Updated ScrollToTop to work seamlessly with Lenis
 function ScrollToTop() {
   const location = useLocation();
-  
+  const lenis = useLenis();
+
   React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+    if (lenis) {
+      // If Lenis is active, tell it to scroll to top instantly
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      // Fallback native scroll
+      window.scrollTo(0, 0);
+    }
+  }, [location, lenis]);
 
   return null;
 }
@@ -28,7 +38,6 @@ function App() {
     setShowIntro(false);
   };
 
-  // Show intro animation first
   if (showIntro) {
     return (
       <div>
@@ -37,26 +46,28 @@ function App() {
     );
   }
 
-  // Show main application after intro
   return (
-    <div>
-      <Router>
-        <ScrollToTop />
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/proyectos" element={<Projects />} />
-            <Route path="/proyectos/:slug" element={<ProjectDetailPage />} />
-            <Route path="/contacto" element={<Contact />} />
-            <Route path="/arquitecto" element={<Architect />} />
-            <Route path="/noticias" element={<News />} />
-            <Route path="/client-dashboard" element={<AuthPage />} />
-            <Route path="/admin" element={<AuthPage />} />
-            <Route path="/dashboard" element={<AuthPage />} />
-          </Routes>
-        </Layout>
-      </Router>
-    </div>
+    // The "root" prop tells Lenis to take over the main scrollbar
+    <ReactLenis root>
+      <div>
+        <Router>
+          <ScrollToTop />
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/proyectos" element={<Projects />} />
+              <Route path="/proyectos/:slug" element={<ProjectDetailPage />} />
+              <Route path="/contacto" element={<Contact />} />
+              <Route path="/arquitecto" element={<Architect />} />
+              <Route path="/noticias" element={<News />} />
+              <Route path="/client-dashboard" element={<AuthPage />} />
+              <Route path="/admin" element={<AuthPage />} />
+              <Route path="/dashboard" element={<AuthPage />} />
+            </Routes>
+          </Layout>
+        </Router>
+      </div>
+    </ReactLenis>
   );
 }
 
