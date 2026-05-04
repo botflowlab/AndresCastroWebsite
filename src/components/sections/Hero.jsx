@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Hero() {
   const { t } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  // GSAP Refs
+  const heroRef = useRef(null);
+  const bgRef = useRef(null);
+  const overlayRef = useRef(null);
+  const contentRef = useRef(null);
 
   const images = [
     '/images/home/hero1.jpg',
@@ -18,6 +28,7 @@ function Hero() {
   // Mobile-specific image (hero4)
   const mobileImage = '/images/home/image0.webp';
 
+  // 1. Existing Carousel & Mobile Logic
   useEffect(() => {
     // Check if mobile
     const checkMobile = () => {
@@ -49,42 +60,100 @@ function Hero() {
     };
   }, [isMobile]);
 
+  // 2. GSAP Parallax Logic
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Background parallax
+      gsap.to(bgRef.current, {
+        yPercent: 20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+
+      // Overlay opacity
+      gsap.fromTo(
+        overlayRef.current,
+        { opacity: 0.6 },
+        {
+          opacity: 0.8,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+          },
+        }
+      );
+
+      // Content parallax
+      gsap.to(contentRef.current, {
+        yPercent: 10,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Images */}
-      {isMobile ? (
-        // Mobile: Single static image (hero4)
-        <div className="absolute inset-0">
-          <div 
-            className="absolute inset-0 bg-center bg-cover bg-no-repeat"
-            style={{ backgroundImage: `url(${mobileImage})` }}
-          >
-            <div className="absolute inset-0 bg-black/40"></div>
-          </div>
-        </div>
-      ) : (
-        // Desktop: Image carousel
-        <>
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                currentImageIndex === index ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
+    <section ref={heroRef} className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+      
+      {/* Background Images Parallax Wrapper */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div ref={bgRef} className="absolute inset-0 will-change-transform">
+          {isMobile ? (
+            // Mobile: Single static image (hero4)
+            <div className="absolute inset-0">
               <div 
                 className="absolute inset-0 bg-center bg-cover bg-no-repeat"
-                style={{ backgroundImage: `url(${image})` }}
+                style={{ backgroundImage: `url(${mobileImage})` }}
               >
                 <div className="absolute inset-0 bg-black/40"></div>
               </div>
             </div>
-          ))}
-        </>
-      )}
+          ) : (
+            // Desktop: Image carousel
+            <>
+              {images.map((image, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 transition-opacity duration-1000 ${
+                    currentImageIndex === index ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <div 
+                    className="absolute inset-0 bg-center bg-cover bg-no-repeat"
+                    style={{ backgroundImage: `url(${image})` }}
+                  >
+                    <div className="absolute inset-0 bg-black/40"></div>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
 
-      {/* Content */}
-      <div className="container mx-auto px-4 relative z-10">
+          {/* GSAP Dark Overlay */}
+          <div
+            ref={overlayRef}
+            className="absolute inset-0 bg-black pointer-events-none"
+          />
+        </div>
+      </div>
+
+      {/* Content Parallax Wrapper */}
+      <div ref={contentRef} className="container mx-auto px-4 relative z-10 will-change-transform">
         <div className="max-w-7xl mx-auto text-center">
           {/* Main Title with stunning typography - SLOWER */}
           <div className={`mb-8 transition-all duration-[2500ms] ease-out ${
@@ -161,7 +230,6 @@ function Hero() {
 
       {/* Decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
-        
         {/* Gradient overlays for depth */}
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black/20 to-transparent"></div>
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/20 to-transparent"></div>
