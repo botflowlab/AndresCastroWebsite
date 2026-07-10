@@ -6,7 +6,7 @@ export default function Experience() {
   
   const education = [
     {
-      year: '2023',
+      year: '2005',
       key: 'masterClass'
     },
     {
