@@ -6,21 +6,21 @@ export default function Experience() {
   
   const education = [
     {
-      year: '2005',
-      key: 'masterClass'
+      year: '2000',
+      key: 'licentiate'
     },
     {
-      year: '2010',
-      key: 'senses'
+      year: '2005',
+      key: 'masterClass'
     },
     {
       year: '2005',
       key: 'master'
     },
     {
-      year: '2000',
-      key: 'licentiate'
-    }
+      year: '2010',
+      key: 'senses'
+    },
   ];
 
   return (
