@@ -10,20 +10,16 @@ export default function Experience() {
       key: 'masterClass'
     },
     {
-      year: '2022',
+      year: '2010',
       key: 'senses'
     },
     {
-      year: '2020',
+      year: '2005',
       key: 'master'
     },
     {
-      year: '2018',
+      year: '2000',
       key: 'licentiate'
-    },
-    {
-      year: '2016',
-      key: 'bachelor'
     }
   ];
 
