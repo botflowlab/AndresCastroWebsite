@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
+import { usePageTransition } from '../PageTransition';
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -9,6 +10,7 @@ function Navbar() {
   const [visible, setVisible] = useState(true);
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const { navigateWithTransition } = usePageTransition();
 
   // Check if we're on a projects page
   const isProjectsPage = location.pathname.startsWith('/proyectos');
@@ -66,9 +68,9 @@ function Navbar() {
             <Link to="/arquitecto" className={`${textColorClass} hover:text-gray-600 px-3 py-2 text-lg font-medium transition-colors`}>
               {t('nav.architect')}
             </Link>
-            <Link to="/proyectos" className={`${textColorClass} hover:text-gray-600 px-3 py-2 text-lg font-medium transition-colors`}>
+            <button onClick={() => navigateWithTransition('/proyectos')} className={`${textColorClass} hover:text-gray-600 px-3 py-2 text-lg font-medium transition-colors`}>
               {t('nav.projects')}
-            </Link>
+            </button>
             <Link to="/noticias" className={`${textColorClass} hover:text-gray-600 px-3 py-2 text-lg font-medium transition-colors`}>
               {t('nav.publications')}
             </Link>
@@ -127,13 +129,12 @@ function Navbar() {
             >
               {t('nav.architect')}
             </Link>
-            <Link 
-              to="/proyectos" 
+            <button 
               className="text-2xl text-black hover:text-gray-600 transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => { setIsMobileMenuOpen(false); navigateWithTransition('/proyectos'); }}
             >
               {t('nav.projects')}
-            </Link>
+            </button>
             <Link 
               to="/noticias" 
               className="text-2xl text-black hover:text-gray-600 transition-colors"

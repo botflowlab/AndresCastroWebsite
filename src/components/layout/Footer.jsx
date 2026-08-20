@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { MdEmail, MdPhone } from 'react-icons/md';
 import { FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { usePageTransition } from '../PageTransition';
 
 function Footer() {
   const { t } = useTranslation();
+  const { navigateWithTransition } = usePageTransition();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -36,12 +38,12 @@ function Footer() {
             >
               {t('nav.architect')}
             </Link>
-            <Link 
-              to="/proyectos" 
-              className="block hover:text-gray-300 transition-colors"
+            <button 
+              onClick={() => navigateWithTransition('/proyectos')}
+              className="block hover:text-gray-300 transition-colors text-left"
             >
               {t('nav.projects')}
-            </Link>
+            </button>
             <Link 
               to="/noticias" 
               className="block hover:text-gray-300 transition-colors"

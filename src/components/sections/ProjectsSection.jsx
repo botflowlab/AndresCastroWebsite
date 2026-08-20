@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
+import { usePageTransition } from '../PageTransition';
 
 function ProjectsSection() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { navigateWithTransition } = usePageTransition();
   const [animationStarted, setAnimationStarted] = useState(false);
 
   // Use intersection observer to trigger animations when section comes into view
@@ -112,7 +112,7 @@ function ProjectsSection() {
                 transitionDelay: `${1000 + index * 250}ms`,
                 willChange: 'transform, opacity'
               }}
-              onClick={() => navigate('/proyectos')}
+              onClick={() => navigateWithTransition('/proyectos')}
             >
               {/* Image container */}
               <div className="absolute inset-0 bg-gray-800 overflow-hidden">
@@ -157,7 +157,7 @@ function ProjectsSection() {
               : 'opacity-0 transform translate-y-8 scale-95'
           }`}>
             <button
-              onClick={() => navigate('/proyectos')}
+              onClick={() => navigateWithTransition('/proyectos')}
               className="group relative inline-block border-2 text-white border-white px-12 py-4 text-lg font-medium tracking-[.25em] uppercase transition-all duration-500 overflow-hidden"
             >
               {/* Button background animation */}
