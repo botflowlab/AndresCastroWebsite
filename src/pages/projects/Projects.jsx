@@ -109,8 +109,8 @@ export default function Projects() {
             position: 'absolute',
             bottom: '2rem',
             left: '2.5rem',
-            color: 'rgba(255,255,255,0.35)',
-            fontSize: '0.65rem',
+            color: 'rgba(255,255,255,0.5)',
+            fontSize: '0.75rem',
             lineHeight: 1.6,
             letterSpacing: '0.03em',
             fontFamily: "'Cormorant Garamond', serif"
