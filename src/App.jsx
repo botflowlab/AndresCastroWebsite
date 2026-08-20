@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { ReactLenis, useLenis } from '@studio-freight/react-lenis';
 
 import Layout from './components/Layout';
-import PageTransition from './components/PageTransition';
+import PageTransition, { isTransitionActive } from './components/PageTransition';
 import VimeoIntro from './components/VimeoIntro';
 import LogoIntro from './components/LogoIntro'; 
 import Home from './pages/Home.jsx';
@@ -14,17 +14,15 @@ import Architect from './pages/architect/Architect.jsx';
 import News from './pages/news/News.jsx';
 import AuthPage from './pages/auth/AuthPage.jsx';
 
-// Updated ScrollToTop to work seamlessly with Lenis
 function ScrollToTop() {
   const location = useLocation();
   const lenis = useLenis();
 
   React.useEffect(() => {
+    if (isTransitionActive) return;
     if (lenis) {
-      // If Lenis is active, tell it to scroll to top instantly
       lenis.scrollTo(0, { immediate: true });
     } else {
-      // Fallback native scroll
       window.scrollTo(0, 0);
     }
   }, [location, lenis]);
