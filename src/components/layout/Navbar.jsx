@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
-import { usePageTransition } from '../PageTransition';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { runTransition } from '../PageTransition';
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -10,9 +10,8 @@ function Navbar() {
   const [visible, setVisible] = useState(true);
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const { navigateWithTransition } = usePageTransition();
+  const navigate = useNavigate();
 
-  // Check if we're on a projects page
   const isProjectsPage = location.pathname.startsWith('/proyectos');
 
   useEffect(() => {
@@ -37,15 +36,18 @@ function Navbar() {
     i18n.changeLanguage(newLang);
   };
 
-  // Determine text color based on page and scroll state
   const getTextColor = () => {
     if (isProjectsPage) {
-      return 'text-black'; // Always black on projects pages
+      return 'text-black';
     }
     return isScrolled ? 'text-black' : 'text-white';
   };
 
   const textColorClass = getTextColor();
+
+  const goToProjects = () => {
+    runTransition(navigate, '/proyectos', i18n.language);
+  };
 
   return (
     <>
@@ -68,7 +70,7 @@ function Navbar() {
             <Link to="/arquitecto" className={`${textColorClass} hover:text-gray-600 px-3 py-2 text-lg font-medium transition-colors`}>
               {t('nav.architect')}
             </Link>
-            <button onClick={() => navigateWithTransition('/proyectos')} className={`${textColorClass} hover:text-gray-600 px-3 py-2 text-lg font-medium transition-colors`}>
+            <button onClick={goToProjects} className={`${textColorClass} hover:text-gray-600 px-3 py-2 text-lg font-medium transition-colors`}>
               {t('nav.projects')}
             </button>
             <Link to="/noticias" className={`${textColorClass} hover:text-gray-600 px-3 py-2 text-lg font-medium transition-colors`}>
@@ -131,7 +133,7 @@ function Navbar() {
             </Link>
             <button 
               className="text-2xl text-black hover:text-gray-600 transition-colors"
-              onClick={() => { setIsMobileMenuOpen(false); navigateWithTransition('/proyectos'); }}
+              onClick={() => { setIsMobileMenuOpen(false); goToProjects(); }}
             >
               {t('nav.projects')}
             </button>
