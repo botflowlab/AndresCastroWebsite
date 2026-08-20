@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { ReactLenis, useLenis } from '@studio-freight/react-lenis'; // Added Lenis imports
+import { ReactLenis, useLenis } from '@studio-freight/react-lenis';
 
 import Layout from './components/Layout';
+import PageTransition from './components/PageTransition';
 import VimeoIntro from './components/VimeoIntro';
 import LogoIntro from './components/LogoIntro'; 
 import Home from './pages/Home.jsx';
@@ -52,19 +53,21 @@ function App() {
       <div>
         <Router>
           <ScrollToTop />
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/proyectos" element={<Projects />} />
-              <Route path="/proyectos/:slug" element={<ProjectDetailPage />} />
-              <Route path="/contacto" element={<Contact />} />
-              <Route path="/arquitecto" element={<Architect />} />
-              <Route path="/noticias" element={<News />} />
-              <Route path="/client-dashboard" element={<AuthPage />} />
-              <Route path="/admin" element={<AuthPage />} />
-              <Route path="/dashboard" element={<AuthPage />} />
-            </Routes>
-          </Layout>
+          <PageTransition>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/proyectos" element={<Projects />} />
+                <Route path="/proyectos/:slug" element={<ProjectDetailPage />} />
+                <Route path="/contacto" element={<Contact />} />
+                <Route path="/arquitecto" element={<Architect />} />
+                <Route path="/noticias" element={<News />} />
+                <Route path="/client-dashboard" element={<AuthPage />} />
+                <Route path="/admin" element={<AuthPage />} />
+                <Route path="/dashboard" element={<AuthPage />} />
+              </Routes>
+            </Layout>
+          </PageTransition>
         </Router>
       </div>
     </ReactLenis>
