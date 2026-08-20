@@ -105,6 +105,20 @@ export default function Projects() {
               }}
             />
           </div>
+          <div style={{
+            position: 'absolute',
+            bottom: '2rem',
+            left: '2.5rem',
+            color: 'rgba(255,255,255,0.35)',
+            fontSize: '0.65rem',
+            lineHeight: 1.6,
+            letterSpacing: '0.03em',
+            fontFamily: "'Cormorant Garamond', serif"
+          }}>
+            <span style={{ display: 'block' }}>&mdash; Jose Andres Castro Ruiz</span>
+            <span style={{ display: 'block' }}>Architectural Design Philosophy &amp; Contextual Doctrine</span>
+            <span style={{ display: 'block' }}>&copy; 2026 Jose Andres Castro Ruiz. All Rights Reserved.</span>
+          </div>
         </div>
       )}
 
