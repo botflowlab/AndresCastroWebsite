@@ -1,17 +1,52 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import gsap from 'gsap';
 import Sidebar from './ProjectSidebar';
 import ProjectGrid from './ProjectGrid';
 import { supabase } from '../../supabaseClient';
 
+const quotes = {
+  en: "\u201CArchitecture is the materialization of the architect\u2019s design through creativity as a response to source after having channeled what truly wants to happen on site\u201D",
+  es: "\u201CLa arquitectura es la materializaci\u00F3n del dise\u00F1o del arquitecto a trav\u00E9s de la creatividad como respuesta a la fuente y despu\u00E9s de haber canalizado lo que verdaderamente quiere ocurrir en el sitio\u201D"
+};
+
 export default function Projects() {
+  const { i18n } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [introComplete, setIntroComplete] = useState(false);
+
+  const overlayRef = useRef(null);
+  const quoteRef = useRef(null);
 
   useEffect(() => {
     fetchProjects();
   }, [selectedCategory]);
+
+  useEffect(() => {
+    const overlay = overlayRef.current;
+    const quote = quoteRef.current;
+    if (!overlay || !quote) return;
+
+    const lang = i18n.language?.startsWith('es') ? 'es' : 'en';
+    quote.textContent = quotes[lang];
+
+    const tl = gsap.timeline({
+      onComplete: () => setIntroComplete(true)
+    });
+
+    tl
+      .set(overlay, { yPercent: 0 })
+      .set(quote, { opacity: 0, y: 30 })
+      .to(quote, { opacity: 1, y: 0, duration: 1, ease: 'power2.out', delay: 0.3 })
+      .to({}, { duration: 3 })
+      .to(quote, { opacity: 0, y: -20, duration: 0.6, ease: 'power2.in' })
+      .to(overlay, { yPercent: 100, duration: 1, ease: 'power4.inOut' });
+
+    return () => { tl.kill(); };
+  }, []);
 
   async function fetchProjects() {
     try {
@@ -39,7 +74,40 @@ export default function Projects() {
   };
 
   return (
-    <div className="font-cormorant">
+    <div className="font-cormorant relative">
+      {/* Entrance overlay -- sits on top of everything, slides away after quote */}
+      {!introComplete && (
+        <div
+          ref={overlayRef}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            backgroundColor: '#000',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            willChange: 'transform'
+          }}
+        >
+          <div style={{ maxWidth: '56rem', margin: '0 auto', padding: '0 2.5rem' }}>
+            <p
+              ref={quoteRef}
+              style={{
+                color: '#fff',
+                textAlign: 'center',
+                fontWeight: 300,
+                lineHeight: 1.8,
+                fontSize: 'clamp(1.05rem, 2.5vw, 1.875rem)',
+                opacity: 0,
+                letterSpacing: '0.025em',
+                fontFamily: "'Cormorant Garamond', serif"
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Right-side Vertical Text */}
       <div className="hidden md:flex fixed right-0 top-12 h-screen w-1/6 items-center justify-center text-align-right z-0 pointer-events-none">
         <div
@@ -65,12 +133,10 @@ export default function Projects() {
 
         {/* Desktop Layout */}
         <div className="hidden md:flex">
-          {/* Sidebar */}
           <div className="w-64 pl-10 pt-6 shrink-0">
             <Sidebar onCategorySelect={handleCategorySelect} selectedCategory={selectedCategory} />
           </div>
 
-          {/* Main Grid Content */}
           <div className="flex-1">
             <div className="max-w-5xl mx-auto px-6 mt-12">
               <main>

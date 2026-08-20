@@ -11,14 +11,12 @@ import Contact from './pages/contact/Contact.jsx';
 import Architect from './pages/architect/Architect.jsx';
 import News from './pages/news/News.jsx';
 import AuthPage from './pages/auth/AuthPage.jsx';
-import { isTransitionRunning } from './transition.js';
 
 function ScrollToTop() {
   const location = useLocation();
   const lenis = useLenis();
 
   React.useEffect(() => {
-    if (isTransitionRunning()) return;
     if (lenis) {
       lenis.scrollTo(0, { immediate: true });
     } else {

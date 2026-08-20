@@ -2,19 +2,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { MdEmail } from 'react-icons/md';
 import { FaLinkedin, FaInstagram } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
-import { runTransition } from '../PageTransition';
+import { Link } from 'react-router-dom';
 
 function Footer() {
-  const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const goToProjects = () => {
-    runTransition(navigate, '/proyectos', i18n.language);
   };
 
   return (
@@ -42,12 +36,12 @@ function Footer() {
             >
               {t('nav.architect')}
             </Link>
-            <button 
-              onClick={goToProjects}
-              className="block hover:text-gray-300 transition-colors text-left"
+            <Link 
+              to="/proyectos" 
+              className="block hover:text-gray-300 transition-colors"
             >
               {t('nav.projects')}
-            </button>
+            </Link>
             <Link 
               to="/noticias" 
               className="block hover:text-gray-300 transition-colors"

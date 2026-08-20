@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
-import { runTransition } from '../PageTransition';
 
 function ProjectsSection() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [animationStarted, setAnimationStarted] = useState(false);
 
@@ -19,10 +18,6 @@ function ProjectsSection() {
       setAnimationStarted(true);
     }
   }, [inView, animationStarted]);
-
-  const goToProjects = () => {
-    runTransition(navigate, '/proyectos', i18n.language);
-  };
 
   const projects = [
     { id: 'project1', title: '', location: '', image: '/images/home/project1.jpg' },
@@ -81,7 +76,7 @@ function ProjectsSection() {
                 animationStarted ? 'opacity-100 transform translate-y-0 scale-100' : 'opacity-0 transform translate-y-12 scale-90'
               }`}
               style={{ transitionDelay: `${1000 + index * 250}ms`, willChange: 'transform, opacity' }}
-              onClick={goToProjects}
+              onClick={() => navigate('/proyectos')}
             >
               <div className="absolute inset-0 bg-gray-800 overflow-hidden">
                 <img 
@@ -110,7 +105,7 @@ function ProjectsSection() {
             animationStarted ? 'opacity-100 transform translate-y-0 scale-100' : 'opacity-0 transform translate-y-8 scale-95'
           }`}>
             <button
-              onClick={goToProjects}
+              onClick={() => navigate('/proyectos')}
               className="group relative inline-block border-2 text-white border-white px-12 py-4 text-lg font-medium tracking-[.25em] uppercase transition-all duration-500 overflow-hidden"
             >
               <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
