@@ -41,7 +41,7 @@ export default function Projects() {
       .set(overlay, { yPercent: 0 })
       .set(quote, { opacity: 0, y: 30 })
       .to(quote, { opacity: 1, y: 0, duration: 1, ease: 'power2.out', delay: 0.3 })
-      .to({}, { duration: 5 })
+      .to({}, { duration: 4 })
       .to(quote, { opacity: 0, y: -20, duration: 0.6, ease: 'power2.in' })
       .to(overlay, { yPercent: 100, duration: 1, ease: 'power4.inOut' });
 
